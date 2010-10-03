@@ -1,0 +1,37 @@
+[
+    {
+        "pk": "index_features", 
+        "model": "sitecopy.sitecopy", 
+        "fields": {
+            "text": "Features that empower without imprisoning\r\n-------------------------------------------------\r\n\r\n* Wherever possible, we use __email as the interface__, reducing the number of websites and passwords your participants will need to remember\r\n* Data export and import allows the use of our tools to __alleviate specific pain-points__ while maintaining your current workflow for everything else\r\n* Our __progressive pitch platform__ supports a huge range of competition formats, from YCombinator's one-time application to Seedcamp's tiered qualifications to universities' semester-long mentoring"
+        }
+    }, 
+    {
+        "pk": "index_roi", 
+        "model": "sitecopy.sitecopy", 
+        "fields": {
+            "text": "Save time and money\r\n-------------------------\r\n\r\n* Scheduling alerts and invitations in advance frees to focus on more important things\r\n* Avoid endless back-and-forth organizational emails\r\n* Eliminate manual data entry, score normalization, and hand-written feedback emails"
+        }
+    }, 
+    {
+        "pk": "index_c2a", 
+        "model": "sitecopy.sitecopy", 
+        "fields": {
+            "text": "Create a new competition"
+        }
+    }, 
+    {
+        "pk": "index_tour", 
+        "model": "sitecopy.sitecopy", 
+        "fields": {
+            "text": "Mini tour\r\n----------\r\n\r\nOMG LOOK AT ALL THESE FEATURES\r\n\r\n[thumbnail]\r\n\r\nIT'S AS IF I'M REALLY THERE\r\n\r\n[thumbnail]\r\n\r\nblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah \r\n\r\n[thumbnail]\r\n\r\nblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah \r\n\r\n[thumbnail]\r\n\r\nblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah \r\n\r\n[thumbnail]\r\n\r\nblah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah \r\n\r\n[thumbnail]\r\n\r\n"
+        }
+    }, 
+    {
+        "pk": "index_benefits", 
+        "model": "sitecopy.sitecopy", 
+        "fields": {
+            "text": "Run business pitch competitions as if riding on the backs of ten thousand winged interns.\r\n------------------------------\r\n\r\n* Automagically reminds and organizes your contestants and judges\r\n* Flexible competition engine manages can manage the entire process from application through awards\r\n* Your data is yours -- contest information is always 100% exportable to a variety of offline formats"
+        }
+    }
+]
