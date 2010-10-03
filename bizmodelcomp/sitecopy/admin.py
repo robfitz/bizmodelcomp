@@ -11,7 +11,7 @@ class SiteCopyForm(forms.ModelForm):
 
 
 class SiteCopyAdmin(admin.ModelAdmin):
-
+    list_display = ('id',)
     form = SiteCopyForm
 
 

@@ -11,6 +11,7 @@ def noPermissions(request):
     return render_to_response('/userhelper/no_permissions.html')
 
 
+
 def loginUser(request):
 
     if request.user.is_authenticated():

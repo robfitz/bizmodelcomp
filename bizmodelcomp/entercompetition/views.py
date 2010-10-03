@@ -25,17 +25,6 @@ def applicationMicrosite(request, competition_id):
 
 
 
-#gives organizer the javascript for installing contest widgets
-#on their site, or also links to hosted pages if they prefer that
-def adminWidgets(request, competition_id):
-
-    #TODO: un-hardcode URL
-    base_url = "http://localhost:8000"
-
-    return render_to_response('entercompetition/admin_widgets.html', locals())
-
-
-
 #creates some slightly customized javascript to load the appropriate
 #contest widget into the admin's page
 def applicationWidget(request, competition_id):

@@ -1,7 +1,7 @@
 from bizmodelcomp.competition.models import *
 from django.contrib import admin
 from django import forms
-##
+
 ##class QuestionInline(admin.TabularInline):
 ##    model = Question
 ##    extra = 5
@@ -58,8 +58,16 @@ from django import forms
 ##    override_tooltip = forms.CharField(widget=forms.Textarea)
 ##class CanvasBlockAdmin(admin.ModelAdmin):
 ##    form = CanvasBlockForm
+
+
+
+class CompetitionAdmin(admin.ModelAdmin):
+
+    list_display = ('name', 'owner', 'website')
+
     
-admin.site.register(Competition)
+
+admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Founder)
 admin.site.register(ExtraFounderInfo)
 admin.site.register(Business)

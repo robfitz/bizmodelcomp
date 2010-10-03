@@ -1,0 +1,26 @@
+.step {
+    text-align:center;
+    float:left;
+    width:184px;
+    border:1px solid gray;
+    padding-top:16px;
+    padding-bottom:16px;
+}
+
+.step_title {
+    font-size:22px;
+    margin:0px;
+}
+
+.step_subtitle {
+    font-size:14px;
+    margin:0px;
+}
+
+.hover {
+    //background-color: #dfd;
+}
+
+.current {
+    background-color: #afa;
+}

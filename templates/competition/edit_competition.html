@@ -1,20 +1,13 @@
-{% extends 'base.html' %}
-
-{% block header_title %}
-Set up your competition
-{% endblock %}
+{% extends 'competition/edit_competition_base.html' %}
 
 {% block script %}
 
-	function add_extra_personal_info() {
-
-	}
+	var step_num = 1;
+	var next_url = '/edit_application/';
 
 {% endblock %}
 
-{% block content %}
-
-	<form action="." method="POST" class="focus">
+{% block form %}
 
 		<h3>Competition info</h3>
 
@@ -29,10 +22,6 @@ Set up your competition
 		<br/>
 		<input type="text" class="large" id="website" name="website" value="{{competition.website}}" />
 		</p>
-
-		<input type="submit" class="button" value="Save" />
-
-		<hr />
 
 		<!--
 		<h3>Required personal info for applicants</h3>
@@ -82,6 +71,5 @@ Set up your competition
 		<input type="submit" class="button" value="Save" />
 		-->
 
-	</form>
 
 {% endblock %}

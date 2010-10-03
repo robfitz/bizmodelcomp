@@ -1,10 +1,5 @@
 document.write('<div id="bmc_widget">{{form|safe}}</div>');
 
-//var widget = document.getElementById("bmc_widget");
-//var form = document.createElement("form");
-//widget.innerHTML = "{{ form }}";
-//widget.appendChild("{{ form }}");
-
 function jsonp(url, callback, name, query)
 {                
     if (url.indexOf("?") > -1)

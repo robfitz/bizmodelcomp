@@ -15,13 +15,13 @@ Dashboard
 
 		<p>
 			{{comp}}
-			<ul>
-				<li><a href="/edit_competition/{{comp.pk}}/">Edit setup details</a>
-				<li><a href="/apply/admin_widgets/{{comp.pk}}/">Accept pitch applications from your site</a>
-				<li><a href="/manage_applicants/{{comp.pk}}/">Manage <b>{{num_applicants}}</b> applicants</a>
-				<li><a href="/manage_judges/{{comp.pk}}">Manage <b>{{num_judges}}</b> judges</a>
-			</ul>
 		</p>
+		<ul>
+			<li><a href="/edit_competition/{{comp.pk}}/">Edit setup details</a>
+			<li><a href="/apply/admin_widgets/{{comp.pk}}/">Accept pitch applications from your site</a>
+			<li><a href="/manage_applicants/{{comp.pk}}/">Manage <b>{{num_applicants}}</b> applicants</a>
+			<li><a href="/manage_judges/{{comp.pk}}">Manage <b>{{num_judges}}</b> judges</a>
+		</ul>
 
 	{% endfor %}
 

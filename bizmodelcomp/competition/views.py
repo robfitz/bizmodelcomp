@@ -4,24 +4,28 @@ from django.contrib.auth.decorators import login_required
 
 from competition.models import *
 from sitecopy.models import *
-    
 
 
+
+#main landing page. sell that service!
 def index(request):
 
-    try: benefits = SiteCopy.objects.get(id='benefits')
-    except: pass
-    
-    try: roi = SiteCopy.objects.get(id='roi')
-    except: pass
-        
-    try: tour = SiteCopy.objects.get(id='tour')
-    except: pass
+    copy = {}
+
+    copy_objs = SiteCopy.objects.all()
+    for c in copy_objs:
+        #this clusterfuck is just meant to grab all the copy
+        #beginning with "index_" and then use whatever comes
+        #after the "_" as a key to display it in the template,
+        #allowing us to add new copy blocks w/out server reboot
+        if c.id.startswith('index_'):
+            copy[c.id[6:]] = c.text
 
     return render_to_response("competition/index.html", locals())
 
 
 
+#view & manage your competitions
 @login_required
 def dashboard(request):
 
@@ -41,14 +45,12 @@ def manage_applicants(request, competition_id):
     return render_to_response("competition/manage_applicants.html", locals())
 
 
+
 #if competition_id is none, then you are editing a new
 #contest which should be created when the user saves
 #the inputted details
 @login_required
 def edit_competition(request, competition_id=None):
-
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect("/user/no_permissions/")
 
     competition = None
     
@@ -56,8 +58,13 @@ def edit_competition(request, competition_id=None):
 
         if competition_id:
             competition = Competition.objects.get(pk=competition_id)
+            #must own competition to edit it
+            if request.user != competition.owner:
+                return HttpResponseRedirect("/user/no_permissions/")
 
         else:
+            #if logged in and creating new competition, then
+            #guaranteed to own it already
             competition = Competition()
             competition.owner = request.user
 
@@ -69,11 +76,75 @@ def edit_competition(request, competition_id=None):
             
         competition.save()
 
-        return HttpResponseRedirect("/dashboard")
+        #allow chaining together of setup steps by the templates
+        try:
+            next = request.POST["next"] + str(competition.id)
+        except: next = "/dashboard/"
+
+        return HttpResponseRedirect(next)
 
     elif competition_id:
-
+        
         competition = Competition.objects.get(pk=competition_id)
 
     return render_to_response("competition/edit_competition.html", locals())
+
+
+
+@login_required
+def edit_application(request, competition_id):
+
+    competition = Competition.objects.get(pk=competition_id)
+
+    if request.user != competition.owner:
+        return HttpResponseRedirect("/accounts/no_permissions/")
+
+    if request.method == "POST" and len(request.POST) > 0:
+
+        try:
+            next = request.POST["next"] + str(competition.id)
+        except: next = "/dashboard/"
+
+        return HttpResponseRedirect(next)
+
+    return render_to_response('competition/edit_application.html', locals())
+
+
+
+
+@login_required
+def edit_phases(request, competition_id):
+
+    competition = Competition.objects.get(pk=competition_id)
+
+    if request.user != competition.owner:
+        return HttpResponseRedirect("/accounts/no_permissions/")
+
+    if request.method == "POST" and len(request.POST) > 0:
+
+        try:
+            next = request.POST["next"] + str(competition.id)
+        except: next = "/dashboard/"
+
+        return HttpResponseRedirect(next)
+
+    return render_to_response('competition/edit_phases.html', locals())
+
+
+
+
+#gives organizer the javascript for installing contest widgets
+#on their site, or also links to hosted pages if they prefer that
+@login_required
+def edit_application_widgets(request, competition_id):
+
+    competition = Competition.objects.get(pk=competition_id)
+
+    if request.user != competition.owner:
+        return HttpResponseRedirect("/accounts/no_permissions/")
+
+    #TODO: un-hardcode URL
+    base_url = "http://localhost:8000"
+
+    return render_to_response('competition/edit_application_widgets.html', locals())
 

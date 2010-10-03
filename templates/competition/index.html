@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/index.css" />
+{% endblock %}
+
 {% block header_title %}
 Biz Pitch Comp
 {% endblock %}
@@ -8,8 +12,12 @@ Biz Pitch Comp
 
 	{% load markup %}
 
-	<div id="primary_c2a">
-		<a href="/new_competition"><input type="button" class="button"  value="Create new competition"></a>
+	<div id="benefits">
+		{{ copy.benefits|markdown|safe }}
+	</div>
+
+	<div id="c2a">
+		<a href="/new_competition"><input type="button" class="button"  value="{{copy.c2a}}"></a>
 		{% if request.user.is_authenticated %}
 		{% else %}
 		<br/>
@@ -17,16 +25,32 @@ Biz Pitch Comp
 		{% endif %}
 	</div>
 
-	<div id="benefits">
-	{{ benefits|markdown|safe }}
+<div id="roi">
+		{{ copy.roi|markdown|safe }}
 	</div>
 
-	<div id="roi">
-	{{ roi|markdown|safe }}
+
+	<div id="testimonials">
+		<h2>Testimonials</h2>
+
+		<p>
+		blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+		</p>
+
+		<p>
+		blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
+		</p>
+	</div>
+
+	<div id="features">
+		{{ copy.features|markdown|safe }}
 	</div>
 
 	<div id="tour">
-	{{ tour|markdown|safe }}
+			{{ copy.tour|markdown|safe }}
 	</div>
+
+
+
 
 {% endblock %}

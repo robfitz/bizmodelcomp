@@ -1,0 +1,22 @@
+#benefits, #c2a, #roi, #tour, #features {
+    padding: 0px;
+    margin: 0px;
+}
+
+#benefits, #roi, #features {
+    float:left;
+    width:480px;
+}
+
+#c2a, #tour, #testimonials {
+    float:right;
+    margin-left:16px;
+    width:248px;
+}
+#c2a {
+    padding-top:40px;
+}
+#c2a .button {
+    height:100px;
+    width:248px;
+}

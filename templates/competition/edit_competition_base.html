@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/edit_competition_breadcrumbs.css" />
+{% endblock %}
+
+{% block header_title %}
+Set up your competition
+{% endblock %}
+
+{% block ready_script %}
+
+	$(".step").mouseover(function() {
+		$(this).addClass("hover");
+	});
+
+	$(".step").mouseout(function() {
+		$(this).removeClass("hover");
+	});
+
+	$("#step_" + step_num).addClass("current");
+
+{% endblock %}
+
+{% block script %}
+
+	function add_extra_personal_info() {
+
+	}
+
+{% endblock %}
+
+{% block content %}
+
+	{% include 'competition/edit_competition_breadcrumbs.html' %}
+
+	<form action="." method="POST" class="focus" onsubmit="$('#next').val(next_url);">
+
+		{% block form %}
+		{% endblock %}
+
+		<input type="hidden" id="next" name="next" value="/dashboard/" />
+
+		<input type="submit" class="button" value="Save" />
+
+	</form>
+
+{% endblock %}
