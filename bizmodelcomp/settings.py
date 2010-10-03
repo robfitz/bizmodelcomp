@@ -72,6 +72,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     "C:/www/bizmodelcomp/templates/",
+    "/Users/thomasstone/www/bizmodelcomp/templates/"
 )
 
 INSTALLED_APPS = (
