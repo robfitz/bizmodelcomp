@@ -7,7 +7,7 @@ urlpatterns = patterns('',
 
     #local assets                  
     (r'^media/(?P<path>.*)$', 'django.views.static.serve',
-         {'document_root': 'C:/www/bizmodelcomp/media'}),
+         {'document_root': '../media'}),
     
     #admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
