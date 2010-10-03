@@ -1,0 +1,89 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+
+	<link rel="stylesheet" type="text/css" href="/media/competition/style/base.css" />
+	<link rel="stylesheet" type="text/css" href="/media/competition/style/popups.css" />
+
+	{% block meta %}{% endblock %}
+
+	<meta name="Description" content="Business model competitions - create & compete">
+
+    <title>
+      {% block title %}
+      Biz Model Competition
+      {% endblock %}
+    </title>
+
+	<!--
+    <link href='http://fonts.googleapis.com/css?family=Josefin+Sans+Std+Light' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+	-->
+
+    <style>
+
+    	{% block style %}
+    	{% endblock %}
+
+    </style>
+
+    <script type="text/javascript" src="/media/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="/media/jqModal.js"></script>
+	<script type="text/javascript" src="/media/showdown.js"></script>
+
+	<script type="text/javascript">
+
+		{% block script %}
+		{% endblock %}
+
+		$(document).ready(function(){
+			$('#dialog').jqm();
+			{% block ready_script %}
+			{% endblock %}
+
+			$('form.focus :input:visible:first').focus();
+		});
+
+    </script>
+
+</head>
+
+<body>
+
+	<div class="jqmWindow" id="dialog">
+		{% block jqmWindow %}
+		{% endblock %}
+	</div>
+
+	<div id="body">
+
+		<div id="header">
+			<span class="medium">{% block breadcrumbs %}Popping and locking since the year of our lord, two thousand and ten{% endblock %}</span>
+			<h1>{% block header_title %}Biz Model Competition{% endblock %}</h1>
+
+			<div id="account_controls" class="medium">
+				{% block account_controls %}
+					{% if request.user.is_authenticated %}
+						<a href="/dashboard">Dashboard</a> or <a href="/accounts/logout">log out</a>.
+					{% else %}
+						<a href="/accounts/login">Log in</a> or <a href="/accounts/register">register</a>.
+					{% endif %}
+				{% endblock %}
+			</div>
+		</div>
+
+		<div id="content">
+		{% block content %}
+		{% endblock %}
+		</div>
+
+		<div id="footer" class="medium">
+			{% block footer %}
+				About | Privacy & data ownership | Contact | Help!
+			{% endblock %}
+		</div>
+
+	</body>
+
+</html>

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+Log in
+{% endblock %}
+
+{% block style %}
+	#email, #password {
+		font-size:18px;
+	}
+	#submission {
+		float:right;
+		clear:both;
+		margin-right:80px;
+		margin-top:20px;
+	}
+{% endblock %}
+
+{% block content %}
+
+<div id="left">
+
+	<form action="." method="POST" class="focus">
+
+		{% include 'userhelper/login_fields.html' %}
+
+		<div id="submission">
+			<a href="/accounts/register/">No account? Click to register!</a>.
+			<input type="submit" class="button" value="Log in" style="margin-left:10px" />
+		</div>
+
+
+	</form>
+</div>
+
+{% endblock %}

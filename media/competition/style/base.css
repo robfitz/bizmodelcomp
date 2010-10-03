@@ -1,0 +1,50 @@
+/***** layout ********/
+
+body, #header, #footer { 
+	width:760px;
+	position:relative;
+}
+
+#header, #footer, #content {
+	float:left;
+	clear:both;
+	padding:8px;
+}
+
+#account_controls {
+	position:absolute;
+	top:0px;
+	right:0px;
+}
+
+/***** misc *******/
+.hidden {
+	display:none;
+}
+
+
+
+/***** text ********/
+
+body {
+	font-size:16px;
+}
+
+.medium {
+	font-size:12px;
+}
+
+.large, .button {
+	font-size:18px;
+}
+
+.button {
+	height:42px;
+	padding-left:20px;
+	padding-right:20px;
+}
+
+h1 {
+	margin:0px;
+	padding:0px;
+}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+Set up your competition
+{% endblock %}
+
+{% block script %}
+
+	function add_extra_personal_info() {
+
+	}
+
+{% endblock %}
+
+{% block content %}
+
+	<form action="." method="POST" class="focus">
+
+		<h3>Competition info</h3>
+
+		<p>
+		Competition name
+		<br/>
+		<input type="text" class="large" id="name" name="name" value="{{competition.name}}" />
+		</p>
+
+		<p>
+		Competition website
+		<br/>
+		<input type="text" class="large" id="website" name="website" value="{{competition.website}}" />
+		</p>
+
+		<input type="submit" class="button" value="Save" />
+
+		<hr />
+
+		<!--
+		<h3>Required personal info for applicants</h3>
+
+			<p>
+			Name, email, and birthday are always gathered.
+			</p>
+			<p>
+			You may request additional data below
+			</p>
+
+			<div id="extra_personal_info">
+
+				<p>
+				Question prompt
+				<br/>
+				<input type="text" class="large" id="extra_personal_info_0" name="extra_personal_info_0" />
+				</p>
+				Answer choices (leave blank for free text entry)
+				<br/>
+				<textarea id="extra_personal_info_0_choices" name="extra_personal_info_0_choices"></textarea>
+				<br/>
+				<label for="extra_personal_info_0_is_boolean">
+					<input type="checkbox" name="extra_personal_info_0_is_boolean" />
+					Is answer true/false checkbox instead of text?
+				</label>
+				</p>
+
+			</div>
+
+			<p>
+			<a href="javascript:void(0)" onclick="add_extra_personal_info()">Add another extra question</a>
+			</p>
+
+			<input type="submit" class="button" value="Save" />
+
+		<hr />
+		-->
+
+		<!--
+		<h3>Pitch questions</h3>
+
+		<p>
+		blah blah blah
+		</p>
+
+		<input type="submit" class="button" value="Save" />
+		-->
+
+	</form>
+
+{% endblock %}

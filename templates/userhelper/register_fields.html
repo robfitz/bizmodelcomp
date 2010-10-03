@@ -1,0 +1,40 @@
+<input type="hidden" name="form_type" value="register">
+
+<input type="hidden" name="next" value="{{next}}">
+
+<div id="form_field_container">
+	<div id="prompt">
+		Email
+	</div>
+	<div style="float:left">
+		<input class="large" type="text" id="email" name="email" />
+	</div>
+</div>
+
+<div id="form_field_container">
+	<div id="prompt">
+		Password
+	</div>
+	<div style="float:left">
+		<input class="large" type="password" id="password1" name="password1" />
+	</div>
+</div>
+
+<div id="form_field_container">
+	<div id="prompt">
+		Repeat password
+	</div>
+	<div style="float:left">
+		<input class="large" type="password" id="password2" name="password2" />
+	</div>
+</div>
+
+<div id="form_field_container">
+	<div id="prompt" style="margin-top:-6px;font-weight:normal">
+		Bonus code<br/>(optional)
+	</div>
+	<div style="float:left">
+		<input class="large" type="text" id="discount_code" name="discount_code" value="{{default_code}}" />
+	</div>
+</div>
+

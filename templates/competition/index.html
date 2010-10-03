@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+Biz Pitch Comp
+{% endblock %}
+
+{% block content %}
+
+	{% load markup %}
+
+	<div id="primary_c2a">
+		<a href="/new_competition"><input type="button" class="button"  value="Create new competition"></a>
+		{% if request.user.is_authenticated %}
+		{% else %}
+		<br/>
+		<a href="/accounts/login" class="medium">Already have one? Log in</a>
+		{% endif %}
+	</div>
+
+	<div id="benefits">
+	{{ benefits|markdown|safe }}
+	</div>
+
+	<div id="roi">
+	{{ roi|markdown|safe }}
+	</div>
+
+	<div id="tour">
+	{{ tour|markdown|safe }}
+	</div>
+
+{% endblock %}

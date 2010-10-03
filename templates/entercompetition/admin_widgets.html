@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+Setup for accepting new applications
+{% endblock %}
+
+{% block content %}
+
+	<h3>Option 1 - add to your current site</h3>
+
+	<p>
+	If you already have your own contest site, adding the application form there is the best option. You just need to have the website tech paste this line of javascript onto the page where you want the form to appear.
+	</p>
+
+	<input type="text" class="click_to_copy" value='<script type="text/javascript" src="{{base_url}}/apply/{{competition_id}}/widget.js"></script>' />
+
+	<h3>Option 2 - use an automatically created page</h3>
+
+	<p>
+	We have also created a simple application page for your contest. If you don't have your own website or aren't able to change it for <i>Option 1</i>, then you can simply send people to the following link. It's super easy, with the downside that it's less customizable and won't have the same URL address as your normal website.
+	</p>
+	<p>
+	<a href="{{base_url}}/apply/{{competition_id}}.html">Click here to see what it looks like</a>
+	</p>
+
+	<input type="text"  class="click_to_copy" value='{{base_url}}/apply/{{competition_id}}.html' />
+
+{% endblock %}

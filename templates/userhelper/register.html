@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+Create a new account
+{% endblock %}
+
+{% block style %}
+	#email, #password1, #password2, #discount_code {
+		font-size:18px;
+	}
+	#submission {
+		float:right;
+		clear:both;
+		margin-right:80px;
+		margin-top:20px;
+	}
+{% endblock %}
+
+{% block content %}
+
+
+<div id="left">
+
+	<form action="." method="POST" class="focus">
+
+		{% include 'userhelper/register_fields.html' %}
+
+		<div id="submission">
+				<a href="/accounts/login/">Already have an account? Click to log in</a>.
+				<input type="submit" class="button" value="Sign up" style="margin-left:10px" />
+		</div>
+	</form>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+Manage Applicants
+{% endblock %}
+
+{% block script %}
+
+	function show_details(applicant_id) {
+
+		hide_details();
+		$("#details_" + applicant_id).show();
+		$("#show_link_" + applicant_id).hide();
+		$("#hide_link_" + applicant_id).show();
+
+	}
+
+	function hide_details() {
+
+		$(".applicant_details").hide();
+		$(".hide_link").hide();
+		$(".show_link").show();
+
+	}
+
+{% endblock %}
+
+{% block style %}
+	.applicant_details {
+		padding-left:20px;
+	}
+{% endblock %}
+
+{% block content %}
+
+	{% for applicant in competition.applicants.all %}
+
+		<p>
+
+			{{ applicant.name }}
+			| {{ applicant.email }}
+			| <a href="javascript:void(0);" onclick="show_details({{applicant.pk}});" id="show_link_{{applicant.pk}}" class="show_link">Show details</a>
+			<a href="javascript:void(0);" onclick="hide_details();" id="hide_link_{{applicant.pk}}" class="hidden hide_link">Hide details</a>
+
+		</p>
+
+		<div id="details_{{applicant.pk}}" class="applicant_details hidden">
+
+			<p>
+			Phone: {{ applicant.phone }}
+			<br/>
+			Birthday: {{ applicant.birth }}
+			</p>
+
+		</div>
+	{% endfor %}
+
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block header_title %}
+Apply to {{ competition }}
+{% endblock %}
+
+{% block account_controls %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block content %}
+	<script type="text/javascript" src="{{base_url}}/apply/{{competition_id}}/widget.js"></script>
+{% endblock %}
