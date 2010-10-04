@@ -1,18 +1,59 @@
 {% extends 'competition/edit_competition_base.html' %}
 
+{% block style %}
+
+	.upload_prompt_field, .question_prompt_field {
+		width:744px;
+	}
+
+{% endblock %}
+
 {% block script %}
 
 	var step_num = 2;
 	var next_url = '/edit_phases/';
 
+	function addUpload() {
+
+		var num = $("#uploads").children().length
+
+		var new_upload = "<p>Upload prompt:<textarea name='upload_prompt_"+num+"' class='upload_prompt_field' rows='3'></textarea></p>";
+
+		$("#uploads").append(new_upload);
+	}
+
+	function addQuestion() {
+		var num = $("#questions").children().length
+
+		var new_upload = "<p>Question prompt:<textarea name='question_prompt_"+num+"' class='question_prompt_field' rows='3'></textarea></p>";
+
+		$("#questions").append(new_upload);
+	}
+
 {% endblock %}
 
 {% block form %}
 
-		<h3>Pitch questions</h3>
+		<h3>File uploads</h3>
 
 		<p>
-		blah blah blah
+		Want applicants to upload something? Add details about it below. Examples might include a business plan, executive summary, or CV/resume.
 		</p>
+
+		<div id="uploads">
+
+		</div>
+		<input type="button" onclick="addUpload()" value="+ Add new upload" />
+
+		<h3>Form questions</h3>
+
+		<p>
+		Want applicants to fill out an online form of questions when Applying? Add the questions you'd like to ask below.
+		</p>
+
+		<div id="questions">
+
+		</div>
+		<input type="button" onclick="addQuestion()" value="+ Add new question" />
 
 {% endblock %}
