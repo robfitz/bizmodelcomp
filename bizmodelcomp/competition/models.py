@@ -44,6 +44,47 @@ class Competition(models.Model):
         return self.name
 
 
+
+#details about all the questions a founder needs to answer to
+#apply to the contest. 
+class PitchQuestions(models.Model):
+
+    competition = models.OneToOneField(Competition) #owner
+    prompt = models.CharField(max_length=1000) #instructions for applicant
+
+    #string of choices delimited with newlines. no choices means it's a
+    #free answer text field. 1 choice is invalid. 2 choices of "True\nFalse"
+    #is a boolean checkbox. 2-4 choices are radio buttons. 5 or more is a dropdown.
+    raw_choices = models.CharField(max_length=2000)
+
+
+    #return raw_choices as a split and stripped array of choices
+    def choices(self):
+        
+        chunks = raw_choices.split("\n")
+
+        for chunk in chunks: chunk = chunk.trim()
+        
+        return chunks
+
+
+    def __unicode__(self):
+
+        return self.prompt
+
+
+#details about all the questions a founder needs to upload to
+#apply to the contest. 
+class PitchUpload(models.Model):
+
+    competition = models.OneToOneField(Competition) #owner
+    prompt = models.CharField(max_length=1000) #instructions for applicant
+
+    def __unicode__(self):
+
+        return self.prompt
+
+
 #an arbitrary, user-definable question for requesting non-standard information
 #about a founder in the application
 class ExtraQuestion(models.Model):

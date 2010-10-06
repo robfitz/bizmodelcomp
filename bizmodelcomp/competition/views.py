@@ -101,10 +101,18 @@ def edit_application(request, competition_id):
 
     if request.method == "POST" and len(request.POST) > 0:
 
-        try:
-            next = request.POST["next"] + str(competition.id)
-        except: next = "/dashboard/"
+        #get model representing this questionnaire
+        
 
+        #set required uploads
+
+
+        #set required questions/answers
+
+
+        #redirect to appropriate next page
+        try: next = request.POST["next"] + str(competition.id)
+        except: next = "/dashboard/"
         return HttpResponseRedirect(next)
 
     return render_to_response('competition/edit_application.html', locals())
