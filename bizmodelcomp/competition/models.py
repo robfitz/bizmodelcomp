@@ -47,15 +47,15 @@ class Competition(models.Model):
 
 #details about all the questions a founder needs to answer to
 #apply to the contest. 
-class PitchQuestions(models.Model):
+class PitchQuestion(models.Model):
 
-    competition = models.OneToOneField(Competition) #owner
+    competition = models.ForeignKey(Competition) #owner
     prompt = models.CharField(max_length=1000) #instructions for applicant
 
     #string of choices delimited with newlines. no choices means it's a
     #free answer text field. 1 choice is invalid. 2 choices of "True\nFalse"
     #is a boolean checkbox. 2-4 choices are radio buttons. 5 or more is a dropdown.
-    raw_choices = models.CharField(max_length=2000)
+    raw_choices = models.CharField(max_length=2000, null=True, blank=True)
 
 
     #return raw_choices as a split and stripped array of choices
@@ -77,7 +77,7 @@ class PitchQuestions(models.Model):
 #apply to the contest. 
 class PitchUpload(models.Model):
 
-    competition = models.OneToOneField(Competition) #owner
+    competition = models.ForeignKey(Competition) #owner
     prompt = models.CharField(max_length=1000) #instructions for applicant
 
     def __unicode__(self):

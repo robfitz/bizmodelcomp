@@ -19,7 +19,7 @@ def index(request):
         #after the "_" as a key to display it in the template,
         #allowing us to add new copy blocks w/out server reboot
         if c.id.startswith('index_'):
-            copy[c.id[6:]] = c.text
+            copy[c.id[len('index_'):]] = c.text
 
     return render_to_response("competition/index.html", locals())
 
@@ -101,14 +101,33 @@ def edit_application(request, competition_id):
 
     if request.method == "POST" and len(request.POST) > 0:
 
-        #get model representing this questionnaire
-        
+        for key in request.POST:
+            print key
 
-        #set required uploads
+        #TODO: drop old questions & uploads
 
-
-        #set required questions/answers
-
+        #set required uploads "upload_prompt_#"
+        i = 0
+        while i < 100: #completely arbitrary upper limit of 100 uploads
+            try:
+                prompt = request.POST["upload_prompt_" + str(i)]
+                print 'found prompt for %s: %s' % (i, prompt)
+                u = PitchUpload(competition=competition,
+                                prompt=prompt)
+                u.save()
+            except: pass
+            i = i + 1
+            
+        #set required questions/answers "question_prompt_#"
+        i = 0
+        while i < 1000: #arbitrary upper limit of 1000 questions
+            try:
+                prompt = request.POST["question_prompt_" + str(i)]
+                q = PitchQuestion(competition=competition,
+                                  prompt=prompt)
+                q.save()
+            except: pass
+            i = i + 1
 
         #redirect to appropriate next page
         try: next = request.POST["next"] + str(competition.id)

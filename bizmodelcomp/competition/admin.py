@@ -71,5 +71,8 @@ admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Founder)
 admin.site.register(ExtraFounderInfo)
 admin.site.register(Business)
+admin.site.register(PitchQuestion)
+admin.site.register(PitchUpload)
+
 
 ##admin.site.register(Worksheet, WorksheetAdmin)
