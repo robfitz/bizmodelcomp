@@ -17,17 +17,19 @@
 
 		var num = $("#uploads").children().length
 
-		var new_upload = "<p>Upload prompt:<textarea name='upload_prompt_"+num+"' class='upload_prompt_field' rows='3'></textarea></p>";
+		var new_upload = "<p>Upload prompt:<textarea id='upload_prompt_"+num+"' name='upload_prompt_"+num+"' class='upload_prompt_field' rows='3'></textarea></p>";
 
 		$("#uploads").append(new_upload);
+		$('#upload_prompt_' + num).focus();
 	}
 
 	function addQuestion() {
 		var num = $("#questions").children().length
 
-		var new_upload = "<p>Question prompt:<textarea name='question_prompt_"+num+"' class='question_prompt_field' rows='3'></textarea></p>";
+		var new_upload = "<p>Question prompt:<textarea id='question_prompt_"+num+"' class='question_prompt_field' rows='3'></textarea></p>";
 
 		$("#questions").append(new_upload);
+		$('#question_prompt_' + num).focus();
 	}
 
 {% endblock %}
@@ -41,7 +43,12 @@
 		</p>
 
 		<div id="uploads">
-
+			{% for upload in competition.uploads %}
+				<p>
+					Upload prompt:
+					<textarea name='old_upload_prompt_{{upload.pk}}' class='upload_prompt_field' rows='3'>{{upload.prompt}}</textarea>
+				</p>
+			{% endfor %}
 		</div>
 		<input type="button" onclick="addUpload()" value="+ Add new upload" />
 
@@ -52,7 +59,12 @@
 		</p>
 
 		<div id="questions">
-
+			{% for question in competition.questions %}
+				<p>
+					Question prompt:
+					<textarea name='old_question_prompt_{{question.pk}}' class='question_prompt_field' rows='3'>{{question.prompt}}</textarea>
+				</p>
+			{% endfor %}
 		</div>
 		<input type="button" onclick="addQuestion()" value="+ Add new question" />
 

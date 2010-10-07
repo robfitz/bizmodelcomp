@@ -16,8 +16,7 @@ def index(request):
     for c in copy_objs:
         #this clusterfuck is just meant to grab all the copy
         #beginning with "index_" and then use whatever comes
-        #after the "_" as a key to display it in the template,
-        #allowing us to add new copy blocks w/out server reboot
+        #after the "_" as a key to display it in the template
         if c.id.startswith('index_'):
             copy[c.id[len('index_'):]] = c.text
 
@@ -104,31 +103,50 @@ def edit_application(request, competition_id):
         for key in request.POST:
             print key
 
-        #TODO: drop old questions & uploads
 
-        #set required uploads "upload_prompt_#"
-        i = 0
-        while i < 100: #completely arbitrary upper limit of 100 uploads
+        #existing/edited questions are at old_question_prompt_[pk]
+        #existing/edited uploads are at old_upload_prompt_[pk]
+        #newly created ones are at question/upload_prompt_[unimportant_number]
+
+        for key in request.POST:
             try:
-                prompt = request.POST["upload_prompt_" + str(i)]
-                print 'found prompt for %s: %s' % (i, prompt)
-                u = PitchUpload(competition=competition,
-                                prompt=prompt)
-                u.save()
+                
+                prompt = request.POST[key]
+                
+                if key.startswith('old_question_prompt_'):
+                    #check if existing question has been edited
+                    q = PitchQuestion.objects.get(pk=key[len('old_question_prompt_'):])
+                    if len(prompt.strip()) == 0:
+                        q.delete()
+                    elif q.prompt != prompt:
+                        q.prompt = prompt
+                        q.save()
+                                    
+                elif key.startswith('old_upload_prompt_'):
+                    #check if existing upload has been edited
+                    u = PitchUpload.objects.get(pk=key[len('old_upload_prompt_'):])
+                    if len(prompt.strip()) == 0:
+                        u.delete()
+                    elif u.prompt != prompt:
+                        u.prompt = prompt
+                        u.save()
+
+                elif key.startswith('question_prompt_'):
+                    #create new question
+                    if prompt and len(prompt.strip())>0:
+                        q = PitchQuestion(competition=competition,
+                                        prompt=prompt)
+                        q.save()
+
+                elif key.startswith('upload_prompt_'):
+                    #create new upload
+                    if prompt and len(prompt.strip()) > 0:
+                        u = PitchUpload(competition=competition,
+                                        prompt=prompt)
+                        u.save()
+                        
             except: pass
-            i = i + 1
             
-        #set required questions/answers "question_prompt_#"
-        i = 0
-        while i < 1000: #arbitrary upper limit of 1000 questions
-            try:
-                prompt = request.POST["question_prompt_" + str(i)]
-                q = PitchQuestion(competition=competition,
-                                  prompt=prompt)
-                q.save()
-            except: pass
-            i = i + 1
-
         #redirect to appropriate next page
         try: next = request.POST["next"] + str(competition.id)
         except: next = "/dashboard/"

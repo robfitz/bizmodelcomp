@@ -39,6 +39,16 @@ class Competition(models.Model):
     applicants = models.ManyToManyField(Founder) #info about peeps entered in contest
 
 
+    def questions(self):
+
+        return self.pitchquestion_set.all()
+
+
+    def uploads(self):
+
+        return self.pitchupload_set.all()
+    
+    
     def __unicode__(self):
 
         return self.name
