@@ -40,16 +40,6 @@ class Competition(models.Model):
     applicants = models.ManyToManyField(Founder, related_name="competitions") #info about peeps entered in contest
 
 
-    def questions(self):
-
-        return self.pitchquestion_set.all()
-
-
-    def uploads(self):
-
-        return self.pitchupload_set.all()
-    
-    
     def __unicode__(self):
 
         return self.name
@@ -62,6 +52,18 @@ class Phase(models.Model):
 
     competition = models.ForeignKey(Competition)
     name = models.CharField(max_length=500, blank=True, default="")
+
+
+    def questions(self):
+
+        return self.pitchquestion_set.all()
+
+
+    def uploads(self):
+
+        return self.pitchupload_set.all()
+    
+    
 
 
 
@@ -113,6 +115,8 @@ class PitchAnswer(models.Model):
     question = models.ForeignKey(PitchQuestion)
     pitch = models.ForeignKey(Pitch)
 
+    answer = models.CharField(max_length=2000)
+
 
 
 #details about all the questions a founder needs to upload to
@@ -127,6 +131,22 @@ class PitchUpload(models.Model):
 
         return self.prompt
 
+
+
+#stuff uploaded to satisfy a PitchUpload
+class PitchFile(models.Model):
+
+    upload = models.ForeignKey(PitchUpload)
+    pitch = models.ForeignKey(Pitch)
+    
+    filename = models.CharField(max_length=200)
+
+
+    def __unicode__(self):
+        
+        return self.filename
+
+    
 
 #an arbitrary, user-definable question for requesting non-standard information
 #about a founder in the application

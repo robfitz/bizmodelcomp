@@ -68,11 +68,14 @@ class CompetitionAdmin(admin.ModelAdmin):
     
 
 admin.site.register(Competition, CompetitionAdmin)
+admin.site.register(Phase)
 admin.site.register(Founder)
 admin.site.register(ExtraFounderInfo)
-admin.site.register(Business)
+admin.site.register(Pitch)
 admin.site.register(PitchQuestion)
 admin.site.register(PitchUpload)
+admin.site.register(PitchAnswer)
+admin.site.register(PitchFile)
 
 
 ##admin.site.register(Worksheet, WorksheetAdmin)

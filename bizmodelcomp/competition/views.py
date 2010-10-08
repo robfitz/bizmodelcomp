@@ -66,6 +66,12 @@ def edit_competition(request, competition_id=None):
             #guaranteed to own it already
             competition = Competition()
             competition.owner = request.user
+            competition.save()
+
+            #every competition is composed of at least one phase,
+            #which is the container for all of our questions & uploads
+            default_phase = Phase(competition=competition)
+            default_phase.save()
 
         if request.POST["name"]:
             competition.name = request.POST["name"]
@@ -94,21 +100,20 @@ def edit_competition(request, competition_id=None):
 def edit_application(request, competition_id):
 
     competition = Competition.objects.get(pk=competition_id)
+    #TODO: support multiple phases
+    phase = Phase.objects.filter(competition=competition)[0]
 
     if request.user != competition.owner:
         return HttpResponseRedirect("/accounts/no_permissions/")
 
     if request.method == "POST" and len(request.POST) > 0:
 
-        for key in request.POST:
-            print key
-
-
         #existing/edited questions are at old_question_prompt_[pk]
         #existing/edited uploads are at old_upload_prompt_[pk]
         #newly created ones are at question/upload_prompt_[unimportant_number]
-
+        
         for key in request.POST:
+
             try:
                 
                 prompt = request.POST[key]
@@ -132,16 +137,19 @@ def edit_application(request, competition_id):
                         u.save()
 
                 elif key.startswith('question_prompt_'):
+                    print 'found question'
                     #create new question
                     if prompt and len(prompt.strip())>0:
-                        q = PitchQuestion(competition=competition,
+                        print 'creating with prompt %s' % prompt
+                        q = PitchQuestion(phase=phase,
                                         prompt=prompt)
                         q.save()
+                        print 'saved'
 
                 elif key.startswith('upload_prompt_'):
                     #create new upload
                     if prompt and len(prompt.strip()) > 0:
-                        u = PitchUpload(competition=competition,
+                        u = PitchUpload(phase=phase,
                                         prompt=prompt)
                         u.save()
                         

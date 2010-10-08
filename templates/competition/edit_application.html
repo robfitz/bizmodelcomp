@@ -26,7 +26,7 @@
 	function addQuestion() {
 		var num = $("#questions").children().length
 
-		var new_upload = "<p>Question prompt:<textarea id='question_prompt_"+num+"' class='question_prompt_field' rows='3'></textarea></p>";
+		var new_upload = "<p>Question prompt:<textarea id='question_prompt_"+num+"' name='question_prompt_"+num+"' class='question_prompt_field' rows='3'></textarea></p>";
 
 		$("#questions").append(new_upload);
 		$('#question_prompt_' + num).focus();
@@ -43,7 +43,7 @@
 		</p>
 
 		<div id="uploads">
-			{% for upload in competition.uploads %}
+			{% for upload in phase.uploads %}
 				<p>
 					Upload prompt:
 					<textarea name='old_upload_prompt_{{upload.pk}}' class='upload_prompt_field' rows='3'>{{upload.prompt}}</textarea>
@@ -59,7 +59,7 @@
 		</p>
 
 		<div id="questions">
-			{% for question in competition.questions %}
+			{% for question in phase.questions %}
 				<p>
 					Question prompt:
 					<textarea name='old_question_prompt_{{question.pk}}' class='question_prompt_field' rows='3'>{{question.prompt}}</textarea>

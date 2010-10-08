@@ -1,5 +1,5 @@
 from django.db import models
-from bizmodelcomp.competition import Founder
+from bizmodelcomp.competition.models import Founder
 
 
 #randomized url to [.key] provides equivalent
@@ -10,11 +10,11 @@ class RandomFounderUrl(models.Model):
 
     #randomized url key that gets shipped to a new user's
     #email if they don't feel like making a username/pw
-    key = models.CharField(primary_key=True)
+    key = models.CharField(primary_key=True, max_length=100)
 
     #person who is logging in
     founder = models.OneToOneField(Founder)
 
     #when someone validates w/ email, we log them in so
     #we can get at the rest of the info for the session
-    temp_password = models.CharField()
+    temp_password = models.CharField(max_length=100)
