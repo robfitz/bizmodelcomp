@@ -6,5 +6,4 @@ urlpatterns = patterns('',
     (r'^(?P<competition_id>[0-9]{1,10})/$', 'entercompetition.views.applyToCompetition'),    
     
     (r'^(?P<competition_id>[0-9]{1,10}).html$', 'entercompetition.views.applicationMicrosite'),
-    
 )

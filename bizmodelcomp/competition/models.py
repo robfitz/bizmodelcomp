@@ -29,6 +29,7 @@ class Founder(models.Model):
         return self.name
 
 
+
 #a business model competition
 class Competition(models.Model):
 
@@ -36,7 +37,7 @@ class Competition(models.Model):
     website =  models.CharField(max_length=500, blank=True, default="")
 
     owner = models.ForeignKey(User) #single owner who can delete it
-    applicants = models.ManyToManyField(Founder) #info about peeps entered in contest
+    applicants = models.ManyToManyField(Founder, related_name="competitions") #info about peeps entered in contest
 
 
     def questions(self):
@@ -55,11 +56,33 @@ class Competition(models.Model):
 
 
 
+#a subset of a competition, which involves applicants submitting
+#some form of pitch which is then judged
+class Phase(models.Model):
+
+    competition = models.ForeignKey(Competition)
+    name = models.CharField(max_length=500, blank=True, default="")
+
+
+
+#a collection of answers and files that a founder submits to a
+#competition phase
+class Pitch(models.Model):
+
+    #creator & submitter of this pitch, who has applied to the
+    #competition the pitch relates to
+    owner = models.ForeignKey(Founder) 
+
+    #the part of the contest this pitch is a submission to
+    phase = models.ForeignKey(Phase)
+
+
+
 #details about all the questions a founder needs to answer to
 #apply to the contest. 
 class PitchQuestion(models.Model):
 
-    competition = models.ForeignKey(Competition) #owner
+    phase = models.ForeignKey(Phase) #piece of the contest wanting this Q answered
     prompt = models.CharField(max_length=1000) #instructions for applicant
 
     #string of choices delimited with newlines. no choices means it's a
@@ -83,12 +106,22 @@ class PitchQuestion(models.Model):
         return self.prompt
 
 
+
+#answer to a PitchQuestion
+class PitchAnswer(models.Model):
+
+    question = models.ForeignKey(PitchQuestion)
+    pitch = models.ForeignKey(Pitch)
+
+
+
 #details about all the questions a founder needs to upload to
 #apply to the contest. 
 class PitchUpload(models.Model):
 
-    competition = models.ForeignKey(Competition) #owner
+    phase = models.ForeignKey(Phase) #owner
     prompt = models.CharField(max_length=1000) #instructions for applicant
+
 
     def __unicode__(self):
 
@@ -97,7 +130,7 @@ class PitchUpload(models.Model):
 
 #an arbitrary, user-definable question for requesting non-standard information
 #about a founder in the application
-class ExtraQuestion(models.Model):
+class ExtraFounderQuestion(models.Model):
 
     prompt = models.CharField(max_length=1000)
     #string of choices delimited with newlines. no choices means it's a
@@ -123,10 +156,10 @@ class ExtraQuestion(models.Model):
 
 
 
-#answer to a custom ExtraQuestion
+#answer to a custom ExtraFounderQuestion
 class ExtraFounderInfo(models.Model):
 
-    question = models.ForeignKey(ExtraQuestion)
+    question = models.ForeignKey(ExtraFounderQuestion)
     founder = models.ForeignKey(Founder, related_name="extra_info")
     answer = models.CharField(max_length=5000)
 
@@ -134,13 +167,5 @@ class ExtraFounderInfo(models.Model):
     def __unicode__(self):
         return self.answer
     
-
-
-#the thing a founder makes which is then pitched to
-#competitions
-class Business(models.Model):
-
-    pass
-
 
 

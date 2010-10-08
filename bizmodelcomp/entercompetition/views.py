@@ -13,6 +13,11 @@ def form_test(request, competition_id):
 
 
 
+def editFounderApplication(random_code):
+
+    pass
+
+
 #a hosted microsite to accept contest applications
 def applicationMicrosite(request, competition_id):
 
