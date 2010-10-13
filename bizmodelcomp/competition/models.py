@@ -1,12 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-
+import sys
 
 
 #guy with a business model who is developing it, applying
 #for contests, or getting feedback from peers
 class Founder(models.Model):
+
+    user = models.OneToOneField(User, blank=True, null=True)
 
     name = models.CharField(max_length=500) #don't use first/last/etc for multi-cultural reasons
     email = models.CharField(max_length=500)
@@ -30,6 +32,21 @@ class Founder(models.Model):
 
 
 
+#a random key used in links to take an applicant
+#to their application without needing to create an account
+class AnonymousFounderKey(models.Model):
+
+    #random characters used as an identifier
+    key = models.CharField(max_length=20, primary_key=True) 
+    founder = models.OneToOneField(Founder) #who i point to
+
+
+    def __unicode__(self):
+
+        return str(self.founder)
+
+
+
 #a business model competition
 class Competition(models.Model):
 
@@ -39,11 +56,46 @@ class Competition(models.Model):
     owner = models.ForeignKey(User) #single owner who can delete it
     applicants = models.ManyToManyField(Founder, related_name="competitions") #info about peeps entered in contest
 
+    def phases(self):
+        
+        return self.phase_set.all()
+
 
     def __unicode__(self):
 
         return self.name
 
+
+#defaults & information about all the text an organizer can
+#customize which their applicants & entrants will see
+class CompetitionCopyTemplate(models.Model):
+
+    title = models.CharField(max_length=140)
+    tooltip = models.CharField(max_length=500, blank=True)
+
+    default_text = models.CharField(max_length=2000, blank=True)
+
+
+    def __unicode__(self):
+
+        return self.title
+
+
+
+#copy that's shown for a single competition, based off the
+#CompetitionCopyTemplate and potentially customized by the organizer
+class CompetitionCopy(models.Model):
+
+    competition = models.ForeignKey(Competition)
+
+    title = models.CharField(max_length=140, blank=True)
+    text = models.CharField(max_length=2000, blank=True)
+
+
+    def __unicode__(self):
+
+        return self.title
+    
 
 
 #a subset of a competition, which involves applicants submitting
@@ -62,10 +114,12 @@ class Phase(models.Model):
     def uploads(self):
 
         return self.pitchupload_set.all()
-    
-    
 
 
+    def __unicode__(self):
+
+        return "phase (id=%s) for (competition=%s)" % (self.pk, self.competition)
+    
 
 #a collection of answers and files that a founder submits to a
 #competition phase
@@ -79,7 +133,12 @@ class Pitch(models.Model):
     phase = models.ForeignKey(Phase)
 
 
+    def __unicode__(self):
 
+        return 'pitch (id=%s) for (owner=%s)' % (self.pk, self.owner)
+
+
+    
 #details about all the questions a founder needs to answer to
 #apply to the contest. 
 class PitchQuestion(models.Model):
@@ -113,10 +172,14 @@ class PitchQuestion(models.Model):
 class PitchAnswer(models.Model):
 
     question = models.ForeignKey(PitchQuestion)
-    pitch = models.ForeignKey(Pitch)
+    pitch = models.ForeignKey(Pitch, related_name="answers")
 
     answer = models.CharField(max_length=2000)
 
+
+    def __unicode__(self):
+
+        return self.answer
 
 
 #details about all the questions a founder needs to upload to
@@ -137,7 +200,7 @@ class PitchUpload(models.Model):
 class PitchFile(models.Model):
 
     upload = models.ForeignKey(PitchUpload)
-    pitch = models.ForeignKey(Pitch)
+    pitch = models.ForeignKey(Pitch, related_name="files")
     
     filename = models.CharField(max_length=200)
 

@@ -14,5 +14,17 @@ Apply to {{ competition }}
 {% endblock %}
 
 {% block content %}
-	<script type="text/javascript" src="{{base_url}}/apply/{{competition_id}}/widget.js"></script>
+
+	<div id="bmc_wrapper">
+	</div>
+
+	<script>
+	    (function() {
+			var src = document.createElement('script');
+			src.async = true;
+			src.src = "{{base_url}}/apply/{{competition_id}}/widget.js";
+			document.getElementById('bmc_wrapper').appendChild(src);
+	    }());
+  </script>
+
 {% endblock %}

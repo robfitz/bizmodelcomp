@@ -1,4 +1,4 @@
-document.write('<div id="bmc_widget">{{form|safe}}</div>');
+document.getElementById('bmc_wrapper').innerHTML = '<div id="bmc_widget">{{form|safe}}</div>';
 
 function jsonp(url, callback, name, query)
 {                
@@ -33,6 +33,7 @@ function apply(competition_id) {
 }
 
 function {{callback_function}}(data) {
+	alert('got callback');
     var widget = document.getElementById("bmc_widget");
     widget.innerHTML = data.message;
 }

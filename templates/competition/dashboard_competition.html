@@ -1,0 +1,91 @@
+		<p>
+			{{competition}}
+		</p>
+
+		<h3>Competition Setup</h3>
+
+		<div class="dashboard_section">
+
+			<div class="summary">
+
+				<h4>Competition details</h4>
+
+				<p>
+				Name: {{competition.name}}
+				</p>
+				<p>
+				Website: <a href="{{competition.website}}">{{competition.website}}</a>
+				</p>
+				<p>
+					<a href="/edit_competition/{{competition.pk}}/">
+						Edit setup details
+					</a>
+				</p>
+
+				<p>
+					<a href="/apply/admin_widgets/{{competition.pk}}/">
+						Accept pitch applications from your site
+					</a>
+				</p>
+
+			</div>
+
+			<div class="controls">
+
+				<p>
+					<a href="">Edit</a>
+				</p>
+
+				<p>
+					<a href="">Help</a>
+				</p>
+
+			</div>
+
+		</div>
+
+		<div class="dashboard_section">
+
+			<div class="summary">
+
+				<h4>Application form</h4>
+
+				<p>
+				TODO: how does this relate to multiple phases? current phase? first phase? tabbed subset of phase picker?
+				</p>
+
+				<p>
+				<a href="edit_application/{{competition.pk}}/">Edit application</a>
+				</p>
+
+			</div>
+
+			<div class="controls">
+
+				<p>
+					<a href="">Edit</a>
+				</p>
+
+				<p>
+					<a href="">Help</a>
+				</p>
+
+			</div>
+
+		</div>
+
+		<!--
+
+		<ul>
+
+			<li><a href="/edit_competition/{{competition.pk}}/">Edit setup details</a>
+
+			<li><a href="/apply/admin_widgets/{{competition.pk}}/">Accept pitch applications from your site</a>
+
+			<li><a href="/manage_applicants/{{competition.pk}}/">Manage <b>{{num_applicants}}</b> applicants</a>
+
+			<li><a href="/manage_judges/{{competition.pk}}">Manage <b>{{num_judges}}</b> judges</a>
+
+		</ul>
+
+		-->

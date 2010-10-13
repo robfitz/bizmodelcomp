@@ -1,7 +1,14 @@
 {% extends 'base.html' %}
 
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
+{% endblock %}
+
+
 {% block header_title %}
-Dashboard
+
+	Dashboard
+
 {% endblock %}
 
 {% block content %}
@@ -11,17 +18,9 @@ Dashboard
 	</p>
 
 	<h3>Your competitions</h3>
-	{% for comp in competitions %}
+	{% for competition in competitions %}
 
-		<p>
-			{{comp}}
-		</p>
-		<ul>
-			<li><a href="/edit_competition/{{comp.pk}}/">Edit setup details</a>
-			<li><a href="/apply/admin_widgets/{{comp.pk}}/">Accept pitch applications from your site</a>
-			<li><a href="/manage_applicants/{{comp.pk}}/">Manage <b>{{num_applicants}}</b> applicants</a>
-			<li><a href="/manage_judges/{{comp.pk}}">Manage <b>{{num_judges}}</b> judges</a>
-		</ul>
+		{% include 'competition/dashboard_competition.html' %}
 
 	{% endfor %}
 

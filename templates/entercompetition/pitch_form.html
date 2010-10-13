@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block header_title %}
+Apply to {{ competition }}
+{% endblock %}
+
+{% block account_controls %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block content %}
+
+	<form action="." method="POST" enctype="multipart/form-data">
+
+		{% if phase.uploads %}
+
+			<h3>Uploads</h3>
+
+			{% for upload in uploads %}
+
+				<p>
+
+					{{upload.prompt}}
+
+					<br/>
+
+					{% if upload.file %}
+					{{ upload.file }}
+					{% else %}
+					<input type="file" name="upload_{{upload.pk}}" />
+					{% endif %}
+				</p>
+
+			{% endfor %}
+
+		{% endif %}
+
+		{% if phase.questions %}
+			<h3>Questions</h3>
+
+			{% for question in questions %}
+
+				<p>
+					{{ question.prompt }}
+
+					<br/>
+
+					<textarea name="question_{{question.pk}}">{{question.answer}}</textarea>
+				</p>
+
+			{% endfor %}
+
+		{% endif %}
+
+		<input type="submit" value="Submit pitch" />
+
+	</form>
+
+
+{% endblock %}

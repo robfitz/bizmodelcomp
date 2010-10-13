@@ -1,7 +1,11 @@
 from bizmodelcomp.competition.models import *
 from django.shortcuts import render_to_response
 from django.template import loader, Context
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+
+from random import choice
+import string
+import os
 
 
 
@@ -12,10 +16,172 @@ def form_test(request, competition_id):
     return render_to_response('entercompetition/form_test.html', locals())
 
 
+#helper
+def get_founder(request):
 
-def editFounderApplication(random_code):
+    founder = None
 
-    pass
+    #figure out which user this is for
+    if 'f' in request.GET:
+        #using an anon link
+        rand_key = request.GET.get("f")
+        print rand_key
+        key = AnonymousFounderKey.objects.get(key=rand_key)
+        print key
+        founder = key.founder
+        request.session['founder_key'] = key.key
+
+        if request.user.is_authenticated and founder.user != request.user:
+            #start freaking out, logged in user is using someone else's key
+            #possibly merge accounts, possibly logout, possibly refuse permissions
+            print "TODO: entercompetition.views.get_founder(): conflicting login & anon key"
+
+    elif request.session.get('founder_key', False):
+
+        #not logged in, but key is in session
+        rand_key = request.session.get('founder_key')
+        key = AnonymousFounderKey.objects.get(key=rand_key)
+        founder = key.founder
+                 
+    elif request.user.is_authenticated():
+        #already logged in, that's easy
+        try:
+            founder = Founder.objects.get(user=request.user)
+        except:
+            print "TODO: entercompetition.views.get_founder(): unhandled bad login case"
+
+    return founder
+
+
+
+def edit_pitch(request, competition_id, phase_id=None):
+
+    competition = Competition.objects.get(pk=competition_id)
+    phase = None
+
+    pitch = None
+
+    founder = get_founder(request)
+
+    if not founder:
+        #don't know who the founder applying is. abort.
+        #TODO: change this to a helpful recovery message
+        print "TODO: entercompetition.views.edit_pitch(): second unhandled bad login case"
+        return False
+    
+
+    if phase_id: #requested phase
+        phase = Phase.objects.get(pk=phase_id)
+    else: #default phase
+        phase = competition.phases()[0]
+
+    print 'owner %s, phase %s' % (founder, phase)
+    try:
+        pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
+    except:
+        print "Unexpected error:", sys.exc_info()[0]
+        pitch = Pitch(owner=founder,
+                      phase=phase)
+        pitch.save()
+
+    if request.method == "POST" and len(request.POST) > 0:
+
+        #deal w/ saved answers
+        for key in request.POST:
+
+            if key.startswith("question_"):
+                print 'found an answer to %s' % key
+                try:
+                    question_pk = key[len("question_"):]
+                    print 'question pk %s' % question_pk
+                    question = PitchQuestion.objects.get(pk=question_pk)
+                    print 'question %s' % question
+
+                    answer = None
+                    try:
+                        #existing answer?
+                        answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+                        answer.answer=request.POST[key]
+                    except:                    
+                        answer = PitchAnswer(question=question,
+                                             pitch=pitch,
+                                             answer=request.POST[key])
+                    answer.save()
+
+                except: pass
+
+        #deal w/uploads
+        for file in request.FILES:
+            upload_pk = file[len("upload_"):]
+            upload = PitchUpload.objects.get(pk=upload_pk)
+            handle_uploaded_file(request, request.FILES[file], upload, pitch)
+
+    questions = phase.questions()
+    uploads = phase.uploads()
+    
+    for question in questions:
+        #for template rendering of existing answers
+        try:
+            print 'pitch: %s, question: %s' % (pitch, question)
+
+            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+            print 'GOT Q ANSWER: %s' % question.answer
+        except:
+            print "3 Unexpected error:", sys.exc_info()[0]
+            question.answer = ""
+
+    for upload in uploads:
+        #for template rendering of existing uploads
+        try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
+        except:
+            print "4 Unexpected error:", sys.exc_info()[0]
+            upload.file = None
+
+    return render_to_response('entercompetition/pitch_form.html', locals())
+
+
+
+def handle_uploaded_file(request, f, upload, pitch):
+
+    upload_path = None
+    if request.get_host().find('localhost') != -1 or request.get_host().find('127.0.0.1') != -1:
+        #local
+        upload_path = 'c:/www/bizmodelcomp/media/uploads/'
+    else:
+        None.fail_time()
+
+    #add to a random directory to avoid collisions
+    rand_folder = ''.join([choice(string.letters+string.digits) for i in range(20)])
+    upload_path = "%s%s/" % (upload_path, rand_folder)
+
+    if not os.path.isdir(upload_path):
+        os.mkdir(upload_path)
+
+    #preserve filename where possible
+    if f.name:
+        #name same as original file, in random folder
+        upload_path = "%s%s" % (upload_path, f.name)
+    else:
+        #random name
+        upload_path = "%s%s" % (upload_path, upload_path)
+
+    print 'upload path: %s' % upload_path
+
+    destination = open(upload_path, 'wb+')
+    for chunk in f.chunks():
+        destination.write(chunk)
+    destination.close()
+
+    pitch_file = None
+    try:
+        pitch_file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
+        pitch_file.filename = upload_path
+    except:
+        pitch_file = PitchFile(upload=upload,
+                         filename=upload_path,
+                         pitch=pitch)
+    pitch_file.save()
+    
 
 
 #a hosted microsite to accept contest applications
@@ -84,21 +250,39 @@ def applyToCompetition(request, competition_id):
             print "%s: %s" % (key, request.GET[key])
 
             #set standard/required values
-            if key in dir(founder):
-                setattr(founder, key, request.GET[key])
+            if key in request.GET:
+                try: setattr(founder, key, request.GET[key])
+                except: pass
 
         try: callback_function = request.GET["callback_function"]
         except: pass
 
         founder.save()
         competition.applicants.add(founder)
-        message = "Sweet, you in the competition!"
+
+        try:
+            rand = ''.join([choice(string.letters+string.digits) for i in range(12)])
+            anon = AnonymousFounderKey(key=rand,
+                                       founder=founder)
+            anon.save()
+        except:
+            print "Unexpected error:", sys.exc_info()[0]
+
+        message = """<p>\
+You're registered for the\ competition and will receive email updates as the deadline approaches.\
+</p>\
+<p style='font-size:18px;'>\
+<a href='/apply/pitch/%s/?f=%s'>Go fill out the application form right now</a>\
+</p>\
+""" % (competition.pk, anon.key)
 
     else:
         message = "Sorry, the application service is temporarily down. Please try again soon."
 
     params = '{ "message": "%s"}' % message
     response = "%s( %s )" % (callback_function, params)
+
+    print 'RESPONSE: %s' % response
 
     return HttpResponse(response, mimetype="application/javascript")
 
