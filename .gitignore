@@ -1,2 +1,3 @@
 *.pyc
 bizmodelcomp/db_local
+media/uploads/*
