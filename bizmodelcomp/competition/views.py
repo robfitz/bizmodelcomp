@@ -197,8 +197,7 @@ def edit_application_widgets(request, competition_id):
     if request.user != competition.owner:
         return HttpResponseRedirect("/accounts/no_permissions/")
 
-    #TODO: un-hardcode URL
-    base_url = "http://localhost:8000"
+    base_url = "http://%s" % request.get_host()
 
     return render_to_response('competition/edit_application_widgets.html', locals())
 

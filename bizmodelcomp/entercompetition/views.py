@@ -188,7 +188,7 @@ def handle_uploaded_file(request, f, upload, pitch):
 def applicationMicrosite(request, competition_id):
 
     #TODO: un-hardcode URL
-    base_url = "http://localhost:8000"
+    base_url = "http://%s" % request.get_host()
     
     competition = Competition.objects.get(pk=competition_id)
 
