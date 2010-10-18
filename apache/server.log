@@ -1,700 +1,311 @@
-[Sat Oct 16 21:06:04 2010] [notice] Digest: generating secret for digest authentication ...
-[Sat Oct 16 21:06:04 2010] [notice] Digest: done
-[Sat Oct 16 21:06:04 2010] [info] APR LDAP: Built with OpenLDAP LDAP SDK
-[Sat Oct 16 21:06:04 2010] [info] LDAP: SSL support available
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32512): Initializing Python.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32513): Initializing Python.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32514): Initializing Python.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32515): Initializing Python.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32516): Initializing Python.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32517): Initializing Python.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32518): Initializing Python.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32519): Initializing Python.
-[Sat Oct 16 21:06:04 2010] [notice] Apache/2.2.15 (Unix) DAV/2 mod_wsgi/3.3 Python/2.6.5 configured -- resuming normal operations
-[Sat Oct 16 21:06:04 2010] [info] Server built: Jul 31 2010 19:45:22
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32512): Attach interpreter ''.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32513): Attach interpreter ''.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32514): Attach interpreter ''.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32515): Attach interpreter ''.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32516): Attach interpreter ''.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32517): Attach interpreter ''.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32518): Attach interpreter ''.
-[Sat Oct 16 21:06:04 2010] [info] mod_wsgi (pid=32519): Attach interpreter ''.
-[Sat Oct 16 21:06:32 2010] [info] mod_wsgi (pid=32514): Create interpreter 'www.ec2-67-202-0-100.compute-1.amazonaws.com|/myapp'.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32519): Destroying interpreters.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32519): Cleanup interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32518): Destroying interpreters.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32518): Cleanup interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32517): Destroying interpreters.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32517): Cleanup interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32516): Destroying interpreters.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32516): Cleanup interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32515): Destroying interpreters.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32515): Cleanup interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32514): Destroying interpreters.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32514): Destroy interpreter 'www.ec2-67-202-0-100.compute-1.amazonaws.com|/myapp'.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32513): Destroying interpreters.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32513): Cleanup interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32512): Destroying interpreters.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32512): Cleanup interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32515): Terminating Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32514): Cleanup interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32519): Terminating Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32516): Terminating Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32516): Python has shutdown.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32513): Terminating Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32513): Python has shutdown.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32517): Terminating Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32518): Terminating Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32518): Python has shutdown.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32512): Terminating Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32512): Python has shutdown.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32514): Terminating Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32515): Python has shutdown.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32517): Python has shutdown.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32519): Python has shutdown.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32514): Python has shutdown.
-[Sat Oct 16 21:08:26 2010] [notice] SIGHUP received.  Attempting to restart
-[Sat Oct 16 21:08:26 2010] [warn] module wsgi_module is already loaded, skipping
-[Sat Oct 16 21:08:26 2010] [notice] Digest: generating secret for digest authentication ...
-[Sat Oct 16 21:08:26 2010] [notice] Digest: done
-[Sat Oct 16 21:08:26 2010] [info] APR LDAP: Built with OpenLDAP LDAP SDK
-[Sat Oct 16 21:08:26 2010] [info] LDAP: SSL support available
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32648): Initializing Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32649): Initializing Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32650): Initializing Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32651): Initializing Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32652): Initializing Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32653): Initializing Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32654): Initializing Python.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32655): Initializing Python.
-[Sat Oct 16 21:08:26 2010] [notice] Apache/2.2.15 (Unix) DAV/2 mod_wsgi/3.3 Python/2.6.5 configured -- resuming normal operations
-[Sat Oct 16 21:08:26 2010] [info] Server built: Jul 31 2010 19:45:22
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32650): Attach interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32651): Attach interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32652): Attach interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32649): Attach interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32648): Attach interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32654): Attach interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32653): Attach interpreter ''.
-[Sat Oct 16 21:08:26 2010] [info] mod_wsgi (pid=32655): Attach interpreter ''.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32655): Destroying interpreters.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32655): Cleanup interpreter ''.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32654): Destroying interpreters.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32654): Cleanup interpreter ''.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32653): Destroying interpreters.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32653): Cleanup interpreter ''.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32652): Destroying interpreters.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32652): Cleanup interpreter ''.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32651): Destroying interpreters.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32651): Cleanup interpreter ''.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32650): Destroying interpreters.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32650): Cleanup interpreter ''.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32649): Destroying interpreters.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32649): Cleanup interpreter ''.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32648): Destroying interpreters.
-[Sat Oct 16 21:11:29 2010] [info] mod_wsgi (pid=32648): Cleanup interpreter ''.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32649): Terminating Python.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32654): Terminating Python.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32653): Terminating Python.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32653): Python has shutdown.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32655): Terminating Python.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32654): Python has shutdown.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32651): Terminating Python.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32650): Terminating Python.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32655): Python has shutdown.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32648): Terminating Python.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32652): Terminating Python.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32652): Python has shutdown.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32651): Python has shutdown.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32649): Python has shutdown.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32650): Python has shutdown.
-[Sat Oct 16 21:11:30 2010] [info] mod_wsgi (pid=32648): Python has shutdown.
-[Sat Oct 16 21:11:30 2010] [notice] SIGHUP received.  Attempting to restart
-[Sat Oct 16 21:11:30 2010] [warn] module wsgi_module is already loaded, skipping
-[Sat Oct 16 21:11:32 2010] [error] [client 184.77.24.192] (13)Permission denied: access to / denied
-[Sat Oct 16 21:11:32 2010] [error] [client 184.77.24.192] (13)Permission denied: access to /favicon.ico denied
-[Sat Oct 16 21:11:34 2010] [error] [client 184.77.24.192] (13)Permission denied: access to / denied
-[Sat Oct 16 21:11:34 2010] [error] [client 184.77.24.192] (13)Permission denied: access to /favicon.ico denied
-[Sat Oct 16 21:11:38 2010] [error] [client 184.77.24.192] (13)Permission denied: access to /myapp denied
-[Sat Oct 16 21:11:39 2010] [error] [client 184.77.24.192] (13)Permission denied: access to /favicon.ico denied
-[Sat Oct 16 21:25:42 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1171, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192] mod_wsgi (pid=1171): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192] Traceback (most recent call last):
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 230, in __call__
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]     self.load_middleware()
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 33, in load_middleware
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]     for middleware_path in settings.MIDDLEWARE_CLASSES:
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 276, in __getattr__
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]     self._setup()
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 40, in _setup
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]     self._wrapped = Settings(settings_module)
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 75, in __init__
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192]     raise ImportError("Could not import settings '%s' (Is it on sys.path? Does it have syntax errors?): %s" % (self.SETTINGS_MODULE, e))
-[Sat Oct 16 21:25:42 2010] [error] [client 184.77.24.192] ImportError: Could not import settings 'bizmodelcomp.settings' (Is it on sys.path? Does it have syntax errors?): No module named bizmodelcomp.settings
-[Sat Oct 16 21:25:43 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1174, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192] mod_wsgi (pid=1174): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192] Traceback (most recent call last):
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 230, in __call__
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]     self.load_middleware()
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 33, in load_middleware
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]     for middleware_path in settings.MIDDLEWARE_CLASSES:
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 276, in __getattr__
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]     self._setup()
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 40, in _setup
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]     self._wrapped = Settings(settings_module)
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 75, in __init__
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192]     raise ImportError("Could not import settings '%s' (Is it on sys.path? Does it have syntax errors?): %s" % (self.SETTINGS_MODULE, e))
-[Sat Oct 16 21:25:43 2010] [error] [client 184.77.24.192] ImportError: Could not import settings 'bizmodelcomp.settings' (Is it on sys.path? Does it have syntax errors?): No module named bizmodelcomp.settings
-[Sat Oct 16 21:25:44 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1170, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192] mod_wsgi (pid=1170): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192] Traceback (most recent call last):
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 230, in __call__
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]     self.load_middleware()
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 33, in load_middleware
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]     for middleware_path in settings.MIDDLEWARE_CLASSES:
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 276, in __getattr__
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]     self._setup()
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 40, in _setup
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]     self._wrapped = Settings(settings_module)
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 75, in __init__
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192]     raise ImportError("Could not import settings '%s' (Is it on sys.path? Does it have syntax errors?): %s" % (self.SETTINGS_MODULE, e))
-[Sat Oct 16 21:25:44 2010] [error] [client 184.77.24.192] ImportError: Could not import settings 'bizmodelcomp.settings' (Is it on sys.path? Does it have syntax errors?): No module named bizmodelcomp.settings
-[Sat Oct 16 21:25:45 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1172, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192] mod_wsgi (pid=1172): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192] Traceback (most recent call last):
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 230, in __call__
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]     self.load_middleware()
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 33, in load_middleware
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]     for middleware_path in settings.MIDDLEWARE_CLASSES:
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 276, in __getattr__
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]     self._setup()
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 40, in _setup
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]     self._wrapped = Settings(settings_module)
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]   File "/usr/lib/python2.6/site-packages/django/conf/__init__.py", line 75, in __init__
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192]     raise ImportError("Could not import settings '%s' (Is it on sys.path? Does it have syntax errors?): %s" % (self.SETTINGS_MODULE, e))
-[Sat Oct 16 21:25:45 2010] [error] [client 184.77.24.192] ImportError: Could not import settings 'bizmodelcomp.settings' (Is it on sys.path? Does it have syntax errors?): No module named bizmodelcomp.settings
-[Sat Oct 16 21:27:05 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1252, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:27:06 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1254, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:27:09 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1253, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:27:11 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1255, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:37:48 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1502, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:37:50 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1503, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:37:51 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1505, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:37:53 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1507, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:38:15 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1513, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:38:17 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1512, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:38:33 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1522, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:38:34 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1525, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:40:26 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1533, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:40:27 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1536, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:40:57 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1543, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:40:58 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1546, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:42:31 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1545, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:42:33 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1544, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:42:45 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1558, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:42:46 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1560, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:42:47 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1559, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:42:49 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1561, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:44:01 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1557, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:44:02 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1564, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:47:31 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1563, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:47:32 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1562, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 16:53:20 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1558, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Reloading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 16:53:21 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1560, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Reloading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 16:53:23 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1559, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Reloading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 16:53:24 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1561, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Reloading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:53:33 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1586, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:53:35 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1587, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:55:07 2010] [info] [client 222.186.26.72] mod_wsgi (pid=1589, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 21:55:07 2010] [info] [client 222.186.26.72] mod_wsgi (pid=1588, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 16:55:08 2010] [info] [client 222.186.26.72] (104)Connection reset by peer: core_output_filter: writing data to the network
-[Sat Oct 16 16:55:08 2010] [error] [client 222.186.26.72] mod_wsgi (pid=1588): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 16:55:08 2010] [error] [client 222.186.26.72] IOError: failed to write data
-[Sat Oct 16 22:31:43 2010] [info] [client 218.17.223.55] mod_wsgi (pid=1591, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 23:23:51 2010] [info] [client 218.17.223.55] mod_wsgi (pid=1592, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 23:31:17 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1590, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sat Oct 16 23:33:43 2010] [info] [client 184.77.24.192] mod_wsgi (pid=1593, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 12:04:58 2010] [info] [client 155.54.205.57] mod_wsgi (pid=3411, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 12:56:06 2010] [info] [client 94.23.63.40] mod_wsgi (pid=3413, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 12:56:07 2010] [info] [client 94.23.63.40] mod_wsgi (pid=3409, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 12:56:59 2010] [info] [client 58.53.128.61] mod_wsgi (pid=3412, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 12:57:00 2010] [info] [client 58.53.128.61] mod_wsgi (pid=3410, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 07:57:01 2010] [info] [client 58.53.128.61] (104)Connection reset by peer: core_output_filter: writing data to the network
-[Sun Oct 17 07:57:01 2010] [error] [client 58.53.128.61] mod_wsgi (pid=3410): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 07:57:01 2010] [error] [client 58.53.128.61] IOError: failed to write data
-[Sun Oct 17 14:59:55 2010] [info] [client 67.205.76.121] mod_wsgi (pid=3415, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 14:59:55 2010] [info] [client 67.205.76.121] mod_wsgi (pid=3416, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 14:59:56 2010] [info] [client 67.205.76.121] mod_wsgi (pid=3414, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Sun Oct 17 20:49:06 2010] [error] [client 83.242.145.34] client sent HTTP/1.1 request without hostname (see RFC2616 section 14.23): /w00tw00t.at.ISC.SANS.DFind:)
-[Mon Oct 18 08:13:08 2010] [info] [client 89.152.230.92] mod_wsgi (pid=24610, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 08:13:09 2010] [info] [client 89.152.230.92] mod_wsgi (pid=24612, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 08:13:09 2010] [info] [client 89.152.230.92] mod_wsgi (pid=24611, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:03:37 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25905, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10] mod_wsgi (pid=25905): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 141, in get_response
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 165, in handle_uncaught_exception
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return debug.technical_500_response(request, *exc_info)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 58, in technical_500_response
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     html = reporter.get_traceback_html()
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 137, in get_traceback_html
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return t.render(c)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 173, in render
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return self._render(context)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 167, in _render
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return self.nodelist.render(context)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 796, in render
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     bits.append(self.render_node(node, context))
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 72, in render_node
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     result = node.render(context)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 89, in render
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     output = self.filter_expression.resolve(context)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 579, in resolve
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     new_obj = func(obj, *arg_vals)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/defaultfilters.py", line 697, in date
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return format(value, arg)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 281, in format
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return df.format(format_string)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 187, in r
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return self.format('D, j M Y H:i:s O')
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/encoding.py", line 66, in force_unicode
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     s = unicode(s)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 206, in __unicode_cast
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return self.__func(*self.__args, **self.__kw)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 55, in ugettext
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return real_ugettext(message)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 55, in _curried
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return _curried_func(*(args+moreargs), **dict(kwargs, **morekwargs))
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 36, in delayed_loader
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return getattr(trans, real_name)(*args, **kwargs)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 276, in ugettext
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     return do_translate(message, 'ugettext')
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 266, in do_translate
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     _default = translation(settings.LANGUAGE_CODE)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 176, in translation
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     default_translation = _fetch(settings.LANGUAGE_CODE)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 159, in _fetch
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     app = import_module(appname)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/importlib.py", line 35, in import_module
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     __import__(name)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/__init__.py", line 1, in <module>
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/helpers.py", line 1, in <module>
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     from django import forms
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/__init__.py", line 17, in <module>
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     from models import *
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/models.py", line 6, in <module>
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     from django.db import connections
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/__init__.py", line 77, in <module>
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     connection = connections[DEFAULT_DB_ALIAS]
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 91, in __getitem__
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     backend = load_backend(db['ENGINE'])
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 49, in load_backend
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     raise ImproperlyConfigured(error_msg)
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10] TemplateSyntaxError: Caught ImproperlyConfigured while rendering: 'django.db.backends.postgresql' isn't an available database backend. 
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10] Try using django.db.backends.XXX, where XXX is one of:
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10]     'dummy', 'mysql', 'oracle', 'postgresql', 'postgresql_psycopg2', 'sqlite3'
-[Mon Oct 18 12:03:45 2010] [error] [client 24.98.197.10] Error was: cannot import name utils
-[Mon Oct 18 17:03:46 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25906, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10] mod_wsgi (pid=25906): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 141, in get_response
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 165, in handle_uncaught_exception
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return debug.technical_500_response(request, *exc_info)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 58, in technical_500_response
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     html = reporter.get_traceback_html()
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 137, in get_traceback_html
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return t.render(c)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 173, in render
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return self._render(context)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 167, in _render
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return self.nodelist.render(context)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 796, in render
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     bits.append(self.render_node(node, context))
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 72, in render_node
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     result = node.render(context)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 89, in render
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     output = self.filter_expression.resolve(context)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 579, in resolve
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     new_obj = func(obj, *arg_vals)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/defaultfilters.py", line 697, in date
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return format(value, arg)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 281, in format
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return df.format(format_string)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 187, in r
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return self.format('D, j M Y H:i:s O')
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/encoding.py", line 66, in force_unicode
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     s = unicode(s)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 206, in __unicode_cast
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return self.__func(*self.__args, **self.__kw)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 55, in ugettext
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return real_ugettext(message)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 55, in _curried
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return _curried_func(*(args+moreargs), **dict(kwargs, **morekwargs))
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 36, in delayed_loader
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return getattr(trans, real_name)(*args, **kwargs)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 276, in ugettext
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     return do_translate(message, 'ugettext')
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 266, in do_translate
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     _default = translation(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 176, in translation
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     default_translation = _fetch(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 159, in _fetch
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     app = import_module(appname)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/importlib.py", line 35, in import_module
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     __import__(name)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/__init__.py", line 1, in <module>
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/helpers.py", line 1, in <module>
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     from django import forms
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/__init__.py", line 17, in <module>
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     from models import *
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/models.py", line 6, in <module>
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     from django.db import connections
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/__init__.py", line 77, in <module>
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     connection = connections[DEFAULT_DB_ALIAS]
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 91, in __getitem__
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     backend = load_backend(db['ENGINE'])
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 49, in load_backend
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     raise ImproperlyConfigured(error_msg)
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10] TemplateSyntaxError: Caught ImproperlyConfigured while rendering: 'django.db.backends.postgresql' isn't an available database backend. 
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10] Try using django.db.backends.XXX, where XXX is one of:
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10]     'dummy', 'mysql', 'oracle', 'postgresql', 'postgresql_psycopg2', 'sqlite3'
-[Mon Oct 18 17:03:46 2010] [error] [client 24.98.197.10] Error was: cannot import name utils
-[Mon Oct 18 17:03:48 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25907, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10] mod_wsgi (pid=25907): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 141, in get_response
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 165, in handle_uncaught_exception
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return debug.technical_500_response(request, *exc_info)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 58, in technical_500_response
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     html = reporter.get_traceback_html()
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 137, in get_traceback_html
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return t.render(c)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 173, in render
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return self._render(context)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 167, in _render
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return self.nodelist.render(context)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 796, in render
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     bits.append(self.render_node(node, context))
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 72, in render_node
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     result = node.render(context)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 89, in render
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     output = self.filter_expression.resolve(context)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 579, in resolve
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     new_obj = func(obj, *arg_vals)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/defaultfilters.py", line 697, in date
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return format(value, arg)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 281, in format
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return df.format(format_string)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 187, in r
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return self.format('D, j M Y H:i:s O')
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/encoding.py", line 66, in force_unicode
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     s = unicode(s)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 206, in __unicode_cast
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return self.__func(*self.__args, **self.__kw)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 55, in ugettext
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return real_ugettext(message)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 55, in _curried
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return _curried_func(*(args+moreargs), **dict(kwargs, **morekwargs))
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 36, in delayed_loader
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return getattr(trans, real_name)(*args, **kwargs)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 276, in ugettext
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     return do_translate(message, 'ugettext')
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 266, in do_translate
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     _default = translation(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 176, in translation
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     default_translation = _fetch(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 159, in _fetch
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     app = import_module(appname)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/importlib.py", line 35, in import_module
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     __import__(name)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/__init__.py", line 1, in <module>
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/helpers.py", line 1, in <module>
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     from django import forms
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/__init__.py", line 17, in <module>
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     from models import *
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/models.py", line 6, in <module>
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     from django.db import connections
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/__init__.py", line 77, in <module>
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     connection = connections[DEFAULT_DB_ALIAS]
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 91, in __getitem__
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     backend = load_backend(db['ENGINE'])
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 49, in load_backend
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     raise ImproperlyConfigured(error_msg)
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10] TemplateSyntaxError: Caught ImproperlyConfigured while rendering: 'django.db.backends.postgresql' isn't an available database backend. 
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10] Try using django.db.backends.XXX, where XXX is one of:
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10]     'dummy', 'mysql', 'oracle', 'postgresql', 'postgresql_psycopg2', 'sqlite3'
-[Mon Oct 18 17:03:48 2010] [error] [client 24.98.197.10] Error was: cannot import name utils
-[Mon Oct 18 17:03:49 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25909, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10] mod_wsgi (pid=25909): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 141, in get_response
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 165, in handle_uncaught_exception
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return debug.technical_500_response(request, *exc_info)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 58, in technical_500_response
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     html = reporter.get_traceback_html()
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 137, in get_traceback_html
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return t.render(c)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 173, in render
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return self._render(context)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 167, in _render
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return self.nodelist.render(context)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 796, in render
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     bits.append(self.render_node(node, context))
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 72, in render_node
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     result = node.render(context)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 89, in render
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     output = self.filter_expression.resolve(context)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 579, in resolve
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     new_obj = func(obj, *arg_vals)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/defaultfilters.py", line 697, in date
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return format(value, arg)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 281, in format
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return df.format(format_string)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 187, in r
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return self.format('D, j M Y H:i:s O')
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/encoding.py", line 66, in force_unicode
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     s = unicode(s)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 206, in __unicode_cast
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return self.__func(*self.__args, **self.__kw)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 55, in ugettext
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return real_ugettext(message)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 55, in _curried
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return _curried_func(*(args+moreargs), **dict(kwargs, **morekwargs))
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 36, in delayed_loader
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return getattr(trans, real_name)(*args, **kwargs)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 276, in ugettext
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     return do_translate(message, 'ugettext')
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 266, in do_translate
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     _default = translation(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 176, in translation
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     default_translation = _fetch(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 159, in _fetch
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     app = import_module(appname)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/importlib.py", line 35, in import_module
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     __import__(name)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/__init__.py", line 1, in <module>
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/helpers.py", line 1, in <module>
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     from django import forms
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/__init__.py", line 17, in <module>
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     from models import *
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/models.py", line 6, in <module>
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     from django.db import connections
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/__init__.py", line 77, in <module>
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     connection = connections[DEFAULT_DB_ALIAS]
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 91, in __getitem__
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     backend = load_backend(db['ENGINE'])
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 49, in load_backend
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     raise ImproperlyConfigured(error_msg)
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10] TemplateSyntaxError: Caught ImproperlyConfigured while rendering: 'django.db.backends.postgresql' isn't an available database backend. 
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10] Try using django.db.backends.XXX, where XXX is one of:
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10]     'dummy', 'mysql', 'oracle', 'postgresql', 'postgresql_psycopg2', 'sqlite3'
-[Mon Oct 18 17:03:49 2010] [error] [client 24.98.197.10] Error was: cannot import name utils
-[Mon Oct 18 17:05:11 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25908, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10] mod_wsgi (pid=25908): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 141, in get_response
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 165, in handle_uncaught_exception
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return debug.technical_500_response(request, *exc_info)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 58, in technical_500_response
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     html = reporter.get_traceback_html()
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 137, in get_traceback_html
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return t.render(c)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 173, in render
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return self._render(context)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 167, in _render
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return self.nodelist.render(context)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 796, in render
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     bits.append(self.render_node(node, context))
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 72, in render_node
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     result = node.render(context)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 89, in render
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     output = self.filter_expression.resolve(context)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 579, in resolve
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     new_obj = func(obj, *arg_vals)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/defaultfilters.py", line 697, in date
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return format(value, arg)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 281, in format
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return df.format(format_string)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 187, in r
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return self.format('D, j M Y H:i:s O')
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/encoding.py", line 66, in force_unicode
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     s = unicode(s)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 206, in __unicode_cast
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return self.__func(*self.__args, **self.__kw)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 55, in ugettext
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return real_ugettext(message)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 55, in _curried
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return _curried_func(*(args+moreargs), **dict(kwargs, **morekwargs))
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 36, in delayed_loader
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return getattr(trans, real_name)(*args, **kwargs)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 276, in ugettext
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     return do_translate(message, 'ugettext')
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 266, in do_translate
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     _default = translation(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 176, in translation
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     default_translation = _fetch(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 159, in _fetch
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     app = import_module(appname)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/importlib.py", line 35, in import_module
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     __import__(name)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/__init__.py", line 1, in <module>
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/helpers.py", line 1, in <module>
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     from django import forms
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/__init__.py", line 17, in <module>
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     from models import *
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/models.py", line 6, in <module>
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     from django.db import connections
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/__init__.py", line 77, in <module>
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     connection = connections[DEFAULT_DB_ALIAS]
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 91, in __getitem__
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     backend = load_backend(db['ENGINE'])
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 49, in load_backend
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     raise ImproperlyConfigured(error_msg)
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10] TemplateSyntaxError: Caught ImproperlyConfigured while rendering: 'django.db.backends.postgresql' isn't an available database backend. 
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10] Try using django.db.backends.XXX, where XXX is one of:
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10]     'dummy', 'mysql', 'oracle', 'postgresql', 'postgresql_psycopg2', 'sqlite3'
-[Mon Oct 18 17:05:11 2010] [error] [client 24.98.197.10] Error was: cannot import name utils
-[Mon Oct 18 17:05:12 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25910, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10] mod_wsgi (pid=25910): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 141, in get_response
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 165, in handle_uncaught_exception
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return debug.technical_500_response(request, *exc_info)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 58, in technical_500_response
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     html = reporter.get_traceback_html()
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/debug.py", line 137, in get_traceback_html
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return t.render(c)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 173, in render
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return self._render(context)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 167, in _render
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return self.nodelist.render(context)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 796, in render
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     bits.append(self.render_node(node, context))
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 72, in render_node
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     result = node.render(context)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/debug.py", line 89, in render
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     output = self.filter_expression.resolve(context)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/__init__.py", line 579, in resolve
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     new_obj = func(obj, *arg_vals)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/defaultfilters.py", line 697, in date
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return format(value, arg)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 281, in format
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return df.format(format_string)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 187, in r
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return self.format('D, j M Y H:i:s O')
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/dateformat.py", line 30, in format
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     pieces.append(force_unicode(getattr(self, piece)()))
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/encoding.py", line 66, in force_unicode
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     s = unicode(s)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 206, in __unicode_cast
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return self.__func(*self.__args, **self.__kw)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 55, in ugettext
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return real_ugettext(message)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/functional.py", line 55, in _curried
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return _curried_func(*(args+moreargs), **dict(kwargs, **morekwargs))
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/__init__.py", line 36, in delayed_loader
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return getattr(trans, real_name)(*args, **kwargs)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 276, in ugettext
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     return do_translate(message, 'ugettext')
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 266, in do_translate
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     _default = translation(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 176, in translation
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     default_translation = _fetch(settings.LANGUAGE_CODE)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/translation/trans_real.py", line 159, in _fetch
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     app = import_module(appname)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/utils/importlib.py", line 35, in import_module
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     __import__(name)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/__init__.py", line 1, in <module>
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     from django.contrib.admin.helpers import ACTION_CHECKBOX_NAME
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/contrib/admin/helpers.py", line 1, in <module>
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     from django import forms
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/__init__.py", line 17, in <module>
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     from models import *
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/forms/models.py", line 6, in <module>
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     from django.db import connections
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/__init__.py", line 77, in <module>
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     connection = connections[DEFAULT_DB_ALIAS]
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 91, in __getitem__
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     backend = load_backend(db['ENGINE'])
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/db/utils.py", line 49, in load_backend
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     raise ImproperlyConfigured(error_msg)
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10] TemplateSyntaxError: Caught ImproperlyConfigured while rendering: 'django.db.backends.postgresql' isn't an available database backend. 
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10] Try using django.db.backends.XXX, where XXX is one of:
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10]     'dummy', 'mysql', 'oracle', 'postgresql', 'postgresql_psycopg2', 'sqlite3'
-[Mon Oct 18 17:05:12 2010] [error] [client 24.98.197.10] Error was: cannot import name utils
-[Mon Oct 18 17:07:36 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25922, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:07:40 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25924, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:12:35 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25923, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:12:36 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25925, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:13:58 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25921, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:13:59 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25928, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/
-[Mon Oct 18 17:13:59 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25927, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/
-[Mon Oct 18 17:13:59 2010] [info] [client 24.98.197.10] mod_wsgi (pid=25926, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/
-[Mon Oct 18 17:40:04 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26050, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:40:05 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26051, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:40:05 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26053, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:40:05 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26052, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:40:12 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26054, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:40:13 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26056, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:40:13 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26057, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:40:13 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26055, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:48:37 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26080, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:48:37 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26082, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:48:37 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26083, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:48:38 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26084, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:48:39 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26081, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 17:48:40 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26086, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:48:40 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26085, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 17:48:40 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26087, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 18:03:27 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26153, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 18:03:31 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26155, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 18:03:32 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26154, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
-[Mon Oct 18 18:03:37 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26159, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 18:03:37 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26156, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
-[Mon Oct 18 18:03:38 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26160, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 18:58:17 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26526, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 18:58:18 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26533, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26533): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict)
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template.
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name)
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name)
+[Mon Oct 18 13:58:19 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26526): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 141, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 13:58:20 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 18:58:20 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26527, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26527): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict)
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template.
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name)
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name)
+[Mon Oct 18 13:58:21 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html
+[Mon Oct 18 19:02:18 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26576, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 19:02:19 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26581, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26581): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict)
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template.
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name)
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name)
+[Mon Oct 18 19:02:19 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26576): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 141, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:02:21 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 19:02:21 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26578, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26578): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict)
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template.
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name)
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name)
+[Mon Oct 18 19:02:21 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html
+[Mon Oct 18 19:12:11 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26580, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26578): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict)
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template.
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name)
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name)
+[Mon Oct 18 14:12:13 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html
+[Mon Oct 18 19:12:16 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26579, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 19:12:16 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26577, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/new_competition/
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26579): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict)
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template.
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name)
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name)
+[Mon Oct 18 14:12:18 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html
+[Mon Oct 18 19:12:24 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26583, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 19:12:24 2010] [info] [client 24.98.197.10] mod_wsgi (pid=26582, process='', application='www.ec2-67-202-0-100.compute-1.amazonaws.com|'): Loading WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26582): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26583): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26576): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict)
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template.
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name)
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name)
+[Mon Oct 18 14:12:25 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26580): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26583): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26582): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26581): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26579): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26576): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26578): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] Traceback (most recent call last):, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     response = self.get_response(request), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info()), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template., referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name), referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html, referer: http://ec2-67-202-0-100.compute-1.amazonaws.com/admin/competition/competition/
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26580): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict)
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template.
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name)
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name)
+[Mon Oct 18 14:12:29 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10] mod_wsgi (pid=26577): Exception occurred processing WSGI script '/var/www/bizmodelcomp/apache/django.wsgi'.
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10] Traceback (most recent call last):
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/wsgi.py", line 241, in __call__
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]     response = self.get_response(request)
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 130, in get_response
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]     return self.handle_uncaught_exception(request, resolver, sys.exc_info())
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/core/handlers/base.py", line 180, in handle_uncaught_exception
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]     return callback(request, **param_dict)
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/views/defaults.py", line 23, in server_error
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]     t = loader.get_template(template_name) # You need to create a 500.html template.
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 157, in get_template
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]     template, origin = find_template(template_name)
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]   File "/usr/lib/python2.6/site-packages/django/template/loader.py", line 138, in find_template
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10]     raise TemplateDoesNotExist(name)
+[Mon Oct 18 14:55:29 2010] [error] [client 24.98.197.10] TemplateDoesNotExist: 500.html

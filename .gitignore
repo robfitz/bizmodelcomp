@@ -1,3 +1,4 @@
+apache/*.log
 *.pyc
 bizmodelcomp/db_local
 media/uploads/*

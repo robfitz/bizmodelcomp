@@ -2,7 +2,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 
-from competition.models import *
+
+from bizmodelcomp.competition.models import *
 from sitecopy.models import *
 
 
