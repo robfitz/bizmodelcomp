@@ -10,12 +10,6 @@ import os
 from bizmodelcomp.settings import *
 
 
-#a debugging page checking how the javascript widget code displays
-def form_test(request, competition_id):
-
-    competition_id = 1
-    return render_to_response('entercompetition/form_test.html', locals())
-
 
 #helper
 def get_founder(request):
@@ -55,9 +49,9 @@ def get_founder(request):
 
 
 
-def edit_pitch(request, competition_id, phase_id=None):
+def edit_pitch(request, competition_url, phase_id=None):
 
-    competition = Competition.objects.get(pk=competition_id)
+    competition = Competition.objects.get(hosted_url=competition_url)
     phase = None
 
     pitch = None
@@ -182,12 +176,12 @@ def handle_uploaded_file(request, f, upload, pitch):
 
 
 #a hosted microsite to accept contest applications
-def applicationMicrosite(request, competition_id):
+def applicationMicrosite(request, competition_url):
 
     #TODO: un-hardcode URL
     base_url = "http://%s" % request.get_host()
     
-    competition = Competition.objects.get(pk=competition_id)
+    competition = Competition.objects.get(hosted_url=competition_url)
 
     return render_to_response('entercompetition/application_microsite.html', locals())
 
@@ -195,8 +189,7 @@ def applicationMicrosite(request, competition_id):
 
 #creates some slightly customized javascript to load the appropriate
 #contest widget into the admin's page
-def applicationWidget(request, competition_id):
-
+def applicationWidget(request, competition_url):
     callback_function = "bmc_callback"
 
     form = """\
@@ -221,7 +214,7 @@ def applicationWidget(request, competition_id):
     <input type="hidden" name="callback_function" id="bmc_field" value="%s"\
     <input type="submit" value="Register for competition" />\
 </form>\
-""" % (competition_id, callback_function)
+""" % (competition_url, callback_function)
 
     template = loader.get_template("entercompetition/widget.js")
     rendered = template.render(Context(locals()))
@@ -233,9 +226,9 @@ def applicationWidget(request, competition_id):
 #accepts a brand new application for the contest, which makes a
 #Founder object to represent the applicant and hooks them into
 #the contest to receive alerts and submit their full pitch
-def applyToCompetition(request, competition_id):
+def applyToCompetition(request, competition_url):
 
-    competition = Competition.objects.get(pk=competition_id)
+    competition = Competition.objects.get(hosted_url=competition_url)
     callback_function = "bmc_callback" #a probably correct default
 
     if competition and request.method == "GET" and len(request.GET) > 0:
@@ -271,7 +264,7 @@ You're registered for the\ competition and will receive email updates as the dea
 <p style='font-size:18px;'>\
 <a href='/apply/pitch/%s/?f=%s'>Go fill out the application form right now</a>\
 </p>\
-""" % (competition.pk, anon.key)
+""" % (competition_url, anon.key)
 
     else:
         message = "Sorry, the application service is temporarily down. Please try again soon."

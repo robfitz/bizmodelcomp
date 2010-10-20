@@ -18,7 +18,7 @@ function jsonp(url, callback, name, query)
     document.body.appendChild(script);
 }
 
-function apply(competition_id) {
+function apply(competition_url) {
     var query = "";
     var form = document.getElementById("bmc_form");
     for (var i=0; i < form.length; i ++) {
@@ -27,13 +27,12 @@ function apply(competition_id) {
         query += "" + form.elements[i].name + "=" + form.elements[i].value;
     }
     
-    jsonp("/apply/" + competition_id, "{{callback_function}}", "enter_competition", query);
+    jsonp("/apply/" + competition_url, "{{callback_function}}", "enter_competition", query);
     
     return false; //cancel form submission
 }
 
 function {{callback_function}}(data) {
-	alert('got callback');
     var widget = document.getElementById("bmc_widget");
     widget.innerHTML = data.message;
 }
