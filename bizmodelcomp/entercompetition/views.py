@@ -7,6 +7,7 @@ from random import choice
 import string
 import os
 
+from bizmodelcomp.settings import *
 
 
 #a debugging page checking how the javascript widget code displays
@@ -143,13 +144,9 @@ def edit_pitch(request, competition_id, phase_id=None):
 
 def handle_uploaded_file(request, f, upload, pitch):
 
-    upload_path = None
-    if request.get_host().find('localhost') != -1 or request.get_host().find('127.0.0.1') != -1:
-        #local
-        upload_path = 'c:/www/bizmodelcomp/media/uploads/'
-    else:
-        None.fail_time()
-
+    upload_path = '%suploads/' % MEDIA_ROOT
+    print 'handle upload: %s' % upload_path
+    
     #add to a random directory to avoid collisions
     rand_folder = ''.join([choice(string.letters+string.digits) for i in range(20)])
     upload_path = "%s%s/" % (upload_path, rand_folder)
