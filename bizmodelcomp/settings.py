@@ -5,7 +5,7 @@ is_local = False
 if socket.gethostname() == 'tugboat':
     is_local = True
 
-DEBUG = True#is_local
+DEBUG = is_local
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
