@@ -5,7 +5,7 @@ is_local = False
 if socket.gethostname() == 'tugboat':
     is_local = True
 
-DEBUG = is_local
+DEBUG = True#is_local
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -15,7 +15,7 @@ ADMINS = (
 MANAGERS = ADMINS
 
 DATABASE_ENGINE = 'mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-DATABASE_NAME = 'django'             # Or path to database file if using sqlite3.
+DATABASE_NAME = 'django_db'             # Or path to database file if using sqlite3.
 DATABASE_USER = 'root'             # Not used with sqlite3.
 DATABASE_PASSWORD = ''         # Not used with sqlite3.
 DATABASE_HOST = ''             # Set to empty string for localhost. Not used with sqlite3.
