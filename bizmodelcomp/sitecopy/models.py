@@ -33,32 +33,32 @@ class Testimonial(models.Model):
 
 
 
-###defaults & information about all the text an organizer can
-###customize which their applicants & entrants will see
-##class CustomCopyTemplate(models.Model):
-##
-##    title = models.CharField(max_length=140)
-##    tooltip = models.CharField(max_length=500, blank=True)
-##
-##    default_text = models.CharField(max_length=2000, blank=True)
-##
-##
-##    def __unicode__(self):
-##
-##        return self.title
-##
-##
-##
-###copy that's shown for a single competition, based off the
-###CustomCopyTemplate and potentially customized by the organizer
-##class CustomCopy(models.Model):
-##
-##    competition = models.ForeignKey(Competition)
-##
-##    title = models.CharField(max_length=140, blank=True)
-##    text = models.CharField(max_length=2000, blank=True)
-##
-##
-##    def __unicode__(self):
-##
-##        return self.title
+#defaults & information about all the text an organizer can
+#customize which their applicants & entrants will see
+class CustomCopyTemplate(models.Model):
+
+    title = models.CharField(max_length=140, unique=True)
+    tooltip = models.CharField(max_length=500, blank=True)
+
+    default_text = models.CharField(max_length=2000, blank=True)
+
+
+    def __unicode__(self):
+
+        return self.title
+
+
+
+#copy that's shown for a single competition, based off the
+#CustomCopyTemplate and potentially customized by the organizer
+class CustomCopy(models.Model):
+
+    competition = models.ForeignKey(Competition)
+
+    title = models.CharField(max_length=140, blank=True)
+    text = models.CharField(max_length=2000, blank=True)
+
+
+    def __unicode__(self):
+
+        return self.title

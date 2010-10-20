@@ -28,8 +28,24 @@ class TestimonialAdmin(admin.ModelAdmin):
 
 
 
-    
+class CustomCopyForm(forms.ModelForm):
 
+    text = forms.CharField(widget=forms.Textarea)
+    
+class CustomCopyTemplateForm(forms.ModelForm):
+
+    tooltip = forms.CharField(widget=forms.Textarea)
+    default_text = forms.CharField(widget=forms.Textarea)
+
+class CustomCopyAdmin(admin.ModelAdmin):
+
+    form = CustomCopyForm
+    
+class CustomCopyTemplateAdmin(admin.ModelAdmin):
+
+    form = CustomCopyTemplateForm
 
 admin.site.register(SiteCopy, SiteCopyAdmin)
 admin.site.register(Testimonial, TestimonialAdmin)
+admin.site.register(CustomCopyTemplate, CustomCopyTemplateAdmin)
+admin.site.register(CustomCopy, CustomCopyAdmin)

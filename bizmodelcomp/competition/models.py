@@ -67,37 +67,6 @@ class Competition(models.Model):
         return self.name
 
 
-#defaults & information about all the text an organizer can
-#customize which their applicants & entrants will see
-class CompetitionCopyTemplate(models.Model):
-
-    title = models.CharField(max_length=140)
-    tooltip = models.CharField(max_length=500, blank=True)
-
-    default_text = models.CharField(max_length=2000, blank=True)
-
-
-    def __unicode__(self):
-
-        return self.title
-
-
-
-#copy that's shown for a single competition, based off the
-#CompetitionCopyTemplate and potentially customized by the organizer
-class CompetitionCopy(models.Model):
-
-    competition = models.ForeignKey(Competition)
-
-    title = models.CharField(max_length=140, blank=True)
-    text = models.CharField(max_length=2000, blank=True)
-
-
-    def __unicode__(self):
-
-        return self.title
-    
-
 
 #a subset of a competition, which involves applicants submitting
 #some form of pitch which is then judged
