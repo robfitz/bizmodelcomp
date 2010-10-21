@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 import sys
 
+from settings import MEDIA_URL
+
 
 #guy with a business model who is developing it, applying
 #for contests, or getting feedback from peers
@@ -55,7 +57,7 @@ class Competition(models.Model):
     hosted_url = models.CharField(max_length=100, unique=True)
 
     owner = models.ForeignKey(User) #single owner who can delete it
-    applicants = models.ManyToManyField(Founder, related_name="competitions") #info about peeps entered in contest
+    applicants = models.ManyToManyField(Founder, related_name="competitions", blank=True, null=True) #info about peeps entered in contest
 
     def phases(self):
         
@@ -102,6 +104,8 @@ class Pitch(models.Model):
     #the part of the contest this pitch is a submission to
     phase = models.ForeignKey(Phase)
 
+    #has applicant chosen to publish it yet?
+    is_draft = models.BooleanField(default=True)
 
     def __unicode__(self):
 
@@ -172,12 +176,17 @@ class PitchFile(models.Model):
     upload = models.ForeignKey(PitchUpload)
     pitch = models.ForeignKey(Pitch, related_name="files")
     
-    filename = models.CharField(max_length=200)
+    filename = models.CharField(max_length=200) #/random_string/uploaded_file_name.ext
+    file_location = models.CharField(max_length=500) #absolute path of location on server file was uploaded to
 
+
+    def url(self):
+
+        return "%suploads/%s" % (MEDIA_URL, self.filename)
 
     def __unicode__(self):
         
-        return self.filename
+        return str(self.filename.split('/')[-1])
 
     
 

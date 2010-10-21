@@ -13,9 +13,21 @@ Apply to {{ competition }}
 {% block footer %}
 {% endblock %}
 
+{% block ready_script %}
+
+	$('.change_file').click(function() {
+		var upload_id = ($(this).attr('id')).substr("change_file_".length);
+		//alert('upload id: ' + upload_id);
+		//alert($('#blank_upload_' + upload_id).attr('id'));
+		$('#blank_upload_' + upload_id).show();
+		$('#done_upload_' + upload_id).hide();
+	});
+
+{% endblock %}
+
 {% block content %}
 
-	<form action="." method="POST" enctype="multipart/form-data">
+	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data">
 
 		{% if phase.uploads %}
 
@@ -29,11 +41,20 @@ Apply to {{ competition }}
 
 					<br/>
 
-					{% if upload.file %}
-					{{ upload.file }}
-					{% else %}
-					<input type="file" name="upload_{{upload.pk}}" />
-					{% endif %}
+					<div id="done_upload_{{upload.pk}}" {% if upload.file %}{% else %}class="hidden"{% endif %}>
+
+
+						<a href="{{upload.file.url}}">{{ upload.file }}</a>
+						<a href="javascript:void(0)" id="change_file_{{upload.pk}}" class="medium change_file">Change file</a>
+
+					</div>
+
+					<div id="blank_upload_{{upload.pk}}" {% if upload.file %}class="hidden"{% endif %}>
+
+						<input type="file" name="upload_{{upload.pk}}" />
+
+					</div>
+
 				</p>
 
 			{% endfor %}
@@ -57,9 +78,12 @@ Apply to {{ competition }}
 
 		{% endif %}
 
-		<input type="submit" value="Submit pitch" />
+		<input id="is_draft" type="hidden" name="is_draft" value="False" />
+
+		<input type="submit" value="Save & submit pitch" onclick="$('#is_draft').val('False');" />
+		<br/>
+		(You may continue to edit your pitch until judging begins)
 
 	</form>
-
 
 {% endblock %}

@@ -74,11 +74,9 @@ def edit_competition(request, competition_id=None):
             default_phase = Phase(competition=competition)
             default_phase.save()
 
-        if request.POST["name"]:
-            competition.name = request.POST["name"]
-
-        if request.POST["website"]:
-            competition.website = request.POST["website"]
+        competition.name = request.POST["name"]
+        competition.website = request.POST["website"]
+        competition.hosted_url = request.POST["hosted_url"]
             
         competition.save()
 

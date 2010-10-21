@@ -7,8 +7,8 @@ from random import choice
 import string
 import os
 
-from bizmodelcomp.settings import *
-
+from bizmodelcomp.settings import MEDIA_ROOT
+from sitecopy.util import get_custom_copy
 
 
 #helper
@@ -49,11 +49,10 @@ def get_founder(request):
 
 
 
-def edit_pitch(request, competition_url, phase_id=None):
+def submit_pitch(request, competition_url, phase_id=None):
 
     competition = Competition.objects.get(hosted_url=competition_url)
     phase = None
-
     pitch = None
 
     founder = get_founder(request)
@@ -61,25 +60,32 @@ def edit_pitch(request, competition_url, phase_id=None):
     if not founder:
         #don't know who the founder applying is. abort.
         #TODO: change this to a helpful recovery message
-        print "TODO: entercompetition.views.edit_pitch(): second unhandled bad login case"
+        print "TODO: entercompetition.views.submit_pitch(): second unhandled bad login case"
         return False
     
-
     if phase_id: #requested phase
         phase = Phase.objects.get(pk=phase_id)
     else: #default phase
         phase = competition.phases()[0]
 
-    print 'owner %s, phase %s' % (founder, phase)
-    try:
-        pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
-    except:
-        print "Unexpected error:", sys.exc_info()[0]
-        pitch = Pitch(owner=founder,
-                      phase=phase)
-        pitch.save()
+    try: pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
+    except: pass
 
     if request.method == "POST" and len(request.POST) > 0:
+
+        if not pitch:
+            #don't create pitch until someone submits the form
+            pitch = Pitch(owner=founder,
+                          phase=phase)
+            pitch.save()
+
+
+        if "is_draft" in request.POST:
+            #this key is not always present
+            pitch.is_draft = (request.POST["is_draft"] == "True")
+            print 'CHANGED PITCH.IS_DRAFT TO: %s' % pitch.is_draft
+            pitch.save()
+            
 
         #deal w/ saved answers
         for key in request.POST:
@@ -111,6 +117,40 @@ def edit_pitch(request, competition_url, phase_id=None):
             upload = PitchUpload.objects.get(pk=upload_pk)
             handle_uploaded_file(request, request.FILES[file], upload, pitch)
 
+    copy = get_custom_copy('thanks for applying', competition)
+    print 'got copy %s' % copy
+    return render_to_response('entercompetition/submitted_pitch.html', locals())
+
+
+def edit_pitch(request, competition_url, phase_id=None):
+
+    competition = Competition.objects.get(hosted_url=competition_url)
+    phase = None
+
+    pitch = None
+
+    founder = get_founder(request)
+
+    if not founder:
+        #don't know who the founder applying is. abort.
+        #TODO: change this to a helpful recovery message
+        print "TODO: entercompetition.views.edit_pitch(): second unhandled bad login case"
+        return False
+    
+
+    if phase_id: #requested phase
+        phase = Phase.objects.get(pk=phase_id)
+    else: #default phase
+        phase = competition.phases()[0]
+
+    print 'owner %s, phase %s' % (founder, phase)
+    try:
+        pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
+        print 'pitch: %s, is_draft: %s' % (pitch, pitch.is_draft)
+    except:
+        print "Unexpected error:", sys.exc_info()[0]
+
+        
     questions = phase.questions()
     uploads = phase.uploads()
     
@@ -139,11 +179,12 @@ def edit_pitch(request, competition_url, phase_id=None):
 def handle_uploaded_file(request, f, upload, pitch):
 
     upload_path = '%suploads/' % MEDIA_ROOT
-    print 'handle upload: %s' % upload_path
+    file_name = ""
     
     #add to a random directory to avoid collisions
     rand_folder = ''.join([choice(string.letters+string.digits) for i in range(20)])
     upload_path = "%s%s/" % (upload_path, rand_folder)
+    download_path = "%s/" % rand_folder
 
     if not os.path.isdir(upload_path):
         os.mkdir(upload_path)
@@ -152,11 +193,14 @@ def handle_uploaded_file(request, f, upload, pitch):
     if f.name:
         #name same as original file, in random folder
         upload_path = "%s%s" % (upload_path, f.name)
+        file_name = "%s/%s" % (rand_folder, f.name)
     else:
         #random name
-        upload_path = "%s%s" % (upload_path, upload_path)
+        upload_path = "%s%s.bmc" % (upload_path, rand_folder)
+        file_name = "%s/%s.bmc" % (rand_folder, rand_folder)
 
     print 'upload path: %s' % upload_path
+    print 'file_name: %s' % file_name
 
     destination = open(upload_path, 'wb+')
     for chunk in f.chunks():
@@ -166,11 +210,13 @@ def handle_uploaded_file(request, f, upload, pitch):
     pitch_file = None
     try:
         pitch_file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
-        pitch_file.filename = upload_path
+        pitch_file.file_location = upload_path
+        pitch_file.filename = file_name
     except:
         pitch_file = PitchFile(upload=upload,
-                         filename=upload_path,
-                         pitch=pitch)
+                               file_location=upload_path,
+                               filename=file_name,
+                               pitch=pitch)
     pitch_file.save()
     
 
