@@ -125,6 +125,8 @@ class PitchQuestion(models.Model):
     #is a boolean checkbox. 2-4 choices are radio buttons. 5 or more is a dropdown.
     raw_choices = models.CharField(max_length=2000, null=True, blank=True)
 
+    class Meta:
+        ordering = ['id']
 
     #return raw_choices as a split and stripped array of choices
     def choices(self):
@@ -163,6 +165,8 @@ class PitchUpload(models.Model):
     phase = models.ForeignKey(Phase) #owner
     prompt = models.CharField(max_length=1000) #instructions for applicant
 
+    class Meta:
+        ordering = ['id']
 
     def __unicode__(self):
 
