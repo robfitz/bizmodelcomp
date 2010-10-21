@@ -33,5 +33,14 @@
         "fields": {
             "text": "Run business pitch competitions as if riding on the backs of ten thousand winged interns.\r\n------------------------------\r\n\r\n* Automagically reminds and organizes your contestants and judges\r\n* Flexible competition engine manages can manage the entire process from application through awards\r\n* Your data is yours -- contest information is always 100% exportable to a variety of offline formats"
         }
+    }, 
+    {
+        "pk": 1, 
+        "model": "sitecopy.customcopytemplate", 
+        "fields": {
+            "default_text": "Your pitch has been received. Thanks for applying and good luck!\r\n\r\nWe'll keep you in the loop via email as the competition progresses.\r\n\r\nYou can edit your application until judging begins by returning to this webpage, which is linked in the first email we sent you.", 
+            "tooltip": "This message is shown to applicants on-screen after they've submitted the first version of their pitch.\r\n\r\nIt should tell them that their pitch has been received and they're officially in the contest.", 
+            "title": "thanks for applying"
+        }
     }
 ]
