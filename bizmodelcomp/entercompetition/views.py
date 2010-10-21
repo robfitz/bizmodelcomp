@@ -257,7 +257,7 @@ def applicationWidget(request, competition_url):
     <input type="text" name="year" id="bmc_field" size="4" max="4" />    \
     </p>\
 \
-    <input type="hidden" name="callback_function" id="bmc_field" value="%s"\
+    <input type="hidden" name="callback_function" id="bmc_field" value="%s"/>\
     <input type="submit" value="Register for competition" />\
 </form>\
 """ % (competition_url, callback_function)
