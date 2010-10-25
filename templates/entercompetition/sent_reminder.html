@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block header_title %}
+Check your email for the login link
+{% endblock %}
+
+{% block account_controls %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block content %}
+
+	{% load markup %}
+
+	{{ copy|markdown }}
+
+{% endblock %}
