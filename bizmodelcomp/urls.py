@@ -6,10 +6,13 @@ admin.autodiscover()
 import bizmodelcomp.competition
 import bizmodelcomp.competition.views
 
+import entercompetition.views
+
 urlpatterns = patterns('',
 
     #local assets                  
-    (r'^media/(?P<path>.*)$', 'django.views.static.serve',
+    (r'^media/(?P<path>.*)$',
+         'django.views.static.serve',
          {'document_root': '../media'}),
     
     #admin
@@ -24,4 +27,9 @@ urlpatterns = patterns('',
 
     #apply to comp
     (r'^apply/', include('bizmodelcomp.entercompetition.urls')),
+
+    #specific campaign clobbers
+    (r'^echallenge/',
+         'entercompetition.views.edit_pitch',
+         {'competition_url': 'echallenge'}), 
 )
