@@ -9,10 +9,16 @@ import os
 
 from bizmodelcomp.settings import MEDIA_ROOT
 from sitecopy.util import get_custom_copy
+from emailhelper.util import send_email
 
 
 
-def recover_application(request):
+#user has claimed to have already submitted an application, so we're
+#going to give them some extra info about how to get back to their old
+#version and send them a reminder email if needed
+def recover_application(request, competition_url):
+
+    competition = Competition.objects.get(hosted_url=competition_url)
 
     intro = SiteCopy.objects.get(id='recover_application_intro')
     security = SiteCopy.objects.get(id='recover_application_security')
@@ -20,8 +26,17 @@ def recover_application(request):
     if request.method == "POST" and len(request.POST) > 0:
 
         try:
+            #look for a founder w/ the matching email, and send them a note
             email = request.POST["email"]
             matching_founder = Founder.objects.get(email=email)
+            send_email(from_email, email, subject, message)
+            
+        except:
+            #couldn't find a matching founder. tell person to apply now or re-type
+            application_url = "/apply/pitch/%s/" % competition.hosted_url
+            alert = """We couldn't find a matching email on file. If you might have registered with a different email, you can try that here.
+
+Otherwise, <a href="%s">click here to go back to your new application</a>.""" % application_url
     
     return render_to_response('entercompetition/recover_application.html', locals())
     

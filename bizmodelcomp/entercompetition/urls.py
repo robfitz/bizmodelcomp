@@ -31,7 +31,7 @@ urlpatterns = patterns('',
     #/apply/load/
     #show info about getting back to an old version of an application,
     #and allow them to send an email reminder w/ the unique link
-    (r'^/load/$',
+    (r'^/load/(?P<competition_url>[-_a-zA-Z0-9]{1,10})/$',
          'entercompetition.views.recover_application'),
                        
 )
