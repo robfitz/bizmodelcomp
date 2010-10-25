@@ -25,7 +25,7 @@ def recover_application(request, competition_url):
     security = SiteCopy.objects.get(id='recover_application_security')
 
     application_url = "/apply/pitch/%s/" % competition.hosted_url
-    cancel = "<a href='%s'>Cancael and return to a new application</a>" % application_url
+    cancel = "<a href='%s'>Cancel and return to a new application</a>" % application_url
 
     get_email = ""
     if request.method == "GET":

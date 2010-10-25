@@ -26,6 +26,12 @@ if is_local:
     DATABASE_NAME = 'db_local'
     DATABASE_USER = ''
 
+
+#SendGrid credentials, required for emailhelper.send_email     
+EMAIL_USER = "robftz@gmail.com"
+EMAIL_PASSWORD = "Sendgrid party thyme!"
+EMAIL_DEFAULT_FROM = "nvana Business Competitions"
+
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
