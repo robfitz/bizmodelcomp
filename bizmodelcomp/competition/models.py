@@ -13,7 +13,7 @@ class Founder(models.Model):
     user = models.OneToOneField(User, blank=True, null=True)
 
     name = models.CharField(max_length=500) #don't use first/last/etc for multi-cultural reasons
-    email = models.CharField(max_length=500)
+    email = models.CharField(max_length=500, unique=True)
     phone = models.CharField(max_length=20)
 
     #isoformat yyyy-mm-dd
