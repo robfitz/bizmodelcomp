@@ -33,7 +33,6 @@ def recover_application(request, competition_url):
         if not get_email:
             get_email = ""
         
-
     if request.method == "POST" and len(request.POST) > 0:
 
         try:
@@ -41,14 +40,18 @@ def recover_application(request, competition_url):
             email = request.POST["email"]
             matching_founder = Founder.objects.get(email=email)
 
+            subject = "Your application to %s" % competition.name
             from_email = competition.name
-            application_url = "/pitch/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key)
 
+            application_url = request.build_absolute_uri("/pitch/apply/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key()))
+            
             message = """Click here to load & edit your application to %s:
 
 %s""" % (competition.name, application_url)
-                                                   
+            
             send_email(subject, message, email, from_email)
+
+            return HttpResponseRedirect('/apply/sent_reminder/')
             
         except:
             #couldn't find a matching founder. tell person to apply now or re-type
@@ -58,7 +61,16 @@ def recover_application(request, competition_url):
 Otherwise, <a href="%s">click here to go back to your new application</a>.""" % application_url
     
     return render_to_response('entercompetition/recover_application.html', locals())
-    
+
+
+
+def sent_reminder(request):
+
+    copy = """We've sent an email with a login link to the address you just submitted. After clicking that link, you'll be asked to type in your email one last time and then you'll [finally] see your application.
+
+Jumping through these hoops helps ensure your pitch stays private -- sorry for the hassle!"""
+
+    return render_to_response('entercompetition/sent_reminder.html', locals())
 
 
 #helper

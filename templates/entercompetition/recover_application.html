@@ -21,7 +21,7 @@ Apply to {{ competition }}
 	{{ intro|markdown }}
 	</p>
 
-	<form>
+	<form method="POST" action=".">
 	Your email: <input type="text" name="email" value="{{get_email}}" />
 	</br>
 	<input type="submit" value="Send a reminder email" />

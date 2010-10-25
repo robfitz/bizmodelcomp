@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 
 import sys
+from random import choice
+import string
 
 from settings import MEDIA_URL
 
@@ -34,12 +36,15 @@ class Founder(models.Model):
     #get or create randomized anonymous login key
     def anon_key(self):
         key = None
+
         try:
             key = AnonymousFounderKey.objects.get(founder=self)
+            
         except:
             rand = ''.join([choice(string.letters+string.digits) for i in range(12)])
             key = AnonymousFounderKey(founder=self, key=rand)
             key.save()
+            
         return key
 
 
@@ -69,7 +74,7 @@ class AnonymousFounderKey(models.Model):
 
     def __unicode__(self):
 
-        return str(self.founder)
+        return self.key
 
 
 

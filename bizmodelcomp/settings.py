@@ -34,6 +34,9 @@ if is_local:
 EMAIL_USER = "robftz+nvana@gmail.com"
 EMAIL_PASSWORD = "It's spam time!"
 EMAIL_DEFAULT_FROM = "nvana Business Competitions"
+EMAIL_LOG = '/var/www/bizmodelcomp/logs/email.log'
+if is_local:
+    EMAIL_LOG = 'c:/www/bizmodelcomp/logs/email.log'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

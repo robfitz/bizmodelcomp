@@ -1,7 +1,20 @@
-from settings import DEBUG, EMAIL_USER, EMAIL_PASSWORD, EMAIL_DEFAULT_FROM, DISABLE_ALL_EMAILS
+from settings import DEBUG, EMAIL_USER, EMAIL_PASSWORD, EMAIL_DEFAULT_FROM, DISABLE_ALL_EMAIL, EMAIL_LOG
 import markdown
+from datetime import datetime
 
 def send_email(subject, message_markdown, to_email, from_email=EMAIL_DEFAULT_FROM):
+
+    print('sent email!')
+
+    #log it
+    f = open(EMAIL_LOG, 'a')
+    f.write("------------------------\n")
+    f.write("SUBJECT:  %s\n" % subject)
+    f.write("TO:       %s\n" % to_email)
+    f.write("FROM:     %s\n" % from_email)
+    f.write("DATE:     %s\n" % datetime.now())
+    f.write("BODY:   \n%s\n\n\n" % message_markdown)
+    f.close()
     
     #don't send emails in debug mode, which covers both local
     #and testing stuff on the liver servers
