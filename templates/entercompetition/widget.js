@@ -33,7 +33,6 @@ function apply(competition_url) {
 }
 
 function {{callback_function}}(data) {
-    alert('callback');
     var widget = document.getElementById("bmc_widget");
     widget.innerHTML = data.message;
 }

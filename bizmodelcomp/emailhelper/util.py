@@ -1,10 +1,16 @@
 from settings import DEBUG, EMAIL_USER, EMAIL_PASSWORD, EMAIL_DEFAULT_FROM, DISABLE_ALL_EMAIL, EMAIL_LOG
 import markdown
 from datetime import datetime
+import os
 
 def send_email(subject, message_markdown, to_email, from_email=EMAIL_DEFAULT_FROM):
 
     print('sent email!')
+
+    log_folder = '/'.join(EMAIL_LOG.split('/')[0:-1])
+    print 'email folder: %s' % log_folder
+    if not os.path.isdir(log_folder):
+        os.mkdir(log_folder)
 
     #log it
     f = open(EMAIL_LOG, 'a')

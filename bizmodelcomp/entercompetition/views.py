@@ -430,7 +430,7 @@ You're registered for the\ competition and will receive email updates as the dea
 </p>\
 """ % application_url
 
-        subject = "Your application to %s" % competition.name
+        subject = "Application to %s" % competition.name
         to_email = founder.email
         from_email = competition.name
         
@@ -445,9 +445,11 @@ The link below will allow you to edit your application any time until judging be
     else:
         message = "Sorry, the application service is temporarily down. Please try again soon."
 
+    print '1'
     params = '{ "message": "%s"}' % message
+    print '2'
     response = "%s( %s )" % (callback_function, params)
-
+    print '3'
     print 'RESPONSE: %s' % response
 
     return HttpResponse(response, mimetype="application/javascript")
