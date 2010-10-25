@@ -89,7 +89,7 @@ class Competition(models.Model):
     applicants = models.ManyToManyField(Founder, related_name="competitions", blank=True, null=True) #info about peeps entered in contest
 
     template_base = models.CharField(max_length=200, default="base.html")
-    template_pitch = models.CharField(max_length=200, default="pitch_form.html")
+    template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
 

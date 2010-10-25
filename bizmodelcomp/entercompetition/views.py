@@ -159,9 +159,11 @@ def submit_pitch(request, competition_url, phase_id=None):
                         return False
                     else:
                         #no auth needed, so just save it as a pitch
+                        print 'mystery founder with no auth needed'
 
                         #log in to session
                         request.session['founder_key'] = mystery_founder.anon_key()
+                        print 'set anon key'
                         
                         #now that there's a pitch, we want them to identify
                         #themselves from now on
@@ -171,7 +173,8 @@ def submit_pitch(request, competition_url, phase_id=None):
                         founder = mystery_founder
 
                         is_external_founder = True
-
+                        print 'set external = true'
+                    
                 except:
                     #we don't have a founder on record who matches that email
 
@@ -188,6 +191,7 @@ def submit_pitch(request, competition_url, phase_id=None):
 
         if not pitch:
             #don't create pitch until someone submits the form
+            print 'pitch = NOne, creating new'
             pitch = Pitch(owner=founder,
                           phase=phase)
             pitch.save()
@@ -195,10 +199,12 @@ def submit_pitch(request, competition_url, phase_id=None):
             is_first_pitch = True
 
             if is_external_founder:
+                print 'is external founder'
                 #first submission from a founder we haven't contacted before, so email them
                 to_email = founder.email
                 from_email = competition.name
-                application_url = "/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key())
+                subject = "Your application to %s" % competition.name
+                application_url = request.build_absolute_uri("/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key()))
                 message = """Thanks for applying to %s!
 
 The link below will allow you to edit your application any time until judging begins:
@@ -251,7 +257,7 @@ The link below will allow you to edit your application any time until judging be
 
     else:
         alert = "Your changes have been saved."
-        return HttpResponseRedirect('/apply/pitch/%s/', competition.hosted_url)
+        return HttpResponseRedirect('/apply/pitch/%s/' % competition.hosted_url)
 
 
 
@@ -302,6 +308,9 @@ def edit_pitch(request, competition_url, phase_id=None):
 def handle_uploaded_file(request, f, upload, pitch):
 
     upload_path = '%suploads/' % MEDIA_ROOT
+    if not os.path.isdir(upload_path):
+        os.mkdir(upload_path)
+        
     file_name = ""
     
     #add to a random directory to avoid collisions
