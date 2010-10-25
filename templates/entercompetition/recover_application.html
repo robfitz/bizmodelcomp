@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends competition.template_base %}
 
 {% block breadcrumbs %}
 {% endblock %}
@@ -15,21 +15,24 @@ Apply to {{ competition }}
 
 {% block content %}
 
+	{{ block.super }}
+
 	{% load markup %}
 
-	<p>
 	{{ intro|markdown }}
-	</p>
 
 	<form method="POST" action=".">
-	Your email: <input type="text" name="email" value="{{get_email}}" />
-	</br>
-	<input type="submit" value="Send a reminder email" />
+
+		Your email: <input type="text" name="email" value="{{get_email}}" class="focus" />
+
+		</br>
+
+		<input type="submit" value="Send a reminder email" />
+
 	</form>
+
 	{{ cancel|markdown }}
 
-	<p>
 	{{ security|markdown }}
-	</p>
 
 {% endblock %}

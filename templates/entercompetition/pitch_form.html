@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends competition.template_base %}
 
 {% block breadcrumbs %}
 {% endblock %}
@@ -31,6 +31,8 @@ Apply to {{ competition }}
 {% endblock %}
 
 {% block content %}
+
+	{{ block.super }}
 
 	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data">
 

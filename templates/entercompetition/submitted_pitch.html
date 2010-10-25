@@ -1,11 +1,13 @@
-{% extends 'base.html' %}
+{% extends competition.template_base %}
 
 {% block content %}
 
-{% load markup %}
+	{{ block.super }}
 
-{{ copy|markdown }}
+	{% load markup %}
 
-<a class="large" href="/apply/pitch/{{competition.hosted_url}}/">Click here to go back and continue editing your pitch</a>
+	{{ copy|markdown }}
+
+	<a class="large" href="/apply/pitch/{{competition.hosted_url}}/">Click here to go back and continue editing your pitch</a>
 
 {% endblock %}

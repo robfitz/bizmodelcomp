@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends competition.template_base %}
 
 {% block breadcrumbs %}
 {% endblock %}
@@ -14,6 +14,8 @@ Apply to {{ competition }}
 {% endblock %}
 
 {% block content %}
+
+	{{ block.super }}
 
 	<div id="bmc_wrapper">
 	</div>

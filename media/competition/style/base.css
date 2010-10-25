@@ -1,8 +1,16 @@
 /***** layout ********/
 
 body, #header, #footer { 
-	width:760px;
 	position:relative;
+}
+
+body {
+text-align:center;
+}
+#body {
+	width:760px;
+	margin: 0px auto;
+	text-align:left;
 }
 
 #header, #footer, #content {
@@ -11,10 +19,18 @@ body, #header, #footer {
 	padding:8px;
 }
 
+#content_outer, #content_inner {
+	float:left;
+}
+
 #account_controls {
 	position:absolute;
 	top:0px;
 	right:0px;
+}
+
+#content, #header, #footer {
+	float:left;
 }
 
 /***** misc *******/

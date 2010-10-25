@@ -1,0 +1,63 @@
+#body, #header, #footer, #content_outer { 
+	width:780px;
+}
+
+#header, #footer, #content {
+	float:left;
+	clear:both;
+	padding:8px;
+}
+
+#content, #header {
+	padding:0px;
+}
+#content p {
+	margin-8px;
+}
+
+.logo {
+	float:right;
+}
+
+h1 {
+	color: #db560b;
+	font-size: 1.45em;
+	font-weight: normal
+	margin-top:20px;
+	padding-bottom:20px;
+}
+
+body {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 62.5%;
+}
+
+.copyright {
+	float:right;
+	padding:5px;
+}
+
+#footer {
+	color:#999999;
+	font-size:1.1em;
+}
+
+#leftnav {
+	float:left;
+	background: url(http://www.londonentrepreneurschallenge.com/images/left_navigation_background.jpg) repeat-x;
+	border: 0px solid white;
+	height: 500px;
+	width: 130px;
+	margin-right:0px;
+}
+#topnav {
+	float:top;
+	height:28px;
+	background: url(http://www.londonentrepreneurschallenge.com/images/left_navigation_background.jpg) repeat-x;
+	width:100%;
+}
+
+#content_inner {
+	padding: 8px;
+	padding-top:20px;
+}

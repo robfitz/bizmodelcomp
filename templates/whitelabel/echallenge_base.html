@@ -64,48 +64,65 @@
 	<div id="body">
 
 		<div id="header">
+
 			{% block header_top %}
+			<div class="logo">
+				<a href="http://www.ucl.ac.uk/advances" target="_blank"><img
+					src="http://www.londonentrepreneurschallenge.com/images/ucl_logo.gif" alt="UCL"
+					width="149" height="56" border="0" /></a><br />
+
+			</div>
+			<object type="application/x-shockwave-flash" width="279" height="103" data="http://www.londonentrepreneurschallenge.com/flash/logo_anim.swf">
+				<param name="movie" value="flash/logo_anim.swf" />
+				<param name="quality" value="high" />
+			</object>
 			{% endblock %}
 
-			<span class="medium">{% block breadcrumbs %}Popping and locking since the year of our lord, two thousand and ten{% endblock %}</span>
-			<h1>
-				{% block header_title %}
-				Biz Model Competition
-				{% endblock %}
-			</h1>
+			<span class="medium">{% block breadcrumbs %}{% endblock %}</span>
 
 			<div id="account_controls" class="medium">
 				{% block account_controls %}
-					{% if request.user.is_authenticated %}
-						<a href="/dashboard">Dashboard</a> or <a href="/accounts/logout">log out</a>.
-					{% else %}
-						<a href="/accounts/login">Log in</a> or <a href="/accounts/register">register</a>.
-					{% endif %}
 				{% endblock %}
 			</div>
 		</div>
 
 
 		<div id="content">
-		<div id="content_outer">
-			{% block content_outer_top %}
-			{% endblock %}
+			<div id="content_outer">
 
-			<div id="content_inner">
-				{% block content %}
+				{% block content_outer_top %}
+
+					<div id="leftnav">
+						&nbsp;
+					</div>
+
+					<div id="topnav">
+						&nbsp;
+					</div>
+
 				{% endblock %}
-			</div>
+
+				{% block content %}
+
+					<object type="application/x-shockwave-flash" width="650" height="125" data="http://www.londonentrepreneurschallenge.com/flash/enter_now.swf">
+					<param name="movie" value="http://www.londonentrepreneurschallenge.com/flash/enter_now.swf">
+					<param name="quality" value="high">
+					</object>
+
+					<div id="content_inner">
+
+					<h1>
+						{% block header_title %}
+						Biz Model Competition
+						{% endblock %}
+					</h1>
+
+
+				{% endblock %}
 
 			{% block content_outer_bottom %}
+
+					</div>
+
+			</div>
 			{% endblock %}
-		</div>
-
-		<div id="footer" class="medium">
-			{% block footer %}
-				About | Privacy & data ownership | Contact | Help!
-			{% endblock %}
-		</div>
-
-	</body>
-
-</html>
