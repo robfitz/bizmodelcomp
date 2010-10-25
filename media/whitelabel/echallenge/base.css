@@ -1,3 +1,8 @@
+body {
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 62.5%;
+}
+
 #body, #header, #footer, #content_outer { 
 	width:780px;
 }
@@ -60,4 +65,5 @@ body {
 #content_inner {
 	padding: 8px;
 	padding-top:20px;
+	width:634px;
 }

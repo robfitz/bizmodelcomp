@@ -24,8 +24,17 @@ Apply to {{ competition }}
 	});
 
 	$('#email').keypress(function() {
-
 		$('#recovery').attr('href','/apply/load/{{competition.hosted_url}}/?e=' + $('#email').val());
+	});
+
+	$('#email').keydown(function() {
+		$('#recovery').attr('href','/apply/load/{{competition.hosted_url}}/?e=' + $('#email').val());
+	});
+
+	$('#recovery').click(function() {
+		if ($('#email').val() && $('#email').val() != "") {
+			$('#recovery').attr('href','/apply/load/{{competition.hosted_url}}/?e=' + $('#email').val());
+		}
 	});
 
 {% endblock %}
@@ -43,9 +52,7 @@ Apply to {{ competition }}
 			<input type="text" name="email" id="email" />
 			<br/>
 			Already saved an application?
-			<a id="recovery" href="/apply/load/{{competition.hosted_url}}/">
-				Click here to edit it
-			</a>.
+			<a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to edit it</a>.
 
 		{% endif %}
 
