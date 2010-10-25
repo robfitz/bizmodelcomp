@@ -1,4 +1,4 @@
-from competition.models import Founder
+from competition.models import Founder, Competition
 from settings import is_local
 from datetime import datetime
 
@@ -36,16 +36,16 @@ def sync_echallenge():
             
             if Founder.objects.filter(email=email).count() > 0:
                 #we recognize this email....
-                founder = Founder.objects.filter(email=email)
+                founder = Founder.objects.get(email=email)
 
-                if founder not in competition.applicants:
+                if founder in competition.applicants.all():
+                    #we already know this person. ignore as old duplicate
+                    pass
+                else:
                     #we know about them from previous contests, so just
                     #register the existing user to this one
                     competition.applicants.add(founder)
                     print 'associated existing founder w/ ECHALLENGE %s' % email
-                else:
-                    #we already know this person. ignore as old duplicate
-                    pass
                 
                 print 'already have founder %s' % email
             else:
@@ -66,6 +66,7 @@ def sync_echallenge():
 
                 #connect to competition we loaded data from
                 competition.applicants.add(founder)
+                competition.save()
 
-                
+    f.close()                
                               
