@@ -375,21 +375,26 @@ def applyToCompetition(request, competition_url):
         founder.save()
         competition.applicants.add(founder)
 
-        try:
-            rand = ''.join([choice(string.letters+string.digits) for i in range(12)])
-            anon = AnonymousFounderKey(key=rand,
-                                       founder=founder)
-            anon.save()
-        except:
-            print "Unexpected error:", sys.exc_info()[0]
+        application_url = "/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key())
 
         message = """<p>\
 You're registered for the\ competition and will receive email updates as the deadline approaches.\
 </p>\
 <p style='font-size:18px;'>\
-<a href='/apply/pitch/%s/?f=%s'>Go fill out the application form right now</a>\
+<a href='%s'>Go fill out the application form right now</a>\
 </p>\
-""" % (competition_url, anon.key)
+""" % application_url
+
+        to_email = founder.email
+        from_email = competition.name
+        
+        message = """Thanks for applying to %s!
+
+The link below will allow you to edit your application any time until judging begins:
+
+%s""" % (competition.name, application_url)
+                                               
+        send_email(subject, message, to_email, from_email)
 
     else:
         message = "Sorry, the application service is temporarily down. Please try again soon."
