@@ -2,7 +2,8 @@
 import socket
 
 is_local = False
-if socket.gethostname() in ['robfitz-PC', 'tugboat', 'mango', 'papaya']:
+
+if socket.gethostname() in ['robfitz-PC', 'tugboat', 'mango', 'papaya', 'mango.local']:
     is_local = True
 
 DEBUG = is_local
