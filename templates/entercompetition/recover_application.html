@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block breadcrumbs %}
+{% endblock %}
+
+{% block header_title %}
+Apply to {{ competition }}
+{% endblock %}
+
+{% block account_controls %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+{% block content %}
+
+	{% load markup %}
+
+	<p>
+	{{ intro|markdown }}
+	</p>
+
+	<form>
+	Your email: <input type="text" name="email" value="{{get_email}}" />
+	</br>
+	<input type="submit" value="Send a reminder email" />
+	</form>
+	{{ cancel|markdown }}
+
+	<p>
+	{{ security|markdown }}
+	</p>
+
+{% endblock %}

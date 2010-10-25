@@ -8,6 +8,7 @@ import string
 import os
 
 from bizmodelcomp.settings import MEDIA_ROOT
+from sitecopy.models import SiteCopy
 from sitecopy.util import get_custom_copy
 from emailhelper.util import send_email
 
@@ -22,6 +23,16 @@ def recover_application(request, competition_url):
 
     intro = SiteCopy.objects.get(id='recover_application_intro')
     security = SiteCopy.objects.get(id='recover_application_security')
+
+    application_url = "/apply/pitch/%s/" % competition.hosted_url
+    cancel = "<a href='%s'>Cancael and return to a new application</a>" % application_url
+
+    get_email = ""
+    if request.method == "GET":
+        get_email = request.GET.get("e")
+        if not get_email:
+            get_email = ""
+        
 
     if request.method == "POST" and len(request.POST) > 0:
 

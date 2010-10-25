@@ -23,6 +23,11 @@ Apply to {{ competition }}
 		$('#done_upload_' + upload_id).hide();
 	});
 
+	$('#email').keypress(function() {
+
+		$('#recovery').attr('href','/apply/load/{{competition.hosted_url}}/?e=' + $('#email').val());
+	});
+
 {% endblock %}
 
 {% block content %}
@@ -33,9 +38,12 @@ Apply to {{ competition }}
 		{% else %}
 
 			Your email:
-			<input type="text" name="email" />
+			<input type="text" name="email" id="email" />
 			<br/>
-			Already saved an application? <a href="/apply/load/">Click here to edit it</a>.
+			Already saved an application?
+			<a id="recovery" href="/apply/load/{{competition.hosted_url}}/">
+				Click here to edit it
+			</a>.
 
 		{% endif %}
 
