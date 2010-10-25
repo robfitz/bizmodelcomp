@@ -11,6 +11,12 @@ from bizmodelcomp.settings import MEDIA_ROOT
 from sitecopy.util import get_custom_copy
 
 
+
+def recover_application(request):
+    #TODO:
+    pass
+
+
 #helper
 def get_founder(request):
 
@@ -24,7 +30,7 @@ def get_founder(request):
         key = AnonymousFounderKey.objects.get(key=rand_key)
         print key
         founder = key.founder
-        request.session['founder_key'] = key.key
+        
 
         if request.user.is_authenticated and founder.user != request.user:
             #start freaking out, logged in user is using someone else's key
@@ -58,20 +64,62 @@ def submit_pitch(request, competition_url, phase_id=None):
     founder = get_founder(request)
 
     if not founder:
-        #don't know who the founder applying is. abort.
-        #TODO: change this to a helpful recovery message
-        print "TODO: entercompetition.views.submit_pitch(): second unhandled bad login case"
-        return False
+        #we don't know who is applying, so we'll display an extra email field
+        #on the application form. This covers two cases:
+        #
+        #1) we've imported applicants from an external source (like a csv) so
+        #   we have their data stored as ExternalFounder objects. If they enter
+        #   an email that is in an ExternalFounder, we merge the data.
+        #
+        #2) they've snuck directly to this URL. if we have no record of the email
+        #   submitted, we'll then show them the application widget to collect rest
+        #   of their personal info.
+        pass
     
-    if phase_id: #requested phase
-        phase = Phase.objects.get(pk=phase_id)
-    else: #default phase
-        phase = competition.phases()[0]
+    if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
+    else: phase = competition.phases()[0] #use default (first) phase
 
     try: pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
     except: pass
 
     if request.method == "POST" and len(request.POST) > 0:
+
+        if not founder:
+            try:
+                #this field should be present in the form whenever founder==None
+                email = request.POST["email"]
+
+                #do we recognize that email?
+                mystery_founder = None
+                try:
+                    mystery_founder = Founder.objects.get(email=email)
+                    if mystery_founder.require_authentication:
+                        #TODO: need to authenticate via email URL.
+                        return False
+                    else:
+                        #no auth needed, so just save it as a pitch
+
+                        #log in to session
+                        request.session['founder_key'] = mystery_founder.anon_key()
+                        
+                        #now that there's a pitch, we want them to identify
+                        #themselves from now on
+                        mystery_founder.require_authentication = True
+                        mystery_founder.save()
+
+                except:
+                    #we don't have a founder on record who matches that email
+
+                    #TODO: create a skeleton Founder object & redirect them to
+                    #application form to fill in the rest of the details
+                    pass
+                
+                
+            except:
+                #TODO: if founder is None and there's on POST.email we're
+                #in real trouble. do something with this.
+                return False
+            
 
         if not pitch:
             #don't create pitch until someone submits the form
@@ -83,7 +131,6 @@ def submit_pitch(request, competition_url, phase_id=None):
         if "is_draft" in request.POST:
             #this key is not always present
             pitch.is_draft = (request.POST["is_draft"] == "True")
-            print 'CHANGED PITCH.IS_DRAFT TO: %s' % pitch.is_draft
             pitch.save()
             
 
@@ -91,12 +138,9 @@ def submit_pitch(request, competition_url, phase_id=None):
         for key in request.POST:
 
             if key.startswith("question_"):
-                print 'found an answer to %s' % key
                 try:
                     question_pk = key[len("question_"):]
-                    print 'question pk %s' % question_pk
                     question = PitchQuestion.objects.get(pk=question_pk)
-                    print 'question %s' % question
 
                     answer = None
                     try:
@@ -117,60 +161,51 @@ def submit_pitch(request, competition_url, phase_id=None):
             upload = PitchUpload.objects.get(pk=upload_pk)
             handle_uploaded_file(request, request.FILES[file], upload, pitch)
 
+
     copy = get_custom_copy('thanks for applying', competition)
-    print 'got copy %s' % copy
     return render_to_response('entercompetition/submitted_pitch.html', locals())
+
 
 
 def edit_pitch(request, competition_url, phase_id=None):
 
     competition = Competition.objects.get(hosted_url=competition_url)
     phase = None
-
     pitch = None
 
     founder = get_founder(request)
 
     if not founder:
-        #don't know who the founder applying is. abort.
-        #TODO: change this to a helpful recovery message
-        print "TODO: entercompetition.views.edit_pitch(): second unhandled bad login case"
-        return False
-    
+        #we don't know who is applying, so we'll display an extra email field
+        #on the application form. This covers two cases:
+        #
+        #1) we've imported applicants from an external source (like a csv) so
+        #   we have their data stored as ExternalFounder objects. If they enter
+        #   an email that is in an ExternalFounder, we merge the data.
+        #
+        #2) they've snuck directly to this URL. if we have no record of the email
+        #   submitted, we'll then show them the application widget to collect rest
+        #   of the personal info.
+        pass
 
-    if phase_id: #requested phase
-        phase = Phase.objects.get(pk=phase_id)
-    else: #default phase
-        phase = competition.phases()[0]
+    if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
+    else: phase = competition.phases()[0] #use default (first) phase
 
-    print 'owner %s, phase %s' % (founder, phase)
-    try:
-        pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
-        print 'pitch: %s, is_draft: %s' % (pitch, pitch.is_draft)
-    except:
-        print "Unexpected error:", sys.exc_info()[0]
-
+    try: pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
+    except: pitch = None
         
     questions = phase.questions()
     uploads = phase.uploads()
     
     for question in questions:
-        #for template rendering of existing answers
-        try:
-            print 'pitch: %s, question: %s' % (pitch, question)
-
-            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-            print 'GOT Q ANSWER: %s' % question.answer
-        except:
-            print "3 Unexpected error:", sys.exc_info()[0]
-            question.answer = ""
+        #render existing answers
+        try: question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+        except: question.answer = ""
 
     for upload in uploads:
-        #for template rendering of existing uploads
+        #render existing uploads
         try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
-        except:
-            print "4 Unexpected error:", sys.exc_info()[0]
-            upload.file = None
+        except: upload.file = None
 
     return render_to_response('entercompetition/pitch_form.html', locals())
 

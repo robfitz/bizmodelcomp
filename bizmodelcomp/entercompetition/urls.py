@@ -2,25 +2,36 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
 
+    #/apply/sc2010/widget.js
     #partially customized javascript that you can embed on a site
     #to accept contest registrations
     (r'^(?P<competition_url>[-_a-zA-Z0-9]{1,10})/widget.js$',
          'entercompetition.views.applicationWidget'),
 
+    #/apply/enter_competition/sc2010/
     #ajax call from the widget which creates an entry & returns a message
-    (r'^(?P<competition_url>[-_a-zA-Z0-9]{1,10})/$',
+    (r'^enter_competition/(?P<competition_url>[-_a-zA-Z0-9]{1,10})/$',
          'entercompetition.views.applyToCompetition'),    
 
-    #the application widget sitting on a standalone site
+    #/apply/sc2010.html
+    #a hosted entry form for collecting applicant personal details
     (r'^(?P<competition_url>[-_a-zA-Z0-9]{1,10}).html$',
          'entercompetition.views.applicationMicrosite'),
 
-    #form where you upload files & file in answers
+    #/apply/pitch/sc2010
+    #form where applicant uploads files & fills in answers
     (r'^pitch/(?P<competition_url>[-_a-zA-Z0-9]{1,10})/$',
          'entercompetition.views.edit_pitch'),
 
+    #/apply/pitch_saved/sc2010/
     #redirect from form after saving a pitch
     (r'^pitch_saved/(?P<competition_url>[-_a-zA-Z0-9]{1,10})/$',
          'entercompetition.views.submit_pitch'),
+
+    #/apply/load/
+    #show info about getting back to an old version of an application,
+    #and allow them to send an email reminder w/ the unique link
+    (r'^/load/$',
+         'entercompetition.views.recover_application'),
                        
 )

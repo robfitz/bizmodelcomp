@@ -16,7 +16,31 @@ class Founder(models.Model):
     email = models.CharField(max_length=500)
     phone = models.CharField(max_length=20)
 
-    birth = models.IntegerField(blank=True, null=True) #representation of a datetime
+    #isoformat yyyy-mm-dd
+    birth = models.CharField(max_length=10, blank=True, null=True) #representation of a datetime
+
+    #If False, anyone can create or edit a pitch for this founder
+    #by simply knowing and entering the matching email address.
+    #This is generally undesired, so the default (and standard) value is
+    #true.
+    #It should be set to False when we have loaded applicant data
+    #from an external source like a CSV file and they haven't yet registered
+    #through us.
+    #Once they submit the first pitch version, this flag should
+    #be fkipped back to True to prevent unauthorized editing.
+    require_authentication = models.BooleanField(default=True)
+
+
+    #get or create randomized anonymous login key
+    def anon_key(self):
+        key = None
+        try:
+            key = AnonymousFounderKey.objects.get(founder=self)
+        except:
+            rand = ''.join([choice(string.letters+string.digits) for i in range(12)])
+            key = AnonymousFounderKey(founder=self, key=rand)
+            key.save()
+        return key
 
 
     #returns the set of ExtraFounderInfos attached to this Founder as

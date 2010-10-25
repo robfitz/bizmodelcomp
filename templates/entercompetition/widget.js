@@ -27,7 +27,7 @@ function apply(competition_url) {
         query += "" + form.elements[i].name + "=" + form.elements[i].value;
     }
     
-    jsonp("/apply/" + competition_url, "{{callback_function}}", "enter_competition", query);
+    jsonp("/apply/enter_competition/" + competition_url, "{{callback_function}}", "enter_competition", query);
     
     return false; //cancel form submission
 }

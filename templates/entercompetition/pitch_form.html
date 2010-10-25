@@ -29,6 +29,16 @@ Apply to {{ competition }}
 
 	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data">
 
+		{% if founder %}
+		{% else %}
+
+			Your email:
+			<input type="text" name="email" />
+			<br/>
+			Already saved an application? <a href="/apply/load/">Click here to edit it</a>.
+
+		{% endif %}
+
 		{% if phase.uploads %}
 
 			<h3>Uploads</h3>
