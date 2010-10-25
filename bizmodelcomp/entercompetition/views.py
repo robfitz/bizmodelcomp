@@ -40,7 +40,15 @@ def recover_application(request, competition_url):
             #look for a founder w/ the matching email, and send them a note
             email = request.POST["email"]
             matching_founder = Founder.objects.get(email=email)
-            send_email(from_email, email, subject, message)
+
+            from_email = competition.name
+            application_url = "/pitch/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key)
+
+            message = """Click here to load & edit your application to %s:
+
+%s""" % (competition.name, application_url)
+                                                   
+            send_email(subject, message, email, from_email)
             
         except:
             #couldn't find a matching founder. tell person to apply now or re-type

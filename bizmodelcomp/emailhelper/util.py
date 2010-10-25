@@ -1,7 +1,7 @@
 from settings import DEBUG, EMAIL_USER, EMAIL_PASSWORD, EMAIL_DEFAULT_FROM
 import markdown
 
-def send_email(from_email, to_email, subject, message_markdown):
+def send_email(subject, message_markdown, to_email, from_email=EMAIL_DEFAULT_FROM):
     
     #don't send emails in debug mode, which covers both local
     #and testing stuff on the liver servers

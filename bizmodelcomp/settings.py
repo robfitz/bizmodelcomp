@@ -28,8 +28,8 @@ if is_local:
 
 
 #SendGrid credentials, required for emailhelper.send_email     
-EMAIL_USER = "robftz@gmail.com"
-EMAIL_PASSWORD = "Sendgrid party thyme!"
+EMAIL_USER = "robftz+nvana@gmail.com"
+EMAIL_PASSWORD = "It's spam time!"
 EMAIL_DEFAULT_FROM = "nvana Business Competitions"
 
 # Local time zone for this installation. Choices can be found here:
