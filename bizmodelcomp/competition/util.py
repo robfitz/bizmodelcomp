@@ -6,9 +6,11 @@ def sync_echallenge():
 
     if not is_local:
         csv_url = "http://www.londonentrepreneurschallenge.com/lec.csv"
+        competition = Competition.objects.get(hosted_url='echallenge')
     else:
         #debugging
         csv_url = "C:/Users/robfitz/Downloads/lec.csv"
+        competition = Competition.objects.get(hosted_url='echallenge')
 
     f = open(csv_url)
     
@@ -31,8 +33,20 @@ def sync_echallenge():
         except: phone = ""
 
         if email and len(email) > 0:
-            if Founder.objects.filter(email=email).count() > 0:            
-                #we already know this person! ignore as old entry
+            
+            if Founder.objects.filter(email=email).count() > 0:
+                #we recognize this email....
+                founder = Founder.objects.filter(email=email)
+
+                if founder not in competition.applicants:
+                    #we know about them from previous contests, so just
+                    #register the existing user to this one
+                    competition.applicants.add(founder)
+                    print 'associated existing founder w/ ECHALLENGE %s' % email
+                else:
+                    #we already know this person. ignore as old duplicate
+                    pass
+                
                 print 'already have founder %s' % email
             else:
                 print 'creating new founder for %s' % email
@@ -49,4 +63,9 @@ def sync_echallenge():
                                   birth = birth,
                                   require_authentication=False)
                 founder.save()
+
+                #connect to competition we loaded data from
+                competition.applicants.add(founder)
+
+                
                               
