@@ -104,6 +104,11 @@ def submit_pitch(request, competition_url, phase_id=None):
     competition = Competition.objects.get(hosted_url=competition_url)
     phase = None
     pitch = None
+    
+    is_first_pitch = False
+    #if true, user registered via data import rather than through widget,
+    #so we haven't yet sent them a recovery email
+    is_external_founder = False 
 
     founder = get_founder(request)
 
@@ -150,6 +155,10 @@ def submit_pitch(request, competition_url, phase_id=None):
                         #themselves from now on
                         mystery_founder.require_authentication = True
                         mystery_founder.save()
+                        
+                        founder = mystery_founder
+
+                        is_external_founder = True
 
                 except:
                     #we don't have a founder on record who matches that email
@@ -160,7 +169,7 @@ def submit_pitch(request, competition_url, phase_id=None):
                 
                 
             except:
-                #TODO: if founder is None and there's on POST.email we're
+                #TODO: if founder is None and there's no POST.email we're
                 #in real trouble. do something with this.
                 return False
             
@@ -170,6 +179,21 @@ def submit_pitch(request, competition_url, phase_id=None):
             pitch = Pitch(owner=founder,
                           phase=phase)
             pitch.save()
+            #can show different success message on first submission
+            is_first_pitch = True
+
+            if is_external_founder:
+                #first submission from a founder we haven't contacted before, so email them
+                to_email = founder.email
+                from_email = competition.name
+                application_url = "/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key())
+                message = """Thanks for applying to %s!
+
+The link below will allow you to edit your application any time until judging begins:
+
+%s""" % (competition.name, application_url)
+                                               
+                send_email(subject, message, to_email, from_email)
 
 
         if "is_draft" in request.POST:
@@ -206,8 +230,16 @@ def submit_pitch(request, competition_url, phase_id=None):
             handle_uploaded_file(request, request.FILES[file], upload, pitch)
 
 
-    copy = get_custom_copy('thanks for applying', competition)
-    return render_to_response('entercompetition/submitted_pitch.html', locals())
+    
+
+    if is_first_pitch:
+        #show 1st time sweet success message
+        copy = get_custom_copy('thanks for applying', competition)
+        return render_to_response('entercompetition/submitted_pitch.html', locals())
+
+    else:
+        alert = "Your changes have been saved."
+        return HttpResponseRedirect('/apply/pitch/%s/', competition.hosted_url)
 
 
 
@@ -303,7 +335,6 @@ def handle_uploaded_file(request, f, upload, pitch):
 #a hosted microsite to accept contest applications
 def applicationMicrosite(request, competition_url):
 
-    #TODO: un-hardcode URL
     base_url = "http://%s" % request.get_host()
     
     competition = Competition.objects.get(hosted_url=competition_url)
@@ -388,13 +419,13 @@ You're registered for the\ competition and will receive email updates as the dea
         to_email = founder.email
         from_email = competition.name
         
-        message = """Thanks for applying to %s!
+        email_message = """Thanks for applying to %s!
 
 The link below will allow you to edit your application any time until judging begins:
 
 %s""" % (competition.name, application_url)
                                                
-        send_email(subject, message, to_email, from_email)
+        send_email(subject, email_message, to_email, from_email)
 
     else:
         message = "Sorry, the application service is temporarily down. Please try again soon."

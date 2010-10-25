@@ -8,6 +8,9 @@ if socket.gethostname() in ['robfitz-PC', 'tugboat']:
 DEBUG = is_local
 TEMPLATE_DEBUG = DEBUG
 
+#kill switch for emailhelper
+DISABLE_ALL_EMAIL = True
+
 ADMINS = (
     ('Rob Fitzpatrick', 'robftz@gmail.com'),
 )
@@ -27,7 +30,7 @@ if is_local:
     DATABASE_USER = ''
 
 
-#SendGrid credentials, required for emailhelper.send_email     
+#sendgrid credentials required for emailhelper.send_email
 EMAIL_USER = "robftz+nvana@gmail.com"
 EMAIL_PASSWORD = "It's spam time!"
 EMAIL_DEFAULT_FROM = "nvana Business Competitions"

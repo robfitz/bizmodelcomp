@@ -1,11 +1,11 @@
-from settings import DEBUG, EMAIL_USER, EMAIL_PASSWORD, EMAIL_DEFAULT_FROM
+from settings import DEBUG, EMAIL_USER, EMAIL_PASSWORD, EMAIL_DEFAULT_FROM, DISABLE_ALL_EMAILS
 import markdown
 
 def send_email(subject, message_markdown, to_email, from_email=EMAIL_DEFAULT_FROM):
     
     #don't send emails in debug mode, which covers both local
     #and testing stuff on the liver servers
-    if DEBUG:
+    if DEBUG or DISABLE_ALL_EMAIL:
         return 
 
     # Create message container - the correct MIME type is multipart/alternative.
