@@ -416,7 +416,9 @@ def applyToCompetition(request, competition_url):
         except: pass
 
         founder.save()
+        print 'trying to add founder to competition'
         competition.applicants.add(founder)
+        print 'added'
 
         application_url = "/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key())
 
@@ -428,6 +430,7 @@ You're registered for the\ competition and will receive email updates as the dea
 </p>\
 """ % application_url
 
+        subject = "Your application to %s" % competition.name
         to_email = founder.email
         from_email = competition.name
         
