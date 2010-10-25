@@ -35,6 +35,27 @@
         }
     }, 
     {
+        "pk": "", 
+        "model": "sitecopy.sitecopy", 
+        "fields": {
+            "text": ""
+        }
+    }, 
+    {
+        "pk": "recover_application_intro", 
+        "model": "sitecopy.sitecopy", 
+        "fields": {
+            "text": "When you first signed up for this competition we should have sent you an email with a link to your saved application. \r\n\r\nIf you don't have that message, enter your email below and we'll send you another reminder."
+        }
+    }, 
+    {
+        "pk": "recover_application_security", 
+        "model": "sitecopy.sitecopy", 
+        "fields": {
+            "text": "We send the link through email instead of just showing it to you to help keep your application private."
+        }
+    }, 
+    {
         "pk": 1, 
         "model": "sitecopy.customcopytemplate", 
         "fields": {

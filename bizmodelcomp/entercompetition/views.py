@@ -13,8 +13,18 @@ from sitecopy.util import get_custom_copy
 
 
 def recover_application(request):
-    #TODO:
-    pass
+
+    intro = SiteCopy.objects.get(id='recover_application_intro')
+    security = SiteCopy.objects.get(id='recover_application_security')
+
+    if request.method == "POST" and len(request.POST) > 0:
+
+        try:
+            email = request.POST["email"]
+            matching_founder = Founder.objects.get(email=email)
+    
+    return render_to_response('entercompetition/recover_application.html', locals())
+    
 
 
 #helper
