@@ -10,6 +10,11 @@ import entercompetition.views
 
 urlpatterns = patterns('',
 
+    #temporary 
+    (r'^$',
+        'entercompetition.views.edit_pitch',
+        {'competition_url': 'echallenge'}), 
+
     #local assets                  
     (r'^media/(?P<path>.*)$',
          'django.views.static.serve',
