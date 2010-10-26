@@ -159,6 +159,9 @@ class PitchQuestion(models.Model):
     #is a boolean checkbox. 2-4 choices are radio buttons. 5 or more is a dropdown.
     raw_choices = models.CharField(max_length=2000, null=True, blank=True)
 
+    #how big to make the text entry widget
+    field_rows = models.IntegerField(default=6)
+
     class Meta:
         ordering = ['id']
 

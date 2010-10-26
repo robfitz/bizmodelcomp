@@ -40,12 +40,14 @@ Apply to {{ competition }}
 		{% if founder %}
 		{% else %}
 
-			Your email:
-			<input type="text" name="email" id="email" />
-			<br/>
-			Already saved an application?
-			<a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to edit it</a>.
-
+			<div style="width:600px;float:left;">
+				<strong><span style="font-size:14px;width:150px;">Your email:</span></strong>
+				<input type="text" name="email" id="email" style="width:300px;border:3px solid #ccc;padding:5px;height:20px;" class="focus" />
+				<p>
+				Already saved an application?
+				<a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to edit it</a>.
+				</p>
+			</div>
 		{% endif %}
 
 		{% if phase.uploads %}
@@ -83,17 +85,20 @@ Apply to {{ competition }}
 
 					<p id="prompt">{{ question.prompt }}</p>
 
-					<textarea name="question_{{question.pk}}">{{question.answer}}</textarea>
-
+					{% ifequal question.field_rows 1 %}
+					<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+					{% else %}
+					<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+					{% endifequal %}
 			{% endfor %}
 
 		{% endif %}
 
 		<input id="is_draft" type="hidden" name="is_draft" value="False" />
 
-		<input type="submit" value="Save & submit pitch" onclick="$('#is_draft').val('False');" />
+		<input type="submit" style="font-size:20px;" value="Save & submit pitch" onclick="$('#is_draft').val('False');" />
 		<br/>
-		(You may continue to edit your pitch until judging begins)
+		(You will be able to keep editing your pitch until judging begins)
 
 	</form>
 
