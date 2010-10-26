@@ -14,9 +14,9 @@ class Founder(models.Model):
 
     user = models.OneToOneField(User, blank=True, null=True)
 
-    name = models.CharField(max_length=500) #don't use first/last/etc for multi-cultural reasons
+    name = models.CharField(max_length=500, blank=True, null=True) #don't use first/last/etc for multi-cultural reasons
     email = models.CharField(max_length=255, unique=True)
-    phone = models.CharField(max_length=20)
+    phone = models.CharField(max_length=20, blank=True, null=True)
 
     #isoformat yyyy-mm-dd
     birth = models.CharField(max_length=10, blank=True, null=True) #representation of a datetime
@@ -59,7 +59,7 @@ class Founder(models.Model):
 
     def __unicode__(self):
 
-        return self.name
+        return self.email
 
 
 
