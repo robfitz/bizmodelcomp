@@ -120,7 +120,7 @@ def submit_pitch(request, competition_url, phase_id=None):
     is_first_pitch = False
     #if true, user registered via data import rather than through widget,
     #so we haven't yet sent them a recovery email
-    is_external_founder = False 
+    is_new_founder = False 
 
     founder = get_founder(request)
 
@@ -172,7 +172,7 @@ def submit_pitch(request, competition_url, phase_id=None):
                         
                         founder = mystery_founder
 
-                        is_external_founder = True
+                        is_new_founder = True
                         print 'set external = true'
                     
                 except:
@@ -180,9 +180,15 @@ def submit_pitch(request, competition_url, phase_id=None):
 
                     #TODO: create a skeleton Founder object & redirect them to
                     #application form to fill in the rest of the details
-                    pass
-                
-                
+
+                    #create founder
+                    founder = Founder(email=email)
+                    founder.save()
+                    is_new_founder = True
+
+                    #log in
+                    request.session['founder_key'] = founder.anon_key()
+
             except:
                 #TODO: if founder is None and there's no POST.email we're
                 #in real trouble. do something with this.
@@ -198,7 +204,7 @@ def submit_pitch(request, competition_url, phase_id=None):
             #can show different success message on first submission
             is_first_pitch = True
 
-            if is_external_founder:
+            if is_new_founder:
                 print 'is external founder'
                 #first submission from a founder we haven't contacted before, so email them
                 to_email = founder.email
@@ -419,19 +425,33 @@ def applyToCompetition(request, competition_url):
             #set standard/required values
             if key in request.GET:
                 try: setattr(founder, key, request.GET[key])
-                except: pass
+                except: print 'failed to set attr: %s' % key
 
         try: callback_function = request.GET["callback_function"]
         except: pass
 
-        founder.save()
-        print 'trying to add founder to competition'
-        competition.applicants.add(founder)
-        print 'added'
+        try:
+            duplicate_founder = Founder.objects.get(email=founder.email)
+        except:
+            duplicate_founder = None
 
-        application_url = "/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key())
+        if duplicate_founder:
+            message = """Sorry, that email has already been used to create an account.\
+\
+You can either <a href='/apply/pitch/%s/'>visit the competition pitch page</a> or <a href='/apply/load/%s/'>recover your login link from your email</a>""" % (competition.hosted_url, competition.hosted_url)
 
-        message = """<p>\
+        else: 
+
+        
+            founder.save()
+
+            print 'trying to add founder to competition'
+            competition.applicants.add(founder)
+            print 'added'
+
+            application_url = "/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key())
+
+            message = """<p>\
 You're registered for the\ competition and will receive email updates as the deadline approaches.\
 </p>\
 <p style='font-size:18px;'>\
@@ -439,18 +459,18 @@ You're registered for the\ competition and will receive email updates as the dea
 </p>\
 """ % application_url
 
-        subject = "Application to %s" % competition.name
-        to_email = founder.email
-        from_email = competition.name
-        
-        email_message = """Thanks for applying to %s!
+            subject = "Application to %s" % competition.name
+            to_email = founder.email
+            from_email = competition.name
+            
+            email_message = """Thanks for applying to %s!
 
 The link below will allow you to edit your application any time until judging begins:
 
 %s""" % (competition.name, application_url)
                                                
-        send_email(subject, email_message, to_email, from_email)
-
+            send_email(subject, email_message, to_email, from_email)
+           
     else:
         message = "Sorry, the application service is temporarily down. Please try again soon."
 
