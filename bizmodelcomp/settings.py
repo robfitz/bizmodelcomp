@@ -10,7 +10,7 @@ DEBUG = is_local
 TEMPLATE_DEBUG = DEBUG
 
 #kill switch for emailhelper
-DISABLE_ALL_EMAIL = True
+DISABLE_ALL_EMAIL = False
 
 ADMINS = (
     ('Rob Fitzpatrick', 'robftz@gmail.com'),
