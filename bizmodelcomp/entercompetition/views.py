@@ -43,6 +43,19 @@ def recover_application(request, competition_url):
             subject = "Your application to %s" % competition.name
 
             application_url = request.build_absolute_uri("/pitch/apply/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key()))
+    
+            message = """Hello,
+
+You're receiving this because you requested a reminder link for your application to %s!
+
+You can use go here to edit your application any time until judging begins:
+%s
+
+Please feel free to respond to this email if you're still not able to access your application or if you have any other questions or confusion with using the site.
+
+Sincerely,
+
+The %s team""" % (competition.name, application_url, competition.name)
             
             message = """Click here to load & edit your application to %s:
 
@@ -126,6 +139,7 @@ You can use go here to edit your application any time until judging begins:
 Please feel free to respond to this email with any questions or confusion with the application process.
 
 Sincerely,
+
 The %s team""" % (competition.name, application_url, competition.name)
                                                
     send_email(subject, message, to_email)
