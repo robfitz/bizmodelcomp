@@ -14,7 +14,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 	{% for question in questions %}
 
 
-	{% if forloop.counter <= 16 and forloop.counter >= 5 %}
+	{% if not pitch and forloop.counter <= 16 and forloop.counter >= 5 %}
 
 		{% ifequal forloop.counter 5 %}
 			<strong class="prompt" style="padding-top:10px;">{{question.prompt}}</strong>
