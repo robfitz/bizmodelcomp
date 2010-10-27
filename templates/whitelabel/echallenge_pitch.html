@@ -25,7 +25,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 				answer: {{ question.answer }}
 				<br/>
 				{% for choice in question.choices %}
-					choice: {{ choice }}
+					choice: {{ choice }} {% ifequal question.answer choice %}IS EQUAL{% else %}not equal{% endif %}
 					<br/>
 				{% endfor %}
 				<select name="question_{{question.pk}}">
