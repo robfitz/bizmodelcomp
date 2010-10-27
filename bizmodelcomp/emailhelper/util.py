@@ -8,7 +8,9 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send_email(subject, message_markdown, to_email, from_email=EMAIL_DEFAULT_FROM):
+def send_email(subject, message_markdown, to_email, from_email=None):
+
+    if not from_email: from_email = EMAIL_DEFAULT_FROM
 
     print('sent email!')
 
