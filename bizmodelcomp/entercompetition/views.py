@@ -48,7 +48,7 @@ def recover_application(request, competition_url):
 
 %s""" % (competition.name, application_url)
             
-            send_email(subject, message, email, from_email)
+            send_email(subject, message, email)
 
             return HttpResponseRedirect('/apply/sent_reminder/')
             
@@ -215,7 +215,7 @@ The link below will allow you to edit your application any time until judging be
 
 %s""" % (competition.name, application_url)
                                                
-                send_email(subject, message, to_email, from_email)
+                send_email(subject, message, to_email)
 
 
         if "is_draft" in request.POST:
@@ -466,7 +466,7 @@ The link below will allow you to edit your application any time until judging be
 
 %s""" % (competition.name, application_url)
                                                
-            send_email(subject, email_message, to_email, from_email)
+            send_email(subject, email_message, to_email)
            
     else:
         message = "Sorry, the application service is temporarily down. Please try again soon."
