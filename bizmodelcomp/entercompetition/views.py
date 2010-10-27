@@ -211,9 +211,7 @@ def submit_pitch(request, competition_url, phase_id=None):
                 application_url = request.build_absolute_uri("/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key()))
                 message = """Thanks for applying to %s!
 
-The link below will allow you to edit your application any time until judging begins:
-
-%s""" % (competition.name, application_url)
+The link below will allow you to edit your application any time until judging begins:""" % (competition.name)
                                                
                 send_email(subject, message, to_email)
 
@@ -464,7 +462,7 @@ You're registered for the\ competition and will receive email updates as the dea
 
 The link below will allow you to edit your application any time until judging begins:
 
-""" % (competition.name)
+%s""" % (competition.name, application_url)
                                                
             send_email(subject, email_message, to_email)
            
