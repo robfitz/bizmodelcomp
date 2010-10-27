@@ -24,10 +24,6 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 		{% endifequal %}{% ifequal forloop.counter 5 %}
 				answer: {{ question.answer.answer }}
 				<br/>
-				{% for choice in question.choices %}
-					choice: {{ choice }} {% ifequal question.answer.answer choice %}IS EQUAL{% else %}not equal{% endifequal %}
-					<br/>
-				{% endfor %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
 						<option {% ifequal question.answer choice %}selected="selected"{% endifequal %}>{{choice}}</option>

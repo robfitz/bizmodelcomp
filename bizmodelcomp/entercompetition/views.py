@@ -331,7 +331,7 @@ def edit_pitch(request, competition_url, phase_id=None):
         except:
             question.answer = ""
             print 'exception'
-
+            
     for upload in uploads:
         #render existing uploads
         try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
