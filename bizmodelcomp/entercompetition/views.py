@@ -111,7 +111,7 @@ def get_founder(request):
 
 
 #helper
-def send_welcome_email(founder, competition):
+def send_welcome_email(request, founder, competition):
 
     to_email = founder.email
     subject = "Your application to %s" % competition.name
@@ -228,7 +228,7 @@ def submit_pitch(request, competition_url, phase_id=None):
             if is_new_founder:
                 print 'is external founder'
                 #first submission from a founder we haven't contacted before, so email them
-                send_welcome_email(founder, competition)
+                send_welcome_email(request, founder, competition)
 
         if "is_draft" in request.POST:
             #this key is not always present
@@ -469,7 +469,7 @@ You're registered for the\ competition and will receive email updates as the dea
 </p>\
 """ % application_url
 
-            send_welcome_email(founder, competition)
+            send_welcome_email(request, founder, competition)
            
     else:
         message = "Sorry, the application service is temporarily down. Please try again soon."
