@@ -30,7 +30,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 				{% endfor %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
-						<option {% ifequal question.answer choice %}selected{% endifequal %}>{{choice}}</option>
+						<option {% ifequal question.answer choice %}selected="selected"{% endifequal %}>{{choice}}</option>
 					{% endfor %}
 				</select>
 			</div>
@@ -40,7 +40,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 		{% endifequal %}{% ifequal forloop.counter 7 %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
-						<option {% ifequal question.answer choice %}selected{% endifequal %}>{{choice}}</option>
+						<option {% ifequal question.answer choice %}selected="selected"{% endifequal %}>{{choice}}</option>
 					{% endfor %}
 				</select>
 			</div>
@@ -50,7 +50,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 		{% endifequal %}{% ifequal forloop.counter 9 %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
-						<option {% ifequal question.answer choice %}selected{% endifequal %}>{{choice}}</option>
+						<option {% ifequal question.answer choice %}selected="selected"{% endifequal %}>{{choice}}</option>
 					{% endfor %}
 				</select>
 			</div>
@@ -61,7 +61,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
 
-						<option {% ifequal question.answer choice %}selected{% endifequal %}>{{choice}}</option>
+						<option {% ifequal question.answer choice %}selected="selected"{% endifequal %}>{{choice}}</option>
 					{% endfor %}
 				</select>
 			</div>
@@ -77,7 +77,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			<br/>
 			<select name="question_{{question.pk}}">
 			{% for choice in question.choices %}
-				<option {% ifequal question.answer choice %}selected{% endifequal %}>{{choice}}</option>
+				<option {% ifequal question.answer choice %}selected="selected"{% endifequal %}>{{choice}}</option>
 			{% endfor %}
 			</select>
 			<p>
