@@ -151,6 +151,9 @@ class Pitch(models.Model):
 #apply to the contest. 
 class PitchQuestion(models.Model):
 
+    #ordering on admin panel and application form
+    order = models.DecimalField(max_digits=4, decimal_places=2, default=1)
+
     phase = models.ForeignKey(Phase) #piece of the contest wanting this Q answered
     prompt = models.CharField(max_length=1000) #instructions for applicant
 
@@ -163,7 +166,7 @@ class PitchQuestion(models.Model):
     field_rows = models.IntegerField(default=6)
 
     class Meta:
-        ordering = ['id']
+        ordering = ['order']
 
     #return raw_choices as a split and stripped array of choices
     def choices(self):
