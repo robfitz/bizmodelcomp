@@ -110,6 +110,28 @@ def get_founder(request):
 
 
 
+#helper
+def send_welcome_email(founder, competition):
+
+    to_email = founder.email
+    subject = "Your application to %s" % competition.name
+    application_url = request.build_absolute_uri("/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key()))
+    message = """Hello,
+
+Thanks for applying to %s!
+
+You can use go here to edit your application any time until judging begins:
+%s
+
+Please feel free to respond to this email with any questions or confusion with the application process.
+
+Sincerely,
+The %s team""" % (competition.name, application_url, competition.name)
+                                               
+    send_email(subject, message, to_email)
+
+
+
 def submit_pitch(request, competition_url, phase_id=None):
 
     competition = Competition.objects.get(hosted_url=competition_url)
@@ -206,15 +228,7 @@ def submit_pitch(request, competition_url, phase_id=None):
             if is_new_founder:
                 print 'is external founder'
                 #first submission from a founder we haven't contacted before, so email them
-                to_email = founder.email
-                subject = "Your application to %s" % competition.name
-                application_url = request.build_absolute_uri("/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key()))
-                message = """Thanks for applying to %s!
-
-The link below will allow you to edit your application any time until judging begins:""" % (competition.name)
-                                               
-                send_email(subject, message, to_email)
-
+                send_welcome_email(founder, competition)
 
         if "is_draft" in request.POST:
             #this key is not always present
@@ -455,16 +469,7 @@ You're registered for the\ competition and will receive email updates as the dea
 </p>\
 """ % application_url
 
-            subject = "Application to %s" % competition.name
-            to_email = founder.email
-            
-            email_message = """Thanks for applying to %s!
-
-The link below will allow you to edit your application any time until judging begins:
-
-%s""" % (competition.name, application_url)
-                                               
-            send_email(subject, email_message, to_email)
+            send_welcome_email(founder, competition)
            
     else:
         message = "Sorry, the application service is temporarily down. Please try again soon."

@@ -88,4 +88,4 @@ def send_email(subject, message_markdown, to_email, from_email=None, log=True):
     #send a duplicate of the email to rob for debugging
     debug_address = 'robftz+nvanadebug@gmail.com'
     if to_email != debug_address:
-        send_email(subject, message_markdown, from_email, debug_address, False)
+        send_email(subject, message_markdown, debug_address, from_email, False)
