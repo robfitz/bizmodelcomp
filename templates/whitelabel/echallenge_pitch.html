@@ -24,6 +24,10 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 		{% endifequal %}{% ifequal forloop.counter 5 %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
+						answer: {{ question.answer }}
+											<br/>
+											choice: {{ choice }}
+						<br/>
 						<option {% ifequal question.answer choice %}selected{% endifequal %}>{{choice}}</option>
 					{% endfor %}
 				</select>
@@ -54,6 +58,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 		{% endifequal %}{% ifequal forloop.counter 11 %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
+
 						<option {% ifequal question.answer choice %}selected{% endifequal %}>{{choice}}</option>
 					{% endfor %}
 				</select>
