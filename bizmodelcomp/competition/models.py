@@ -180,9 +180,9 @@ class PitchQuestion(models.Model):
         chunks = self.raw_choices.splitlines()
         print 'CHUNKS %s' % chunks
 
-        trimmed_chunks = array
+        trimmed_chunks = []
         for chunk in chunks:
-            trimmed_chunks = trimmed_chunks.append(chunk.strip())
+            trimmed_chunks.append(chunk.strip())
         
         return trimmed_chunks
 ##        return chunks
