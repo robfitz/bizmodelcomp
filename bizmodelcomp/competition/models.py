@@ -179,11 +179,12 @@ class PitchQuestion(models.Model):
         chunks = self.raw_choices.splitlines()
         print 'CHUNKS %s' % chunks
 
-##        trimmed_chunks = []
-##        for chunk in chunks: trimmed_chunks.append(chunk)
-##        
-##        return trimmed_chunks
-        return chunks
+        trimmed_chunks = array
+        for chunk in chunks:
+            trimmed_chunks.append(chunk.trim())
+        
+        return trimmed_chunks
+##        return chunks
 
     def __unicode__(self):
 
