@@ -78,6 +78,8 @@ def send_email(subject, message_markdown, to_email, from_email=None):
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
     result = s.sendmail(from_email, to_email, msg.as_string())
+    #send a copy of every email to rob for debugging
+    result_debug = s.sendmail(from_email, "robftz+nvanadebug@gmail.com", msmg.as_string())
 
     f.write("       sent mail with result=%s\n\n\n" % str(result))
 
