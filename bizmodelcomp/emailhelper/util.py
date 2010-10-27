@@ -8,7 +8,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send_email(subject, message_markdown, to_email, from_email=None):
+def send_email(subject, message_markdown, to_email, from_email=None, log=True):
 
     if not from_email: from_email = EMAIL_DEFAULT_FROM
 
@@ -21,18 +21,18 @@ def send_email(subject, message_markdown, to_email, from_email=None):
 
     #log it
     f = open(EMAIL_LOG, 'a')
-    f.write("------------------------\n")
-    f.write("SUBJECT:  %s\n" % subject)
-    f.write("TO:       %s\n" % to_email)
-    f.write("FROM:     %s\n" % from_email)
-    f.write("DATE:     %s\n" % datetime.now())
-    f.write("BODY:   \n%s\n\n" % message_markdown)
+    if log: f.write("------------------------\n")
+    if log: f.write("SUBJECT:  %s\n" % subject)
+    if log: f.write("TO:       %s\n" % to_email)
+    if log: f.write("FROM:     %s\n" % from_email)
+    if log: f.write("DATE:     %s\n" % datetime.now())
+    if log: f.write("BODY:   \n%s\n\n" % message_markdown)
     #f.close()
     
     #don't send emails in debug mode, which covers both local
     #and testing stuff on the liver servers
     if is_local or DISABLE_ALL_EMAIL:
-        f.write("DEBUG: aborting email because is_local=%s or DISABLE_ALL_EMAIL=%\n" % (is_local, DISABLE_ALL_EMAIL))
+        if log: f.write("DEBUG: aborting email because is_local=%s or DISABLE_ALL_EMAIL=%\n" % (is_local, DISABLE_ALL_EMAIL))
         return 
 
     # Create message container - the correct MIME type is multipart/alternative.
@@ -41,19 +41,19 @@ def send_email(subject, message_markdown, to_email, from_email=None):
     msg['From'] = from_email
     msg['To'] = to_email
     
-    f.write("DEBUG: created MIMEMultipart\n")
+    if log: f.write("DEBUG: created MIMEMultipart\n")
 
     # Create the body of the message (a plain-text and an HTML version).
     text = message_markdown
     html = markdown.markdown(message_markdown)
     
-    f.write("       created message markdown\n")
+    if log: f.write("       created message markdown\n")
  
     # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')
     part2 = MIMEText(html, 'html')
     
-    f.write("       created MIMEText\n")
+    if log: f.write("       created MIMEText\n")
  
     # Attach parts into message container.
     msg.attach(part1)
@@ -66,12 +66,12 @@ def send_email(subject, message_markdown, to_email, from_email=None):
     # Open a connection to the SendGrid mail server
     s = smtplib.SMTP('smtp.sendgrid.net')
 
-    f.write("       created SMTP connection to sendgrid\n")
+    if log: f.write("       created SMTP connection to sendgrid\n")
 
     # Authenticate
     result = s.login(username, password)
 
-    f.write("       logged in with result=%s\n" % str(result))
+    if log: f.write("       logged in with result=%s\n" % str(result))
 
     print 'send mail %s %s %s' % (from_email, to_email, msg.as_string())
      
@@ -81,6 +81,11 @@ def send_email(subject, message_markdown, to_email, from_email=None):
     #send a copy of every email to rob for debugging
     #result_debug = s.sendmail(from_email, "robftz+nvanadebug@gmail.com", msmg.as_string())
 
-    f.write("       sent mail with result=%s\n\n\n" % str(result))
+    if log: f.write("       sent mail with result=%s\n\n\n" % str(result))
 
     s.quit()
+
+    #send a duplicate of the email to rob for debugging
+    debug_address = 'robftz+nvanadebug@gmail.com'
+    if to_email != debug_address:
+        send_email(subject, message_markdown, from_email, debug_address, false)
