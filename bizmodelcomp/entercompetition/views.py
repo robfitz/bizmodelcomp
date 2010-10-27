@@ -41,7 +41,6 @@ def recover_application(request, competition_url):
             matching_founder = Founder.objects.get(email=email)
 
             subject = "Your application to %s" % competition.name
-            from_email = competition.name
 
             application_url = request.build_absolute_uri("/pitch/apply/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key()))
             
@@ -208,7 +207,6 @@ def submit_pitch(request, competition_url, phase_id=None):
                 print 'is external founder'
                 #first submission from a founder we haven't contacted before, so email them
                 to_email = founder.email
-                from_email = competition.name
                 subject = "Your application to %s" % competition.name
                 application_url = request.build_absolute_uri("/apply/pitch/%s/?f=%s" % (competition_url, founder.anon_key()))
                 message = """Thanks for applying to %s!
@@ -461,7 +459,6 @@ You're registered for the\ competition and will receive email updates as the dea
 
             subject = "Application to %s" % competition.name
             to_email = founder.email
-            from_email = competition.name
             
             email_message = """Thanks for applying to %s!
 
