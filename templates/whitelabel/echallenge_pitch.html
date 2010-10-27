@@ -8,3 +8,82 @@ Submission deadline: <a href="http://www.londonentrepreneurschallenge.com/schedu
 View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & guidelines</a> (pdf)
 </p>
 {% endblock %}
+
+{% block questions %}
+
+	{% for question in phase.questions %}
+
+		{% ifequal forloop.counter 4 %}
+			<strong class="prompt">Other team member names & affiliations</strong>
+			<br/>
+			<div class="extra_team">
+				<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+		{% elseifequal forloop.counter 5 %}
+				<select name="question_{{question.pk}}">
+					{% for choice in question.choices %}
+						<option>{{choice}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		{% elseifequal forloop.counter 6 %}
+			<div class="extra_team">
+				<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+		{% elseifequal forloop.counter 7 %}
+				<select name="question_{{question.pk}}">
+					{% for choice in question.choices %}
+						<option>{{choice}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		{% elseifequal forloop.counter 8 %}
+			<div class="extra_team">
+				<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+		{% elseifequal forloop.counter 9 %}
+				<select name="question_{{question.pk}}">
+					{% for choice in question.choices %}
+						<option>{{choice}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		{% elseifequal forloop.counter 10 %}
+			<div class="extra_team">
+				<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+		{% elseifequal forloop.counter 11 %}
+				<select name="question_{{question.pk}}">
+					{% for choice in question.choices %}
+						<option>{{choice}}</option>
+					{% endfor %}
+				</select>
+			</div>
+		{% endifequal %}
+
+
+		{% if question.choices %}
+			<strong class="prompt">{{ question.prompt }}</strong>
+			<br/>
+			<select name="question_{{question.pk}}">
+			{% for choice in question.choices %}
+				<option>{{choice}}</option>
+			{% endfor %}
+			</select>
+			<p>
+			</p>
+			<p>
+			</p>
+		{% else %}
+
+			{% ifequal question.field_rows 1 %}
+
+			<strong class="prompt">{{ question.prompt }}</strong>
+			<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+
+			{% else %}
+			<strong class="prompt">{{ question.prompt }}</strong>
+			<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+			{% endifequal %}
+
+		{% endif %}
+
+	{% endfor %}
+
+{% endblock %}

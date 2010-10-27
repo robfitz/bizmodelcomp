@@ -44,6 +44,8 @@ Apply to {{ competition }}
 
 	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data">
 
+
+
 		{% if founder %}
 		{% else %}
 
@@ -84,35 +86,39 @@ Apply to {{ competition }}
 		{% endif %}
 
 		{% if phase.questions %}
+			{% block questions %}
 
-			{% for question in phase.questions %}
+				{% for question in phase.questions %}
 
-					{% if question.choices %}
-						<strong class="prompt">{{ question.prompt }}</strong>
-						<select name="question_{{question.pk}}">
-						{% for choice in question.choices %}
-							<option>{{choice}}</option>
-						{% endfor %}
-						</select>
-						<p>
-						</p>
-						<p>
-						</p>
-					{% else %}
-
-						{% ifequal question.field_rows 1 %}
-
-						<strong class="prompt">{{ question.prompt }}</strong>
-						<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
-
+						{% if question.choices %}
+							<strong class="prompt">{{ question.prompt }}</strong>
+							<br/>
+							<select name="question_{{question.pk}}">
+							{% for choice in question.choices %}
+								<option>{{choice}}</option>
+							{% endfor %}
+							</select>
+							<p>
+							</p>
+							<p>
+							</p>
 						{% else %}
-						<strong class="prompt">{{ question.prompt }}</strong>
-						<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
-						{% endifequal %}
 
-					{% endif %}
+							{% ifequal question.field_rows 1 %}
 
-			{% endfor %}
+							<strong class="prompt">{{ question.prompt }}</strong>
+							<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+
+							{% else %}
+							<strong class="prompt">{{ question.prompt }}</strong>
+							<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+							{% endifequal %}
+
+						{% endif %}
+
+				{% endfor %}
+
+			{% endblock %}
 
 		{% endif %}
 

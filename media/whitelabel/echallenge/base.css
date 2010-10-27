@@ -1,3 +1,10 @@
+.extra_team {
+    float:left;
+    width:142px;
+    margin-right:8px;
+    padding:0px;
+}
+
 body {
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 62.5%;
@@ -22,6 +29,8 @@ body {
 
 .logo {
 	float:right;
+
+
 }
 
 h1 {
