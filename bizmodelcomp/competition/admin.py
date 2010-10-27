@@ -65,14 +65,23 @@ class CompetitionAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'owner', 'website')
 
-    
+
+class PitchQuestionForm(forms.ModelForm):
+
+    raw_choices = forms.CharField(widget=forms.Textarea)
+
+class PitchQuestionAdmin(admin.ModelAdmin):
+
+    form = PitchQuestionForm
+
+
 
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Phase)
 admin.site.register(Founder)
 admin.site.register(ExtraFounderInfo)
 admin.site.register(Pitch)
-admin.site.register(PitchQuestion)
+admin.site.register(PitchQuestion, PitchQuestionAdmin)
 admin.site.register(PitchUpload)
 admin.site.register(PitchAnswer)
 admin.site.register(PitchFile)

@@ -74,6 +74,12 @@ h1, h2 {
 	margin-bottom: 20px;
 }
 
-#prompt {
-	font-size: 1.2em;
+.input_prompt {
+        width:142px;
+        margin-right:8px;
+        float:left;
+}
+
+.prompt, .input_prompt {
+	font-size: 12px;
 }

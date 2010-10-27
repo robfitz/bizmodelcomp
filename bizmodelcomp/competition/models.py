@@ -167,10 +167,16 @@ class PitchQuestion(models.Model):
 
     #return raw_choices as a split and stripped array of choices
     def choices(self):
-        
-        chunks = raw_choices.split("\n")
 
-        for chunk in chunks: chunk = chunk.trim()
+        print 'RAW CHOICES %s' % self.raw_choices
+
+        if not self.raw_choices or self.raw_choices == "":
+            return None
+        
+        chunks = self.raw_choices.split("\n")
+        print 'CHUNKS %s' % chunks
+
+        #for chunk in chunks: chunk = chunk.trim()
         
         return chunks
 

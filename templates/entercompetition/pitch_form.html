@@ -35,6 +35,13 @@ Apply to {{ competition }}
 
 	{{ block.super }}
 
+	<div>
+
+	{% block above_form %}
+
+	{% endblock %}
+	</div>
+
 	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data">
 
 		{% if founder %}
@@ -51,8 +58,6 @@ Apply to {{ competition }}
 		{% endif %}
 
 		{% if phase.uploads %}
-
-			<h3>Uploads</h3>
 
 			{% for upload in uploads %}
 
@@ -79,17 +84,34 @@ Apply to {{ competition }}
 		{% endif %}
 
 		{% if phase.questions %}
-			<h3>Questions</h3>
 
-			{% for question in questions %}
+			{% for question in phase.questions %}
 
-					<p id="prompt">{{ question.prompt }}</p>
-
-					{% ifequal question.field_rows 1 %}
-					<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+					{% if question.choices %}
+						<strong class="prompt">{{ question.prompt }}</strong>
+						<select name="question_{{question.pk}}">
+						{% for choice in question.choices %}
+							<option>{{choice}}</option>
+						{% endfor %}
+						</select>
+						<p>
+						</p>
+						<p>
+						</p>
 					{% else %}
-					<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
-					{% endifequal %}
+
+						{% ifequal question.field_rows 1 %}
+
+						<strong class="prompt">{{ question.prompt }}</strong>
+						<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+
+						{% else %}
+						<strong class="prompt">{{ question.prompt }}</strong>
+						<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+						{% endifequal %}
+
+					{% endif %}
+
 			{% endfor %}
 
 		{% endif %}
@@ -97,9 +119,9 @@ Apply to {{ competition }}
 		<input id="is_draft" type="hidden" name="is_draft" value="False" />
 
 		<input type="submit" style="font-size:20px;" value="Save & submit pitch" onclick="$('#is_draft').val('False');" />
-		<br/>
-		(You will be able to keep editing your pitch until judging begins)
-
+		<p>
+		You can update your pitch until the application deadline.
+		</p>
 	</form>
 
 {% endblock %}
