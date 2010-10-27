@@ -26,7 +26,7 @@ def send_email(subject, message_markdown, to_email, from_email=None):
     f.write("TO:       %s\n" % to_email)
     f.write("FROM:     %s\n" % from_email)
     f.write("DATE:     %s\n" % datetime.now())
-    f.write("BODY:   \n%s\n" % message_markdown)
+    f.write("BODY:   \n%s\n\n" % message_markdown)
     #f.close()
     
     #don't send emails in debug mode, which covers both local
@@ -41,7 +41,7 @@ def send_email(subject, message_markdown, to_email, from_email=None):
     msg['From'] = from_email
     msg['To'] = to_email
     
-    f.write("       created MIMEMultipart\n")
+    f.write("DEBUG: created MIMEMultipart\n")
 
     # Create the body of the message (a plain-text and an HTML version).
     text = message_markdown
