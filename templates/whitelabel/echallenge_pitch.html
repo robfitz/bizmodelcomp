@@ -17,7 +17,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 	{% if forloop.counter <= 11 and forloop.counter >= 4 %}
 
 		{% ifequal forloop.counter 4 %}
-			<strong class="prompt" style="padding-top:10px;">Other team member names & affiliations</strong>
+			<strong class="prompt" style="padding-top:10px;">{{question.prompt}}</strong>
 			<br/>
 			<div class="extra_team">
 				<input class="extra_team_question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
