@@ -5,7 +5,7 @@ from datetime import datetime
 def sync_echallenge():
 
     if not is_local:
-        csv_url = "http://www.londonentrepreneurschallenge.com/lec.csv"
+        csv_url = "lec.csv"
         competition = Competition.objects.get(hosted_url='echallenge')
     else:
         #debugging
