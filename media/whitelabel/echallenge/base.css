@@ -1,8 +1,12 @@
 .extra_team {
     float:left;
     width:142px;
-    margin-right:8px;
+    magin:0px;
     padding:0px;
+    padding-right:8px;
+}
+.extra_team_question {
+    width:142px;
 }
 
 body {
