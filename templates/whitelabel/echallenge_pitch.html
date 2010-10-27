@@ -14,7 +14,9 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 	{% for question in questions %}
 
 
-	{% if not pitch and forloop.counter <= 16 and forloop.counter >= 5 %}
+	{% if forloop.counter <= 16 and forloop.counter >= 5 %}
+
+		{% if not pitch %}
 
 		{% ifequal forloop.counter 5 %}
 			<strong class="prompt" style="padding-top:10px;">{{question.prompt}}</strong>
@@ -93,6 +95,12 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			<div style="width:600px;height:20px;float:left;">&nbsp;</div>
 		{% endifequal %}
 
+		{% endif %}
+
+	{% else %}
+
+
+	{% if forloop.counter >= 3 and forloop.counter <= 4 and not pitch %}
 	{% else %}
 
 
@@ -121,6 +129,8 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			{% endifequal %}
 
 		{% endif %}
+
+	{% endif %
 	{% endif %}
 
 	{% endfor %}
