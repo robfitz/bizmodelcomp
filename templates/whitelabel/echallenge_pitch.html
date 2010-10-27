@@ -13,6 +13,9 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 
 	{% for question in phase.questions %}
 
+
+	{% if forloop.counter <= 11 and forloop.counter >= 4 %}
+
 		{% ifequal forloop.counter 4 %}
 			<strong class="prompt">Other team member names & affiliations</strong>
 			<br/>
@@ -57,8 +60,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			</div>
 		{% endifequal %}
 
-		{% if forloop.counter > 11 %}
-		{% if forloop.counter < 4 %}
+	{% else %}
 
 
 		{% if question.choices %}
@@ -86,9 +88,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			{% endifequal %}
 
 		{% endif %}
-
-		{% endif %}
-		{% endif %}
+	{% endif %}
 
 	{% endfor %}
 
