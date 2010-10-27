@@ -464,7 +464,7 @@ You're registered for the\ competition and will receive email updates as the dea
 
 The link below will allow you to edit your application any time until judging begins:
 
-%s""" % (competition.name, application_url)
+""" % (competition.name)
                                                
             send_email(subject, email_message, to_email)
            
