@@ -176,14 +176,14 @@ class PitchQuestion(models.Model):
         if not self.raw_choices or self.raw_choices == "":
             return None
         
-        chunks = self.raw_choices.split("\n")
+        chunks = self.raw_choices.splitlines()
         print 'CHUNKS %s' % chunks
 
-        trimmed_chunks = []
-        for chunk in chunks: trimmed_chunks.append(chunk.trim())
-        
-        return trimmed_chunks
-
+##        trimmed_chunks = []
+##        for chunk in chunks: trimmed_chunks.append(chunk)
+##        
+##        return trimmed_chunks
+        return chunks
 
     def __unicode__(self):
 
