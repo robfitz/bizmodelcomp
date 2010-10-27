@@ -17,7 +17,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			<strong class="prompt">Other team member names & affiliations</strong>
 			<br/>
 			<div class="extra_team">
-				<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+				<input class="extra_team_question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 		{% endifequal %}{% ifequal forloop.counter 5 %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
@@ -27,7 +27,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			</div>
 		{% endifequal %}{% ifequal forloop.counter 6 %}
 			<div class="extra_team">
-				<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+				<input class="extra_team_question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 		{% endifequal %}{% ifequal forloop.counter 7 %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
@@ -37,7 +37,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			</div>
 		{% endifequal %}{% ifequal forloop.counter 8 %}
 			<div class="extra_team">
-				<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+				<input class="extra_team_question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 		{% endifequal %}{% ifequal forloop.counter 9 %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
@@ -47,7 +47,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			</div>
 		{% endifequal %}{% ifequal forloop.counter 10 %}
 			<div class="extra_team">
-				<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+				<input class="extra_team_question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 		{% endifequal %}{% ifequal forloop.counter 11 %}
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
@@ -56,6 +56,9 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 				</select>
 			</div>
 		{% endifequal %}
+
+		{% if forloop.counter > 11 %}
+		{% if forloop.counter < 4 %}
 
 
 		{% if question.choices %}
@@ -82,6 +85,9 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
 			{% endifequal %}
 
+		{% endif %}
+
+		{% endif %}
 		{% endif %}
 
 	{% endfor %}
