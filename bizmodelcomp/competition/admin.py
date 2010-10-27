@@ -71,7 +71,7 @@ class PitchQuestionForm(forms.ModelForm):
     raw_choices = forms.CharField(widget=forms.Textarea)
 
 class PitchQuestionAdmin(admin.ModelAdmin):
-    list_display = ('order', 'prompt', 'field_rows')
+    list_display = ('id', 'order', 'prompt', 'field_rows')
     list_editable = ('order', 'prompt', 'field_rows')
     form = PitchQuestionForm
 
