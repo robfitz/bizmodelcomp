@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+import array
 import sys
 from random import choice
 import string
