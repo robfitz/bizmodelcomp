@@ -32,7 +32,7 @@ def send_email(subject, message_markdown, to_email, from_email=None, log=True):
     #don't send emails in debug mode, which covers both local
     #and testing stuff on the liver servers
     if is_local or DISABLE_ALL_EMAIL:
-        if log: f.write("DEBUG: aborting email because is_local=%s or DISABLE_ALL_EMAIL=%\n" % (is_local, DISABLE_ALL_EMAIL))
+        if log: f.write("DEBUG: aborting email because is_local=%s or DISABLE_ALL_EMAIL=%s\n" % (is_local, DISABLE_ALL_EMAIL))
         return 
 
     # Create message container - the correct MIME type is multipart/alternative.

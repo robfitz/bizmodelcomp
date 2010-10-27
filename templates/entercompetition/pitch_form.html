@@ -88,7 +88,7 @@ Apply to {{ competition }}
 		{% if phase.questions %}
 			{% block questions %}
 
-				{% for question in phase.questions %}
+				{% for question in questions %}
 
 						{% if question.choices %}
 							<strong class="prompt">{{ question.prompt }}</strong>

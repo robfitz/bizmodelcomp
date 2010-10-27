@@ -42,7 +42,7 @@ def recover_application(request, competition_url):
 
             subject = "Your application to %s" % competition.name
 
-            application_url = request.build_absolute_uri("/pitch/apply/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key()))
+            application_url = request.build_absolute_uri("/apply/pitch/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key()))
     
             message = """Hello,
 
@@ -322,9 +322,15 @@ def edit_pitch(request, competition_url, phase_id=None):
     uploads = phase.uploads()
     
     for question in questions:
+        print 'question: %s' % question
         #render existing answers
-        try: question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-        except: question.answer = ""
+        try:
+            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+            print 'answer: %s' % question.answer
+            
+        except:
+            question.answer = ""
+            print 'exception'
 
     for upload in uploads:
         #render existing uploads
