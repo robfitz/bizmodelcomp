@@ -182,7 +182,7 @@ class PitchQuestion(models.Model):
 
         trimmed_chunks = array
         for chunk in chunks:
-            trimmed_chunks.append(chunk.strip())
+            trimmed_chunks = trimmed_chunks.append(chunk.strip())
         
         return trimmed_chunks
 ##        return chunks
