@@ -22,8 +22,6 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			<div class="extra_team">
 				<input class="extra_team_question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 		{% endifequal %}{% ifequal forloop.counter 5 %}
-				answer: {{ question.answer.answer }}
-				<br/>
 				<select name="question_{{question.pk}}">
 					{% for choice in question.choices %}
 						<option {% ifequal question.answer choice %}selected="selected"{% endifequal %}>{{choice}}</option>
