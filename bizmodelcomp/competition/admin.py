@@ -68,7 +68,7 @@ class CompetitionAdmin(admin.ModelAdmin):
 
 class PitchQuestionForm(forms.ModelForm):
 
-    raw_choices = forms.CharField(widget=forms.Textarea)
+    raw_choices = forms.CharField(widget=forms.Textarea, required=False)
 
 class PitchQuestionAdmin(admin.ModelAdmin):
     list_display = ('id', 'order', 'prompt', 'field_rows')
