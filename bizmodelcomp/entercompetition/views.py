@@ -191,7 +191,7 @@ def submit_pitch(request, competition_url, phase_id=None):
                     mystery_founder = Founder.objects.get(email=email)
                     if mystery_founder.require_authentication:
                         #TODO: need to authenticate via email URL.
-                        return False
+                        return HttpResponseRedirect('/apply/load/%s/' % competition_url)
                     else:
                         #no auth needed, so just save it as a pitch
                         print 'mystery founder with no auth needed'
