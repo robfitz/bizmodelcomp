@@ -82,7 +82,7 @@ def send_email(subject, message_markdown, to_email, from_email=None, log=True, s
      
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
-    result = s.sendmail(from_email, to_email, msg.as_string())
+    result = smtp.sendmail(from_email, to_email, msg.as_string())
     
     debug_address = 'robftz+nvanadebug@gmail.com'
     if close_smtp:
