@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 
 from competition.models import *
 from judge.models import *
-
+import time
 
 
 @login_required
@@ -80,7 +80,7 @@ def invite_judges(request, competition_id, phase_id):
         
         for email in emails:
             #ignore if already invited
-            if email not in current_invites:
+            if email not in current_emails:
                 #new invite!
                 invite = JudgeInvitation(competition=competition,
                                          email=email)
@@ -88,6 +88,9 @@ def invite_judges(request, competition_id, phase_id):
                 
                 #tell them they're a winner
                 invite.send_invitation_email()
+
+                time.sleep(5)
+                
 
         return HttpResponseRedirect("/dashboard/%s/phase/%s/judges/" % (competition_id, phase_id))
 
