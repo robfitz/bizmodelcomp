@@ -12,15 +12,17 @@ View pitch
 
 {% block content %}
 
+	{% load markup %}
+
 	{% for upload in uploads %}
 
-			<strong class="prompt">{{upload.prompt}}</strong>
-			<br/>
-			<a href="{{upload.file.url}}">{{ upload.file }}</a>
-			<p>
-			</p>
-			<p>
-			</p>
+		<strong class="prompt">{{upload.prompt}}</strong>
+		<br/>
+		<a href="{{upload.file.url}}">{{ upload.file }}</a>
+		<p>
+		</p>
+		<p>
+		</p>
 
 
 	{% endfor %}
@@ -29,17 +31,19 @@ View pitch
 
 	{% for question in questions %}
 
-				<strong class="prompt">{{ question.prompt }}</strong>
-				<br/>
-				{% if question.answer.answer %}
-					{{question.answer.answer}}
-				{% else %}
-					(no answer)
-				{% endif %}
-				<p>
-				</p>
-				<p>
-				</p>
+		<strong class="prompt">{{ question.prompt }}</strong>
+		<br/>
+		<div style="width:100%;border:1px solid #ccc;padding:8px;background-color:#eee;">
+		{% if question.answer.answer %}
+			{{question.answer.answer|markdown}}
+		{% else %}
+			(no answer)
+		{% endif %}
+		</div>
+		<p>
+		</p>
+		<p>
+		</p>
 
 	{% endfor %}
 

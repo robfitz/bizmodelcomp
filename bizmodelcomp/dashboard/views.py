@@ -166,6 +166,7 @@ def list_pitches(request, competition_id, phase_id):
 def dashboard(request):
 
     competitions = Competition.objects.all()
+    competition = competitions[0]
 
     return render_to_response("competition/dashboard.html", locals())
 

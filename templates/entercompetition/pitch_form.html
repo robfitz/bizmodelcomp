@@ -37,14 +37,12 @@ Apply to {{ competition }}
 
 	<div>
 
-	{% block above_form %}
+		{% block above_form %}
+		{% endblock %}
 
-	{% endblock %}
 	</div>
 
 	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data">
-
-
 
 		{% if founder %}
 		{% else %}

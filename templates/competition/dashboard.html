@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends competition.template_base %}
 
 {% block meta %}
 <link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
@@ -12,6 +12,10 @@
 {% endblock %}
 
 {% block content %}
+
+	{{ block.super }}
+
+
 
 	{% for competition in competitions %}
 
