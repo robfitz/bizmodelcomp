@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+Manage Judges
+{% endblock %}
+
+{% block script %}
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+
+	<table>
+		<tr style="height:30px;font-weight:bold">
+			<td></td>
+			<td>Name</td>
+			<td>Email</td>
+			<td>Activated?</td>
+			<td>Applications judged</td>
+		</tr>
+
+		{% for invite in judge_invitations %}
+		<tr>
+			<td><input type="checkbox" />
+			<td></td>
+			<td>{{ invite.email }}</td>
+			<td>Not yet</td>
+			<td>0</td>
+		</tr>
+		{% endfor %}
+
+	</table>
+
+{% endblock %}

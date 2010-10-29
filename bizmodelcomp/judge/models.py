@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from competition.models import Phase, Competition
+from emailhelper.util import send_email
 
 
 
@@ -22,6 +23,37 @@ class JudgeInvitation(models.Model):
     #contests or phases.
     email = models.CharField(max_length=140)
 
+    has_sent_invite_email = models.BooleanField(default=False)
+    
+
+    #tell them they're a winner
+    def send_invitation_email(self):
+        if not self.has_sent_invite_email:
+            self.has_sent_invite_email = True;
+            self.save()
+
+            subject = ""
+            message_markdown = """Hello,
+
+This is a notice that you've been invited by %s to help judge the %s.
+
+The judging period runs from %s until %s or as soon as all the applications have been assessed.
+
+We'll send a second note as the judging begins with a link to take you to the founders' pitches.
+
+Thanks very much,<br/>
+%s team""" % (self.competition.name,
+              self.competition.current_phase().applications_close_judging_open,
+              self.competition.current_phase().judging_close,
+              self.competition.name)
+        
+            to_email = self.email
+
+            send_email(subject, message_markdown, to_email)
+        
+        else:
+            print "already sent judge invitation"
+            pass
 
 
 #A "judge" role is a connection between a user and a single competition.

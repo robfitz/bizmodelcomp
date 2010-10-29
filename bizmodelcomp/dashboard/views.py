@@ -3,8 +3,87 @@ from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 
 from competition.models import *
+from judge.models import *
 
 
+
+@login_required
+def list_judges(request, competition_id, phase_id):
+
+    #are comp & phase valid?
+    try:
+        competition = Competition.objects.get(id=competition_id)
+        phase = Phase.objects.filter(competition=competition).get(id=phase_id)
+    except:
+        return HttpResponseRedirect("/no_permissions/")
+
+    #is organizer?
+    if not competition.owner == request.user:
+        return HttpResponseRedirect("/no_permissions/")
+
+    judge_invitations = JudgeInvitation.objects.filter(competition=competition)
+
+    return render_to_response("dashboard/list_judges.html", locals())
+    
+
+
+@login_required
+def invite_judges(request, competition_id, phase_id):
+
+    #are comp & phase valid?
+    try:
+        competition = Competition.objects.get(id=competition_id)
+        phase = Phase.objects.filter(competition=competition).get(id=phase_id)
+    except:
+        return HttpResponseRedirect("/no_permissions/")
+
+
+    #is organizer?
+    if not competition.owner == request.user:
+        return HttpResponseRedirect("/no_permissions/")
+
+
+    if request.method == "POST" and len(request.POST) > 0:
+
+        raw = request.POST["invite_list"]
+        lines = raw.splitlines()
+
+        #split on newline, comma, and semicolon
+        for line in lines:
+            emails_1.extend(line.split(';'))
+        for email in emails_1:
+            emails_2.extend(email.split(','))
+        for email in emails_2:
+            stripped = email.strip()
+            if stripped and len(stripped) > 0:
+                emails_3.append(stripped)
+        emails = emails_3
+
+        #TODO: cache query instead of this disaster...
+        current_invites = JudgeInvitation.objects.filter(competition=competition)
+        current_emails = []
+        for invite in current_invites:
+            current_emails.append(invite.email)
+        
+        for email in emails:
+            #ignore if already invited
+            if email not in current_invites:
+                #new invite!
+                invite = JudgeInvitation(competition=competition,
+                                         is_judging_all_phases=False)
+                invite.phases.add(phase)
+                invite.save()
+                
+                #tell them they're a winner
+                invite.send_invitation_email()
+
+        return HttpResponseRedirect("/%s/phase/%s/judges/" % (competition_id, phase_id), locals())
+
+    return render_to_response("dashboard/invite_judges.html", locals())
+
+    
+            
+    
 
 @login_required
 def view_pitch(request, pitch_id):
@@ -49,8 +128,6 @@ def list_applicants(request, competition_id):
         return HttpResponseRedirect("/no_permissions/")
     
     return render_to_response("dashboard/list_applicants.html", locals())
-
-
 
 #view list of pitches, sort & manipulate them
 @login_required
