@@ -29,19 +29,17 @@ class JudgeInvitation(models.Model):
     #tell them they're a winner
     def send_invitation_email(self):
         if not self.has_sent_invite_email:
-            self.has_sent_invite_email = True;
+            self.has_sent_invite_email = True
             self.save()
 
-            subject = ""
+            subject = "Judging the %s" % competition.name
             message_markdown = """Hello,
 
-This is a notice that you've been invited to help judge the %s.
-
-The judging period runs from %s until %s or as soon as all the applications have been assessed.
+You've been invited to help judge the %s. The judging period runs from %s until %s or as soon as all the applications have been assessed.
 
 We'll send a second note as the judging begins with a link to take you to the founders' pitches.
 
-Thanks very much,
+Thanks very much for the help,
 
 %s team""" % (self.competition.name,
               self.competition.current_phase().applications_close_judging_open,
@@ -55,6 +53,7 @@ Thanks very much,
         else:
             print "already sent judge invitation"
             pass
+
 
 
 #A "judge" role is a connection between a user and a single competition.
