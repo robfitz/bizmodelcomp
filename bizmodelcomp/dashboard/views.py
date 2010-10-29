@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from competition.models import *
 from judge.models import *
 import time
-
+import smtplib
 
 @login_required
 def list_judges(request, competition_id, phase_id):
