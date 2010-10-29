@@ -128,21 +128,26 @@ class Phase(models.Model):
     judging_close = models.DateTimeField()
 
 
-    def time_left(self):
+    def next_deadline(self):
 
         if datetime.now() < self.applications_open:
 
-            return self.applications_open - datetime.now()
+            return self.applications_open
 
         elif datetime.now() < self.applications_close_judging_open:
 
-            return self.applications_close_judging_open - datetime.now()
+            return self.applications_close_judging_open
 
         elif datetime.now() < self.judging_close():
 
-            return self.judging_close - datetime.now()
+            return self.judging_close
 
         else: return 0
+    
+
+    def time_left(self):
+
+        return self.next_deadline() - datetime.now()
 
 
     def pitches(self):

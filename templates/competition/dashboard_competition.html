@@ -19,7 +19,7 @@
 				<strong>Current phase:</strong> Phase 1 - online application
 				</p>
 				<p>
-				<strong>Next deadline:</strong> 11:59pm, October 31 2010
+				<strong>Next deadline:</strong> {{competition.current_phase.next_deadline|date:"D d M Y P"}}
 				</p>
 
 
@@ -39,10 +39,6 @@
 
 				<p>
 				<a href=""><strong>{{competition.pitches.count}}</strong> submitted pitches</a>
-				</p>
-
-				<p>
-				<strong>{{competition.current_phase.time_left}}</strong> remaining until pitch submission deadline
 				</p>
 
 			</div>
