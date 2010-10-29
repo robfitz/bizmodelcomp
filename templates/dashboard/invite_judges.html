@@ -12,9 +12,13 @@ Manage Judges
 
 {% block content %}
 
-	<form>
+	<form action="." method="POST">
 
-	<strong>List emails of judges to invite.</strong> Multiple emails may be separated by newlines, semicolons, or commas.
-	<textarea name="invite_list"></textarea>
+		<strong>List emails of judges to invite.</strong> Multiple emails may be separated by newlines, semicolons, or commas.
+		<textarea name="invite_list"></textarea>
+
+		<input type="submit"
+
+	</form>
 
 {% endblock %}
