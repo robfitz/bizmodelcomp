@@ -32,7 +32,7 @@ class JudgeInvitation(models.Model):
             self.has_sent_invite_email = True
             self.save()
 
-            subject = "Judging the %s" % competition.name
+            subject = "Judging the %s" % self.competition.name
             message_markdown = """Hello,
 
 You've been invited to help judge the %s. The judging period runs from %s until %s or as soon as all the applications have been assessed.
