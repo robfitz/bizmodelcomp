@@ -36,5 +36,7 @@ urlpatterns = patterns('',
     #specific campaign clobbers
     (r'^echallenge/',
          'entercompetition.views.edit_pitch',
-         {'competition_url': 'echallenge'}), 
+         {'competition_url': 'echallenge'}),
+
+    (r'^dashboard/', include('bizmodelcomp.dashboard.urls')),
 )

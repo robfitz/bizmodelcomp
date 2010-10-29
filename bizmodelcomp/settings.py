@@ -115,6 +115,7 @@ INSTALLED_APPS = (
     'bizmodelcomp.entercompetition',
     'bizmodelcomp.sitecopy',
     'bizmodelcomp.judge',
+    'bizmodelcomp.dashboard',
     'south',
 )
 

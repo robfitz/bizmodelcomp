@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+Manage Applicants
+{% endblock %}
+
+{% block script %}
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+
+	<table>
+		<tr style="height:30px;font-weight:bold">
+			<td></td>
+			<td>Name</td>
+			<td>Email</td>
+			<td>Phone</td>
+			<td>Pitch</td>
+		</tr>
+
+		{% for pitch in competition.pitches.all %}
+		<tr>
+			<td><input type="checkbox" />
+			<td>{{ pitch.owner.name }}</td>
+			<td>{{ pitch.owner.email }}</td>
+			<td>{{ pitch.owner.phone }}</td>
+			<td><a href="">View pitch</a></td>
+		</tr>
+		{% endfor %}
+
+	</table>
+
+{% endblock %}

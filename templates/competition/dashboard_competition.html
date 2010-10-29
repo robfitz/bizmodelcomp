@@ -34,11 +34,11 @@
 				<h4>Manage Applications</h4>
 
 				<p>
-				<a href=""><strong>{{competition.applicants.count}}</strong> registered founders</a>
+				<a href="/dashboard/{{competition.id}}/applicants/"><strong>{{competition.applicants.count}}</strong> registered applicants</a>
 				</p>
 
 				<p>
-				<a href=""><strong>{{competition.pitches.count}}</strong> submitted pitches</a>
+				<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/pitches/"><strong>{{competition.pitches.count}}</strong> submitted pitches</a>
 				</p>
 
 			</div>
@@ -60,7 +60,7 @@
 				</p>
 
 				<p>
-					<a href="">View all judges:</a>
+					<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/judges/">View all judges:</a>
 				<strong>{{competition.current_phase.judges.count}}</strong> confirmed, <strong>{{competition.judge_invitations.count}}</strong> invited & unconfirmed
 				</p>
 

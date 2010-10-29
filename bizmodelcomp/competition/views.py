@@ -25,27 +25,6 @@ def index(request):
 
 
 
-#view & manage your competitions
-@login_required
-def dashboard(request):
-
-    competitions = Competition.objects.all()
-
-    return render_to_response("competition/dashboard.html", locals())
-
-
-
-#view list of applicants, sort & manipulate them
-@login_required
-def manage_applicants(request, competition_id):
-
-    competition = Competition.objects.get(pk=competition_id)
-    print competition.applicants.all()
-
-    return render_to_response("competition/manage_applicants.html", locals())
-
-
-
 #if competition_id is none, then you are editing a new
 #contest which should be created when the user saves
 #the inputted details
