@@ -122,9 +122,9 @@ class Phase(models.Model):
     competition = models.ForeignKey(Competition)
     name = models.CharField(max_length=500, blank=True, default="")
 
-##    applications_open = models.DateTimeField(auto_now=True)
-##    applications_close_judging_open = models.DateTimeField()
-##    judging_close = models.DateTimeField
+    applications_open = models.DateTimeField(auto_now_add=True)
+    applications_close_judging_open = models.DateTimeField(auto_now_add=True)
+    judging_close = models.DateTimeField(auto_now_add=True)
 
 
     def pitches(self):
