@@ -3,8 +3,17 @@ import socket
 
 is_local = False
 
-if socket.gethostname() in ['robfitz-PC', 'tugboat', 'mango', 'papaya', 'mango.local']:
+local_windows = ['robfitz-PC', 'tugboat']
+local_mac = ['mango', 'papaya', 'mango.local']
+
+filesystem = "UNIX"
+
+if socket.gethostname() in local_windows:
     is_local = True
+    filesystem = "WINDOWS"
+elif socket.gethostname() in local_mac:
+    is_local = True
+    filesystem = "MAC"
 
 DEBUG = is_local
 TEMPLATE_DEBUG = DEBUG
@@ -61,8 +70,10 @@ USE_I18N = True
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = '/var/www/bizmodelcomp/media/'
-if is_local:
+if filesystem == "WINDOWS":
     MEDIA_ROOT = 'c:/www/bizmodelcomp/media/'
+elif filesystem == "MAC":
+    MEDIA_ROOT = 'Users/thomasstone/www/bizmodelcomp/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
