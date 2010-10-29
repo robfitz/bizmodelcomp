@@ -13,11 +13,6 @@
 
 {% block content %}
 
-	<p>
-	<a href="/new_competition">Make a new competition</a>
-	</p>
-
-	<h3>Your competitions</h3>
 	{% for competition in competitions %}
 
 		{% include 'competition/dashboard_competition.html' %}

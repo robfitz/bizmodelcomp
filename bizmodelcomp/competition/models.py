@@ -94,6 +94,16 @@ class Competition(models.Model):
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
 
+    def pitches(self):
+
+        return self.current_phase().pitches()
+        
+
+    def current_phase(self):
+        print "TODO: fix this..."
+        return self.phases()[0]
+    
+
     def phases(self):
         
         return self.phase_set.all()
@@ -111,6 +121,15 @@ class Phase(models.Model):
 
     competition = models.ForeignKey(Competition)
     name = models.CharField(max_length=500, blank=True, default="")
+
+##    applications_open = models.DateTimeField(auto_now=True)
+##    applications_close_judging_open = models.DateTimeField()
+##    judging_close = models.DateTimeField
+
+
+    def pitches(self):
+
+        return self.pitch_set.all()
 
 
     def questions(self):

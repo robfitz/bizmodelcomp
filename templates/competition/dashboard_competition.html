@@ -1,9 +1,3 @@
-		<p>
-			{{competition}}
-		</p>
-
-		<h3>Competition Setup</h3>
-
 		<div class="dashboard_section">
 
 			<div class="summary">
@@ -11,33 +5,44 @@
 				<h4>Competition details</h4>
 
 				<p>
-				Name: {{competition.name}}
+				<strong>Name:</strong> {{competition.name}}
 				</p>
 				<p>
-				Website: <a href="{{competition.website}}">{{competition.website}}</a>
-				</p>
-				<p>
-					<a href="/edit_competition/{{competition.pk}}/">
-						Edit setup details
-					</a>
+				<strong>Website:</strong> <a href="{{competition.website}}">{{competition.website}}</a>
 				</p>
 
 				<p>
-					<a href="/apply/admin_widgets/{{competition.pk}}/">
-						Accept pitch applications from your site
-					</a>
+				<strong>Pitch form:</strong> <a href="/apply/pitch/{{competition.website}}">View application form</a>
 				</p>
+
+				<p>
+				<strong>Current phase:</strong> Phase 1 - online application
+				</p>
+				<p>
+				<strong>Next deadline:</strong> 11:59pm, October 31 2010
+				</p>
+
 
 			</div>
 
-			<div class="controls">
+		</div>
+
+		<div class="dashboard_section">
+
+			<div class="summary">
+
+				<h4>Manage Applications</h4>
 
 				<p>
-					<a href="">Edit</a>
+				<a href=""><strong>{{competition.applicants.count}}</strong> registered founders</a>
 				</p>
 
 				<p>
-					<a href="">Help</a>
+				<a href=""><strong>{{competition.pitches.count}}</strong> submitted pitches</a>
+				</p>
+
+				<p>
+				<strong>hh:mm</strong> remaining until pitch submission deadline
 				</p>
 
 			</div>
@@ -48,44 +53,30 @@
 
 			<div class="summary">
 
-				<h4>Application form</h4>
+				<h4>Manage Judges</h4>
 
 				<p>
-				TODO: how does this relate to multiple phases? current phase? first phase? tabbed subset of phase picker?
+					<a href="">Invite judges</a>
 				</p>
 
 				<p>
-				<a href="edit_application/{{competition.pk}}/">Edit application</a>
-				</p>
-
-			</div>
-
-			<div class="controls">
-
-				<p>
-					<a href="">Edit</a>
+					<strong>X</strong> confirmed judges, <strong>Y</strong> invited (unconfirmed) judges (<a href="">View all</a>)
 				</p>
 
 				<p>
-					<a href="">Help</a>
+					<strong>Y</strong> judged applications
+				</p>
+
+				<p>
+					<strong>Z</strong> assessments remain undone
 				</p>
 
 			</div>
 
 		</div>
 
-		<!--
 
-		<ul>
 
-			<li><a href="/edit_competition/{{competition.pk}}/">Edit setup details</a>
 
-			<li><a href="/apply/admin_widgets/{{competition.pk}}/">Accept pitch applications from your site</a>
 
-			<li><a href="/manage_applicants/{{competition.pk}}/">Manage <b>{{num_applicants}}</b> applicants</a>
 
-			<li><a href="/manage_judges/{{competition.pk}}">Manage <b>{{num_judges}}</b> judges</a>
-
-		</ul>
-
-		-->
