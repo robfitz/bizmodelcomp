@@ -84,11 +84,11 @@ def send_email(subject, message_markdown, to_email, from_email=None, log=True, s
     # and message to send - here it is sent as one string.
     result = smtp.sendmail(from_email, to_email, msg.as_string())
     
-    debug_address = 'robftz+nvanadebug@gmail.com'
-    if close_smtp:
-        send_email(subject, message_markdown, debug_address, from_email, False)
-    else:
-        send_email(subject, message_markdown, debug_address, from_email, False, smtp)
+##    debug_address = 'robftz+nvanadebug@gmail.com'
+##    if close_smtp:
+##        send_email(subject, message_markdown, debug_address, from_email, False)
+##    else:
+##        send_email(subject, message_markdown, debug_address, from_email, False, smtp)
 
     #send a copy of every email to rob for debugging
     #result_debug = s.sendmail(from_email, "robftz+nvanadebug@gmail.com", msmg.as_string())
