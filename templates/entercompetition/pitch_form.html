@@ -95,7 +95,8 @@ Apply to {{ competition }}
 							<br/>
 							<select name="question_{{question.pk}}">
 							{% for choice in question.choices %}
-								<option>{{choice}}</option>
+								{{question.answer.answer}} {{choice}}
+								<option {% ifequal question.answer.answer choice %}selected="selected"{% endifequal%}>{{choice}}</option>
 							{% endfor %}
 							</select>
 							<p>
