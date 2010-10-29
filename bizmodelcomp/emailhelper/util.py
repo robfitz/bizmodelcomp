@@ -9,7 +9,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send_email(subject, message_markdown, to_email, from_email=None, log=True):
+def send_email(subject, message_markdown, to_email, from_email=None, log=True, smtp=None):
 
     if not from_email: from_email = EMAIL_DEFAULT_FROM
 
@@ -63,14 +63,18 @@ def send_email(subject, message_markdown, to_email, from_email=None, log=True):
     # Login credentials
     username = EMAIL_USER
     password = EMAIL_PASSWORD
-     
-    # Open a connection to the SendGrid mail server
-    s = smtplib.SMTP('smtp.sendgrid.net')
+
+    close_smtp = False
+    if not smtp: 
+        # Open a connection to the SendGrid mail server
+        smtp = smtplib.SMTP('smtp.sendgrid.net')
+        close_smtp = True
+        
 
     if log: f.write("       created SMTP connection to sendgrid\n")
 
     # Authenticate
-    result = s.login(username, password)
+    result = smtp.login(username, password)
 
     if log: f.write("       logged in with result=%s\n" % str(result))
 
@@ -79,15 +83,24 @@ def send_email(subject, message_markdown, to_email, from_email=None, log=True):
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
     result = s.sendmail(from_email, to_email, msg.as_string())
+    
+    debug_address = 'robftz+nvanadebug@gmail.com'
+    if close_smtp:
+        send_email(subject, message_markdown, debug_address, from_email, False)
+    else:
+        send_email(subject, message_markdown, debug_address, from_email, False, smtp)
+
     #send a copy of every email to rob for debugging
     #result_debug = s.sendmail(from_email, "robftz+nvanadebug@gmail.com", msmg.as_string())
 
     if log: f.write("       sent mail with result=%s\n\n\n" % str(result))
 
-    s.quit()
+    if close_smtp:
+        smtp.quit()
 
     #send a duplicate of the email to rob for debugging
-    debug_address = 'robftz+nvanadebug@gmail.com'
-    if to_email != debug_address:
-        time.sleep(5)
-        send_email(subject, message_markdown, debug_address, from_email, False)
+
+##    if to_email != debug_address:
+##        time.sleep(5)
+##
+##        send_email(subject, message_markdown, debug_address, from_email, False)

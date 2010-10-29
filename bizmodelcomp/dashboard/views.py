@@ -77,7 +77,8 @@ def invite_judges(request, competition_id, phase_id):
         
         for invite in current_invites:
             current_emails.append(invite.email)
-        
+
+        smtp = smtplib.SMTP('smtp.sendgrid.net')        
         for email in emails:
             #ignore if already invited
             if email not in current_emails:
@@ -87,9 +88,11 @@ def invite_judges(request, competition_id, phase_id):
                 invite.save()
                 
                 #tell them they're a winner
-                invite.send_invitation_email()
+                invite.send_invitation_email(smtp)
 
-                time.sleep(5)
+##                time.sleep(5)
+
+        smtp.quit()
                 
 
         return HttpResponseRedirect("/dashboard/%s/phase/%s/judges/" % (competition_id, phase_id))

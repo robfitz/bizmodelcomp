@@ -27,7 +27,7 @@ class JudgeInvitation(models.Model):
     
 
     #tell them they're a winner
-    def send_invitation_email(self):
+    def send_invitation_email(self, smtp=None):
         if not self.has_sent_invite_email:
             self.has_sent_invite_email = True
             self.save()
@@ -48,7 +48,7 @@ Thanks very much for the help,
         
             to_email = self.email
 
-            send_email(subject, message_markdown, to_email)
+            send_email(subject, message_markdown, to_email, smtp=smtp)
         
         else:
             print "already sent judge invitation"
