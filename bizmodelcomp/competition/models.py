@@ -123,9 +123,12 @@ class Phase(models.Model):
     competition = models.ForeignKey(Competition)
     name = models.CharField(max_length=500, blank=True, default="")
 
-    applications_open = models.DateTimeField()
-    applications_close_judging_open = models.DateTimeField()
-    judging_close = models.DateTimeField()
+##    invited_judges = models.
+##    judges = models.ManyToManyField(User, blank=True, null=True)
+
+    applications_open = models.DateTimeField(default=datetime.now)
+    applications_close_judging_open = models.DateTimeField(default=datetime.now)
+    judging_close = models.DateTimeField(default=datetime.now)
 
 
     def next_deadline(self):
