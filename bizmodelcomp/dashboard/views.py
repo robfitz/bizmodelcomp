@@ -48,20 +48,33 @@ def invite_judges(request, competition_id, phase_id):
         raw = request.POST["invite_list"]
         lines = raw.splitlines()
 
+        emails_1 = []
+        emails_2 = []
+        emails_3 = []
+
+        print 'raw: %s' % raw
+        print 'lines: %s' % lines
+
         #split on newline, comma, and semicolon
         for line in lines:
             emails_1.extend(line.split(';'))
         for email in emails_1:
+            print 'email 1: %s' % email
             emails_2.extend(email.split(','))
         for email in emails_2:
+            print 'email 2: %s' % email
             stripped = email.strip()
+            print 'stripped: %s' % stripped
             if stripped and len(stripped) > 0:
                 emails_3.append(stripped)
+
+            print 'emails 3: %s' % emails_3
         emails = emails_3
 
         #TODO: cache query instead of this disaster...
         current_invites = JudgeInvitation.objects.filter(competition=competition)
         current_emails = []
+        
         for invite in current_invites:
             current_emails.append(invite.email)
         
@@ -70,14 +83,13 @@ def invite_judges(request, competition_id, phase_id):
             if email not in current_invites:
                 #new invite!
                 invite = JudgeInvitation(competition=competition,
-                                         is_judging_all_phases=False)
-                invite.phases.add(phase)
+                                         email=email)
                 invite.save()
                 
                 #tell them they're a winner
                 invite.send_invitation_email()
 
-        return HttpResponseRedirect("/%s/phase/%s/judges/" % (competition_id, phase_id), locals())
+        return HttpResponseRedirect("/dashboard/%s/phase/%s/judges/" % (competition_id, phase_id))
 
     return render_to_response("dashboard/invite_judges.html", locals())
 
