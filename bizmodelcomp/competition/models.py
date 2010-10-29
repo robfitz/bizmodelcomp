@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import datetime
 
 import array
 import sys
@@ -122,9 +123,26 @@ class Phase(models.Model):
     competition = models.ForeignKey(Competition)
     name = models.CharField(max_length=500, blank=True, default="")
 
-    applications_open = models.DateTimeField(auto_now_add=True)
-    applications_close_judging_open = models.DateTimeField(auto_now_add=True)
-    judging_close = models.DateTimeField(auto_now_add=True)
+    applications_open = models.DateTimeField()
+    applications_close_judging_open = models.DateTimeField()
+    judging_close = models.DateTimeField()
+
+
+    def time_left(self):
+
+        if datetime.now() < self.applications_open:
+
+            return applications_open - datetime.now()
+
+        elif datetime.now() < applications_close_judging_open:
+
+            return applications_close_judging_open - datetime.now()
+
+        elif datetime.now() < judging_close():
+
+            return judging_close - datetime.now()
+
+        else: return 0
 
 
     def pitches(self):
