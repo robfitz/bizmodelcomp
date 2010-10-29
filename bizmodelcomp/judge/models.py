@@ -12,7 +12,7 @@ from emailhelper.util import send_email
 class JudgeInvitation(models.Model):
 
     #invitation to judge a specific phase
-    this_phase_only = models.ForeignKey(Phase, related_name="judge_invitations")
+    this_phase_only = models.ForeignKey(Phase, related_name="judge_invitations", blank=True, null=True)
 
     #invitations for the whole competition set you
     #as a judge for all phases
