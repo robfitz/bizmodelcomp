@@ -221,6 +221,9 @@ def submit_pitch(request, competition_url, phase_id=None):
                     founder.save()
                     is_new_founder = True
 
+                    competition.applicants.add(founder)
+                    competition.save()
+
                     #log in
                     request.session['founder_key'] = founder.anon_key()
 
