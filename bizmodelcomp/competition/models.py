@@ -134,11 +134,11 @@ class Phase(models.Model):
 
             return self.applications_open - datetime.now()
 
-        elif datetime.now() < applications_close_judging_open:
+        elif datetime.now() < self.applications_close_judging_open:
 
             return self.applications_close_judging_open - datetime.now()
 
-        elif datetime.now() < judging_close():
+        elif datetime.now() < self.judging_close():
 
             return self.judging_close - datetime.now()
 
