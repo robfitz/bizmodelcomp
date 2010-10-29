@@ -73,7 +73,7 @@ MEDIA_ROOT = '/var/www/bizmodelcomp/media/'
 if filesystem == "WINDOWS":
     MEDIA_ROOT = 'c:/www/bizmodelcomp/media/'
 elif filesystem == "MAC":
-    MEDIA_ROOT = 'Users/thomasstone/www/bizmodelcomp/media/'
+    MEDIA_ROOT = '/Users/thomasstone/www/bizmodelcomp/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
