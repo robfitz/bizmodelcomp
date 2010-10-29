@@ -16,7 +16,7 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 
 	{% if forloop.counter <= 16 and forloop.counter >= 5 %}
 
-		{% if not pitch %}
+
 
 		{% ifequal forloop.counter 5 %}
 			<strong class="prompt" style="padding-top:10px;">{{question.prompt}}</strong>
@@ -96,42 +96,40 @@ View the <a href="/media/whitelabel/echallenge/entryguide.pdf">requirements & gu
 			<div style="width:600px;height:20px;float:left;">&nbsp;</div>
 		{% endifequal %}
 
-		{% endif %}
+
 
 	{% else %}
 
 
-	{% if forloop.counter >= 2 and forloop.counter <= 4 and pitch %}
-	{% else %}
 
 
-		{% if question.choices %}
-			<strong class="prompt">{{ question.prompt }}</strong>
-			<br/>
-			<select name="question_{{question.pk}}">
-			{% for choice in question.choices %}
-				<option {% ifequal question.answer.answer choice %}selected="selected"{% endifequal %} value="{{choice}}">{{choice}}</option>
-			{% endfor %}
-			</select>
-			<p>
-			</p>
-			<p>
-			</p>
-		{% else %}
-
-			{% ifequal question.field_rows 1 %}
-
-			<strong class="prompt">{{ question.prompt }}</strong>
-			<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
-
+			{% if question.choices %}
+				<strong class="prompt">{{ question.prompt }}</strong>
+				<br/>
+				<select name="question_{{question.pk}}">
+				{% for choice in question.choices %}
+					<option {% ifequal question.answer.answer choice %}selected="selected"{% endifequal %} value="{{choice}}">{{choice}}</option>
+				{% endfor %}
+				</select>
+				<p>
+				</p>
+				<p>
+				</p>
 			{% else %}
-			<strong class="prompt">{{ question.prompt }}</strong>
-			<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
-			{% endifequal %}
 
-		{% endif %}
+				{% ifequal question.field_rows 1 %}
 
-	{% endif %}
+				<strong class="prompt">{{ question.prompt }}</strong>
+				<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+
+				{% else %}
+				<strong class="prompt">{{ question.prompt }}</strong>
+				<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+				{% endifequal %}
+
+			{% endif %}
+
+
 	{% endif %}
 
 	{% endfor %}
