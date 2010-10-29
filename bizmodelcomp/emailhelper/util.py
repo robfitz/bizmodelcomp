@@ -2,6 +2,7 @@ from settings import is_local, EMAIL_USER, EMAIL_PASSWORD, EMAIL_DEFAULT_FROM, D
 import markdown
 from datetime import datetime
 import os
+import time
 
 #sendgrid stuff
 import smtplib
@@ -88,4 +89,5 @@ def send_email(subject, message_markdown, to_email, from_email=None, log=True):
     #send a duplicate of the email to rob for debugging
     debug_address = 'robftz+nvanadebug@gmail.com'
     if to_email != debug_address:
+        time.sleep(5)
         send_email(subject, message_markdown, debug_address, from_email, False)
