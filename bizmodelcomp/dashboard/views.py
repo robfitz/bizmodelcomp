@@ -21,6 +21,29 @@ def list_judges(request, competition_id, phase_id):
     if not competition.owner == request.user:
         return HttpResponseRedirect("/no_permissions/")
 
+    if request.method == "POST" and len(request.POST) > 0:
+
+        email = request.POST["invite_list"]
+        
+        #TODO: cache query instead of this disaster...
+        current_invites = JudgeInvitation.objects.filter(competition=competition)
+        current_emails = []
+        
+        for invite in current_invites:
+            current_emails.append(invite.email)
+
+        smtp = smtplib.SMTP('smtp.sendgrid.net')        
+
+        if email not in current_emails:
+            
+            #new invite!
+            invite = JudgeInvitation(competition=competition,
+                                     email=email)
+            invite.save()
+            
+            #tell them they're a winner
+            invite.send_invitation_email()
+        
     judge_invitations = JudgeInvitation.objects.filter(competition=competition)
 
     return render_to_response("dashboard/list_judges.html", locals())
