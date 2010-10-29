@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from itertools import chain
 
 import array
 import sys
@@ -8,6 +9,7 @@ from random import choice
 import string
 
 from settings import MEDIA_URL
+
 
 
 #guy with a business model who is developing it, applying
@@ -94,7 +96,6 @@ class Competition(models.Model):
     template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
-
     def pitches(self):
 
         return self.current_phase().pitches()
@@ -123,9 +124,6 @@ class Phase(models.Model):
     competition = models.ForeignKey(Competition)
     name = models.CharField(max_length=500, blank=True, default="")
 
-##    invited_judges = models.
-##    judges = models.ManyToManyField(User, blank=True, null=True)
-
     applications_open = models.DateTimeField(default=datetime.now)
     applications_close_judging_open = models.DateTimeField(default=datetime.now)
     judging_close = models.DateTimeField(default=datetime.now)
@@ -134,15 +132,12 @@ class Phase(models.Model):
     def next_deadline(self):
 
         if datetime.now() < self.applications_open:
-
             return self.applications_open
 
         elif datetime.now() < self.applications_close_judging_open:
-
             return self.applications_close_judging_open
 
         elif datetime.now() < self.judging_close():
-
             return self.judging_close
 
         else: return 0

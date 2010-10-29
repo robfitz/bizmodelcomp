@@ -114,6 +114,7 @@ INSTALLED_APPS = (
     'bizmodelcomp.userhelper',
     'bizmodelcomp.entercompetition',
     'bizmodelcomp.sitecopy',
+    'bizmodelcomp.judge',
     'south',
 )
 
