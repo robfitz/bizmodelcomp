@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+View pitch
+{% endblock %}
+
+{% block script %}
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block content %}
+
+	{% for upload in uploads %}
+
+			<strong class="prompt">{{upload.prompt}}</strong>
+			<br/>
+			<a href="{{upload.file.url}}">{{ upload.file }}</a>
+			<p>
+			</p>
+			<p>
+			</p>
+
+
+	{% endfor %}
+
+
+
+	{% for question in questions %}
+
+				<strong class="prompt">{{ question.prompt }}</strong>
+				<br/>
+				{% if question.answer.answer %}
+					{{question.answer.answer}}
+				{% else %}
+					(no answer)
+				{% endif %}
+				<p>
+				</p>
+				<p>
+				</p>
+
+	{% endfor %}
+
+{% endblock %}
