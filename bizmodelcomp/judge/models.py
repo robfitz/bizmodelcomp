@@ -23,8 +23,13 @@ class JudgeInvitation(models.Model):
     #contests or phases.
     email = models.CharField(max_length=140)
 
+    #only sends one email per person. This is set to a correct default
+    #and changed automatically once the email gets set. Do NOT change directly.
     has_sent_invite_email = models.BooleanField(default=False)
-    
+
+    #JudgeInvitations are accepted by creating an account, which makes a user.
+    #user=None means that the invite hasn't yet been accepted.
+    user = models.ForeignKey(User, null=True, blank=True)
 
     #tell them they're a winner
     def send_invitation_email(self, smtp=None):
@@ -55,30 +60,5 @@ Thanks very much for the help,
             pass
 
 
-
-#A "judge" role is a connection between a user and a single competition.
-#If the same user was invited to multiple contests, then separate Judge
-#objects would be used.
-#
-#However, only one judge object is used for multiple phases within a
-#single competition.
-class Judge(models.Model):
-
-    #JudgeInvitations are accepted by creating an account, which makes a user
-    user = models.ForeignKey(User)
-
-    #set to True if the JudgeInvitation has this_phase_only=None
-    #In this case, adding phases to a competition after the fact will give
-    #permissions for them to this judge.
-    is_judging_all_phases = models.BooleanField(default=False)
-
-    #the comp i'm related to. this is a bit redundant with phases[x].competition,
-    #but comes in handy if is_judging_all_phases or if no phases are selected
-    competition = models.ForeignKey(Competition)
-
-    #which phases I've got permissions to judge. These should all be within
-    #a single competition
-    phases = models.ManyToManyField(Phase, related_name="judges")
-    
 
 
