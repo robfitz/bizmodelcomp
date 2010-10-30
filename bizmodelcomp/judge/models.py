@@ -72,6 +72,10 @@ class Judge(models.Model):
     #permissions for them to this judge.
     is_judging_all_phases = models.BooleanField(default=False)
 
+    #the comp i'm related to. this is a bit redundant with phases[x].competition,
+    #but comes in handy if is_judging_all_phases or if no phases are selected
+    competition = models.ForeignKey(Competition)
+
     #which phases I've got permissions to judge. These should all be within
     #a single competition
     phases = models.ManyToManyField(Phase, related_name="judges")
