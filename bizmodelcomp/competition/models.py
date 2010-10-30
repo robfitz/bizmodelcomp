@@ -96,6 +96,7 @@ class Competition(models.Model):
     template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
+
     def pitches(self):
 
         return self.current_phase().pitches()

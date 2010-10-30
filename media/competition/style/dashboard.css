@@ -4,27 +4,24 @@
 	width:760px;
 	clear:both;
 	margin-bottom:16px;
+	padding:0px;
 }
 
 .dashboard_section h4 {
 	width:572px;
 	background-color:#ddf;
 	margin:0px;
+	padding:8px;
 }
 
 .dashboard_section .summary {
 	float:left;
 	width: 572px;
 	background-color:#eef;
-}
-
-.dashboard_section .controls {
-	float:left
-	width:180px;
+	padding:8px;
 }
 
 body {
-
 	font-size:12px;
 }
 

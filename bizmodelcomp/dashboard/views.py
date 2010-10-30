@@ -8,6 +8,41 @@ import time
 import smtplib
 
 @login_required
+def delete_judge_invites(request, competition_id, phase_id):
+
+    #are comp & phase valid?
+    try:
+        competition = Competition.objects.get(id=competition_id)
+        phase = Phase.objects.filter(competition=competition).get(id=phase_id)
+    except:
+        return HttpResponseRedirect("/no_permissions/")
+
+    #is organizer?
+    if not competition.owner == request.user:
+        return HttpResponseRedirect("/no_permissions/")
+
+    if request.method == "POST" and len(request.POST) > 0:
+
+        if "action" in request.POST:
+            action = request.POST["action"]
+            if action == "delete_selected":
+
+                for key in request.POST:
+
+                    if key.startswith("is_selected_") and request.POST[key] == "on":
+
+                        id = int(key[len("is_selected_"):])
+
+                        invites = JudgeInvitation.objects.filter(competition=competition).filter(id=id)
+
+                        for i in invites:
+                            print 'delete invite %s with email %s' % (i, i.email)
+                            i.delete()
+
+    return HttpResponseRedirect('/dashboard/%s/phase/%s/judges/' % (competition_id, phase_id))
+    
+
+@login_required
 def list_judges(request, competition_id, phase_id):
 
     #are comp & phase valid?

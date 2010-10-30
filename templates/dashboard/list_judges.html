@@ -1,38 +1,73 @@
-{% extends 'base.html' %}
+{% extends competition.template_base %}
 
 {% block header_title %}
 Manage Judges
 {% endblock %}
 
-{% block script %}
-{% endblock %}
-
-{% block style %}
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
 {% endblock %}
 
 {% block content %}
 
-	{% include 'dashboard/add_judge.html' %}
+	{{ block.super }}
 
-	<table>
-		<tr style="height:30px;font-weight:bold">
-			<td></td>
-			<td>Name</td>
-			<td>Email</td>
-			<td>Activated?</td>
-			<td>Applications judged</td>
-		</tr>
+	<div class="dashboard_section">
 
-		{% for invite in judge_invitations %}
-		<tr>
-			<td><input type="checkbox" />
-			<td></td>
-			<td>{{ invite.email }}</td>
-			<td>No</td>
-			<td>0</td>
-		</tr>
-		{% endfor %}
+		<h4>Invite new judges</h4>
 
-	</table>
+		<div class="summary">
+
+			{% include 'dashboard/add_judge.html' %}
+
+
+		</div>
+
+	</div>
+
+	<div class="dashboard_section">
+
+		<h4>Manage existing judges</h4>
+
+		<div class="summary">
+
+			<form method="POST" action="/dashboard/{{competition.id}}/phase/{{phase.id}}/delete_judge_invites/">
+
+				<p>
+				Action:
+				<select name="action">
+					<option value="do_nothing">-------</option>
+					<option value="delete_selected">Delete selected</option>
+				</select>
+				<input type="submit" value="Go" />
+				</p>
+
+
+				<table>
+					<tr style="height:30px;font-weight:bold">
+						<td></td>
+						<td style="width:100px">Name</td>
+						<td>Email</td>
+						<td>Activated?</td>
+						<td>Applications judged</td>
+					</tr>
+
+					{% for invite in judge_invitations %}
+						<tr>
+							<td><input name="is_selected_{{invite.pk}}" type="checkbox" />
+							<td></td>
+							<td>{{ invite.email }}</td>
+							<td>No</td>
+							<td>0</td>
+						</tr>
+					{% endfor %}
+
+				</table>
+
+			</form>
+
+		</div>
+
+	</div>
 
 {% endblock %}

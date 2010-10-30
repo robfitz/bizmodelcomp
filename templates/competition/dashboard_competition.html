@@ -1,8 +1,8 @@
 		<div class="dashboard_section">
 
-			<div class="summary">
+			<h4>Competition details</h4>
 
-				<h4>Competition details</h4>
+			<div class="summary">
 
 				<p>
 				<strong>Name:</strong> {{competition.name}}
@@ -29,9 +29,9 @@
 
 		<div class="dashboard_section">
 
-			<div class="summary">
+			<h4>Manage Applications</h4>
 
-				<h4>Manage Applications</h4>
+			<div class="summary">
 
 				<p>
 				<a href="/dashboard/{{competition.id}}/applicants/"><strong>{{competition.applicants.count}}</strong> registered applicants</a>
@@ -47,9 +47,9 @@
 
 		<div class="dashboard_section">
 
-			<div class="summary">
+			<h4>Manage Judges</h4>
 
-				<h4>Manage Judges</h4>
+			<div class="summary">
 
 				<p>
 					<strong>Judging begins:</strong> {{competition.current_phase.applications_close_judging_open|date:"D d M Y P"}}
@@ -63,7 +63,6 @@
 				<p>
 					<strong>0</strong> judged applications, <strong>{{competition.current_phase.pitches.count}}</strong> remaining
 				</p>
-
 
 			</div>
 

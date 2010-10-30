@@ -22,8 +22,8 @@ urlpatterns = patterns('',
     (r'^(?P<competition_id>[0-9]{1,10})/phase/(?P<phase_id>[0-9]{1,10})/judges/$',
          'dashboard.views.list_judges'),
 
-    #list judges (per phase)
-    (r'^(?P<competition_id>[0-9]{1,10})/phase/(?P<phase_id>[0-9]{1,10})/invite_judges/$',
-         'dashboard.views.invite_judges'),
+    #delete judges (per phase)
+    (r'^(?P<competition_id>[0-9]{1,10})/phase/(?P<phase_id>[0-9]{1,10})/delete_judge_invites/$',
+         'dashboard.views.delete_judge_invites'),
 
 )
