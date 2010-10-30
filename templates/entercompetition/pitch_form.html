@@ -42,14 +42,14 @@ Apply to {{ competition }}
 
 	</div>
 
-	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data">
+	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data" class="focus">
 
 		{% if founder %}
 		{% else %}
 
 			<div style="width:600px;float:left;">
 				<strong><span style="font-size:14px;width:150px;">Your email:</span></strong>
-				<input type="text" name="email" id="email" style="width:300px;border:3px solid #ccc;padding:5px;height:20px;" class="focus" />
+				<input type="text" name="email" id="email" style="width:300px;border:3px solid #ccc;padding:5px;height:20px;" />
 				<p>
 				Already saved an application?
 				<a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to edit it</a>.
