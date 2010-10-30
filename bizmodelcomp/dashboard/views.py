@@ -229,10 +229,17 @@ def list_pitches(request, competition_id, phase_id):
 @login_required
 def dashboard(request):
 
-    competitions = Competition.objects.all()
-    competition = competitions[0]
+    #find if user is the organizer for.. something
+    competitions = Competition.objects.filter(owner = request.user)
 
-    return render_to_response("competition/dashboard.html", locals())
+    if len(competitions) == 0:
+        
+        return HttpResponseRedirect("/no_permissions/")
+
+    else:
+    
+        competition = competitions[0]
+        return render_to_response("competition/dashboard.html", locals())
 
 
 
