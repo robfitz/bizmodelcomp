@@ -39,4 +39,6 @@ urlpatterns = patterns('',
          {'competition_url': 'echallenge'}),
 
     (r'^dashboard/', include('bizmodelcomp.dashboard.urls')),
+
+    (r'^judge/', include('bizmodelcomp.judge.urls')),
 )

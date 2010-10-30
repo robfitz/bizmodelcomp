@@ -9,6 +9,9 @@ from emailhelper.util import send_email
 #created by a contest organizer, at which point an email with a signup
 #link is sent out to the invitee. when the create an account using the
 #invited email, a Judge is created and added to the various phases
+#
+#if the same email is invited to multiple contests, then several JudgeInvitations
+#can all point at the same User object.
 class JudgeInvitation(models.Model):
 
     #invitation to judge a specific phase

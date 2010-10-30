@@ -1,0 +1,13 @@
+{% extends competition.template_base %}
+
+{% block title %}
+A friendly message
+{% endblock %}
+
+{% block content %}
+
+	{% import markup %}
+
+	{{ message|markdown }}
+
+{% endblock %}

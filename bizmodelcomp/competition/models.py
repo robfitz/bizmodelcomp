@@ -112,6 +112,11 @@ class Competition(models.Model):
         return self.phase_set.all()
 
 
+    def is_judging_open(self):
+
+        return self.current_phase.applications_close_judging_opens < datetime.now() and datetime.now() < self.current_phase().judging_close
+
+
     def __unicode__(self):
 
         return self.name
