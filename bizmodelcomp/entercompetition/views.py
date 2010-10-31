@@ -182,6 +182,9 @@ def submit_pitch(request, competition_url, phase_id=None):
     if request.method == "POST" and len(request.POST) > 0:
 
         if not founder:
+
+            print '*** not founder'
+            
             try:
                 #this field should be present in the form whenever founder==None
                 email = request.POST["email"]
@@ -212,6 +215,7 @@ def submit_pitch(request, competition_url, phase_id=None):
                         print 'set external = true'
                     
                 except:
+                    print '*** no matching founder on record'
                     #we don't have a founder on record who matches that email
 
                     #TODO: create a skeleton Founder object & redirect them to
@@ -225,10 +229,16 @@ def submit_pitch(request, competition_url, phase_id=None):
                     competition.applicants.add(founder)
                     competition.save()
 
+                    print '*** saved founder & comp'
+
                     #log in
                     request.session['founder_key'] = founder.anon_key()
 
+                    print '*** updated session'
+
             except:
+                
+                print '### founder is none and no POST.email: %s' % sys.exc_info()[0]
                 #TODO: if founder is None and there's no POST.email we're
                 #in real trouble. do something with this.
                 return False

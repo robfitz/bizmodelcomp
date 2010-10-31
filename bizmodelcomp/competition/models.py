@@ -5,8 +5,6 @@ from itertools import chain
 
 import array
 import sys
-from random import choice
-import string
 
 from settings import MEDIA_URL
 from utils.util import rand_key
@@ -42,13 +40,19 @@ class Founder(models.Model):
     def anon_key(self):
         key = None
 
+        print '... get anon_key()'
+
         try:
             key = AnonymousFounderKey.objects.get(founder=self)
-            
+            print '... found key: %s' % key
         except:
-            rand = rand_key()
-            key = AnonymousFounderKey(founder=self, key=rand)
+            print '... no existing key, making new'
+            random_key = rand_key()
+            print '... rand %s' % random_key
+            key = AnonymousFounderKey(founder=self, key=random_key)
+            print '... key %s' % key
             key.save()
+            print '... made key %s' % key
             
         return key
 
