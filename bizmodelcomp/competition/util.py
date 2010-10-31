@@ -1,4 +1,4 @@
-from competition.models import Founder, Competition
+from competition.models import *
 from settings import is_local
 from datetime import datetime
 

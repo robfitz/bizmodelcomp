@@ -1,8 +1,7 @@
-from random import Random
-import string
+from utils.util import rand_key
 
 from userhelper.models import VerificationKey
-from emailhelper import send_email
+from emailhelper.util import send_email
 
 def send_verification_email(user, next_page):
 
@@ -18,7 +17,7 @@ def send_verification_email(user, next_page):
         #won't find one, but that's quite unlikely and 500ing seems less
         #risky potentially infinite looping
         for attempt in range(1, 1000):
-            key = ''.join(Random().sample(string.letters+string.digits, 12))
+            key = rand_key()
             try:
                 
                 verification_key = VerificationKey(key=key,
@@ -53,3 +52,25 @@ nvana""" % (verification_link)
     send_email(subject, message, to_email)
 
     return True
+
+
+
+#this function harmlessly accepts a False or invalid parameter, so
+#views may simply call it as:
+#got_ev_key(request.GET.get("ev", False))
+#
+#TODO: automate the check for the &ev param as soon as any request is made
+def got_ev_key(email_verification_key):
+    if email_verification_key:
+
+        try:
+            #since someone clicked on the link, which was more-or-less
+            #unguessable, we can assume that the email it was registered
+            #to is valid and don't need to test it again when that person registers
+            key = VerificationKey.objects.get(key=email_confirmed)
+            key.is_verified = True
+            key.save()
+
+        except:
+            #no harm if it was bogus
+            pass

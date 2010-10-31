@@ -75,8 +75,14 @@ def registerUser(request):
             discount_code = request.POST["discount_code"]
             print 'discount %s' % discount_code
 
-        #TODO: non-hardcoded trial account_type
         user = createNewUser(request, email, pass1, pass2, "default", discount_code)
+
+        try:
+            #is there a verification key already hooked up to that email?
+            key = VerificationKey.objects.get(email=user.email)
+            key.user = user
+            key.save()
+        except: pass
 
         if user is not None:
 
@@ -84,7 +90,7 @@ def registerUser(request):
             except: next = "/dashboard/"
             
             #require email confirmation?
-            if ACCOUNT_EMAIL_CONFIRM_REQUIRED
+            if ACCOUNT_EMAIL_CONFIRM_REQUIRED:
                 user.is_active = False
                 user.save()
 
@@ -106,17 +112,22 @@ def registerUser(request):
                     send_verification_email(user, next)
 
                 #display a page telling them what's going on
-                return HttpResponseRedirect("/accounts/verify_email/)
+                return HttpResponseRedirect("/accounts/verify_email/")
             
             return HttpResponseRedirect(next)
-        
+                                            
         else:
             alert = "Passwords don't match or your email isn't valid. Try again?"
 
     elif request.method == "GET":
+                                
         #page to redirect to after success
         next = request.GET.get("next", "/dashboard")
 
+        #if they got to the judging page from the email link,
+        #we can verify their email right now
+        got_ev_key(request.GET.get("ev", False))
+            
     return render_to_response('userhelper/register.html', locals())
 
 
@@ -126,7 +137,7 @@ def registerUser(request):
 #display a page telling them they need to go click that email
 def verify_email(request):
 
-    
+    return render_to_response('userhelper/verify_email.html')
 
 
 

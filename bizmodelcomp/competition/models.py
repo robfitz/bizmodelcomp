@@ -9,7 +9,8 @@ from random import choice
 import string
 
 from settings import MEDIA_URL
-
+from utils.util import rand_key
+from judge.models import JudgeInvitation
 
 
 #guy with a business model who is developing it, applying
@@ -45,7 +46,7 @@ class Founder(models.Model):
             key = AnonymousFounderKey.objects.get(founder=self)
             
         except:
-            rand = ''.join([choice(string.letters+string.digits) for i in range(12)])
+            rand = rand_key()
             key = AnonymousFounderKey(founder=self, key=rand)
             key.save()
             
@@ -134,7 +135,38 @@ class Phase(models.Model):
     applications_close_judging_open = models.DateTimeField(default=datetime.now)
     judging_close = models.DateTimeField(default=datetime.now)
 
+    #related_name for M2M relation w/ alerted judges: sent_judging_open_emails_to
 
+
+    def judges(self):
+
+        comp_judges = JudgeInvitation.objects.filter(competition=self.competition)
+        my_judges = []
+        
+        for comp_judge in comp_judges:
+
+            if comp_judge.this_phase_only == self:
+
+                    my_judges.append(comp_judge)
+
+            elif not comp_judge.this_phase_only:
+
+                my_judges.append(comp_judge)
+
+        return my_judges
+
+                
+    #tell any judges for this phase who haven't been alerted yet that
+    #judging is open and ready for their wonderful assistance
+    def send_judging_open_emails(self):
+
+        for judge in self.judges():
+
+            judge.send_judging_open_email(self)
+
+            
+    #timestamp for whenever the next thing is going to close (organization,
+    #applications, judging, etc)
     def next_deadline(self):
 
         if datetime.now() < self.applications_open:
