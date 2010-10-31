@@ -4,11 +4,11 @@ from django.contrib import auth
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
 
-
+from userhelper.util import *
 
 def noPermissions(request):
 
-    return render_to_response('/userhelper/no_permissions.html')
+    return render_to_response('userhelper/no_permissions.html')
 
 
 
@@ -83,6 +83,31 @@ def registerUser(request):
             try: next = request.POST["next"]
             except: next = "/dashboard/"
             
+            #require email confirmation?
+            if ACCOUNT_EMAIL_CONFIRM_REQUIRED
+                user.is_active = False
+                user.save()
+
+                #send a verification link for them to clicky click
+                try:
+                    key = VerificationKey.objects.get(user=user)
+
+                    if key.is_verified:
+                        #this email has already been verified somehow,
+                        #like clicking on an email-only link. so we don't
+                        #need to check it again. yays.
+                        user.is_active = True
+                        user.save()
+                        return HttpResponseRedirect(next)
+                    
+                    else:
+                        send_verification_email(user, next)
+                except:
+                    send_verification_email(user, next)
+
+                #display a page telling them what's going on
+                return HttpResponseRedirect("/accounts/verify_email/)
+            
             return HttpResponseRedirect(next)
         
         else:
@@ -93,6 +118,15 @@ def registerUser(request):
         next = request.GET.get("next", "/dashboard")
 
     return render_to_response('userhelper/register.html', locals())
+
+
+
+
+
+#display a page telling them they need to go click that email
+def verify_email(request):
+
+    
 
 
 

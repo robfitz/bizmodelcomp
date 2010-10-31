@@ -21,6 +21,14 @@ TEMPLATE_DEBUG = DEBUG
 #kill switch for emailhelper
 DISABLE_ALL_EMAIL = False
 
+#whether new accounts are required to confirm
+#their email before gaining their permissions.
+#Email needs to be able to be sent for this to
+#be a reasonable flag to set True, so is off on local
+ACCOUNT_EMAIL_CONFIRM_REQUIRED = True
+if is_local:
+    ACCOUNT_EMAIL_CONFIRM_REQUIRED = False
+
 ADMINS = (
     ('Rob Fitzpatrick', 'robftz@gmail.com'),
 )
@@ -102,6 +110,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
+
+APPEND_SLASH = True #from CommonMiddleware, makes either /page/ or /page valid
 
 ROOT_URLCONF = 'bizmodelcomp.urls'
 
