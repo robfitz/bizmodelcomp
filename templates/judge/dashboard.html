@@ -33,7 +33,7 @@
 				<select>
 					{% for score in scores %}
 						{% if score <= question.max_points %}
-						<option name="question_{{question.pk}}" value="{{score}}">{{score}}</option>
+						<option name="answer_{{question.answer.pk}}" value="{{score}}">{{score}}</option>
 						{% endif %}
 					{% endfor %}
 				</select>

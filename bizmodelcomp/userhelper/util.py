@@ -18,18 +18,23 @@ def send_verification_email(user, next_page):
         #risky potentially infinite looping
         for attempt in range(1, 1000):
             key = rand_key()
+            print 'send veri email: key %s' % key
             try:
                 
                 verification_key = VerificationKey(key=key,
                                                    user = user)
+                print 'made veri key'
                 verification_key.save()
+                print 'saved veri key'
                 #if this hasn't thrown an exception, it's unique and we're
                 #okay to quit searching
+                print 'breakin'
                 break
             
             except: pass
             
         else:
+            print 'couldnt find unique valid key, aborting'
             #couldn't create a unique valid key for some reason
             return False
 
@@ -49,6 +54,7 @@ Thanks very much, and please let us know (you can just reply to this email) if y
 Stay well,
 nvana""" % (verification_link)
 
+    print 'sending email verify email'
     send_email(subject, message, to_email)
 
     return True

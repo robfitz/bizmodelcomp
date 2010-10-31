@@ -59,7 +59,14 @@ def dashboard(request):
 
                 if request.method == "POST":
 
-                    pass
+                    for key in request.POST:
+
+                        if key.startswith("answer_"):
+
+                            answer_id = int(key[len("answer_"):])
+
+                            answer = PitchAnswer.objects.get(id=question_id)
+                            #TODO: BOOBS
                     
 
                 #get a pitch to judge
