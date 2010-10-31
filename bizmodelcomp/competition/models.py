@@ -101,7 +101,6 @@ class Competition(models.Model):
     template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
-
     def pitches(self):
 
         return self.current_phase().pitches()
@@ -119,7 +118,7 @@ class Competition(models.Model):
 
     def is_judging_open(self):
 
-        return self.current_phase.applications_close_judging_opens < datetime.now() and datetime.now() < self.current_phase().judging_close
+        return self.current_phase().is_judging_enabled and self.current_phase().applications_close_judging_open < datetime.now() and datetime.now() < self.current_phase().judging_close
 
 
     def __unicode__(self):
@@ -138,6 +137,14 @@ class Phase(models.Model):
     applications_open = models.DateTimeField(default=datetime.now)
     applications_close_judging_open = models.DateTimeField(default=datetime.now)
     judging_close = models.DateTimeField(default=datetime.now)
+
+    #a manual throw switch that an organizer can flip to kick off the judging
+    #period. This variable gives them a way to, for example, review applications
+    #or organize themselves before auto-alerting all the judges
+    #
+    #for it to do anything, the current time should also be between applications_close
+    #and judging_close.
+    is_judging_enabled = models.BooleanField(default=False)
 
     #related_name for M2M relation w/ alerted judges: sent_judging_open_emails_to
 
@@ -253,6 +260,12 @@ class PitchQuestion(models.Model):
 
     #how big to make the text entry widget
     field_rows = models.IntegerField(default=6)
+
+    #optional questions aren't displayed to judges when they're blank
+    is_required = models.BooleanField(default=True)
+
+    #how many points this question can be worth if answered perfectly
+    max_points = models.IntegerField(default=10)
 
     class Meta:
         ordering = ['order']

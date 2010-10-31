@@ -24,10 +24,7 @@ View pitch
 		<p>
 		</p>
 
-
 	{% endfor %}
-
-
 
 	{% for question in questions %}
 
@@ -36,7 +33,7 @@ View pitch
 		<div style="width:100%;border:1px solid #ccc;padding:8px;background-color:#eee;">
 		{% if question.answer.answer %}
 			{{question.answer.answer|markdown}}
-		{% else %}
+		{% elif question.is_required %}
 			(no answer)
 		{% endif %}
 		</div>

@@ -6,7 +6,9 @@ A friendly message
 
 {% block content %}
 
-	{% import markup %}
+	{% load markup %}
+
+	{{ block.super }}
 
 	{{ message|markdown }}
 

@@ -1,2 +1,51 @@
 {% extends competition.template_base %}
 
+{% block content %}
+
+{% load markup %}
+
+{{ block.super }}
+
+<form action="." method="POST">
+
+	{% for question in questions %}
+
+		<input type="hidden" name="pitch" value="{{pitch.pk}}" />
+
+		<div class="judge_question" style="float:left;width:760px;">
+
+			<div class="application" style="float:left;width:400px;">
+
+				<strong class="prompt">{{ question.prompt }}</strong>
+				<br/>
+				<div style="width:100%;border:1px solid #ccc;padding:8px;background-color:#eee;">
+				{% if question.answer.answer %}
+					{{question.answer.answer|markdown}}
+				{% else %} {% if question.is_required %}
+					(no answer)
+				{% endif %}{% endif %}
+				</div>
+
+			</div>
+
+			<div class="judging" style="float:left;width:150px;margin-left:10px;">
+
+				<select>
+					{% for score in scores %}
+						{% if score <= question.max_points %}
+						<option name="question_{{question.pk}}" value="{{score}}">{{score}}</option>
+						{% endif %}
+					{% endfor %}
+				</select>
+
+			</div>
+
+		</div>
+
+	{% endfor %}
+
+	<input type="submit" value="Submit judgement" />
+
+</form>
+
+{% endblock %}

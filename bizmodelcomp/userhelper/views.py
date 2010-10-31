@@ -4,7 +4,10 @@ from django.contrib import auth
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
 
+from settings import ACCOUNT_EMAIL_CONFIRM_REQUIRED
 from userhelper.util import *
+
+
 
 def noPermissions(request):
 
@@ -88,6 +91,15 @@ def registerUser(request):
 
             try: next = request.POST["next"]
             except: next = "/dashboard/"
+
+            try:
+                #is new acct meant to be a judgeman?
+                judge = JudgeInvitation.objects.get(email=user.email)
+                judge.user = user
+                judge.save()
+            except:
+                #not a judge
+                pass
             
             #require email confirmation?
             if ACCOUNT_EMAIL_CONFIRM_REQUIRED:

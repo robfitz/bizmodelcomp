@@ -117,6 +117,9 @@ Sincerely,
             send_email(subject, message_markdown, to_email)
 
 
+    def __unicode__(self):
+
+        return self.email
 
 
 
