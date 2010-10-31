@@ -43,7 +43,7 @@ class JudgeInvitation(models.Model):
 
     #tell them they're a winner
     def send_invitation_email(self):
-        if not self.has_sent_invite_email:
+        if not self.has_received_invite_email:
             self.has_received_invite_email = True
             self.save()
 
