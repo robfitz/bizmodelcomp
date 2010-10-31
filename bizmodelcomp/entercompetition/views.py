@@ -99,7 +99,8 @@ def get_founder(request):
         print key
         founder = key.founder
         
-
+        request.session ['founder_key'] = key.key
+        
         if request.user.is_authenticated and founder.user != request.user:
             #start freaking out, logged in user is using someone else's key
             #possibly merge accounts, possibly logout, possibly refuse permissions
