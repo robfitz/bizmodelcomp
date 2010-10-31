@@ -224,12 +224,18 @@ class Pitch(models.Model):
     #has applicant chosen to publish it yet?
     is_draft = models.BooleanField(default=True)
 
+    #timestamp for when this pitch was first submitted
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now)
+    
+    #timestamp for when this pitch was last modified
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now)
+
     def __unicode__(self):
 
         return 'pitch (id=%s) for (owner=%s)' % (self.pk, self.owner)
 
 
-    
+
 #details about all the questions a founder needs to answer to
 #apply to the contest. 
 class PitchQuestion(models.Model):
