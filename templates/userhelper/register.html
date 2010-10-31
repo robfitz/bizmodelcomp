@@ -26,7 +26,7 @@ Create a new account
 		{% include 'userhelper/register_fields.html' %}
 
 		<div id="submission">
-				<a href="/accounts/login/">Already have an account? Click to log in</a>.
+				<a href="/accounts/login/?next={{next}}">Already have an account? Click to log in</a>.
 				<input type="submit" class="button" value="Sign up" style="margin-left:10px" />
 		</div>
 	</form>
