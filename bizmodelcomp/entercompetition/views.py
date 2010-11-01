@@ -181,6 +181,7 @@ def submit_pitch(request, competition_url, phase_id=None):
         message = """Sorry, applications for this phase of the competition are closed and judging has begun.
 
 Good luck!"""
+        
         return render_to_response('util/message.html', locals())
 
     try: pitch = Pitch.objects.filter(owner=founder).get(phase=phase)

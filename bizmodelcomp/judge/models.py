@@ -136,6 +136,9 @@ class JudgedPitch(models.Model):
 
     feedback = models.CharField(max_length=2000, blank=True, null=True)
 
+    overall_score = models.IntegerField(default=0)
+    max_overall_score = models.IntegerField(default=5)
+
     def score(self):
 
         points = 0
@@ -145,6 +148,7 @@ class JudgedPitch(models.Model):
 
             points = points + ja.score
 
+        points = points + self.overall_score
         return points
 
 
