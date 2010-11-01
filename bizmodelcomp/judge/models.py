@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from emailhelper.util import send_email
 from utils.util import rand_key
 
-#from competition.models import Phase, Competition
 
 
 #created by a contest organizer, at which point an email with a signup
@@ -122,4 +121,26 @@ Sincerely,
         return self.email
 
 
+
+#a set of JudgedAnswers related to a submitted pitch
+class JudgedPitch(models.Model):
+
+    pitch = models.ForeignKey("competition.Pitch", related_name="judgements")
+
+    judge = models.ForeignKey(JudgeInvitation, related_name="judgements")
+
+    feedback = models.CharField(max_length=2000, blank=True, null=True)
+
+
+
+#a judge's reaction to a single submitted answer
+class JudgedAnswer(models.Model):
+
+    judged_pitch = models.ForeignKey(JudgedPitch)
+
+    answer = models.ForeignKey("competition.PitchAnswer")
+
+    score = models.IntegerField(blank=True, null=True)
+
+    feedback = models.CharField(max_length=1000, blank=True, null=True)
 

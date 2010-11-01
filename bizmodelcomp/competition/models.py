@@ -237,6 +237,12 @@ class Pitch(models.Model):
     #timestamp for when this pitch was last modified
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now)
 
+
+    def num_times_judged(self):
+        
+        return len(self.judgements)
+
+
     def __unicode__(self):
 
         return 'pitch (id=%s) for (owner=%s)' % (self.pk, self.owner)

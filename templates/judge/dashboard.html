@@ -29,20 +29,24 @@
 			</div>
 
 			<div class="judging" style="float:left;width:150px;margin-left:10px;">
-
-				<select>
+				{{question.is_required}}
+				{% if question.is_required and question.answer.answer %}
+				<select name="answer_{{question.answer.id}}">
 					{% for score in scores %}
 						{% if score <= question.max_points %}
-						<option name="answer_{{question.answer.pk}}" value="{{score}}">{{score}}</option>
+						<option value="{{score}}">{{score}}</option>
 						{% endif %}
 					{% endfor %}
 				</select>
+				{% endif %}
 
 			</div>
 
 		</div>
 
 	{% endfor %}
+
+	<textarea name="feedback" rows="10" width="100%"></textarea>
 
 	<input type="submit" value="Submit judgement" />
 

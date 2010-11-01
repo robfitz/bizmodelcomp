@@ -4,7 +4,8 @@ from django.contrib.auth.decorators import login_required
 
 from userhelper.util import got_ev_key
 from judge.models import *
-
+from judge.util import get_next_pitch_to_judge
+from competition.models import *
 
 
 #basically the one-stop-shop for judging. You come here and either log in
@@ -47,37 +48,82 @@ def dashboard(request):
 
                 return HttpResponseRedirect('/no_permissions/')
 
-        #yes?
-        else:
+
+
+        #arbitrarily pick the first competition
+        #TODO: handle judging multiple contests
+        judge = judge_invites[0]
+        competition = judge.competition
+
+        #judging open in current phase?
+        if competition.is_judging_open():
             
-            #arbitrarily pick the first competition
-            #TODO: handle judging multiple contests
-            competition = judge_invites[0].competition
+            if request.method == "POST":
+                
+                pitch_id = request.POST["pitch"]
+                pitch = Pitch.objects.get(id=pitch_id)
+                
+                try:
+                    #look for existing judgement
+                    judgement = JudgedPitch.objects.filter(pitch=pitch).get(judge=judge)
+                
+                except:
+                    #create new judgement
+                    judgement = JudgedPitch(judge=judge,
+                                            pitch=pitch)
+                    judgement.save()
 
-            #judging open in current phase?
-            if competition.is_judging_open():
+                if "feedback" in request.POST:
 
-                if request.method == "POST":
+                    judgement.feedback = request.POST["feedback"]
+                    judgement.save()
+                
+                
+                for key in request.POST:
 
-                    for key in request.POST:
-
-                        if key.startswith("answer_"):
-
-                            answer_id = int(key[len("answer_"):])
-
-                            answer = PitchAnswer.objects.get(id=question_id)
-                            #TODO: BOOBS
+                    print 'found key in post: %s' % key
                     
+                    if key.startswith("answer_"):
 
-                #get a pitch to judge
-                pitches = competition.current_phase().pitch_set.all()
-                pitch = pitches[0]
+                        print 'FOUND JUDGE ANSWER: ' 
 
+                        try:
+                            score = int(request.POST[key])
+                        except:
+                            #this happens when there was no submitted answer, so,
+                            #they loooose.
+                            score = 0
+                            
+                        answer_id = int(key[len("answer_"):])
+                        answer = PitchAnswer.objects.get(id=answer_id)
+
+                        print 'score: %s, id: %s' % (score, answer_id)
+
+                        try:
+                            judged_answer = JudgedAnswer.objects.filter(judged_pitch=judgement).get(answer=answer)
+                            judged_answer.score = score
+                        except:
+                            judged_answer = JudgedAnswer(judged_pitch=judgement,
+                                                         answer=answer,
+                                                         score=score)
+                        judged_answer.save()
+                
+
+            #get a pitch to judge
+            pitch = get_next_pitch_to_judge(competition, judge)
+
+            if pitch:
+                #populate forms
                 questions = pitch.phase.questions()
                 uploads = pitch.phase.uploads()
 
                 for question in questions:
-                    try: question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+                    print 'found question: %s' % question
+                    print 'pitch: %s' % pitch
+                    print 'pitch answers: %s' % PitchAnswer.objects.filter(pitch=pitch)
+                    try:
+                        question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+                        print 'found answer: %s' % question.answer
                     except: question.answer = None
                         
                 for upload in uploads:
@@ -90,16 +136,23 @@ def dashboard(request):
                 return render_to_response('judge/dashboard.html', locals())
 
             else:
-                #no? tell them when judging opens
-                message = """Hello,
+                message = """Judging is complete and all applications have already been assessed.
+
+Thanks for your help!"""
+
+                return render_to_response('util/message.html', locals())
+
+        else:
+            #no? tell them when judging opens
+            message = """Hello,
 
 Judging for this phase isn't open yet.
 
 You'll receive an email as soon as the applications are ready for review.
 
 Thanks!"""
-                
-                return render_to_response('util/message.html', locals())
+            
+            return render_to_response('util/message.html', locals())
 
     #should have already returned
     pass

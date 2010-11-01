@@ -46,3 +46,5 @@ from django import forms
 ##    form = CustomCopyTemplateForm
 
 admin.site.register(JudgeInvitation)
+admin.site.register(JudgedPitch)
+admin.site.register(JudgedAnswer)
