@@ -16,6 +16,9 @@ urlpatterns = patterns('',
     #view details of a single submitted pitch
     (r'^pitch/(?P<pitch_id>[0-9]{1,10})/$',
          'dashboard.views.view_pitch'),
+    #view details of a pitch judgement
+    (r'^judgement/(?P<judgement_id>[0-9]{1,10})/$',
+         'dashboard.views.view_judgement'),
                        
 
     #list judges (per phase)
@@ -25,5 +28,7 @@ urlpatterns = patterns('',
     #delete judges (per phase)
     (r'^(?P<competition_id>[0-9]{1,10})/phase/(?P<phase_id>[0-9]{1,10})/delete_judge_invites/$',
          'dashboard.views.delete_judge_invites'),
+
+    
 
 )

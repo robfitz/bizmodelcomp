@@ -22,15 +22,15 @@ Manage Applicants
 			<td>Average</td>
 		</tr>
 
-		{% for pitch in competition.pitches.all %}
+		{% for pitch in competition.pitches %}
 		<tr>
 			<td><input type="checkbox" />
 			<td>{{ pitch.owner.name }}</td>
 			<td>{{ pitch.owner.email }}</td>
 			<td><a href="/dashboard/pitch/{{pitch.id}}/">View pitch</a></td>
 			<td align="center">
-				{% for judgement in pitch.judgements %}
-					<a href="">{{judgement.score}}</a>
+				{% for judgement in pitch.judgements.all %}
+					<a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a>
 					<br/>
 				{% endfor %}
 			</td>

@@ -131,7 +131,6 @@ class JudgedPitch(models.Model):
 
     feedback = models.CharField(max_length=2000, blank=True, null=True)
 
-
     def score(self):
 
         points = 0

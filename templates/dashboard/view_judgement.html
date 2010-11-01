@@ -1,16 +1,21 @@
-{% extends competition.template_base %}
+{% extends 'base.html' %}
 
 {% block content %}
 
-{% load markup %}
+	{% load markup %}
 
-{{ block.super }}
-
-<form action="." method="POST">
+	<div style="float:left;width:100%;margin-bottom:40px;">
+		<p>
+			<strong>Judge:</strong> {{ judged_pitch.judge.user.email }}
+			<br/>
+			<strong>Total score:</strong> {{ judged_pitch.score }}
+		</p>
+		<p>
+			<strong>Feedback:</strong> {{ judged_pitch.feedback }}
+		</p>
+	</div>
 
 	{% for question in questions %}
-
-		<input type="hidden" name="pitch" value="{{pitch.pk}}" />
 
 		<div class="judge_question" style="float:left;width:760px;">
 
@@ -29,14 +34,9 @@
 			</div>
 
 			<div class="judging" style="float:left;width:150px;margin-left:10px;">
+
 				{% if question.is_required and question.answer.answer %}
-				<select name="answer_{{question.answer.id}}">
-					{% for score in scores %}
-						{% if score <= question.max_points %}
-						<option value="{{score}}">{{score}}</option>
-						{% endif %}
-					{% endfor %}
-				</select>
+					<strong>Score: {{ question.judged_answer.score }} / {{ question.max_points }}</strong>
 				{% endif %}
 
 			</div>
@@ -45,10 +45,6 @@
 
 	{% endfor %}
 
-	<textarea name="feedback" rows="10" width="100%"></textarea>
 
-	<input type="submit" value="Submit judgement" />
-
-</form>
 
 {% endblock %}

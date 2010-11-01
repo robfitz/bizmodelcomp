@@ -7,6 +7,8 @@ from judge.models import *
 import time
 import smtplib
 
+
+
 @login_required
 def delete_judge_invites(request, competition_id, phase_id):
 
@@ -158,6 +160,38 @@ def invite_judges(request, competition_id, phase_id):
     return render_to_response("dashboard/invite_judges.html", locals())
 
     
+
+@login_required
+def view_judgement(request, judgement_id):
+
+    try:
+        judged_pitch = JudgedPitch.objects.get(id=judgement_id)
+        pitch = judged_pitch.pitch
+        
+        if pitch.phase.competition.owner != request.user:
+            return HttpResponseRedirect("/no_permissions/")
+    except:
+        print "except"
+        return HttpResponseRedirect("/no_permissions/")
+
+    questions = pitch.phase.questions()
+    uploads = pitch.phase.uploads()
+
+    for question in questions:
+        try:
+            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+            try:
+                question.judged_answer = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer)
+            except:
+                question.judged_answer = None
+        except:
+            question.answer = None
+        
+    for upload in uploads:
+        try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
+        except: upload.file = None
+
+    return render_to_response("dashboard/view_judgement.html", locals())
             
     
 
@@ -239,6 +273,14 @@ def dashboard(request):
     else:
     
         competition = competitions[0]
+
+        organizer_judge = None
+
+        try:
+            organizer_judge = JudgeInvitation.objects.filter(competition=competition).get(user=competition.owner)
+        except:
+            pass
+        
         return render_to_response("competition/dashboard.html", locals())
 
 
