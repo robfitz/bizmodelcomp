@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from settings import ACCOUNT_EMAIL_CONFIRM_REQUIRED
 from userhelper.util import *
 
-
+from competition.models import Competition
 
 def noPermissions(request):
 
@@ -31,7 +31,12 @@ def loginUser(request):
             login(request, user)
 
             try: next = request.POST["next"]
-            except: next = "/dashboard/"
+            except:
+                
+                if len(Competition.objects.filter(owner=user)) > 0:
+                    next = "/dashboard/"
+                else:
+                    next = "/judge/"
             
             return HttpResponseRedirect(next)
         
@@ -91,7 +96,11 @@ def registerUser(request):
         if user is not None:
 
             try: next = request.POST["next"]
-            except: next = "/dashboard/"
+            except:
+                if len(Competition.objects.filter(owner=user)) > 0:
+                    next = "/dashboard/"
+                else:
+                    next = "/judge/"
 
             try:
                 #is new acct meant to be a judgeman?

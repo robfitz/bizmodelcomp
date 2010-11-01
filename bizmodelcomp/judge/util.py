@@ -23,5 +23,8 @@ def get_next_pitch_to_judge(competition, judge):
     else:
         pitches = competition.current_phase().pitches_to_judge()
 
-    index = random.randrange(0, len(pitches)-1)
+    if len(pitches) > 1:
+        index = random.randrange(0, len(pitches)-1)
+    else:
+        index = 0
     return pitches[index]
