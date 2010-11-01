@@ -176,6 +176,11 @@ def submit_pitch(request, competition_url, phase_id=None):
     if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
     else: phase = competition.phases()[0] #use default (first) phase
 
+    if phase.is_judging_enabled:
+        #sorry, applications are closed :(((
+        message = """Sorry, applications for this phase of the competition are closed and judging has begun."""
+        return render_to_response('util/message.html', locals())
+
     try: pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
     except: pass
 
@@ -328,6 +333,13 @@ def edit_pitch(request, competition_url, phase_id=None):
 
     if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
     else: phase = competition.phases()[0] #use default (first) phase
+
+    if phase.is_judging_enabled:
+        #sorry, applications are closed :(((
+        message = """Sorry, applications for this phase of the competition are closed and judging has begun."""
+
+        return render_to_response('util/message.html', locals())
+
 
     try: pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
     except: pitch = None
