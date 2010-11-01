@@ -17,8 +17,9 @@ Manage Applicants
 			<td></td>
 			<td>Name</td>
 			<td>Email</td>
-			<td>Phone</td>
 			<td>Pitch</td>
+			<td>Scores</td>
+			<td>Average</td>
 		</tr>
 
 		{% for pitch in competition.pitches.all %}
@@ -26,8 +27,14 @@ Manage Applicants
 			<td><input type="checkbox" />
 			<td>{{ pitch.owner.name }}</td>
 			<td>{{ pitch.owner.email }}</td>
-			<td>{{ pitch.owner.phone }}</td>
 			<td><a href="/dashboard/pitch/{{pitch.id}}/">View pitch</a></td>
+			<td align="center">
+				{% for judgement in pitch.judgements %}
+					<a href="">{{judgement.score}}</a>
+					<br/>
+				{% endfor %}
+			</td>
+			<td>{{ pitch.average_score }}</td>
 		</tr>
 		{% endfor %}
 

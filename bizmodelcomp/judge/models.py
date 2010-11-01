@@ -132,6 +132,17 @@ class JudgedPitch(models.Model):
     feedback = models.CharField(max_length=2000, blank=True, null=True)
 
 
+    def score(self):
+
+        points = 0
+        judged_answers = JudgedAnswer.objects.filter(judged_pitch=self)
+
+        for ja in judged_answers:
+
+            points = points + ja.score
+
+        return points
+
 
 #a judge's reaction to a single submitted answer
 class JudgedAnswer(models.Model):

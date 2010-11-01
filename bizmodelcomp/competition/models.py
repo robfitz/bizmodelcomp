@@ -8,7 +8,7 @@ import sys
 
 from settings import MEDIA_URL
 from utils.util import rand_key
-from judge.models import JudgeInvitation
+from judge.models import *
 
 
 #guy with a business model who is developing it, applying
@@ -290,6 +290,18 @@ class Pitch(models.Model):
     def num_times_judged(self):
         
         return len(self.judgements)
+
+
+    def average_score(self):
+
+        total_score = 0
+        num_pitches = self.judgements.count()
+
+        for judged_pitch in self.judgements.all():
+            total_score = total_score + judged_pitch.score()
+
+        try: return float(total_score) / num_pitches
+        except: return 0
 
 
     def __unicode__(self):
