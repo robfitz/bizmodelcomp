@@ -118,7 +118,7 @@ class Competition(models.Model):
 
     def is_judging_open(self):
 
-        return self.current_phase().is_judging_enabled and self.current_phase().applications_close_judging_open < datetime.now() and datetime.now() < self.current_phase().judging_close
+        return self.current_phase().is_judging_enabled #and self.current_phase().applications_close_judging_open < datetime.now() and datetime.now() < self.current_phase().judging_close
 
 
     def __unicode__(self):
