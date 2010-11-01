@@ -149,6 +149,55 @@ class Phase(models.Model):
     #related_name for M2M relation w/ alerted judges: sent_judging_open_emails_to
 
 
+    def judgements(self):
+
+        pitches = Pitch.objects.filter(phase=self)
+        judgements = []
+        
+        for pitch in pitches:
+
+            judgements.extend(pitch.judgements.all())
+
+        return judgements
+
+
+    #get list of all applications yet to be judged under the current
+    #competition rules
+    #
+    #TODO: change from hardcoded echallenge behavior of 1 non-organizer
+    #judgement per comp
+    def pitches_to_judge(self):
+
+        pitches = Pitch.objects.filter(phase=self)
+        to_judge = []
+
+        organizer = self.competition.owner
+        
+        for pitch in pitches:
+
+            #if it hasn't been judged ever, we definitely need to judge it
+            if pitch.judgements.count() == 0:
+                to_judge.append(pitch)
+
+            #if it's been judged, then it's up for grabs if it's only been
+            #judged by organizers and not by any non-organizer judges
+            else: 
+                num_judge_judgements = 0
+                for j in pitch.judgements.all():
+
+                    #print 'judgement, judge user=%s, comp owner=%s' % (j.judge.user, organizer)
+
+                    user = j.judge.user
+                    if user != organizer:
+                        num_judge_judgements = num_judge_judgements + 1
+
+                    if num_judge_judgements == 0:
+                        #print 'found num = 0 for j.id: %s' % j.id
+                        to_judge.append(j)
+
+        return to_judge
+
+
     def judges(self):
 
         comp_judges = JudgeInvitation.objects.filter(competition=self.competition)

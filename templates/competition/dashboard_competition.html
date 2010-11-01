@@ -56,12 +56,12 @@
 				</p>
 
 				<p>
-					<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/judges/">View & invite judges:</a>
-				<strong>{{competition.current_phase.judges.count}}</strong> confirmed, <strong>{{competition.judge_invitations.count}}</strong> invited & unconfirmed
+					<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/judges/">View & invite more:</a>
 				</p>
 
+
 				<p>
-					<strong>0</strong> judged applications, <strong>{{competition.current_phase.pitches.count}}</strong> remaining
+					<strong>{{competition.current_phase.judgements|length}}</strong> judged applications, <strong>{{competition.current_phase.pitches_to_judge|length}}</strong> remaining
 				</p>
 
 			</div>

@@ -3,7 +3,7 @@ import random
 def get_next_pitch_to_judge(competition, judge):
 
     #temp
-    pitches = competition.current_phase().pitch_set.all()
+    pitches = competition.current_phase().pitches_to_judge()
     index = random.randrange(0, len(pitches)-1)
     return pitches[index]
 
