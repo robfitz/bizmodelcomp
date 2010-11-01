@@ -78,9 +78,6 @@ def registerUser(request):
         pass2 = request.POST["password2"]
         
         discount_code = default_code
-        if request.POST["discount_code"]:
-            discount_code = request.POST["discount_code"]
-            print 'discount %s' % discount_code
 
         user = createNewUser(request, email, pass1, pass2, "default", discount_code)
 

@@ -12,7 +12,7 @@
 
 		<input type="hidden" name="pitch" value="{{pitch.pk}}" />
 
-		<div class="judge_question" style="float:left;width:760px;">
+		<div class="judge_question" style="float:left;width:760px;margin-bottom:20px;">
 
 			<div class="application" style="float:left;width:400px;">
 
@@ -28,9 +28,9 @@
 
 			</div>
 
-			<div class="judging" style="float:left;width:150px;margin-left:10px;">
+			<div class="judging" style="float:left;width:150px;margin-left:25px;margin-top:8px;">
 				{% if question.is_required and question.answer.answer %}
-				<select name="answer_{{question.answer.id}}">
+				<strong>Score:</strong> <select name="answer_{{question.answer.id}}">
 					{% for score in scores %}
 						{% if score <= question.max_points %}
 						<option value="{{score}}">{{score}}</option>
@@ -45,9 +45,16 @@
 
 	{% endfor %}
 
-	<textarea name="feedback" rows="10" width="100%"></textarea>
+	<p>
+	<strong class="prompt">Additional feedback:</strong>
+	<br/>
+	<textarea name="feedback" rows="8" style="width:600px"></textarea>
+	</p>
+	<p>
+	<input type="submit" value="Submit scores & feedback" style="font-size:18px;" />
+	</p>
 
-	<input type="submit" value="Submit judgement" />
+
 
 </form>
 
