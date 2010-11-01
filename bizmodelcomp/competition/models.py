@@ -191,9 +191,9 @@ class Phase(models.Model):
                     if user != organizer:
                         num_judge_judgements = num_judge_judgements + 1
 
-                    if num_judge_judgements == 0:
-                        #print 'found num = 0 for j.id: %s' % j.id
-                        to_judge.append(pitch)
+                if num_judge_judgements == 0:
+                    #print 'found num = 0 for j.id: %s' % j.id
+                    to_judge.append(pitch)
 
         return to_judge
 
