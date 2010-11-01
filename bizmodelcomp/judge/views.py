@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 
 from userhelper.util import got_ev_key
 from judge.models import *
@@ -24,9 +25,19 @@ def dashboard(request):
     if not request.user.is_authenticated():
 
         print '/judge not authenticated'
+
+        e = request.GET.get("e", "")
+
+        account_page = "register"
+        if e != "":
+            if len(User.objects.filter(email=e)) > 0:
+                #if there's already a user registered with the email
+                #we're clicking to, direct them to login. otherwise
+                #go to register
+                account_page = "login"
         
         #redirect to judge login
-        return HttpResponseRedirect('/accounts/register/?next=/judge/')
+        return HttpResponseRedirect('/accounts/%s/?next=/judge/&e=%s' % (account_page, e))
 
     #logged in, not organizer
     else:

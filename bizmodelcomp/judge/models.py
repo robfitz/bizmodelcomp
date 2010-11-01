@@ -41,7 +41,7 @@ class JudgeInvitation(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)
 
     #tell them they're a winner
-    def send_invitation_email(self):
+    def send_invitation_email(self, judging_link):
         if not self.has_received_invite_email:
             self.has_received_invite_email = True
             self.save()
@@ -51,13 +51,18 @@ class JudgeInvitation(models.Model):
 
 You've been invited to help judge the %s. The judging period runs from %s until %s or as soon as all the applications have been assessed.
 
-We'll send a second note as the judging begins with a link to take you to the founders' pitches.
+You can start judging at:
 
-Thanks very much for the help,
+%s?e=%s
 
+Thanks very much for the help!
+
+Sincerely,
 %s team""" % (self.competition.name,
               self.competition.current_phase().applications_close_judging_open,
               self.competition.current_phase().judging_close,
+              judging_link,
+              self.email,
               self.competition.name)
         
             to_email = self.email

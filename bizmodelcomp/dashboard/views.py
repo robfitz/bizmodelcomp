@@ -79,86 +79,13 @@ def list_judges(request, competition_id, phase_id):
             invite.save()
             
             #tell them they're a winner
-            invite.send_invitation_email()
+            judging_link = request.build_absolute_uri("/judge/")
+            invite.send_invitation_email(judging_link)
         
     judge_invitations = JudgeInvitation.objects.filter(competition=competition)
 
     return render_to_response("dashboard/list_judges.html", locals())
     
-
-
-@login_required
-def invite_judges(request, competition_id, phase_id):
-
-    #are comp & phase valid?
-    try:
-        competition = Competition.objects.get(id=competition_id)
-        phase = Phase.objects.filter(competition=competition).get(id=phase_id)
-    except:
-        return HttpResponseRedirect("/no_permissions/")
-
-
-    #is organizer?
-    if not competition.owner == request.user:
-        return HttpResponseRedirect("/no_permissions/")
-
-
-    if request.method == "POST" and len(request.POST) > 0:
-
-        raw = request.POST["invite_list"]
-        lines = raw.splitlines()
-
-        emails_1 = []
-        emails_2 = []
-        emails_3 = []
-
-        print 'raw: %s' % raw
-        print 'lines: %s' % lines
-
-        #split on newline, comma, and semicolon
-        for line in lines:
-            emails_1.extend(line.split(';'))
-        for email in emails_1:
-            print 'email 1: %s' % email
-            emails_2.extend(email.split(','))
-        for email in emails_2:
-            print 'email 2: %s' % email
-            stripped = email.strip()
-            print 'stripped: %s' % stripped
-            if stripped and len(stripped) > 0:
-                emails_3.append(stripped)
-
-            print 'emails 3: %s' % emails_3
-        emails = emails_3
-
-        #TODO: cache query instead of this disaster...
-        current_invites = JudgeInvitation.objects.filter(competition=competition)
-        current_emails = []
-        
-        for invite in current_invites:
-            current_emails.append(invite.email)
-
-        smtp = smtplib.SMTP('smtp.sendgrid.net')        
-        for email in emails:
-            #ignore if already invited
-            if email not in current_emails:
-                #new invite!
-                invite = JudgeInvitation(competition=competition,
-                                         email=email)
-                invite.save()
-                
-                #tell them they're a winner
-                invite.send_invitation_email(smtp)
-
-##                time.sleep(5)
-
-        smtp.quit()
-                
-
-        return HttpResponseRedirect("/dashboard/%s/phase/%s/judges/" % (competition_id, phase_id))
-
-    return render_to_response("dashboard/invite_judges.html", locals())
-
     
 
 @login_required

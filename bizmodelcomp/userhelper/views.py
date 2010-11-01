@@ -43,6 +43,10 @@ def loginUser(request):
         #page to redirect to after success
         next = request.GET.get("next", "/dashboard")
 
+        email = request.GET.get("e", "")
+
+    
+
             
     return render_to_response('userhelper/login.html', locals())
 
@@ -135,6 +139,8 @@ def registerUser(request):
                                 
         #page to redirect to after success
         next = request.GET.get("next", "/dashboard")
+
+        email = request.GET.get("e", "")
 
         #if they got to the judging page from the email link,
         #we can verify their email right now

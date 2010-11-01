@@ -3,16 +3,18 @@
 <input type="hidden" name="next" value="{{next}}" />
 
 <div id="form_field_container">
-	<div id="prompt">
+	<div id="prompt" style="float:left;padding-top:8px;width:120px;">
 		Email
 	</div>
 	<div style="float:left">
-		<input class="large" type="text" id="email" name="email" />
+		<input class="large" type="text" id="email" name="email" value="{{email}}"/>
 	</div>
 </div>
 
+<br/>
+
 <div id="form_field_container">
-	<div id="prompt">
+	<div id="prompt" style="float:left;padding-top:8px;width:120px;">
 		Password
 	</div>
 	<div style="float:left">
@@ -20,8 +22,10 @@
 	</div>
 </div>
 
+<br/>
+
 <div id="form_field_container">
-	<div id="prompt">
+	<div id="prompt" style="float:left;padding-top:8px;width:120px;">
 		Repeat password
 	</div>
 	<div style="float:left">
@@ -29,12 +33,5 @@
 	</div>
 </div>
 
-<div id="form_field_container">
-	<div id="prompt" style="margin-top:-6px;font-weight:normal">
-		Bonus code<br/>(optional)
-	</div>
-	<div style="float:left">
-		<input class="large" type="text" id="discount_code" name="discount_code" value="{{default_code}}" />
-	</div>
-</div>
+<br/>
 
