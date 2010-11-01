@@ -193,7 +193,7 @@ class Phase(models.Model):
 
                     if num_judge_judgements == 0:
                         #print 'found num = 0 for j.id: %s' % j.id
-                        to_judge.append(j)
+                        to_judge.append(pitch)
 
         return to_judge
 
