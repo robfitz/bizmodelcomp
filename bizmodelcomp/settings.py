@@ -25,7 +25,7 @@ DISABLE_ALL_EMAIL = False
 #their email before gaining their permissions.
 #Email needs to be able to be sent for this to
 #be a reasonable flag to set True, so is off on local
-ACCOUNT_EMAIL_CONFIRM_REQUIRED = True
+ACCOUNT_EMAIL_CONFIRM_REQUIRED = False#True
 if is_local:
     ACCOUNT_EMAIL_CONFIRM_REQUIRED = False
 
