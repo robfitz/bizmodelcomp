@@ -93,6 +93,11 @@ def dashboard(request):
 
                 judgement.feedback = request.POST["feedback"]
                 judgement.save()
+
+            if "overall_score" in request.POST:
+
+                judgement.overall_score = request.POST["overall_score"]
+                judgement.save()
             
             
             for key in request.POST:
