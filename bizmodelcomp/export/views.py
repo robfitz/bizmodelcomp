@@ -18,10 +18,14 @@ def scores_csv(request, phase_id, verbose_scores=False):
 
         return HttpResponseRedirect('/no_permissions/')
 
-    for pitch in competition.pitches():
-
-        pitch.team_name = PitchAnswer.objects.filter(pitch=pitch).get(question__id=1).answer
-        pitch.primary_name = PitchAnswer.objects.filter(pitch=pitch).get(question__id=2).answer
+    pitches = competition.pitches()
+    for pitch in pitches:
+        
+        try: pitch.team_name = PitchAnswer.objects.filter(pitch=pitch).get(question__id=1).answer.translate(None, ',')
+        except: pass
+        
+        try: pitch.primary_name = PitchAnswer.objects.filter(pitch=pitch).get(question__id=2).answer.translate(None, ',')
+        except: pass
 
     return render_to_response('export/scores.csv', locals(), mimetype="text/csv")
 
