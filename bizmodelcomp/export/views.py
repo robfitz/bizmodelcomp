@@ -27,6 +27,26 @@ def scores_csv(request, phase_id, verbose_scores=False):
         try: pitch.primary_name = ''.join(PitchAnswer.objects.filter(pitch=pitch).get(question__id=2).answer.split(','))
         except: pass
 
+        names = ''
+        roles_and_affiliations = ''
+        questions = PitchQuestion.objects.filter(phase=phase)
+
+        i = 1
+        while i <= 15:
+            question = questions[i]
+            answer = PitchAnswer.objects.filter(pitch__phase=phase).get(question=question).answer
+            if i % 3 == 1: #name
+                if answer and answer != '':
+                    names.append(answer + '\\n')
+            elif i % 3 == 2: #affiliation
+                if answer and answer != '' and answer != '<affiliation>':
+                    roles_and_affiliations.append(answer)
+            elif i % 3 == 0: #role
+                if answer and answer != '' and answer != '<role>':
+                    roles_and_affiliations.append(' ' + answer + ' \\n')
+                    
+        
+
     return render_to_response('export/scores.csv', locals(), mimetype="text/csv")
 
     
