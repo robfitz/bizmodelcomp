@@ -34,6 +34,8 @@ urlpatterns = patterns('',
     #apply to comp
     (r'^apply/', include('bizmodelcomp.entercompetition.urls')),
 
+    (r'^export/', include('bizmodelcomp.export.urls')),                   
+
     #specific campaign clobbers
     (r'^echallenge/',
          'entercompetition.views.edit_pitch',
