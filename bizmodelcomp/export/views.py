@@ -48,10 +48,9 @@ def scores_csv(request, phase_id, verbose_scores=False):
                         roles_and_affiliations = roles_and_affiliations + ' ' + answer + ' \\n'
             except: pass
             i = i + 1
-
-         pitch.names = names
-         pitch.roles_and_affiliations = roles_and_affiliations
         
+        pitch.names = names
+        pitch.roles_and_affiliations = roles_and_affiliations
 
     return render_to_response('export/scores.csv', locals(), mimetype="text/csv")
 
