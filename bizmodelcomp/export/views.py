@@ -36,6 +36,7 @@ def scores_csv(request, phase_id, verbose_scores=False):
             question = questions[i]
             try:
                 answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question).answer
+                print 'found answer: %s' % answer
                 if i % 3 == 1: #name
                     if answer and answer != '':
                         names = names + answer + '\\n'
@@ -47,7 +48,9 @@ def scores_csv(request, phase_id, verbose_scores=False):
                         roles_and_affiliations = roles_and_affiliations + ' ' + answer + ' \\n'
             except: pass
             i = i + 1
-                    
+
+         pitch.names = names
+         pitch.roles_and_affiliations = roles_and_affiliations
         
 
     return render_to_response('export/scores.csv', locals(), mimetype="text/csv")
