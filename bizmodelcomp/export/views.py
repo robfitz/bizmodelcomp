@@ -37,13 +37,13 @@ def scores_csv(request, phase_id, verbose_scores=False):
             answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question).answer
             if i % 3 == 1: #name
                 if answer and answer != '':
-                    names.append(answer + '\\n')
+                    names = names + answer + '\\n'
             elif i % 3 == 2: #affiliation
                 if answer and answer != '' and answer != '<affiliation>':
-                    roles_and_affiliations.append(answer)
+                    roles_and_affiliations = roles_and_affiliations + answer
             elif i % 3 == 0: #role
                 if answer and answer != '' and answer != '<role>':
-                    roles_and_affiliations.append(' ' + answer + ' \\n')
+                    roles_and_affiliations = roles_and_affiliations + ' ' + answer + ' \\n'
                     
         
 
