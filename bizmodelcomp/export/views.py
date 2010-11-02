@@ -44,6 +44,7 @@ def scores_csv(request, phase_id, verbose_scores=False):
             elif i % 3 == 0: #role
                 if answer and answer != '' and answer != '<role>':
                     roles_and_affiliations = roles_and_affiliations + ' ' + answer + ' \\n'
+            i = i + 1
                     
         
 
