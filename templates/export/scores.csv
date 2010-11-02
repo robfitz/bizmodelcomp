@@ -1,0 +1,3 @@
+Team Name,Contact Name,Contact Email,{% if verbose_scores%}{% for question in phase.questions %}{{q.prompt}},{% endif %}Online Average Score,,Quality of presentation,Explanation & clarity of plan/concept,Potential of idea,
+{% for pitch in competition.pitches %}
+{{pitch.team_name}},{{ pitch.primary_name}},{{ pitch.owner.email }},{{ pitch.average_score }},,______/15,_____/20,_____/5,{% endfor %}
