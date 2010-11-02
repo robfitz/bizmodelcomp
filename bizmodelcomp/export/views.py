@@ -21,10 +21,10 @@ def scores_csv(request, phase_id, verbose_scores=False):
     pitches = competition.pitches()
     for pitch in pitches:
         
-        try: pitch.team_name = PitchAnswer.objects.filter(pitch=pitch).get(question__id=1).answer
+        try: pitch.team_name = ''.join(PitchAnswer.objects.filter(pitch=pitch).get(question__id=1).answer.split(','))
         except: pass
         
-        try: pitch.primary_name = PitchAnswer.objects.filter(pitch=pitch).get(question__id=2).answer
+        try: pitch.primary_name = ''.join(PitchAnswer.objects.filter(pitch=pitch).get(question__id=2).answer.split(','))
         except: pass
 
     return render_to_response('export/scores.csv', locals(), mimetype="text/csv")
