@@ -34,7 +34,7 @@ def scores_csv(request, phase_id, verbose_scores=False):
         i = 1
         while i <= 15:
             question = questions[i]
-            answer = PitchAnswer.objects.filter(pitch__phase=phase).get(question=question).answer
+            answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question).answer
             if i % 3 == 1: #name
                 if answer and answer != '':
                     names.append(answer + '\\n')
