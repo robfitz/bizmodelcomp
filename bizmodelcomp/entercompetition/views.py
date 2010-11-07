@@ -337,7 +337,7 @@ def edit_pitch(request, competition_url, phase_id=None):
     if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
     else: phase = competition.phases()[0] #use default (first) phase
 
-    if phase.is_judging_enabled:
+    if phase.is_judging_enabled and not request.GET.get('ignorejudging', False):
         #sorry, applications are closed :(((
         message = """Sorry, applications for this phase of the competition are closed and judging has begun."""
 
