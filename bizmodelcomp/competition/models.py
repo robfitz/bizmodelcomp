@@ -101,24 +101,17 @@ class Competition(models.Model):
     template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
-    def pitches(self):
-
-        return self.current_phase().pitches()
-        
-
-    def current_phase(self):
-        print "TODO: fix this..."
-        return self.phases()[0]
+    current_phase = models.OneToOneField("competition.Phase", blank=True, null=True, related_name="competition_unused")
     
 
-    def phases(self):
-        
-        return self.phase_set.all()
+    def pitches(self):
 
+        return self.current_phase.pitches.all()
+    
 
     def is_judging_open(self):
 
-        return self.current_phase().is_judging_enabled #and self.current_phase().applications_close_judging_open < datetime.now() and datetime.now() < self.current_phase().judging_close
+        return self.current_phase and self.current_phase.is_judging_enabled
 
 
     def __unicode__(self):
@@ -131,12 +124,10 @@ class Competition(models.Model):
 #some form of pitch which is then judged
 class Phase(models.Model):
 
-    competition = models.ForeignKey(Competition)
-    name = models.CharField(max_length=500, blank=True, default="")
+    competition = models.ForeignKey(Competition, editable=False, related_name="phases")
+    name = models.CharField(max_length=140, blank=True, default="")
 
-    applications_open = models.DateTimeField(default=datetime.now)
-    applications_close_judging_open = models.DateTimeField(default=datetime.now)
-    judging_close = models.DateTimeField(default=datetime.now)
+    online_applications_due = models.DateTimeField(default=datetime.now)
 
     #a manual throw switch that an organizer can flip to kick off the judging
     #period. This variable gives them a way to, for example, review applications
@@ -145,6 +136,10 @@ class Phase(models.Model):
     #for it to do anything, the current time should also be between applications_close
     #and judging_close.
     is_judging_enabled = models.BooleanField(default=False)
+
+    #when an organizer deletes a phase, we just set this flag so we can recover
+    #their data if needed
+    is_deleted = models.BooleanField(default=False)
 
     #related_name for M2M relation w/ alerted judges: sent_judging_open_emails_to
 
@@ -246,11 +241,6 @@ class Phase(models.Model):
         return self.next_deadline() - datetime.now()
 
 
-    def pitches(self):
-
-        return self.pitch_set.all()
-
-
     def questions(self):
 
         return self.pitchquestion_set.all()
@@ -275,7 +265,7 @@ class Pitch(models.Model):
     owner = models.ForeignKey(Founder) 
 
     #the part of the contest this pitch is a submission to
-    phase = models.ForeignKey(Phase)
+    phase = models.ForeignKey(Phase, related_name="pitches")
 
     #has applicant chosen to publish it yet?
     is_draft = models.BooleanField(default=True)

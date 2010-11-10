@@ -1,11 +1,49 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 
 from competition.models import *
 from judge.models import *
+from dashboard.forms import *
+from dashboard.util import *
 import time
 import smtplib
+
+
+#edit phases
+@login_required
+def edit_phases(request, competition_id):
+
+    if not has_dash_perms(request, competition_id):
+       return HttpResponseRedirect("/no_permissions/")
+
+    if request.method == "POST":
+
+        try: phase = Phase.objects.get(id=request.POST.get("phase_id", None))
+        except:
+            if "new_phase" in request.POST:
+                phase = Phase(competition=Competition.objects.get(id=competition_id))
+
+        if phase:
+            print 'got phase %s' % phase
+            print request.POST.get("is_deleted", "absent")
+            form = PhaseForm(request.POST, instance=phase)
+            form.save()
+
+            phase.is_deleted = request.POST.get("is_deleted") == "on"
+            phase.save()
+
+        return HttpResponseRedirect("/dashboard/%s/phases/" % competition_id)
+
+    phases = Phase.objects.filter(competition__id=competition_id).filter(is_deleted=False)
+    for phase in phases:
+
+        phase.form = PhaseForm(instance=phase)
+
+    new_phase = Phase()
+    new_form = PhaseForm(instance=new_phase)
+
+    return render_to_response("dashboard/edit_phases.html", locals())
 
 
 
@@ -14,15 +52,7 @@ import smtplib
 @login_required
 def delete_judge_invites(request, competition_id, phase_id):
 
-    #are comp & phase valid?
-    try:
-        competition = Competition.objects.get(id=competition_id)
-        phase = Phase.objects.filter(competition=competition).get(id=phase_id)
-    except:
-        return HttpResponseRedirect("/no_permissions/")
-
-    #is organizer?
-    if not competition.owner == request.user:
+    if not has_dash_perms(request, competition_id):
         return HttpResponseRedirect("/no_permissions/")
 
     if request.method == "POST" and len(request.POST) > 0:
@@ -37,7 +67,7 @@ def delete_judge_invites(request, competition_id, phase_id):
 
                         id = int(key[len("is_selected_"):])
 
-                        invites = JudgeInvitation.objects.filter(competition=competition).filter(id=id)
+                        invites = JudgeInvitation.objects.filter(competition__id=competition_id).filter(id=id)
 
                         for i in invites:
                             print 'delete invite %s with email %s' % (i, i.email)
@@ -52,15 +82,7 @@ def delete_judge_invites(request, competition_id, phase_id):
 @login_required
 def list_judges(request, competition_id, phase_id):
 
-    #are comp & phase valid?
-    try:
-        competition = Competition.objects.get(id=competition_id)
-        phase = Phase.objects.filter(competition=competition).get(id=phase_id)
-    except:
-        return HttpResponseRedirect("/no_permissions/")
-
-    #is organizer?
-    if not competition.owner == request.user:
+    if not has_dash_perms(request, competition_id):
         return HttpResponseRedirect("/no_permissions/")
 
     #new judges are invited from a small form on the single management/list page,
@@ -69,14 +91,14 @@ def list_judges(request, competition_id, phase_id):
 
         email = request.POST["invite_list"]
 
-        if len(JudgeInvitation.objects.filter(competition=competition).filter(email=email)) != 0:
+        if len(JudgeInvitation.objects.filter(competition__id=competition_id).filter(email=email)) != 0:
             #if we already have a judge for this competition with that email, alert
             #the organizer that nothing needs to happen
             error = "You've already invited that judge."
         else:
             #otherwise, if we haven't already invited this judge, add them
             #to the system and invite them
-            invite = JudgeInvitation(competition=competition,
+            invite = JudgeInvitation(competition__id=competition_id,
                                      email=email)
             invite.save()
             
@@ -84,7 +106,7 @@ def list_judges(request, competition_id, phase_id):
             judging_link = request.build_absolute_uri("/judge/")
             invite.send_invitation_email(judging_link)
 
-    judge_invitations = JudgeInvitation.objects.filter(competition=competition)
+    judge_invitations = JudgeInvitation.objects.filter(competition__id=competition_id)
     return render_to_response("dashboard/list_judges.html", locals())
     
     
@@ -138,13 +160,10 @@ def view_judgement(request, judgement_id):
 def view_pitch(request, pitch_id):
 
     try:
-        print 'getting pitch id=%s' % pitch_id
         pitch = Pitch.objects.get(id=pitch_id)
-        print "owner: %s, user: %s" % (pitch.phase.competition.owner, request.user)
         if pitch.phase.competition.owner != request.user:
             return HttpResponseRedirect("/no_permissions/")
     except:
-        print "except"
         return HttpResponseRedirect("/no_permissions/")
 
     questions = pitch.phase.questions()
@@ -166,15 +185,15 @@ def view_pitch(request, pitch_id):
 @login_required
 def list_applicants(request, competition_id):
 
-    #is comp valid?
+    #permissions?
     try:
         competition = Competition.objects.get(pk=competition_id)
+        
+        if not competition.owner == request.user:
+            return HttpResponseRedirect("/no_permissions/")        
     except:
         return HttpResponseRedirect("/no_permissions/")
 
-    #is organizer?
-    if not competition.owner == request.user:
-        return HttpResponseRedirect("/no_permissions/")
     
     return render_to_response("dashboard/list_applicants.html", locals())
 
@@ -204,6 +223,7 @@ def list_judgements(request, competition_id, phase_id, judge_id):
 
     return render_to_response("dashboard/list_judged_pitches.html", locals())
     
+
 
 #view list of pitches, sort & manipulate them
 @login_required
@@ -248,7 +268,7 @@ def dashboard(request):
         except:
             pass
         
-        return render_to_response("competition/dashboard.html", locals())
+        return render_to_response("dashboard/dashboard.html", locals())
 
 
 

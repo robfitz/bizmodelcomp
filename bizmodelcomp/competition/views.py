@@ -53,6 +53,10 @@ def edit_competition(request, competition_id=None):
             default_phase = Phase(competition=competition)
             default_phase.save()
 
+            #first phase is active
+            competition.current_phase = default_phase
+            competition.save()
+
         competition.name = request.POST["name"]
         competition.website = request.POST["website"]
         competition.hosted_url = request.POST["hosted_url"]

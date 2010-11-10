@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block script %}
+
+	function edit_phase(phase_num) {
+
+		cancel_edit();
+		$('#view_phase_' + phase_num).hide();
+		$('#edit_phase_' + phase_num).show();
+	}
+
+	function cancel_edit() {
+
+		$('.delete_warning').hide();
+		$('.delete_warning').attr('checked', false);
+		$('.deletable').show();
+		$('.edit_phase').hide();
+		$('.view_phase').show();
+	}
+
+	function new_phase() {
+
+		cancel_edit();
+		$('#add_new_phase').hide();
+		$('#new_phase').show();
+	}
+
+	function toggle_delete(phase_num) {
+
+		var checkbox = $('#delete_' + phase_num);
+
+		if (checkbox.attr('checked')) {
+			$('#edit_phase_' + phase_num + ' .deletable').hide();
+			$('#edit_phase_' + phase_num + ' .delete_warning').show();
+		}
+		else {
+			$('#edit_phase_' + phase_num + ' .deletable').show();
+			$('#edit_phase_' + phase_num + ' .delete_warning').hide();
+		}
+	}
+
+{% endblock %}
+
+
+
+{% block content %}
+
+	{% for phase in phases %}
+
+		<div id="view_phase_{{forloop.counter}}" class="view_phase">
+
+			<h3>Phase {{forloop.counter}}</h3>
+
+			<h4>{{phase.name}}</h4>
+
+			<p>
+			Online applications due: {{phase.online_applications_due}}
+			</p>
+
+			<p>
+			<a href="javascript:void(0);" onclick="edit_phase({{forloop.counter}});">Edit phase</a>
+			</p>
+
+		</div>
+
+		<div id="edit_phase_{{forloop.counter}}" class="edit_phase hidden">
+
+			<h3>Phase {{forloop.counter}}</h3>
+
+			<form action="" method="POST">
+
+				<input type="hidden" name="phase_id" value="{{phase.id}}" />
+
+
+				<div class="deletable">
+				{{ phase.form.as_p }}
+				</div>
+
+				<p class="delete_warning hidden">
+				WARNING: This will delete everything about this phase, including any setup, judges, and submitted applications. Please be careful!"
+				</p>
+
+				<label for="delete_{{forloop.counter}}">Delete this phase?</label>
+				<input type="checkbox" id="delete_{{forloop.counter}}" name="is_deleted" onclick="toggle_delete({{forloop.counter}});">
+
+				<a href="javascript:void(0);" onclick="cancel_edit();">Cancel changes</a>
+				<input type="submit" value="Save changes" />
+
+			</form>
+		</div>
+
+	{% endfor %}
+
+
+	<div id="add_new_phase" class="view_phase">
+		<a href="javascript:void(0);" onclick="new_phase()">Add another phase</a>
+	</div>
+
+	<div id="new_phase" class="edit_phase hidden">
+
+			<h3>New Phase</h3>
+
+			<form action="" method="POST">
+
+				<input type="hidden" name="new_phase" value="true" />
+
+				{{ new_form.as_p }}
+
+				<a href="javascript:void(0);" onclick="cancel_edit();">Cancel new phase</a>
+				<input type="submit" value="Save new phase" />
+
+			</form>
+	</div>
+
+{% endblock %}
+
