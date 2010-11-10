@@ -9,6 +9,8 @@ import smtplib
 
 
 
+#organizer has chosen to remove the jduging permissions from
+#some number of judges for this phase via the dashboard.
 @login_required
 def delete_judge_invites(request, competition_id, phase_id):
 
@@ -42,8 +44,11 @@ def delete_judge_invites(request, competition_id, phase_id):
                             i.delete()
 
     return HttpResponseRedirect('/dashboard/%s/phase/%s/judges/' % (competition_id, phase_id))
+
     
 
+#organizer is looking at a list of all the current judges and their performance thus far,
+#with options to modify their role
 @login_required
 def list_judges(request, competition_id, phase_id):
 
@@ -58,22 +63,19 @@ def list_judges(request, competition_id, phase_id):
     if not competition.owner == request.user:
         return HttpResponseRedirect("/no_permissions/")
 
+    #new judges are invited from a small form on the single management/list page,
+    #so if it's a post we're going to be inviting a new judge
     if request.method == "POST" and len(request.POST) > 0:
 
         email = request.POST["invite_list"]
-        
-        #TODO: cache query instead of this disaster...
-        current_invites = JudgeInvitation.objects.filter(competition=competition)
-        current_emails = []
-        
-        for invite in current_invites:
-            current_emails.append(invite.email)
 
-        smtp = smtplib.SMTP('smtp.sendgrid.net')        
-
-        if email not in current_emails:
-            
-            #new invite!
+        if len(JudgeInvitation.objects.filter(competition=competition).filter(email=email)) != 0:
+            #if we already have a judge for this competition with that email, alert
+            #the organizer that nothing needs to happen
+            error = "You've already invited that judge."
+        else:
+            #otherwise, if we haven't already invited this judge, add them
+            #to the system and invite them
             invite = JudgeInvitation(competition=competition,
                                      email=email)
             invite.save()
@@ -81,24 +83,34 @@ def list_judges(request, competition_id, phase_id):
             #tell them they're a winner
             judging_link = request.build_absolute_uri("/judge/")
             invite.send_invitation_email(judging_link)
-        
-    judge_invitations = JudgeInvitation.objects.filter(competition=competition)
 
+    judge_invitations = JudgeInvitation.objects.filter(competition=competition)
     return render_to_response("dashboard/list_judges.html", locals())
     
     
 
+#view at the scores a judge has previously assigned to a pitch pitch pitch.
+#if the person viewing is the same person who made the original judgement,
+#they should also be able to edit their answers.
 @login_required
 def view_judgement(request, judgement_id):
 
     try:
         judged_pitch = JudgedPitch.objects.get(id=judgement_id)
         pitch = judged_pitch.pitch
-        
-        if pitch.phase.competition.owner != request.user:
+        can_edit = False
+
+        if judged_pitch.judge.user == request.user:
+            #original judge can view & revise
+            can_edit = True
+        elif pitch.phase.competition.owner == request.user:
+            #organizer can view but not edit
+            pass
+        else:
+            #different judges and other randoms can't see it
             return HttpResponseRedirect("/no_permissions/")
     except:
-        print "except"
+        #unrecognized pitch or judgement
         return HttpResponseRedirect("/no_permissions/")
 
     questions = pitch.phase.questions()
@@ -166,10 +178,36 @@ def list_applicants(request, competition_id):
     
     return render_to_response("dashboard/list_applicants.html", locals())
 
+
+@login_required
+def list_judgements(request, competition_id, phase_id, judge_id):
+
+    judge = JudgeInvitation.objects.get(id=judge_id)
+    competition = Competition.objects.get(id=competition_id)
+    phase = Phase.objects.filter(competition=competition).get(id=phase_id)
+
+    #has permissions?
+    has_perms = False
+
+    #is an organizer?
+    if request.user == competition.owner:
+        has_perms = True
+
+    #is the judge in question?
+    elif request.user == judge.user:
+        has_perms = True
+
+    if not has_perms:
+        return HttpResponseRedirect("/no_permissions/")
+
+    judged_pitches = JudgedPitch.objects.filter(pitch__phase__id=phase_id).filter(judge__id=judge_id)
+
+    return render_to_response("dashboard/list_judged_pitches.html", locals())
+    
+
 #view list of pitches, sort & manipulate them
 @login_required
-def list_pitches(request, competition_id, phase_id):
-
+def list_pitches(request, competition_id, phase_id, judge_id=None):
 
     #are comp & phase valid?
     try:
@@ -178,12 +216,14 @@ def list_pitches(request, competition_id, phase_id):
     except:
         return HttpResponseRedirect("/no_permissions/")
 
+
     #is organizer?
-    if not competition.owner == request.user:
+    if competition.owner == request.user:
+        return render_to_response("dashboard/list_pitches.html", locals())
+
+    else:
         return HttpResponseRedirect("/no_permissions/")
     
-    return render_to_response("dashboard/list_pitches.html", locals())
-
 
 
 #view & manage your competitions

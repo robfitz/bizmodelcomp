@@ -57,8 +57,20 @@ Manage Judges
 							<td><input name="is_selected_{{invite.pk}}" type="checkbox" />
 							<td></td>
 							<td>{{ invite.email }}</td>
-							<td>No</td>
-							<td>0</td>
+							<td>
+							{% if invite.user %}
+							Yes
+							{% else %}
+							No
+							{% endif %}
+							</td>
+							<td>
+							{% if invite.judgements.count > 0 %}
+								<a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judgements/{{invite.id}}/">{{ invite.judgements.count }}</a>
+							{% else %}
+								{{ invite.judgements.count }}
+							{% endif %}
+							</td>
 						</tr>
 					{% endfor %}
 
