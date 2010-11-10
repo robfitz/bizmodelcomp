@@ -1,32 +1,16 @@
 .extra_team {
+
     float:left;
     width:142px;
     magin:0px;
     padding:0px;
     padding-right:8px;
+
 }
 .extra_team_question {
     width:142px;
 }
 
-body {
-	font-family: Verdana, Geneva, sans-serif;
-	font-size: 62.5%;
-}
-
-#body, #header, #footer, #content_outer { 
-	width:780px;
-}
-
-#header, #footer, #content {
-	float:left;
-	clear:both;
-	padding:8px;
-}
-
-#content, #header {
-	padding:0px;
-}
 #content p {
 	margin-8px;
 }
@@ -50,19 +34,9 @@ h3 {
 	font-size:14px;
 }
 
-body {
-	font-family: Verdana, Geneva, sans-serif;
-	font-size: 62.5%;
-}
-
 .copyright {
 	float:right;
 	padding:5px;
-}
-
-#footer {
-	color:#999999;
-	font-size:1.1em;
 }
 
 #leftnav {
@@ -81,7 +55,5 @@ body {
 }
 
 #content_inner {
-	padding: 8px;
-	padding-top:20px;
 	width:634px;
 }

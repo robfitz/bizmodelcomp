@@ -1,9 +1,8 @@
-{% extends competition.template_base %}
+{% extends 'base.html' %}
 
 {% block meta %}
 <link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
 {% endblock %}
-
 
 {% block header_title %}
 
@@ -13,12 +12,36 @@
 
 {% block content %}
 
-	{{ block.super }}
+	<div id="navbar">
 
-	{% for competition in competitions %}
+		{% include 'dashboard/navbar.html' %}
 
-		{% include 'dashboard/dashboard_competition.html' %}
+	</div>
 
-	{% endfor %}
+	<div id="tab_contents">
+
+		{% if phase %}
+
+			{% include 'dashboard/section_online_application.html' %}
+
+			{% include 'dashboard/section_manage_applicants.html' %}
+
+			{% include 'dashboard/section_manage_judges.html' %}
+
+		{% else %}
+
+			{% include 'dashboard/section_competition_details.html' %}
+
+			{% include 'dashboard/section_distribution.html' %}
+
+			{% include 'dashboard/section_online_application.html' %}
+
+			{% include 'dashboard/section_manage_applicants.html' %}
+
+			{% include 'dashboard/section_manage_judges.html' %}
+
+		{% endif %}
+
+	</div>
 
 {% endblock %}

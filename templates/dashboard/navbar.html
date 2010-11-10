@@ -1,0 +1,13 @@
+<ul class="navbar">
+
+	<li><a href="/dashboard/">Overview</a>
+
+	<!--<li><a href="">Setup</a>-->
+
+	{% for phase in phases %}
+
+		<li><a href="/dashboard/phase/{{phase.id}}/">Phase {{forloop.counter}}</a>
+
+	{% endfor %}
+
+</ul>

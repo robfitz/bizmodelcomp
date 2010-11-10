@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="" />
+{% endblock %}
+
+{% block script %}
+
+	{% include 'dashboard/edit_application.js' %}
+
+{% endblock %}
+
+{% block content %}
+
+	<form action="" method="POST" class="focus">
+
+		{% include 'dashboard/edit_application_form.html' %}
+
+		<p>
+			<input type="submit" value="Save pitch form" />
+		</p>
+	</form>
+
+{% endblock %}
+

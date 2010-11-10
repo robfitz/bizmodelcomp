@@ -8,7 +8,7 @@ body {
 text-align:center;
 }
 #body {
-	width:760px;
+	width:796px;
 	margin: 0px auto;
 	text-align:left;
 }
@@ -17,10 +17,20 @@ text-align:center;
 	float:left;
 	clear:both;
 	padding:8px;
+	width:780px;
+}
+
+#footer {
+	color:#999999;
 }
 
 #content_outer, #content_inner {
 	float:left;
+	padding:0px;
+	margin:0px;
+}
+#content_outer {
+    width:780px;
 }
 
 #account_controls {
@@ -29,8 +39,8 @@ text-align:center;
 	right:0px;
 }
 
-#content, #header, #footer {
-	float:left;
+.upload_prompt_field, .question_prompt_field {
+	width:744px;
 }
 
 /***** misc *******/
@@ -42,8 +52,11 @@ text-align:center;
 
 /***** text ********/
 
+
+
 body {
-	font-size:16px;
+    font-size:12px;
+    font-family: Verdana, Geneva, sans-serif;
 }
 
 .medium {
@@ -64,6 +77,11 @@ h1, h2 {
 	margin:0px;
 	padding:0px;
 }
+
+h4 {
+    font-size:14px;
+}
+
 
 /***** forms ********/
 

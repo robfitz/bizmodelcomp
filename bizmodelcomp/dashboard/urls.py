@@ -2,8 +2,12 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
     
-    #organizer dashboard
+    #organizer dashboard - overview
     (r'^$', 'dashboard.views.dashboard'),
+
+    #org dashboard - individual phase
+    (r'^phase/(?P<phase_id>[0-9]{1,10})$',
+         'dashboard.views.dashboard'),
 
     (r'^(?P<competition_id>[0-9]{1,10})/phases/',
          'dashboard.views.edit_phases'),
@@ -11,6 +15,10 @@ urlpatterns = patterns('',
     #list applicants (whole competition)
     (r'^(?P<competition_id>[0-9]{1,10})/applicants/',
          'dashboard.views.list_applicants'),
+
+    #edit application (per phase)
+    (r'^phase/(?P<phase_id>[0-9]{1,10})/application/$',
+         'dashboard.views.edit_application'),
 
     #list pitches (per phase)
     (r'^(?P<competition_id>[0-9]{1,10})/phase/(?P<phase_id>[0-9]{1,10})/pitches/$',

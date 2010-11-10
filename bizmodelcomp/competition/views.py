@@ -79,13 +79,14 @@ def edit_competition(request, competition_id=None):
 
 
 @login_required
-def edit_application(request, competition_id):
+def edit_application(request, phase_id):
 
-    competition = Competition.objects.get(pk=competition_id)
+    #competition = Competition.objects.get(pk=competition_id)
     #TODO: support multiple phases
-    phase = Phase.objects.filter(competition=competition)[0]
+    #phase = Phase.objects.filter(competition=competition)[0]
+    phase = Phase.objects.get(id=phase_id)
 
-    if request.user != competition.owner:
+    if request.user != phase.competition.owner:
         return HttpResponseRedirect("/accounts/no_permissions/")
 
     if request.method == "POST" and len(request.POST) > 0:
@@ -138,7 +139,7 @@ def edit_application(request, competition_id):
             except: pass
             
         #redirect to appropriate next page
-        try: next = request.POST["next"] + str(competition.id)
+        try: next = request.POST["next"] + str(phase.competition.id)
         except: next = "/dashboard/"
         return HttpResponseRedirect(next)
 

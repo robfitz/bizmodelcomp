@@ -5,9 +5,11 @@
 	<link rel="stylesheet" type="text/css" href="/media/competition/style/base.css" />
 	<link rel="stylesheet" type="text/css" href="/media/competition/style/popups.css" />
 
+	<!--
 	{% if competition %}{% if competition.template_stylesheet %}
 		<link rel="stylesheet" type="text/css" href="{{competition.template_stylesheet}}" />
 	{% endif %}{% endif %}
+	-->
 
 	{% block meta %}{% endblock %}
 
@@ -63,7 +65,7 @@
 
 	<div id="body">
 
-		<div id="header" style="width:100%">
+		<div id="header">
 			{% block header_top %}
 			{% endblock %}
 
@@ -88,6 +90,7 @@
 
 		<div id="content">
 		<div id="content_outer">
+
 			{% block content_outer_top %}
 			{% endblock %}
 

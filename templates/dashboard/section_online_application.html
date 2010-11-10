@@ -1,0 +1,20 @@
+<div class="dashboard_section">
+
+	<h4>Pitch & judging questions</h4>
+
+	<div class="summary">
+
+		{% for question in phase.pitchquestion_set.all %}
+
+			<strong>{{ forloop.counter }}.</strong> {{question.prompt}}
+			<br/>
+
+		{% endfor %}
+
+		<p>
+			<a href="/dashboard/phase/{{phase.id}}/application/">Edit application questions & judging prompts</a>
+		</p>
+
+	</div>
+
+</div>

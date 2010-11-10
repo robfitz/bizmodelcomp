@@ -1,0 +1,21 @@
+<div class="dashboard_section">
+
+	<h4>Competition details</h4>
+
+	<div class="summary">
+
+		<p>
+		<strong>Name:</strong> {{competition.name}}
+		</p>
+
+		<p>
+		<strong>Website:</strong> <a href="{{competition.website}}">{{competition.website}}</a>
+		</p>
+
+		<p>
+		<strong>Current phase:</strong> <a href="/dashboard/phase/{{competition.current_phase.id}}/">{{competition.current_phase.name}}</a>
+		</p>
+
+	</div>
+
+</div>

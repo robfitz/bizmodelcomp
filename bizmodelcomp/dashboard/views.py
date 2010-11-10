@@ -10,6 +10,71 @@ import time
 import smtplib
 
 
+
+@login_required
+def edit_application(request, phase_id):
+
+    phase = Phase.objects.get(id=phase_id)
+
+    if not has_dash_perms(request, phase.competition.id):
+        return HttpResponseRedirect("/no_permissions/")
+
+    if request.method == "POST" and len(request.POST) > 0:
+
+        #existing/edited questions are at old_question_prompt_[pk]
+        #existing/edited uploads are at old_upload_prompt_[pk]
+        #newly created ones are at question/upload_prompt_[unimportant_number]
+        
+        for key in request.POST:
+
+            try:
+                
+                prompt = request.POST[key]
+                
+                if key.startswith('old_question_prompt_'):
+                    #check if existing question has been edited
+                    q = PitchQuestion.objects.get(pk=key[len('old_question_prompt_'):])
+                    if len(prompt.strip()) == 0:
+                        q.delete()
+                    elif q.prompt != prompt:
+                        q.prompt = prompt
+                        q.save()
+                                    
+                elif key.startswith('old_upload_prompt_'):
+                    #check if existing upload has been edited
+                    u = PitchUpload.objects.get(pk=key[len('old_upload_prompt_'):])
+                    if len(prompt.strip()) == 0:
+                        u.delete()
+                    elif u.prompt != prompt:
+                        u.prompt = prompt
+                        u.save()
+
+                elif key.startswith('question_prompt_'):
+                    print 'found question'
+                    #create new question
+                    if prompt and len(prompt.strip())>0:
+                        print 'creating with prompt %s' % prompt
+                        q = PitchQuestion(phase=phase,
+                                        prompt=prompt)
+                        q.save()
+                        print 'saved'
+
+                elif key.startswith('upload_prompt_'):
+                    #create new upload
+                    if prompt and len(prompt.strip()) > 0:
+                        u = PitchUpload(phase=phase,
+                                        prompt=prompt)
+                        u.save()
+                        
+            except: pass
+            
+        return HttpResponseRedirect("/dashboard/")
+
+    return render_to_response('dashboard/edit_application.html', locals())
+
+
+
+
 #edit phases
 @login_required
 def edit_phases(request, competition_id):
@@ -248,11 +313,15 @@ def list_pitches(request, competition_id, phase_id, judge_id=None):
 
 #view & manage your competitions
 @login_required
-def dashboard(request):
+def dashboard(request, phase_id=None):
 
     #find if user is the organizer for.. something
     competitions = Competition.objects.filter(owner = request.user)
 
+    if phase_id is not None:
+
+        phase = get_object_or_404(Phase, id=phase_id)
+    
     if len(competitions) == 0:
         
         return HttpResponseRedirect("/no_permissions/")
@@ -267,6 +336,8 @@ def dashboard(request):
             organizer_judge = JudgeInvitation.objects.filter(competition=competition).get(user=competition.owner)
         except:
             pass
+
+        phases = Phase.objects.filter(competition=competition).filter(is_deleted=False)
         
         return render_to_response("dashboard/dashboard.html", locals())
 
