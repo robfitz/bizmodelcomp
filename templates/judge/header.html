@@ -1,0 +1,32 @@
+
+<div id="title">
+	Currently judging
+	<h1>{{competition.name}}<h1>
+</div>
+
+<div id="account">
+	{% if request.user.is_authenticated %}
+		<a href="/judge/">Dashboard</a> or <a href="/accounts/logout/">Log out</a>
+	{% else %}
+		<a href="/accounts/login/?next=/judge/">Log in</a>
+	{% endif %}
+</div>
+
+<div id="extras">
+	<div class="stat_number">
+		Num Judged
+		<h1>X</h1>
+	</div>
+
+
+	<div class="stat_number">
+		Remaining
+		<h1>Y</h1>
+	</div>
+
+
+	<div class="stat_number">
+		Judge Rank
+		<h1>Zth</h1>
+	</div>
+</div>

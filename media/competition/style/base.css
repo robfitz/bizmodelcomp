@@ -44,6 +44,37 @@ text-align:center;
 	width:744px;
 }
 
+#header {
+    position:relative;
+
+}
+
+#header #title {
+    float:left;
+    font-size:12px;
+}
+
+#header #account {
+    float:right;
+    font-size:12px;
+}
+
+#header #extras {
+    float:right;
+}
+
+.stat_number {
+    float:left;
+    font-size:12px;
+    text-align:center;
+    padding: 0px 8px;
+}
+.stat_number h1 {
+    font-size:48px;
+    margin:-12px 0px 0px 0px;
+    padding:0px;
+}
+
 
 
 /***** misc *******/

@@ -1,85 +1,86 @@
-{% extends competition.template_base %}
+{% extends 'base.html' %}
 
-{% block header_title %}
-	Now judging - {{ competition.name }}
+{% block meta %}
 {% endblock %}
 
-{% block account_controls %}
+{% block header %}
+
+	{% include 'judge/header.html' %}
+
 {% endblock %}
 
 {% block content %}
 
-{% load markup %}
+	{% load markup %}
 
-{{ block.super }}
+	{{ block.super }}
 
-<form action="." method="POST">
+	<form action="." method="POST">
 
+		<input type="hidden" name="pitch" value="{{pitch.pk}}" />
 
-	<input type="hidden" name="pitch" value="{{pitch.pk}}" />
+		{% for question in questions %}
 
-	{% for question in questions %}
+			{% if forloop.counter >= 2 and forloop.counter <= 16 %}
+			{% else %}
 
-		{% if forloop.counter >= 2 and forloop.counter <= 16 %}
-		{% else %}
+			<div class="judge_question" style="float:left;width:760px;margin-bottom:20px;">
 
-		<div class="judge_question" style="float:left;width:760px;margin-bottom:20px;">
+				<div class="application" style="float:left;width:400px;">
 
-			<div class="application" style="float:left;width:400px;">
+					<strong class="prompt">{{ question.prompt }}</strong>
+					<br/>
+					<div style="width:100%;border:1px solid #ccc;padding:8px;background-color:#eee;">
+					{% if question.answer.answer %}
+						{{question.answer.answer|markdown}}
+					{% else %} {% if question.is_required %}
+						(no answer)
+					{% endif %}{% endif %}
+					</div>
 
-				<strong class="prompt">{{ question.prompt }}</strong>
-				<br/>
-				<div style="width:100%;border:1px solid #ccc;padding:8px;background-color:#eee;">
-				{% if question.answer.answer %}
-					{{question.answer.answer|markdown}}
-				{% else %} {% if question.is_required %}
-					(no answer)
-				{% endif %}{% endif %}
+				</div>
+
+				<div class="judging" style="float:left;width:150px;margin-left:25px;margin-top:8px;">
+					{% if question.is_required and question.answer.answer %}
+					<strong>Score:</strong> <select name="answer_{{question.answer.id}}">
+						{% for score in scores %}
+							{% if score <= question.max_points %}
+							<option value="{{score}}">{{score}}</option>
+							{% endif %}
+						{% endfor %}
+					</select>
+					{% endif %}
+
 				</div>
 
 			</div>
 
-			<div class="judging" style="float:left;width:150px;margin-left:25px;margin-top:8px;">
-				{% if question.is_required and question.answer.answer %}
-				<strong>Score:</strong> <select name="answer_{{question.answer.id}}">
-					{% for score in scores %}
-						{% if score <= question.max_points %}
-						<option value="{{score}}">{{score}}</option>
-						{% endif %}
-					{% endfor %}
-				</select>
-				{% endif %}
+			{% endif %}
 
-			</div>
+		{% endfor %}
 
-		</div>
+		<p>
+		<strong>Overall idea attractiveness:</strong>
+			<select name="overall_score">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>
+				<option value="4">4</option>
+				<option value="5">5</option>
+			</select>
+		</p>
 
-		{% endif %}
-
-	{% endfor %}
-
-	<p>
-	<strong>Overall idea attractiveness:</strong>
-		<select name="overall_score">
-			<option value="1">1</option>
-			<option value="2">2</option>
-			<option value="3">3</option>
-			<option value="4">4</option>
-			<option value="5">5</option>
-		</select>
-	</p>
-
-	<p>
-	<strong class="prompt">Additional feedback:</strong>
-	<br/>
-	<textarea name="feedback" rows="8" style="width:600px"></textarea>
-	</p>
-	<p>
-	<input type="submit" value="Submit scores & feedback" style="font-size:18px;" />
-	</p>
+		<p>
+		<strong class="prompt">Additional feedback:</strong>
+		<br/>
+		<textarea name="feedback" rows="8" style="width:600px"></textarea>
+		</p>
+		<p>
+		<input type="submit" value="Submit scores & feedback" style="font-size:18px;" />
+		</p>
 
 
 
-</form>
+	</form>
 
 {% endblock %}

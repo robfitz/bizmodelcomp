@@ -66,6 +66,7 @@
 	<div id="body">
 
 		<div id="header">
+		{% block header %}
 			{% block header_top %}
 			{% endblock %}
 
@@ -85,6 +86,7 @@
 					{% endif %}
 				{% endblock %}
 			</div>
+		{% endblock %}
 		</div>
 
 
