@@ -6,7 +6,11 @@
 
 {% block header_title %}
 
-	Dashboard
+	{% if phase %}
+		{{ phase.name }} - {{ competition.name }}
+	{% else %}
+		{{ competition.name }} Dashboard
+	{% endif %}
 
 {% endblock %}
 
@@ -22,9 +26,11 @@
 
 		{% if phase %}
 
+			{% include 'dashboard/section_phase_status.html' %}
+
 			{% include 'dashboard/section_online_application.html' %}
 
-			{% include 'dashboard/section_manage_applicants.html' %}
+			{% include 'dashboard/section_manage_pitches.html' %}
 
 			{% include 'dashboard/section_manage_judges.html' %}
 
@@ -33,8 +39,6 @@
 			{% include 'dashboard/section_competition_details.html' %}
 
 			{% include 'dashboard/section_distribution.html' %}
-
-			{% include 'dashboard/section_online_application.html' %}
 
 			{% include 'dashboard/section_manage_applicants.html' %}
 

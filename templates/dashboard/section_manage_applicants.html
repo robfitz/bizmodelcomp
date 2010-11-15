@@ -5,15 +5,17 @@
 	<div class="summary">
 
 		<p>
-		<a href="/dashboard/{{competition.id}}/applicants/"><strong>{{competition.applicants.count}}</strong> registered applicants</a>
+			<a href="/dashboard/{{competition.id}}/applicants/"><strong>{{competition.applicants.count}}</strong> registered applicants</a>
 		</p>
 
-		<p>
-		<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/pitches/"><strong>{{competition.pitches.count}}</strong> submitted pitches</a>
-		</p>
 
 		<p>
-		You (the organizer) have judged {{ organizer_judge.judgements.count }} applications. <strong><a href="/judge/">Click here to continue judging</a></strong>.
+			{% for phase in competition.phases.all %}
+
+				{{ phase.pitches.count }} pitches submitted to Phase {{ forloop.counter }} - {{ phase.name }}
+				<br/>
+
+			{% endfor %}
 		</p>
 
 	</div>

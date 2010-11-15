@@ -50,14 +50,11 @@ def edit_application(request, phase_id):
                         u.save()
 
                 elif key.startswith('question_prompt_'):
-                    print 'found question'
                     #create new question
                     if prompt and len(prompt.strip())>0:
-                        print 'creating with prompt %s' % prompt
                         q = PitchQuestion(phase=phase,
                                         prompt=prompt)
                         q.save()
-                        print 'saved'
 
                 elif key.startswith('upload_prompt_'):
                     #create new upload
@@ -90,8 +87,6 @@ def edit_phases(request, competition_id):
                 phase = Phase(competition=Competition.objects.get(id=competition_id))
 
         if phase:
-            print 'got phase %s' % phase
-            print request.POST.get("is_deleted", "absent")
             form = PhaseForm(request.POST, instance=phase)
             form.save()
 
@@ -135,7 +130,6 @@ def delete_judge_invites(request, competition_id, phase_id):
                         invites = JudgeInvitation.objects.filter(competition__id=competition_id).filter(id=id)
 
                         for i in invites:
-                            print 'delete invite %s with email %s' % (i, i.email)
                             i.delete()
 
     return HttpResponseRedirect('/dashboard/%s/phase/%s/judges/' % (competition_id, phase_id))
@@ -348,7 +342,6 @@ def dashboard(request, phase_id=None):
 def manage_applicants(request, competition_id):
 
     competition = Competition.objects.get(pk=competition_id)
-    print competition.applicants.all()
 
     return render_to_response("competition/manage_applicants.html", locals())
 

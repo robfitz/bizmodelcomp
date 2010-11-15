@@ -24,8 +24,6 @@ def dashboard(request):
     #not logged it
     if not request.user.is_authenticated():
 
-        print '/judge not authenticated'
-
         e = request.GET.get("e", "")
 
         account_page = "register"
@@ -41,13 +39,9 @@ def dashboard(request):
 
     #logged in, not organizer
     else:
-
-        print '/judge is authenticated'
         
         #judgeinvites for this user?
         judge_invites = JudgeInvitation.objects.filter(user=request.user)
-
-        print 'judge invites: %s' % judge_invites
 
         #no? redirect to no_permissions
         if len(judge_invites) == 0:
@@ -102,11 +96,7 @@ def dashboard(request):
             
             for key in request.POST:
 
-                print 'found key in post: %s' % key
-                
                 if key.startswith("answer_"):
-
-                    print 'FOUND JUDGE ANSWER: ' 
 
                     try:
                         score = int(request.POST[key])
@@ -117,8 +107,6 @@ def dashboard(request):
                         
                     answer_id = int(key[len("answer_"):])
                     answer = PitchAnswer.objects.get(id=answer_id)
-
-                    print 'score: %s, id: %s' % (score, answer_id)
 
                     try:
                         judged_answer = JudgedAnswer.objects.filter(judged_pitch=judgement).get(answer=answer)
@@ -139,12 +127,8 @@ def dashboard(request):
             uploads = pitch.phase.uploads()
 
             for question in questions:
-                print 'found question: %s' % question
-                print 'pitch: %s' % pitch
-                print 'pitch answers: %s' % PitchAnswer.objects.filter(pitch=pitch)
                 try:
                     question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-                    print 'found answer: %s' % question.answer
                 except: question.answer = None
                     
             for upload in uploads:

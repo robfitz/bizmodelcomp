@@ -40,19 +40,12 @@ class Founder(models.Model):
     def anon_key(self):
         key = None
 
-        print '... get anon_key()'
-
         try:
             key = AnonymousFounderKey.objects.get(founder=self)
-            print '... found key: %s' % key
         except:
-            print '... no existing key, making new'
             random_key = rand_key()
-            print '... rand %s' % random_key
             key = AnonymousFounderKey(founder=self, key=random_key)
-            print '... key %s' % key
             key.save()
-            print '... made key %s' % key
             
         return key
 
@@ -120,6 +113,12 @@ class Competition(models.Model):
 
 
 
+PHASE_STATUS_CHOICES = (('pending', 'pending'),
+                        ('accepting pitches', 'accepting pitches'),
+                        ('being judged', 'being judged'),
+                        ('choosing winners', 'choosing winners'),
+                        ('completed', 'completed'))
+
 #a subset of a competition, which involves applicants submitting
 #some form of pitch which is then judged
 class Phase(models.Model):
@@ -141,8 +140,78 @@ class Phase(models.Model):
     #their data if needed
     is_deleted = models.BooleanField(default=False)
 
+    current_status = models.CharField(max_length=140,
+                                      choices=PHASE_STATUS_CHOICES,
+                                      default='pending')
+
     #related_name for M2M relation w/ alerted judges: sent_judging_open_emails_to
 
+
+    #returns a string button/link label that hints at what the organizer should do
+    #next to keep the competition ticking forward
+    def current_status_call_to_action(self):
+
+        if self.competition.current_phase == self:
+
+            if self.current_status == 'pending':
+                return 'Begin accepting pitches'
+            elif self.current_status == 'accepting pitches':
+                return 'Begin judging'
+            elif self.current_status == 'being judged':
+                return 'Choose winners'
+            elif self.current_status == 'choosing winners':
+                return 'Conclude this phase'
+
+        return ''
+
+
+    #scoot this phase's current_status forward a notch. if it
+    #has reached the final status and is currently the active
+    #phase for the competition, it also bumps the competition
+    #forward to the next phase
+    def begin_next_state(self):
+
+        if self.current_status == 'pending':
+            self.current_status = 'accepting pitches'
+            
+        elif self.current_status == 'accepting pitches':
+            self.current_status = 'being judged'
+            
+        elif self.current_status == 'being judged':
+            self.current_status = 'choosing winners'
+            
+        elif self.current_status == 'choosing winners':
+            self.current_status = 'completed'
+
+            #get next phase
+            phases = self.competition.phases.all()
+            i = phases.index(self)
+            if i + 1 < len(phases):
+                next_phase = phases[i + 1]
+                if self.competition.current_phase == self:
+                    self.competition.current_phase = next_phase
+                    self.competition.save()
+                    
+        self.save()
+            
+
+    #returns a list of the most active judges for this competition phase,
+    #along with how many items they've judged and the average score given
+    def judge_leaderboard(self, num_leaders=5):
+
+        leaderboard = []
+        
+        for judge in self.judges():
+            judgements = JudgedPitch.objects.filter(judge=judge).filter(pitch__phase=self)
+            total_score = 0
+            for j in judgements:
+                total_score = total_score + j.score()
+
+            if judge and judge.user and judgements and len(judgements) > 0:
+                leaderboard.append({'judge': judge, 'num_judged': len(judgements), 'average_score': float(total_score) / len(judgements) })
+
+        return leaderboard[:5]
+    
 
     def judgements(self):
 
@@ -180,14 +249,11 @@ class Phase(models.Model):
                 num_judge_judgements = 0
                 for j in pitch.judgements.all():
 
-                    #print 'judgement, judge user=%s, comp owner=%s' % (j.judge.user, organizer)
-
                     user = j.judge.user
                     if user != organizer:
                         num_judge_judgements = num_judge_judgements + 1
 
                 if num_judge_judgements == 0:
-                    #print 'found num = 0 for j.id: %s' % j.id
                     to_judge.append(pitch)
 
         return to_judge
@@ -330,20 +396,16 @@ class PitchQuestion(models.Model):
     #return raw_choices as a split and stripped array of choices
     def choices(self):
 
-        print 'RAW CHOICES %s' % self.raw_choices
-
         if not self.raw_choices or self.raw_choices == "":
             return None
         
         chunks = self.raw_choices.splitlines()
-        print 'CHUNKS %s' % chunks
 
         trimmed_chunks = []
         for chunk in chunks:
             trimmed_chunks.append(chunk.strip())
         
         return trimmed_chunks
-##        return chunks
 
     def __unicode__(self):
 
