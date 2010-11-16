@@ -75,6 +75,12 @@ text-align:center;
     padding:0px;
 }
 
+h1 sup {
+    font-size:24px;
+    margin: 0px;
+    padding:0px;
+}
+
 
 
 /***** misc *******/

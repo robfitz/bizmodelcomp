@@ -7,7 +7,7 @@ import array
 import sys
 
 from settings import MEDIA_URL
-from utils.util import rand_key
+from utils.util import rand_key, ordinal
 from judge.models import *
 
 
@@ -144,6 +144,8 @@ class Phase(models.Model):
                                       choices=PHASE_STATUS_CHOICES,
                                       default='pending')
 
+    min_judgements_per_pitch = models.IntegerField(default=2)
+
     #related_name for M2M relation w/ alerted judges: sent_judging_open_emails_to
 
 
@@ -198,7 +200,7 @@ class Phase(models.Model):
     #returns a list of the most active judges for this competition phase,
     #along with how many items they've judged and the average score given
     def judge_leaderboard(self, num_leaders=5):
-
+        
         leaderboard = []
         
         for judge in self.judges():
@@ -210,52 +212,64 @@ class Phase(models.Model):
             if judge and judge.user and judgements and len(judgements) > 0:
                 leaderboard.append({'judge': judge, 'num_judged': len(judgements), 'average_score': float(total_score) / len(judgements) })
 
-        return leaderboard[:5]
+        if num_leaders == -1:
+            return leaderboard
+        else:
+            return leaderboard[:num_leaders]
+
+
+    def judge_rank(self, judge):
+
+        rank = 0
+        
+        for leader in self.judge_leaderboard(-1):
+            if leader['judge'] == judge:
+                return '%s<sup>%s</sup>' % (rank, ordinal(rank)[1:])
+            rank += 1
+
+        return "N/A"
     
-
-    def judgements(self):
-
+    
+    def judgements(self, for_judge=None):
+        
         pitches = Pitch.objects.filter(phase=self)
         judgements = []
         
         for pitch in pitches:
-
-            judgements.extend(pitch.judgements.all())
+            
+            if for_judge:
+                judgements.extend(pitch.judgements.filter(judge=for_judge))
+            else:
+                judgements.extend(pitch.judgements.all())
 
         return judgements
 
 
-    #get list of all applications yet to be judged under the current
-    #competition rules
-    #
-    #TODO: change from hardcoded echallenge behavior of 1 non-organizer
-    #judgement per comp
-    def pitches_to_judge(self):
-
+    #get list of all applications yet to be judged enough times
+    def pitches_to_judge(self, for_judge=None):
+        
         pitches = Pitch.objects.filter(phase=self)
         to_judge = []
-
+        
         organizer = self.competition.owner
         
         for pitch in pitches:
-
-            #if it hasn't been judged ever, we definitely need to judge it
-            if pitch.judgements.count() == 0:
-                to_judge.append(pitch)
-
-            #if it's been judged, then it's up for grabs if it's only been
-            #judged by organizers and not by any non-organizer judges
-            else: 
-                num_judge_judgements = 0
-                for j in pitch.judgements.all():
-
-                    user = j.judge.user
-                    if user != organizer:
-                        num_judge_judgements = num_judge_judgements + 1
-
-                if num_judge_judgements == 0:
+        
+            if pitch.judgements.count() < self.min_judgements_per_pitch:
+                #if a pitch has been judged enough, no one needs to deal with it
+                
+                if for_judge is not None:
+                    #if we're looking for pitches a particular judge needs to look at,
+                    #we also disregard the stuff he's already cast judgement on
+                    
+                    if pitch.judgements.filter(judge=for_judge).count() == 0:
+                        to_judge.append(pitch)
+                    
+                else:
+                    #if we don't care about a particular judge, everything without
+                    #enough votes counts
                     to_judge.append(pitch)
-
+                
         return to_judge
 
 

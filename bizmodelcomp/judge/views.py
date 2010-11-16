@@ -7,7 +7,7 @@ from userhelper.util import got_ev_key
 from judge.models import *
 from judge.util import get_next_pitch_to_judge
 from competition.models import *
-
+from utils.util import ordinal
 
 
 #basically the one-stop-shop for judging. You come here and either log in
@@ -136,6 +136,10 @@ def dashboard(request):
                 except: upload.file = None
 
             scores = range(1,100)
+
+            num_judged = len(competition.current_phase.judgements(judge))
+            num_to_judge = len(competition.current_phase.pitches_to_judge(judge))
+            judge_rank = competition.current_phase.judge_rank(judge)
             
             #yeah! start showing shit!
             return render_to_response('judge/dashboard.html', locals())
