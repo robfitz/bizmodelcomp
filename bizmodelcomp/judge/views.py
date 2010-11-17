@@ -109,8 +109,6 @@ def dashboard(request):
         else:
             score_groups.append({ 'score': step, 'quantity': 1 })
 
-    print score_groups
-
     phase = competition.current_phase
 
     return render_to_response('judge/dashboard.html', locals())
@@ -219,12 +217,13 @@ def judging(request, judgedpitch_id=None):
                     question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
 
                     if judged_pitch is not None:
-
                         try:
                             question.score = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).score
                         except:
-                            question.score = ""
-
+                            question.score = 0
+                    else:
+                        question.score = 0
+                            
                 except:
                     question.answer = None
 
@@ -234,6 +233,9 @@ def judging(request, judgedpitch_id=None):
 
             scores = range(1,100)
 
+            max_score = competition.current_phase.max_score()
+            print 'maxscore: %s' % max_score
+    
             num_judged = len(competition.current_phase.judgements(judge))
             num_to_judge = len(competition.current_phase.pitches_to_judge(judge))
             judge_rank = competition.current_phase.judge_rank(judge)
