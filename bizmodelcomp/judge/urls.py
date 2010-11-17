@@ -4,7 +4,11 @@ urlpatterns = patterns('',
     
     #judge dashboard
     (r'^$', 'judge.views.dashboard'),
+                       
+    (r'^go/$', 'judge.views.judging'),
 
+    (r'^go/(?P<judgedpitch_id>[0-9]{1,10})/$',
+         'judge.views.judging'),
 
 ##    #list applicants (whole competition)
 ##    (r'^(?P<competition_id>[0-9]{1,10})/applicants/',

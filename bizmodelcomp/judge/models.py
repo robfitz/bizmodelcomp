@@ -146,9 +146,9 @@ class JudgedPitch(models.Model):
 
         for ja in judged_answers:
 
-            points = points + ja.score
+            points += ja.score
 
-        points = points + self.overall_score
+        points += self.overall_score
         return points
 
 

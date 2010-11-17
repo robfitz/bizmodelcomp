@@ -1,6 +1,25 @@
 from competition.models import *
 from settings import is_local
 from datetime import datetime
+from judge.models import *
+
+
+def get_competition_for_user(user):
+
+    #are they an organizer?
+    owned = Competition.objects.filter(owner = user)
+    if owned.count() > 0:
+        #TODO: handle multiple comps
+        return owned[0]
+
+    #are they a judge?
+    judging = JudgeInvite.objects.filter(user = user)
+    if judging.count() > 0:
+        return judging[0]
+
+    #nope
+    return None
+
 
 def sync_echallenge():
 

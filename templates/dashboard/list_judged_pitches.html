@@ -17,27 +17,6 @@ td {
 
 {% block content %}
 
-	<table>
-		<tr style="height:30px;font-weight:bold">
-			<td></td>
-			<td>Name</td>
-			<td>Email</td>
-			<td>Score</td>
-		</tr>
-
-		{% for judged in judged_pitches %}
-		<tr>
-			<td></td>
-			<td>{{ judged.pitch.owner.name }}</td>
-			<td>{{ judged.pitch.owner.email }}</td>
-			<td align="center">
-				<a href="/dashboard/judgement/{{judged.id}}/">
-				Score: {{judged.score}}
-				</a>
-			</td>
-		</tr>
-		{% endfor %}
-
-	</table>
+	{% include 'dashboard/section_list_judged_pitches.html' %}
 
 {% endblock %}

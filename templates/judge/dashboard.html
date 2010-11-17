@@ -15,72 +15,65 @@
 
 	{{ block.super }}
 
-	<form action="." method="POST">
+	<div class="dashboard_section">
 
-		<input type="hidden" name="pitch" value="{{pitch.pk}}" />
+			<h4>Your activity</h4>
 
-		{% for question in questions %}
+			<div class="summary">
 
-			{% if forloop.counter >= 2 and forloop.counter <= 16 %}
-			{% else %}
+				<table>
+					<tr style="height:30px;font-weight:bold">
+						<td>Name</td>
+						<td>Score</td>
+					</tr>
 
-			<div class="judge_question" style="float:left;width:760px;margin-bottom:20px;">
+					{% for judged in judged_pitches %}
+						<tr>
+							<td>
+								<a href="/judge/go/{{judged.id}}/">
+								{{ judged.pitch.owner.name }}
+								</a>
+							</td>
+							<td align="center">
+								<a href="/judge/go/{{judged.id}}/">
+								{{judged.score}}
+								</a>
+							</td>
+						</tr>
+					{% endfor %}
 
-				<div class="application" style="float:left;width:400px;">
+				</table>
 
-					<strong class="prompt">{{ question.prompt }}</strong>
-					<br/>
-					<div style="width:100%;border:1px solid #ccc;padding:8px;background-color:#eee;">
-					{% if question.answer.answer %}
-						{{question.answer.answer|markdown}}
-					{% else %} {% if question.is_required %}
-						(no answer)
-					{% endif %}{% endif %}
-					</div>
+				<input type="submit" class="button" value="GO!"><a href="/judge/go/">Begin judging pitches</a></input>
 
-				</div>
-
-				<div class="judging" style="float:left;width:150px;margin-left:25px;margin-top:8px;">
-					{% if question.is_required and question.answer.answer %}
-					<strong>Score:</strong> <select name="answer_{{question.answer.id}}">
-						{% for score in scores %}
-							{% if score <= question.max_points %}
-							<option value="{{score}}">{{score}}</option>
-							{% endif %}
-						{% endfor %}
-					</select>
-					{% endif %}
-
-				</div>
+				{% include 'judge/ranking.html' %}
 
 			</div>
 
-			{% endif %}
+	</div>
 
-		{% endfor %}
+	<div class="dashboard_section">
 
-		<p>
-		<strong>Overall idea attractiveness:</strong>
-			<select name="overall_score">
-				<option value="1">1</option>
-				<option value="2">2</option>
-				<option value="3">3</option>
-				<option value="4">4</option>
-				<option value="5">5</option>
-			</select>
-		</p>
+		<h4>Most active judges</h4>
 
-		<p>
-		<strong class="prompt">Additional feedback:</strong>
-		<br/>
-		<textarea name="feedback" rows="8" style="width:600px"></textarea>
-		</p>
-		<p>
-		<input type="submit" value="Submit scores & feedback" style="font-size:18px;" />
-		</p>
+		<div class="summary">
+
+			{% include 'dashboard/judge_leaderboard.html' %}
+
+		</div>
+
+	</div>
+
+	<div class="dashboard_section">
+
+			<h4>Pitch scores</h4>
+
+			<div class="summary">
 
 
 
-	</form>
+			</div>
+
+	</div>
 
 {% endblock %}

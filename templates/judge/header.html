@@ -1,4 +1,3 @@
-
 <div id="title">
 	Currently judging
 	<h1>{{competition.name}}<h1>
@@ -13,20 +12,6 @@
 </div>
 
 <div id="extras">
-	<div class="stat_number">
-		Num Judged
-		<h1>{{num_judged}}</h1>
-	</div>
-
-
-	<div class="stat_number">
-		Remaining
-		<h1>{{num_to_judge}}</h1>
-	</div>
-
-
-	<div class="stat_number">
-		Judge Rank
-		<h1>{{judge_rank|safe}}</h1>
-	</div>
+	{% block extras %}
+	{% endblock %}
 </div>
