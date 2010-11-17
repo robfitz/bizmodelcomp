@@ -146,7 +146,16 @@ class Phase(models.Model):
 
     min_judgements_per_pitch = models.IntegerField(default=2)
 
-    #related_name for M2M relation w/ alerted judges: sent_judging_open_emails_to
+    #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
+    
+
+    def max_score(self):
+        
+        max_score = 0
+        for question in PitchQuestion.objects.filter(phase=self):    
+            max_score += question.max_points
+
+        return max_score
 
 
     #returns a string button/link label that hints at what the organizer should do

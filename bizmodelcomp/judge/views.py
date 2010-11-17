@@ -94,6 +94,23 @@ def dashboard(request):
     num_to_judge = len(competition.current_phase.pitches_to_judge(judge))
     judge_rank = competition.current_phase.judge_rank(judge)
 
+    max_score = competition.current_phase.max_score()
+    step_size = max(max_score / 20, 1)
+    score_groups = []
+
+    for judged_pitch in judged_pitches:
+        score = judged_pitch.score()
+        step = int(score / step_size) * step_size
+
+        for group in score_groups:
+            if group['score'] == step:
+                group['quantity'] += 1
+                break
+        else:
+            score_groups.append({ 'score': step, 'quantity': 1 })
+
+    print score_groups
+
     phase = competition.current_phase
 
     return render_to_response('judge/dashboard.html', locals())

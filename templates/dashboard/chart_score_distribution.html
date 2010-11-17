@@ -1,0 +1,22 @@
+<div id="score_distribution" style="width:600px;height:300px;">
+</div>
+
+<script language="javascript" type="text/javascript">
+	$(function() {
+		var d = [];
+		{% for score_group in score_groups %}
+			d.push([ {{score_group.score}}, {{score_group.quantity}} ]);
+		{% endfor %}
+
+		$.plot($("#score_distribution"),
+			[{
+				data: d,
+				bars: { show: true },
+
+			}],
+			{
+				yaxis: { min:0, minTickSize: 1, tickDecimals: 0 },
+				xaxis: { min:0, max: {{max_score}} }
+			});
+	});
+</script>
