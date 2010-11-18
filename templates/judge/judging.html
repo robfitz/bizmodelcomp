@@ -20,6 +20,7 @@
 	{% for question in questions %}
 		$('#slider_{{question.id}}').slider('option', 'max', {{question.max_points}});
 		max_points[{{question.id}}] = {{question.max_points}};
+		$('#slider_{{question.id}}').slider('option', 'value', {{question.score}});
 	{% endfor %}
 
 	$('.slider').bind('slidechange', slider_changed);

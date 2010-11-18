@@ -6,6 +6,7 @@ from competition.models import *
 from judge.models import *
 from dashboard.forms import *
 from dashboard.util import *
+import charts.util as chart_util
 import time
 import smtplib
 
@@ -315,6 +316,8 @@ def dashboard(request, phase_id=None):
     if phase_id is not None:
 
         phase = get_object_or_404(Phase, id=phase_id)
+        max_score = phase.max_score()
+        score_groups = chart_util.score_distribution(phase.judgements(), max(phase.max_score() / 20, 1))
     
     if len(competitions) == 0:
         

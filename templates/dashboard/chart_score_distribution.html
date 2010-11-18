@@ -4,16 +4,31 @@
 <script language="javascript" type="text/javascript">
 	$(function() {
 		var d = [];
+		var my_d = [];
 		{% for score_group in score_groups %}
 			d.push([ {{score_group.score}}, {{score_group.quantity}} ]);
 		{% endfor %}
 
-		$.plot($("#score_distribution"),
-			[{
-				data: d,
-				bars: { show: true },
+		{% for score_group in my_score_groups %}
+			my_d.push([ {{score_group.score}}, {{score_group.quantity}} ]);
+		{% endfor %}
 
-			}],
+		$.plot($("#score_distribution"),
+			[
+				{
+					data: d,
+					bars: { show: true },
+					label: "All judges",
+
+				}
+				{% if my_score_groups %}
+				, {
+					data: my_d,
+					bars: {show: true },
+					label: "Your scores",
+				}
+				{% endif %}
+			],
 			{
 				yaxis: { min:0, minTickSize: 1, tickDecimals: 0 },
 				xaxis: { min:0, max: {{max_score}} }

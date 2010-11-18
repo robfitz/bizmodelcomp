@@ -9,7 +9,7 @@ from judge.util import get_next_pitch_to_judge
 from competition.models import *
 from competition.util import get_competition_for_user
 from utils.util import ordinal
-
+import charts.util as chart_util
 
 def get_permissions_redirect(request, competition):
     
@@ -95,19 +95,8 @@ def dashboard(request):
     judge_rank = competition.current_phase.judge_rank(judge)
 
     max_score = competition.current_phase.max_score()
-    step_size = max(max_score / 20, 1)
-    score_groups = []
-
-    for judged_pitch in judged_pitches:
-        score = judged_pitch.score()
-        step = int(score / step_size) * step_size
-
-        for group in score_groups:
-            if group['score'] == step:
-                group['quantity'] += 1
-                break
-        else:
-            score_groups.append({ 'score': step, 'quantity': 1 })
+    score_groups = chart_util.score_distribution(competition.current_phase.judgements(), max(max_score / 20, 1))
+    my_score_groups = chart_util.score_distribution(judged_pitches, max(max_score / 20, 1))
 
     phase = competition.current_phase
 
