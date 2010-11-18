@@ -1,20 +1,20 @@
-<div class="dashboard_section">
+{% extends 'dashboard/section.html' %}
 
-	<h4>Pitch & judging questions</h4>
+{% block section_title %}
+Pitch & judging questions
+{% endblock %}
 
-	<div class="summary">
+{% block setion_content %}
 
-		{% for question in phase.pitchquestion_set.all %}
+	{% for question in phase.pitchquestion_set.all %}
 
-			<strong>{{ forloop.counter }}.</strong> {{question.prompt}}
-			<br/>
+		<strong>{{ forloop.counter }}.</strong> {{question.prompt}}
+		<br/>
 
-		{% endfor %}
+	{% endfor %}
 
-		<p>
-			<a href="/dashboard/phase/{{phase.id}}/application/">Edit application questions & judging prompts</a>
-		</p>
+	<p>
+		<a href="/dashboard/phase/{{phase.id}}/application/">Edit application questions & judging prompts</a>
+	</p>
 
-	</div>
-
-</div>
+{% endblock %}

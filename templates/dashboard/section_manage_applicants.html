@@ -1,23 +1,21 @@
-<div class="dashboard_section">
+{% extends 'dashboard/section.html' %}
 
-	<h4>Manage Applications</h4>
+{% block section_title %}
+Manage Applications
+{% endblock %}
 
-	<div class="summary">
+{% block section_content %}
+	<p>
+		<a href="/dashboard/{{competition.id}}/applicants/"><strong>{{competition.applicants.count}}</strong> registered applicants</a>
+	</p>
 
-		<p>
-			<a href="/dashboard/{{competition.id}}/applicants/"><strong>{{competition.applicants.count}}</strong> registered applicants</a>
-		</p>
 
+	<p>
+		{% for phase in competition.phases.all %}
 
-		<p>
-			{% for phase in competition.phases.all %}
+			{{ phase.pitches.count }} pitches submitted to Phase {{ forloop.counter }} - {{ phase.name }}
+			<br/>
 
-				{{ phase.pitches.count }} pitches submitted to Phase {{ forloop.counter }} - {{ phase.name }}
-				<br/>
-
-			{% endfor %}
-		</p>
-
-	</div>
-
-</div>
+		{% endfor %}
+	</p>
+{% endblock %}

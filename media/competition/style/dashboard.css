@@ -4,47 +4,23 @@
     width:650px;
     clear:both;
     margin-bottom:16px;
-    padding:0px;
-}
-
-.dashboard_section h4 {
-    width:634px;
-    background-color:#ddf;
-    margin:0px;
-    padding:8px;
 }
 
 .dashboard_section .summary {
     float:left;
     width: 634px;
-    background-color:#eef;
     padding:8px;
 }
 
 #navbar {
     float:left;
+    width:110px;
+    padding:0px 8px 0px 0px;
 }
 
-#navbar ul {
-    list-style:none;
-    padding:0px;
-    margin:0px;
-}
-#navbar li {
-    margin:0px;
-    padding: 0px;
-    width: 130px;
-}
-#navbar li a {
-    height:32px;
-    width:130px;
-    display:block;
-    background-color:#ccc;
-    border: 1px solid black;
-    text-decoration:none;
-    text-align:center;
-    float:left;
-    margin:2px 0px;
+#navbar button, #navbar .button, #navbar label {
+    width: 100%;
+    margin: 0px 0px 2px 0px;
 }
 
 #tab_contents {

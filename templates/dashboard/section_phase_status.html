@@ -1,19 +1,19 @@
-<div class="dashboard_section">
+{% extends 'dashboard/section.html' %}
 
-	<h4>Current phase status</h4>
+{% block section_title %}
+	Current phase status
+{% endblock %}
 
-	<div class="summary">
+{% block section_content %}
 
+	<p>
+	This phase is currently <strong>{{phase.current_status}}</strong>.
+	</p>
+
+	{% if phase.current_status_call_to_action %}
 		<p>
-		This phase is currently <strong>{{phase.current_status}}</strong>.
+		<a href="">{{ phase.current_status_call_to_action }}</a>
 		</p>
+	{% endif %}
 
-		{% if phase.current_status_call_to_action %}
-			<p>
-			<a href="">{{ phase.current_status_call_to_action }}</a>
-			</p>
-		{% endif %}
-
-	</div>
-
-</div>
+{% endblock %}

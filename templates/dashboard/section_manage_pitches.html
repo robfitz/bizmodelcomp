@@ -1,13 +1,11 @@
-<div class="dashboard_section">
+{% extends 'dashboard/section.html' %}
 
-	<h4>View Pitches</h4>
+{% block section_title %}
+View Pitches
+{% endblock %}
 
-	<div class="summary">
-
-		<p>
-		<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/pitches/"><strong>{{competition.pitches.count}}</strong> submitted pitches</a>
-		</p>
-
-	</div>
-
-</div>
+{% block section_content %}
+	<p>
+	<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/pitches/"><strong>{{competition.pitches.count}}</strong> submitted pitches</a>
+	</p>
+{% endblock %}

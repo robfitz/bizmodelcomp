@@ -1,13 +1,28 @@
-<ul class="navbar">
+<div class="navbar">
 
-	<li><a href="/dashboard/">Overview</a>
+	{% if phase %}
 
-	<!--<li><a href="">Setup</a>-->
+		<a href="/dashboard/"><button>Overview</button></a>
 
-	{% for phase in phases %}
+	{% else %}
 
-		<li><a href="/dashboard/phase/{{phase.id}}/">Phase {{forloop.counter}}</a>
+		<input type="radio" class="ui-state-selected button" checked id="overview"><label for="overview">Overview</label>
+
+	{% endif %}
+
+
+	{% for ph in phases %}
+
+		{% ifequal ph phase %}
+
+			<input type="radio" class="ui-state-selected button" checked id="overview"><label for="overview">Phase {{forloop.counter}}</label>
+
+		{% else %}
+
+			<a href="/dashboard/phase/{{ph.id}}/"><button>Phase {{forloop.counter}}</button></a>
+
+		{% endifequal %}
 
 	{% endfor %}
 
-</ul>
+</div>

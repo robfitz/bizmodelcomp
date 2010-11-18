@@ -1,29 +1,29 @@
-<div class="dashboard_section">
+{% extends 'dashboard/section.html' %}
 
-	<h4>Manage Judges</h4>
+{% block section_title %}
+Manage Judges
+{% endblock %}
 
-	<div class="summary">
+{% block section_content %}
 
-		<p>
-			<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/judges/">View & invite more:</a>
-		</p>
+	<p>
+		<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/judges/">View & invite more:</a>
+	</p>
 
-		{% if phase %}
-
-			<p>
-				<strong>{{ phase.judgements|length }}</strong> judged applications, <strong>{{competition.current_phase.pitches_to_judge|length}}</strong> remaining
-			</p>
-
-			{% include 'dashboard/judge_leaderboard.html' %}
-
-			{% include 'dashboard/chart_score_distribution.html' %}
-
-		{% endif %}
+	{% if phase %}
 
 		<p>
-			<strong><a href="/export/{{competition.current_phase.id}}/scores.csv">Download scores .csv</a></strong> (to load into excel)
+			<strong>{{ phase.judgements|length }}</strong> judged applications, <strong>{{competition.current_phase.pitches_to_judge|length}}</strong> remaining
 		</p>
 
-	</div>
+		{% include 'dashboard/judge_leaderboard.html' %}
 
-</div>
+		{% include 'dashboard/chart_score_distribution.html' %}
+
+	{% endif %}
+
+	<p>
+		<strong><a href="/export/{{competition.current_phase.id}}/scores.csv">Download scores .csv</a></strong> (to load into excel)
+	</p>
+
+{% endblock %}

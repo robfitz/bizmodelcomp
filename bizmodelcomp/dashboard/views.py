@@ -72,7 +72,6 @@ def edit_application(request, phase_id):
 
 
 
-
 #edit phases
 @login_required
 def edit_phases(request, competition_id):
