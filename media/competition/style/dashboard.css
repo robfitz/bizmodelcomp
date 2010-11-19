@@ -1,14 +1,12 @@
 .dashboard_section {
     float:left;
     position:relative;
-    width:650px;
-    clear:both;
+    width:100%;
     margin-bottom:16px;
 }
 
 .dashboard_section .summary {
     float:left;
-    width: 634px;
     padding:8px;
 }
 

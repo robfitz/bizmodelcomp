@@ -1,10 +1,15 @@
-<div class="ui-dialog ui-widget ui-widget-content ui-corner-all dashboard_section">
+<div class="ui-dialog ui-widget ui-widget-content ui-corner-all dashboard_section" style="{% block section_style %}{% endblock %}">
 
 	<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+
 		<span class="ui-dialog-title" id="ui-dialog-title-dialog">
+
+			<span class="ui-icon {% block icon_class %}{% endblock %}" style="float:left;margin-left:-8px;margin-right:4px;"></span>
+
 			{% block section_title %}
 			{% endblock %}
 		</span>
+
 	</div>
 
 	<div class="summary">

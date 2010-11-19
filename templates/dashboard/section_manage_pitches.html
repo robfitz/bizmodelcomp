@@ -4,6 +4,8 @@
 View Pitches
 {% endblock %}
 
+{% block icon_class %}ui-icon-document{% endblock %}
+
 {% block section_content %}
 	<p>
 	<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/pitches/"><strong>{{competition.pitches.count}}</strong> submitted pitches</a>

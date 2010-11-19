@@ -78,10 +78,13 @@
 			{% endblock %}
 
 			<span class="medium">{% block breadcrumbs %}{% endblock %}</span>
+
+			{% block logo %}
+			<img src="/media/logo.png" style="height:12px;">
+			{% endblock %}
 			<h1>
-				{% block header_title %}
-				Biz Model Competition
-				{% endblock %}
+			{% block header_title %}
+			{% endblock %}
 			</h1>
 
 			<div id="account_controls" class="medium">

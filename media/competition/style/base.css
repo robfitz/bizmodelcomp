@@ -64,12 +64,14 @@ text-align:center;
 }
 
 .stat_number {
+    //color: #EB8F00;
     float:left;
     font-size:12px;
     text-align:center;
     padding: 0px 8px;
 }
 .stat_number h1 {
+    color: #000;
     font-size:48px;
     margin:-12px 0px 0px 0px;
     padding:0px;
@@ -85,7 +87,7 @@ h1 sup {
 
 /***** misc *******/
 .hidden {
-	display:none;
+    display:none;
 }
 
 
@@ -121,7 +123,7 @@ h4 {
 }
 
 strong {
-    color: #A11;
+    color: #EB8F00;
 }
 
 

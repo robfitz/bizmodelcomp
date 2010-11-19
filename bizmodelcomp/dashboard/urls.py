@@ -9,6 +9,7 @@ urlpatterns = patterns('',
     (r'^phase/(?P<phase_id>[0-9]{1,10})/$',
          'dashboard.views.dashboard'),
 
+    #org dash - edit phases
     (r'^(?P<competition_id>[0-9]{1,10})/phases/$',
          'dashboard.views.edit_phases'),
 
