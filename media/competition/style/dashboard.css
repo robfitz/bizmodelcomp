@@ -5,8 +5,11 @@
     margin-bottom:16px;
 }
 
+.half_width {
+	width:49%;
+}
+
 .dashboard_section .summary {
-    float:left;
     padding:8px;
 }
 

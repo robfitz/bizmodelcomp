@@ -5,6 +5,7 @@ from itertools import chain
 
 import array
 import sys
+import time
 
 from settings import MEDIA_URL
 from utils.util import rand_key, ordinal
@@ -119,6 +120,9 @@ PHASE_STATUS_CHOICES = (('pending', 'pending'),
                         ('choosing winners', 'choosing winners'),
                         ('completed', 'completed'))
 
+PHASE_PITCH_TYPES = [('online', 'online'),
+                     ('live pitch', 'live pitch' )]
+
 #a subset of a competition, which involves applicants submitting
 #some form of pitch which is then judged
 class Phase(models.Model):
@@ -126,7 +130,9 @@ class Phase(models.Model):
     competition = models.ForeignKey(Competition, editable=False, related_name="phases")
     name = models.CharField(max_length=140, blank=True, default="")
 
-    online_applications_due = models.DateTimeField(default=datetime.now)
+    deadline = models.DateTimeField(default=datetime.now())
+
+    pitch_type = models.CharField(max_length=20, choices=PHASE_PITCH_TYPES, default="online")
 
     #a manual throw switch that an organizer can flip to kick off the judging
     #period. This variable gives them a way to, for example, review applications
@@ -147,7 +153,11 @@ class Phase(models.Model):
     min_judgements_per_pitch = models.IntegerField(default=2)
 
     #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
-    
+
+
+    def deadline_ms(self):
+
+        return 
 
     def max_score(self):
         
@@ -364,6 +374,11 @@ class Pitch(models.Model):
     
     #timestamp for when this pitch was last modified
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now)
+
+
+    def created_ms(self):
+
+        return int(time.mktime(self.created.timetuple())*1000)
 
 
     def num_times_judged(self):

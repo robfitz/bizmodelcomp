@@ -10,4 +10,8 @@ class PhaseForm(ModelForm):
 
     class Meta:
         model = Phase
-        exclude = ("is_judging_enabled","is_deleted",)
+        exclude = ("is_judging_enabled",
+                   "is_deleted",
+                   "current_status",
+                   "min_judgements_per_pitch",
+                   "deadline")

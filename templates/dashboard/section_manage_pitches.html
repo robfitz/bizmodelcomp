@@ -10,4 +10,49 @@ View Pitches
 	<p>
 	<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/pitches/"><strong>{{competition.pitches.count}}</strong> submitted pitches</a>
 	</p>
+
+	<div id="pitches_over_time" style="float:left;width:75%;height:200px;"/>
+
+	<script language="javascript" type="text/javascript">
+
+		$(function() {
+
+			var d = [];
+			var total = 0;
+			var earliest = 0;
+
+			{% for pitch in phase.pitches.all %}
+
+				d.push( [ {{ pitch.created_ms }} , total]);
+				total = total + 1;
+				if (earliest == 0 || {{ pitch.created_ms }} < earliest) {
+					earliest = {{ pitch.created_ms }};
+				}
+
+			{% endfor %}
+
+			//empty entry one day before first one so we have a growth ramp
+			d.splice(0, 0, [earliest-1000*60*60*6, 0]);
+
+			$.plot($("#pitches_over_time"),
+				[{ data: d,
+					lines: { show:true },
+					label: "blah",
+				}],
+				{
+					xaxis: {
+						mode: "time",
+						minTickSize: [6, "hour"]
+					},
+					yaxis: {
+						min: 0,
+						minTickSize: 1
+					}
+				}
+			);
+
+		});
+
+	</script>
+
 {% endblock %}
