@@ -8,15 +8,7 @@ Manage Applications
 
 {% block section_content %}
 
-	<div class="ui-widget" style="margin-bottom:8px;">
-		<div style="padding: 0 .7em;" class="ui-state-highlight ui-corner-all">
-			<p>
-				<span class="ui-icon ui-icon-info" style="float: left; margin-right: .3em;"></span><strong>Did you know?</strong>
-				You can begin promoting your competition and gathering applicant emails <i>before</i> you finish setting everything up.
-				<a href="/apply/pitch/{{competition.hosted_url}}">Click here to learn more and start getting attention</a>.
-			</p>
-		</div>
-	</div>
+	{% include 'dashboard/alerts/early_promotion.html' %}
 
 	<div style="float:left;width:20%;">
 		<div class="stat_number">

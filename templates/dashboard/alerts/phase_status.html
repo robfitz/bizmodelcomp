@@ -1,0 +1,34 @@
+{% extends 'dashboard/alerts/alert.html' %}
+
+
+
+	{% block alert_intro %}
+
+		{% ifequal competition.current_phase phase %}
+
+			Pie charts!
+
+		{% else %}
+
+			Just a reminder:
+
+		{% endifequal %}
+
+	{% endblock %}
+
+
+	{% block alert_message %}
+
+		{% ifequal competition.current_phase phase %}
+
+				Pie charts!
+
+		{% else %}
+
+			This phase isn't currently active. You may <a href="/dashboard/phase/{{competition.current_phase.id}}/">return to the current phase</a>, {{ competition.current_phase.name }}, to manage what's currently happening with your competition.
+
+		{% endifequal %}
+
+	{% endblock %}
+
+
