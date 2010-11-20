@@ -1,0 +1,29 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_title %}
+New Phase
+{% endblock %}
+
+{% block icon_class %}{% endblock %}
+
+{% block section_content %}
+
+		<form action="" method="POST">
+
+			<input type="hidden" name="new_phase" value="true" />
+
+			{{ new_form.as_p }}
+
+			<a href="javascript:void(0);" onclick="cancel_edit();">Cancel new phase</a>
+			<input type="submit" class="button" value="Save new phase" />
+
+		</form>
+
+	<script>
+		$(function() {
+			//$('.edit_phase_button').button("option", { icons: { primary: "ui-icon-wrench" } });
+		});
+
+	</script>
+
+{% endblock %}

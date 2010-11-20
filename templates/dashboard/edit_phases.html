@@ -24,13 +24,6 @@ View & edit phases
 
 	function cancel_edit() {
 
-		$('.delete_warning').hide();
-		$('.delete_warning').attr('checked', false);
-		$('.deletable').show();
-
-		//$('.edit_phase').hide();
-		//$('.view_phase').show();
-
 		$('#view_phase_' + open_phase).slideDown();
 		$('#edit_phase_' + open_phase).slideUp();
 	}
@@ -39,8 +32,10 @@ View & edit phases
 
 		cancel_edit();
 
-		$('#add_new_phase').hide();
-		$('#new_phase').show();
+		open_phase = 'new';
+
+		$('#view_phase_new').slideUp();
+		$('#edit_phase_new').slideDown();
 	}
 
 	function toggle_delete(phase_num, is_one) {
@@ -92,24 +87,23 @@ View & edit phases
 		{% endfor %}
 
 
-		<div id="add_new_phase" class="view_phase">
-			<a href="javascript:void(0);" onclick="new_phase()">Add another phase</a>
+		<div id="view_phase_new" class="view_phase">
+			<button id="add_new_phase_button">
+				Add another phase
+			</button>
 		</div>
 
-		<div id="new_phase" class="edit_phase hidden">
+		<script>
+			$(function() {
+				$('#add_new_phase_button').button("option", { icons: { primary: "ui-icon-circle-plus" } });
+				$('#add_new_phase_button').click(function() { new_phase(); return false; } );
+			});
+		</script>
 
-				<h3>New Phase</h3>
+		<div id="edit_phase_new" class="edit_phase hidden">
 
-				<form action="" method="POST">
+			{% include 'dashboard/section_phase_new.html' %}
 
-					<input type="hidden" name="new_phase" value="true" />
-
-					{{ new_form.as_p }}
-
-					<a href="javascript:void(0);" onclick="cancel_edit();">Cancel new phase</a>
-					<input type="submit" value="Save new phase" />
-
-				</form>
 		</div>
 
 	</div>

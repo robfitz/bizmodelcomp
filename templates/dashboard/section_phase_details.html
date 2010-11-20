@@ -43,14 +43,14 @@ Phase {{forloop.counter}} - {{phase.name}}
 			</div>
 			</p>
 
-			<p>
+			<p class="delete_check_container">
 				<input type="checkbox" id="delete_1_{{forloop.counter}}" name="is_deleted" onclick="toggle_delete({{forloop.counter}}, true);">
 				<label for="delete_1_{{forloop.counter}}">Delete this phase?</label>
 			</p>
 
 			<a href="javascript:void(0);" onclick="cancel_edit();">Cancel changes</a>
 
-			<input class="button" type="submit" value="Save changes to phase {{forloop.counter}}" />
+			<input class="button save_phase_button" type="submit" value="Save changes to phase {{forloop.counter}}" />
 
 		</form>
 
@@ -59,6 +59,8 @@ Phase {{forloop.counter}} - {{phase.name}}
 	<script>
 		$(function() {
 			$('.edit_phase_button').button("option", { icons: { primary: "ui-icon-wrench" } });
+			$('.save_phase_button').button("option", { icons: { primary: "ui-icon-check" } });
+
 		});
 
 	</script>
