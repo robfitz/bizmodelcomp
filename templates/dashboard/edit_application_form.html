@@ -12,7 +12,10 @@ Want applicants to upload something? Add details about it below. Examples might 
 		</p>
 	{% endfor %}
 </div>
+
 <input type="button" onclick="addUpload()" value="+ Add new upload" />
+
+
 
 <h3>Form questions</h3>
 
@@ -22,10 +25,45 @@ Want applicants to fill out an online form of questions when Applying? Add the q
 
 <div id="questions">
 	{% for question in phase.questions %}
-		<p>
-			Question prompt:
-			<textarea name='old_question_prompt_{{question.pk}}' class='question_prompt_field' rows='3'>{{question.prompt}}</textarea>
-		</p>
+
+		<div class="ea_question">
+			<div class="applicant">
+				<p>
+					Question prompt:
+					<br/>
+					<textarea name='old_question_prompt_{{question.pk}}' class='question_prompt_field' rows='3'>{{question.prompt}}</textarea>
+				</p>
+			</div>
+			<div class="judge">
+
+				<p>
+				<input type="checkbox" id="has_score_{{question.id}}" {% if question.max_points > 0 %}checked="on"{% endif %} />
+				<label for="has_score_{{question.id}}">Use score number</label>
+				<br/>
+				Scoring instructions:
+				<textarea id="points_prompt_{{question.id}}">{{ question.just_points_prompt }}</textarea>
+				<input type="number" id="max_points_{{question.id}}" />
+				</p>
+
+				<p>
+				<input type="checkbox" id="has_feedback_{{question.id}}" {% if question.judge_feedback_prompt.length > 0 %}checked="on"{% endif %} />
+				<label for="has_feedback_{{question.id}}">Request text feedback</label>
+				<br/>
+				Feedback instructions
+				<textarea id="feedback_prompt_{{question.id}}">{{ question.judge_feedback_prompt }}</textarea>
+				</p>
+
+			</div>
+		</div>
 	{% endfor %}
 </div>
-<input type="button" onclick="addQuestion()" value="+ Add new question" />
+
+<div class="question">
+	<div class="question_applicant">
+		<input type="button" onclick="addQuestion()" value="+ Add new question" />
+	</div>
+	<div class="question_judge">
+		<button>Add judging criteria or feedback</button>
+	</div>
+</div>
+
