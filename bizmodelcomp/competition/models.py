@@ -422,8 +422,16 @@ class PitchQuestion(models.Model):
     #ordering on admin panel and application form
     order = models.DecimalField(max_digits=4, decimal_places=2, default=1)
 
-    phase = models.ForeignKey(Phase) #piece of the contest wanting this Q answered
-    prompt = models.CharField(max_length=1000) #instructions for applicant
+    #phase of the contest wanting this Q answered
+    phase = models.ForeignKey(Phase) 
+
+    #if propmpt is null or "", then the applicant won't see this question at all and
+    #the raw_choices and field_rows and is_required fields are ignored.
+    #
+    #set to true when you want to ask the judge for a score that doesn't relate
+    #as a 1:1 with a pitch question (ie multiple judgements for one upload or
+    #overall pitch feedback)
+    prompt = models.CharField(max_length=1000, blank=True, null=True) #instructions for applicant
 
     #string of choices delimited with newlines. no choices means it's a
     #free answer text field. 1 choice is invalid. 2 choices of "True\nFalse"
@@ -437,10 +445,20 @@ class PitchQuestion(models.Model):
     is_required = models.BooleanField(default=True)
 
     #how many points this question can be worth if answered perfectly
+    #if max_points == 0, then there is no numerical grading portion to this
+    #question
     max_points = models.IntegerField(default=10)
+
+    #if set to a non-blank string, informs judge what the points represent (ie 0 is bad, 5 is great!)
+    judge_points_prompt = models.CharField(default="", max_length=140)
+
+    #if set to a non-blank string, judge is asked to write freeform text as feedback
+    judge_feedback_prompt = models.CharField(default="", max_length=140)
+
 
     class Meta:
         ordering = ['order']
+
 
     #return raw_choices as a split and stripped array of choices
     def choices(self):
@@ -456,6 +474,7 @@ class PitchQuestion(models.Model):
         
         return trimmed_chunks
 
+
     def __unicode__(self):
 
         return self.prompt
@@ -469,8 +488,8 @@ class PitchAnswer(models.Model):
     pitch = models.ForeignKey(Pitch, related_name="answers")
 
     answer = models.CharField(max_length=2000)
-
-
+    
+    
     def __unicode__(self):
 
         return self.answer
