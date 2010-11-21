@@ -19,7 +19,7 @@ Competition phases
 
 	{% for phase in competition.phases.all %}
 
-		<strong>Phase {{forloop.counter}}:</strong>
+		<strong><a href="/dashboard/phase/{{phase.id}}/">Phase {{forloop.counter}}</a></strong>
 		<a href="/dashboard/phase/{{phase.id}}/">{{phase.name}}</a>
 		<br />
 

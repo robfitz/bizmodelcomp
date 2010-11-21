@@ -48,6 +48,7 @@
 	<script>
 		$(function() {
 			$('.save_phase_button').button("option", { icons: { primary: "ui-icon-check" } });
+			$('.edit_phase_button').attr('href', '');
 			$('.edit_phase_button').click(function() {
 
 				var toks = $(this).parent().attr('id').split('_');

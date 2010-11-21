@@ -29,6 +29,8 @@ Phase {{forloop.counter}} - {{phase.name}}
 			<h1>{{ phase.deadline|date:"H:i" }}</h1>
 		</div>
 
+		<div class="hr">&nbsp;</div>
+
 		<div class="stat_number" style="width:100%;text-align:left;">
 			Pitch type (online or live)
 			{% ifequal phase.pitch_type "online" %}

@@ -11,5 +11,37 @@ Pitch & judging questions
 {% block icon_class %}ui-icon-question{% endblock %}
 
 {% block section_content %}
-	questions & answers
+	{% ifequal phase.pitch_type "online" %}
+
+		<div class="stat_number">
+			Questions
+			<h1>{{phase.questions.count}}</h1>
+		</div>
+
+		<div class="stat_number">
+			Uploads
+			<h1>{{phase.uploads.count}}</h1>
+		</div>
+
+		<div class="hr">&nbsp;</div>
+
+	{% endifequal %}
+
+	<div class="stat_number">
+		Judging criteria
+		<h1>{{phase.judging_criteria.count}}</h1>
+	</div>
+
+	<div class="hr">&nbsp;</div>
+
+	<a id="edit_pitch_button" href="/dashboard/phase/{{phase.id}}/application/" class="button">Edit pitch & judging questions</a>
+
+	<script language="javascript" type="text/javascript">
+
+		$(function() {
+			$( "#edit_pitch_button" ).button("option", { icons: { primary: "ui-icon-wrench" } } );
+		});
+
+	</script>
+
 {% endblock %}

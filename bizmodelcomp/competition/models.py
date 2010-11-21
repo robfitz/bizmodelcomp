@@ -96,6 +96,11 @@ class Competition(models.Model):
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
     current_phase = models.OneToOneField("competition.Phase", blank=True, null=True, related_name="competition_unused")
+
+
+    def first_phase(self):
+
+        return self.phases.all()[0]
     
 
     def pitches(self):
@@ -350,6 +355,11 @@ class Phase(models.Model):
 
         return self.pitchupload_set.all()
 
+
+    def judging_criteria(self): 
+
+        return self.pitchquestion_set.all()
+    
 
     def __unicode__(self):
 

@@ -23,7 +23,19 @@
 
 		{% else %}
 
-			This phase isn't currently active. You may <a href="/dashboard/phase/{{competition.current_phase.id}}/">return to the current phase</a> to manage what's currently happening with your competition.
+			{% if competition.current_phase %}
+				This phase isn't currently active. You may <a href="/dashboard/phase/{{competition.current_phase.id}}/">return to the current phase</a> to manage what's currently happening with your competition.
+			{% else %}
+
+				{% ifequal phase competition.first_phase %}
+					To start accepting pitches from applicants, click the button below. But before you do, make sure that you're happy with the application questions and deadline dates.
+					<p>
+					<button>Start accepting pitches</button>
+					</p>
+				{% else %}
+					This competition hasn't yet begun. You may <a href="/dashboard/phase{{competition.first_phase.id}}/">return to the first phase</a> to start accepting applications.
+				{% endifequal %}
+			{% endif %}
 
 		{% endifequal %}
 

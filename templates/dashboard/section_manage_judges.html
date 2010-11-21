@@ -9,7 +9,7 @@ Manage Judges
 {% block section_content %}
 
 	<p>
-		<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.pk}}/judges/">View & invite more:</a>
+		<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">View & invite more:</a>
 	</p>
 
 	{% if phase %}
@@ -25,7 +25,7 @@ Manage Judges
 	{% endif %}
 
 	<p>
-		<strong><a href="/export/{{competition.current_phase.id}}/scores.csv">Download scores .csv</a></strong> (to load into excel)
+		<strong><a href="/export/{{phase.id}}/scores.csv">Download scores .csv</a></strong> (to load into excel)
 	</p>
 
 {% endblock %}
