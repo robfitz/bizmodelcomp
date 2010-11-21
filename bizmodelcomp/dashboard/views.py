@@ -7,6 +7,7 @@ from judge.models import *
 from dashboard.forms import *
 from dashboard.util import *
 import charts.util as chart_util
+from datetime import datetime
 import time
 import smtplib
 
@@ -72,6 +73,10 @@ def edit_application(request, phase_id):
 
 
 
+MONTH_NUMS = { "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "June": 6,
+               "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12 }
+
+
 #edit phases
 @login_required
 def edit_phases(request, competition_id):
@@ -93,6 +98,23 @@ def edit_phases(request, competition_id):
             phase.is_deleted = request.POST.get("is_deleted") == "on"
             phase.save()
 
+            date = request.POST.get("date", None)
+            hour = int(request.POST.get("hour", 23))
+            minute = int(request.POST.get("minute", 59))
+
+            print 'date %s, %s:%s' % (date, hour, minute)
+            
+            if date is not None:
+
+                year = int(date.split()[3])
+                month = MONTH_NUMS[date.split()[2].strip(',')]
+                day = int(date.split()[1])
+                
+                print 'date2 %s, %s, %s' % (year, month, day)
+
+                phase.deadline = datetime(year, month, day, hour, minute)
+                phase.save()
+                
         return HttpResponseRedirect("/dashboard/%s/phases/" % competition_id)
 
     phases = Phase.objects.filter(competition__id=competition_id).filter(is_deleted=False)

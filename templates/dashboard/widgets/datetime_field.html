@@ -1,6 +1,6 @@
 <label for="date">Date</label>
 
-<input type="text" id="date" />
+<input type="text" id="date" name="date" />
 
 <script language="javascript" type="text/javascript">
 
@@ -15,7 +15,7 @@
 		$( "#hour" ).change( update_am_pm );
 		$( "#hour" ).val("{{phase.deadline.hour}}");
 
-		$( "#minutes" ).val("{{phase.deadline.minute}}");
+		$( "#minute" ).val("{{phase.deadline.minute}}");
 
 		update_am_pm();
 
@@ -61,7 +61,7 @@
     <option value="21">21</option>
     <option value="22">22</option>
     <option value="23">23</option>
-</select>:<select name="minutes" id="minutes">
+</select>:<select name="minute" id="minute">
     <option value="0">00</option>
     <option value="15">15</option>
     <option value="30">30</option>
