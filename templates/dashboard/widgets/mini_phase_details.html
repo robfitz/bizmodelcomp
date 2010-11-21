@@ -1,0 +1,53 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_class %}
+half_width
+{% endblock %}
+
+{% block section_title %}
+Phase {{forloop.counter}} - {{phase.name}}
+{% endblock %}
+
+{% block icon_class %}{% endblock %}
+
+{% block section_content %}
+
+	<div id="view_phase_{{forloop.counter}}" class="view_phase">
+
+		{% ifequal phase phase.competition.current_phase %}
+			<!--
+			{% include 'dashboard/alerts/current_phase.html' %}
+			-->
+		{% endifequal %}
+
+		<div class="stat_number" style="text-align:left;">
+			Due date
+			<h1>{{ phase.deadline|date:"M j" }}</h1>
+		</div>
+		<div class="stat_number" style="text-align:left;">
+			Deadline time
+			<h1>{{ phase.deadline|date:"H:i" }}</h1>
+		</div>
+
+		<div class="stat_number" style="width:100%;text-align:left;">
+			Pitch type (online or live)
+			{% ifequal phase.pitch_type "online" %}
+				<h1>Online</h1>
+			{% else %}
+			<h1>Live</h1>
+			{% endifequal %}
+		</div>
+
+		<div class="hr">&nbsp;</div>
+
+		<a href="/dashboard/{{competition.id}}/phases/?open={{phase.id}}" class="button edit_phase_button" style="float:left;">Edit phase {{forloop.counter}}</a>
+
+	</div>
+
+	<script>
+		$(function() {
+			$('.edit_phase_button').button("option", { icons: { primary: "ui-icon-wrench" } });
+		});
+	</script>
+
+{% endblock %}

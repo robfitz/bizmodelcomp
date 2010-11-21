@@ -1,6 +1,13 @@
 
 /***** layout ********/
 
+.hr {
+    float:left;
+    clear:both;
+    width:100%;
+    height:1px;
+}
+
 body, #header, #footer { 
 	position:relative;
 }
@@ -103,14 +110,11 @@ body {
 	font-size:12px;
 }
 
-.large, .button {
-	font-size:18px;
+.large {
+    font-size:18px;
 }
 
 .button {
-	height:42px;
-	padding-left:20px;
-	padding-right:20px;
 }
 
 h1, h2 {

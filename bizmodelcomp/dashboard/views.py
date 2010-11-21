@@ -84,6 +84,9 @@ def edit_phases(request, competition_id):
     if not has_dash_perms(request, competition_id):
        return HttpResponseRedirect("/no_permissions/")
 
+
+    editing_phase = request.GET.get("open", None)
+
     if request.method == "POST":
 
         try: phase = Phase.objects.get(id=request.POST.get("phase_id", None))

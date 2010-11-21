@@ -8,6 +8,14 @@
 View & edit phases
 {% endblock %}
 
+{% block ready_script %}
+
+	{% if editing_phase %}
+		edit_phase({{editing_phase}});
+	{% endif %}
+
+{% endblock %}
+
 {% block script %}
 
 	var open_phase;
