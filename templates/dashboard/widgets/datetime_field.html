@@ -8,43 +8,33 @@
 
 		$( "#date" ).datepicker();
 		$( "#date" ).datepicker( "option", "dateFormat", "DD, d MM, yy" );
-		$( "#date" ).val("{{current_date}}");
+		//$( "#date" ).val("{{phase.deadline_date_js}}");
+
+		$( "#date" ).val($( "#initial_date_holder" ).val());
 
 		$( "#hour" ).change( update_am_pm );
+		$( "#hour" ).val("{{phase.deadline.hour}}");
+
+		$( "#minutes" ).val("{{phase.deadline.minute}}");
 
 		update_am_pm();
-
-		/*
-		$( "#am_pm" ).change( function() {
-			if ( $( "#am_pm" ).val() == "am") {
-
-				if ( $("#hour").val() == 12) {
-					$( "#hour" ).val(1);
-				}
-
-				else if ( $("#hour").val() >= 13) {
-					$( "#hour" ).val( $( "#hour" ) - 12 );
-				}
-			}
-			else if ( $("#hour").val() <= 11) {
-				$( "#hour" ).val( $( "#hour" ) + 12 );
-			}
-		});
-		*/
 
 	});
 
 	function update_am_pm() {
 		if ( parseInt($( "#hour" ).val()) <= 11 ) {
-				$( "#am_pm" ).text("am");
-			}
-			else {
-				$( "#am_pm" ).text("pm");
+			$( "#am_pm" ).text("am");
+		}
+		else {
+			$( "#am_pm" ).text("pm");
 		}
 	}
+
 </script>
 
 <br/>
+
+<input type="hidden" id="initial_date_holder" value="{{phase.deadline|date:'l, j F, Y'}}" />
 
 <label for="hour">Time: </label>
 <select name="hour" id="hour">
@@ -71,12 +61,11 @@
     <option value="21">21</option>
     <option value="22">22</option>
     <option value="23">23</option>
-</select>:<select name="minutes">
+</select>:<select name="minutes" id="minutes">
     <option value="0">00</option>
     <option value="15">15</option>
     <option value="30">30</option>
     <option value="45">45</option>
     <option value="59">59</option>
 </select>
-<span id="am_pm">pm</span>
-
+<span id="am_pm">pm</span> (GMT)

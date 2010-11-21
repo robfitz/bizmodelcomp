@@ -155,9 +155,10 @@ class Phase(models.Model):
     #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
 
 
-    def deadline_ms(self):
+    def deadline_date_js(self):
 
-        return 
+        return int(time.mktime(self.deadline.timetuple())*1000)
+    
 
     def max_score(self):
         
