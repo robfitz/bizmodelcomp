@@ -29,6 +29,7 @@
 		}
 		else {
 			$( "#choices_div_" + id ).slideUp();
+			//$( "#choices_div_" + id + " textarea" ).text("");
 		}
 	});
 
@@ -38,11 +39,17 @@
 
 		if ( $( this ).attr( "checked" ) ) {
 			$( "#score_div_" + id ).slideDown();
+			var curr_score = $( "#score_div_" + id + " .max_points").val();
+			if (parseInt(curr_score) == 0) {
+				$( "#score_div_" + id + " .max_points").val(10);
+			}
 		}
 		else {
 			$( "#score_div_" + id ).slideUp();
-		}
+			//$( "#score_div_" + id + " .max_points").val(0);
+			//$( "#score_div_" + id + " .points_prompt").text("");
 
+		}
 	});
 
 	$('.has_feedback').click( function() {
@@ -54,8 +61,8 @@
 		}
 		else {
 			$( "#feedback_div_" + id ).slideUp();
+			//$( "#feedback_div_" + id + " textarea").text("");
 		}
-
 	});
 
 

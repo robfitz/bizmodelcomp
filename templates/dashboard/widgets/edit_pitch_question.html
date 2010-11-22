@@ -18,7 +18,7 @@
 		<br/>
 
 		<div class="subsection ui-corner-all">
-			<input type="checkbox" class="show_choices" id="show_choices_{{question.id}}" {% if question.raw_choices %}checked="on"{% endif %} />
+			<input type="checkbox" class="show_choices" id="show_choices_{{question.id}}" name="show_choices_{{question.id}}" {% if question.raw_choices %}checked="on"{% endif %} />
 			<strong><label for="show_choices_{{question.id}}">Applicant should choose answer from a dropdown</label></strong>
 
 			<div id="choices_div_{{question.id}}" {% if question.raw_choices %}{% else %}class="hidden"{% endif %}>
@@ -40,11 +40,11 @@
 			<div id="score_div_{{question.id}}" {% if question.max_points == 0 %}class="hidden"{% endif %}>
 				<p>
 				Max score (how many points is this question worth?):
-				<input type="number" id="max_points_{{question.id}}" name="max_points_{{question.id}}" value="{{question.max_points}}" />
+				<input type="number" class="max_points" id="max_points_{{question.id}}" name="max_points_{{question.id}}" value="{{question.max_points}}" />
 				</p>
 				<p>
 				Scoring hint for the judges (optional):<br/>
-				<textarea id="points_prompt_{{question.id}}" name="points_prompt_{{question.id}}">{{ question.judge_points_prompt }}</textarea>
+				<textarea class="points_prompt" id="points_prompt_{{question.id}}" name="points_prompt_{{question.id}}">{{ question.judge_points_prompt }}</textarea>
 				</p>
 			</div>
 		</div>

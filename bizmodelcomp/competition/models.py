@@ -425,10 +425,10 @@ class PitchQuestion(models.Model):
     #phase of the contest wanting this Q answered
     phase = models.ForeignKey(Phase) 
 
-    #if propmpt is null or "", then the applicant won't see this question at all and
+    #if prompt is None or "", then the applicant won't see this question at all and
     #the raw_choices and field_rows and is_required fields are ignored.
     #
-    #set to true when you want to ask the judge for a score that doesn't relate
+    #set to null when you want to ask the judge for a score that doesn't relate
     #as a 1:1 with a pitch question (ie multiple judgements for one upload or
     #overall pitch feedback)
     prompt = models.CharField(max_length=1000, default="", blank=True) #instructions for applicant

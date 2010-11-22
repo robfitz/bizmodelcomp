@@ -25,10 +25,16 @@ def set_question_options(request, question):
     points_prompt = request.POST.get("points_prompt_%s" % id, "")
     has_feedback = request.POST.get("has_feedback_%s" % id, False)
     feedback_prompt = request.POST.get("feedback_prompt_%s" % id, "")
+    show_choices = request.POST.get("show_choices_%s" % id, False)
     choices = request.POST.get("choices_%s" % id, "")
-    
-    question.is_required = is_required
-    question.raw_choices = choices
+
+    if is_required is not None:
+        question.is_required = is_required
+
+    if show_choices:
+        question.raw_choices = choices
+    else:
+        question.raw_choices = ""
 
     if has_score:
         question.max_points = max_points
@@ -117,7 +123,7 @@ def edit_application(request, phase_id):
                         
             except: pass
             
-        return HttpResponseRedirect("/dashboard/")
+        return HttpResponseRedirect("/dashboard/phase/%s/" % phase_id)
 
     return render_to_response('dashboard/edit_application.html', locals())
 
