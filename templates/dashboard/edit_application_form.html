@@ -24,6 +24,7 @@ Want applicants to fill out an online form of questions when Applying? Add the q
 </p>
 
 <div id="questions">
+
 	{% for question in phase.questions %}
 
 		<div class="ea_question">
@@ -32,25 +33,42 @@ Want applicants to fill out an online form of questions when Applying? Add the q
 					Question prompt:
 					<br/>
 					<textarea name='old_question_prompt_{{question.pk}}' class='question_prompt_field' rows='3'>{{question.prompt}}</textarea>
+					<br/>
+					<input type="checkbox" class="is_required" id="is_required_{{question.pk}}" name="is_required_{{question.pk}}" {% if question.is_required %}checked="on"{% endif %} />
+					<label for="is_required_{{question.pk}}">Required</label>
+					<br/>
+					<input type="checkbox" class="show_choices" id="show_choices_{{question.id}}" {% if question.raw_choices %}checked="on"{% endif %} /><label for="show_choices_{{question.id}}">Use dropdown choices for answer</label>
+					<br/>
+					<div id="choices_div_{{question.id}}" {% if question.raw_choices %}{% else %}class="hidden"{% endif %}>
+						Choices (one per line):
+						<textarea id="choices_{{question.id}}" name="choices_{{question.id}}">{{question.raw_choices}}</textarea>
+					</div>
 				</p>
 			</div>
+
 			<div class="judge">
 
 				<p>
-				<input type="checkbox" id="has_score_{{question.id}}" {% if question.max_points > 0 %}checked="on"{% endif %} />
-				<label for="has_score_{{question.id}}">Use score number</label>
-				<br/>
-				Scoring instructions:
-				<textarea id="points_prompt_{{question.id}}">{{ question.just_points_prompt }}</textarea>
-				<input type="number" id="max_points_{{question.id}}" />
+					<input type="checkbox" class="has_score" id="has_score_{{question.id}}" name="has_score_{{question.id}}" {% if question.max_points > 0 %}checked="on"{% endif %} />
+					<label for="has_score_{{question.id}}">Use score number</label>
+					<br/>
+					<div id="score_div_{{question.id}}" {% if question.max_points == 0 %}class="hidden"{% endif %} >
+						Scoring instructions:
+						<textarea id="points_prompt_{{question.id}}" name="points_prompt_{{question.id}}">{{ question.judge_points_prompt }}</textarea>
+						<br/>
+						Max score:
+						<input type="number" id="max_points_{{question.id}}" name="max_points_{{question.id}}" value="{{question.max_points}}" />
+					</div>
 				</p>
 
 				<p>
-				<input type="checkbox" id="has_feedback_{{question.id}}" {% if question.judge_feedback_prompt.length > 0 %}checked="on"{% endif %} />
-				<label for="has_feedback_{{question.id}}">Request text feedback</label>
-				<br/>
-				Feedback instructions
-				<textarea id="feedback_prompt_{{question.id}}">{{ question.judge_feedback_prompt }}</textarea>
+					<input type="checkbox" class="has_feedback" id="has_feedback_{{question.id}}" name="has_feedback_{{question.id}}" {% if question.judge_feedback_prompt %}checked="on"{% endif %} />
+					<label for="has_feedback_{{question.id}}">Request text feedback</label>
+					<br/>
+					<div id="feedback_div_{{question.id}}" {% if question.judge_feedback_prompt %}{% else %}class="hidden"{% endif %}>
+						Feedback instructions
+						<textarea id="feedback_prompt_{{question.id}}" name="feedback_prompt_{{question.id}}">{{ question.judge_feedback_prompt }}</textarea>
+					</div>
 				</p>
 
 			</div>

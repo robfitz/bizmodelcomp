@@ -8,6 +8,57 @@
 
 	{% include 'dashboard/edit_application.js' %}
 
+	function get_id(obj) {
+
+		var toks = obj.attr("id").split("_");
+		var id = toks[toks.length - 1];
+		return id;
+	}
+
+{% endblock %}
+
+{% block ready_script %}
+
+	$('.show_choices').click( function() {
+
+		var id = get_id($(this));
+
+		if ( $( this ).attr( "checked" ) ) {
+			$( "#choices_div_" + id ).slideDown();
+		}
+		else {
+			$( "#choices_div_" + id ).slideUp();
+		}
+	});
+
+	$('.has_score').click( function() {
+
+		var id = get_id( $(this) );
+
+		if ( $( this ).attr( "checked" ) ) {
+			$( "#score_div_" + id ).slideDown();
+		}
+		else {
+			$( "#score_div_" + id ).slideUp();
+		}
+
+	});
+
+	$('.has_feedback').click( function() {
+
+		var id = get_id( $(this) );
+
+		if ( $( this ).attr( "checked" ) ) {
+			$( "#feedback_div_" + id ).slideDown();
+		}
+		else {
+			$( "#feedback_div_" + id ).slideUp();
+		}
+
+	});
+
+
+
 {% endblock %}
 
 {% block content %}

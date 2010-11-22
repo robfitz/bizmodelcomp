@@ -13,6 +13,40 @@ import smtplib
 
 
 
+def set_question_options(request, question):
+
+    print 'set question options: %s' % question
+
+    id = question.id
+
+    is_required = request.POST.get("is_required_%s" % id, None)
+    has_score = request.POST.get("has_score_%s" % id, None)
+    max_points = request.POST.get("max_points_%s" % id, 1)
+    points_prompt = request.POST.get("points_prompt_%s" % id, "")
+    has_feedback = request.POST.get("has_feedback_%s" % id, False)
+    feedback_prompt = request.POST.get("feedback_prompt_%s" % id, "")
+    choices = request.POST.get("choices_%s" % id, "")
+    
+    question.is_required = is_required
+    question.raw_choices = choices
+
+    if has_score:
+        question.max_points = max_points
+        question.judge_points_prompt = points_prompt
+    else:
+        question.max_points = 0
+        question.judge_points_prompt = ""
+
+    if has_feedback:
+        question.judge_feedback_prompt = feedback_prompt
+    else:
+        question.judge_feedback_prompt = ""
+
+    return question
+
+    
+    
+
 @login_required
 def edit_application(request, phase_id):
 
@@ -34,17 +68,27 @@ def edit_application(request, phase_id):
                 prompt = request.POST[key]
                 
                 if key.startswith('old_question_prompt_'):
+
+                    id  = key[len('old_question_prompt_'):]
+
                     #check if existing question has been edited
-                    q = PitchQuestion.objects.get(pk=key[len('old_question_prompt_'):])
+                    q = PitchQuestion.objects.get(id=id)
                     if len(prompt.strip()) == 0:
                         q.delete()
-                    elif q.prompt != prompt:
-                        q.prompt = prompt
+                    else:
+                        if q.prompt != prompt:
+                            q.prompt = prompt
+                            q.save()
+
+                        q = set_question_options(request, q)
                         q.save()
                                     
                 elif key.startswith('old_upload_prompt_'):
+
+                    id  = key[len('old_upload_prompt_'):]
+                    
                     #check if existing upload has been edited
-                    u = PitchUpload.objects.get(pk=key[len('old_upload_prompt_'):])
+                    u = PitchUpload.objects.get(id=id)
                     if len(prompt.strip()) == 0:
                         u.delete()
                     elif u.prompt != prompt:
@@ -52,6 +96,9 @@ def edit_application(request, phase_id):
                         u.save()
 
                 elif key.startswith('question_prompt_'):
+
+                    new_id = key[len('question_prompt_'):]
+                    
                     #create new question
                     if prompt and len(prompt.strip())>0:
                         q = PitchQuestion(phase=phase,
@@ -59,6 +106,9 @@ def edit_application(request, phase_id):
                         q.save()
 
                 elif key.startswith('upload_prompt_'):
+
+                    new_id = key[len('upload_prompt_'):]
+                    
                     #create new upload
                     if prompt and len(prompt.strip()) > 0:
                         u = PitchUpload(phase=phase,
