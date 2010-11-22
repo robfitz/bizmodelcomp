@@ -431,12 +431,12 @@ class PitchQuestion(models.Model):
     #set to true when you want to ask the judge for a score that doesn't relate
     #as a 1:1 with a pitch question (ie multiple judgements for one upload or
     #overall pitch feedback)
-    prompt = models.CharField(max_length=1000, blank=True, null=True) #instructions for applicant
+    prompt = models.CharField(max_length=1000, default="", blank=True) #instructions for applicant
 
     #string of choices delimited with newlines. no choices means it's a
     #free answer text field. 1 choice is invalid. 2 choices of "True\nFalse"
     #is a boolean checkbox. 2-4 choices are radio buttons. 5 or more is a dropdown.
-    raw_choices = models.CharField(max_length=2000, null=True, blank=True)
+    raw_choices = models.CharField(max_length=2000, default="", blank=True)
 
     #how big to make the text entry widget
     field_rows = models.IntegerField(default=6)

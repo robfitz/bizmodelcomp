@@ -1,19 +1,20 @@
 .ea_question {
     float:left;
     width:780px;
+    margin-bottom:16px;
 }
 
 .ea_question .applicant {
     float:left;
-    width:380px;
+    width:360px;
 }
 
 .ea_question .judge {
     float:left;
-    width:380px;
+    width:360px;
 
 }
 
 .ea_question .question_prompt_field {
-    width:360px;
+    width:340px;
 }

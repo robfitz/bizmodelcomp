@@ -28,3 +28,12 @@
     float:left;
     width:650px;
 }
+
+.subsection {
+//    border: 1px solid grey;
+//    background-color: #fff;
+}
+
+.subsection p {
+    padding-left: 30px;
+}
