@@ -20,7 +20,7 @@ class Bulk_email(models.Model):
 
         recipient_emails = []
 
-        for recipient in recipient_founders.all():
+        for recipient in self.recipient_founders.all():
 
             recipient_emails.push(recipient.email)
 
