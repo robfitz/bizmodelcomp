@@ -9,6 +9,8 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
+from emailhelper import SmtpApiHeader
+
 
 #send a bunch of emails. message_markdown should have substitution strings already embedded
 #in it.
