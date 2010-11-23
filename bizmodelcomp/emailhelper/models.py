@@ -10,7 +10,8 @@ class Bulk_email(models.Model):
 
     message_markdown = models.CharField(max_length=5000)
 
-    recipient_founders = models.ManyToManyField(Founder)
+    #semicolon delimited list
+    recipient_founders = models.CharField(max_length=10000)
 
     #if None, then this message hasn't been sent yet
     sent_on_date = models.DateTimeField(default=None, blank=True, null=True)
@@ -18,11 +19,13 @@ class Bulk_email(models.Model):
 
     def recipients(self):
 
-        recipient_emails = []
+##        recipient_emails = []
+##
+##        for recipient in self.recipient_founders.all():
+##
+##            recipient_emails.push(recipient.email)
 
-        for recipient in self.recipient_founders.all():
-
-            recipient_emails.push(recipient.email)
+        recipient_emails = self.recipient_founders.split(';')
 
         return recipient_emails
 
