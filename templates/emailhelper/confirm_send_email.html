@@ -11,7 +11,7 @@
 	<p>
 	<strong>To:</strong>
 	<br/>
-	{% for recipient in email.recipients.all %}
+	{% for recipient in email.recipients %}
 
 		{{ recipient }}
 		<br/>
@@ -22,13 +22,13 @@
 	<p>
 	<strong>Sub vals:</strong>
 	<br/>
-	{% for sub in email.substitutions %}
+	{% for key, val in email.substitutions.items %}
 
-		{{ sub.key }}: [
+		{{ key }}: [
 
-		{% for val in sub.vals %}
+		{% for v in val %}
 
-			{{ val.val }},
+			{{ v }},
 
 		{% endfor %}
 
