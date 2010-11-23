@@ -71,59 +71,63 @@ def edit_application(request, phase_id):
 
             try:
                 
-                prompt = request.POST[key]
-                
                 if key.startswith('old_question_prompt_'):
 
                     id  = key[len('old_question_prompt_'):]
+                    prompt = request.POST.get(key)
+                    
+                    if id.startswith('new'):
 
-                    #check if existing question has been edited
-                    q = PitchQuestion.objects.get(id=id)
-                    if len(prompt.strip()) == 0:
-                        q.delete()
-                    else:
-                        if q.prompt != prompt:
-                            q.prompt = prompt
+                        #create new question
+                        if prompt is not None:
+                            q = PitchQuestion(prompt=prompt,
+                                              phase=phase)
+                            q.save()
+                            q = set_question_options(request, q)
                             q.save()
 
+                    else:
+
+                        #check if existing question has been edited
+                        q = PitchQuestion.objects.get(id=id)
+                        
+                        if q.prompt != prompt:
+                            q.prompt = prompt
+                            
                         q = set_question_options(request, q)
                         q.save()
                                     
                 elif key.startswith('old_upload_prompt_'):
 
+                    prompt = request.POST.get(key)
+                    
                     id  = key[len('old_upload_prompt_'):]
+
+                    if id.startswith('new'):
+                        #create new upload
+                        if prompt and len(prompt.strip()) > 0:
+                            u = PitchUpload(phase=phase,
+                                            prompt=prompt)
+                            u.save()
+
+                    else:
                     
-                    #check if existing upload has been edited
-                    u = PitchUpload.objects.get(id=id)
-                    if len(prompt.strip()) == 0:
-                        u.delete()
-                    elif u.prompt != prompt:
-                        u.prompt = prompt
-                        u.save()
-
-                elif key.startswith('question_prompt_'):
-
-                    new_id = key[len('question_prompt_'):]
-                    
-                    #create new question
-                    if prompt and len(prompt.strip())>0:
-                        q = PitchQuestion(phase=phase,
-                                        prompt=prompt)
-                        q.save()
-
-                elif key.startswith('upload_prompt_'):
-
-                    new_id = key[len('upload_prompt_'):]
-                    
-                    #create new upload
-                    if prompt and len(prompt.strip()) > 0:
-                        u = PitchUpload(phase=phase,
-                                        prompt=prompt)
-                        u.save()
+                        #check if existing upload has been edited
+                        u = PitchUpload.objects.get(id=id)
+                        if len(prompt.strip()) == 0:
+                            u.delete()
+                        elif u.prompt != prompt:
+                            u.prompt = prompt
+                            u.save()
                         
             except: pass
-            
+
         return HttpResponseRedirect("/dashboard/phase/%s/" % phase_id)
+    
+    #this is pretty hacky, but it lets us include the standard
+    #question editing chunk to clone for new entries by mimicking
+    #the list[i].id format
+    new_questions = [ { "id": "new" } ]
 
     return render_to_response('dashboard/edit_application.html', locals())
 

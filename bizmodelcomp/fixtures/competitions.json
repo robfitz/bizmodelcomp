@@ -26,7 +26,7 @@
         "model": "competition.pitchquestion", 
         "fields": {
             "phase": 1, 
-            "raw_choices": null, 
+            "raw_choices": "", 
             "prompt": "Who are you selling to?"
         }
     }, 
@@ -35,7 +35,7 @@
         "model": "competition.pitchquestion", 
         "fields": {
             "phase": 1, 
-            "raw_choices": null, 
+            "raw_choices": "", 
             "prompt": "Describe your idea."
         }
     }, 
@@ -44,7 +44,7 @@
         "model": "competition.pitchquestion", 
         "fields": {
             "phase": 1, 
-            "raw_choices": null, 
+            "raw_choices": "", 
             "prompt": "How much progress have you made?"
         }
     }, 

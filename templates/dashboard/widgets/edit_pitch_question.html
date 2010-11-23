@@ -14,7 +14,7 @@
 
 		<strong>Question prompt</strong> (what you want to ask the applicant):
 		<br/>
-		<textarea name='old_question_prompt_{{question.pk}}' class='question_prompt_field' rows='3'>{{question.prompt}}</textarea>
+		<textarea name='old_question_prompt_{{question.id}}' class='question_prompt_field' rows='3'>{{question.prompt}}</textarea>
 		<br/>
 
 		<div class="subsection ui-corner-all">
@@ -31,7 +31,6 @@
 	</div>
 
 	<div class="judge">
-
 
 		<div class="subsection ui-corner-all">
 			<input type="checkbox" class="has_score" id="has_score_{{question.id}}" name="has_score_{{question.id}}" {% if question.max_points > 0 %}checked="on"{% endif %} />
