@@ -16,29 +16,30 @@ from email.mime.text import MIMEText
 #recipients is a list [email1, email2, email3]
 #substitutions is dict of lists { '-name-': ['rob', 'tom', 'joe'],
 #                                 '-team-': ['the cats', 'the dogs', 'the bogs'] }
-def send_bulk_email(subject, message_markdown, recipients, substitutions, fromEmail=None, log=True):
+def send_bulk_email(bulk_email, fromEmail=None, log=True):
 
     toEmail = "irrelevant@example.com"
 
     hdr = SmtpApiHeader.SmtpApiHeader()
 
-    hdr.addTo(recipients)
-    for sub, val in substitutions:
+    hdr.addTo(bulk_email.recipients())
+              
+    for sub, val in bulk_email.substitutions().items():
         hdr.addSubVal(sub, val)
 
     #TODO: probably not accurate!
     hdr.setCategory("initial")
 
-    hdr.addFilterSetting("footer", "enable", 1)
+    #hdr.addFilterSetting("footer", "enable", 1)
 
     msg = MIMEMultipart('alternative')
-    msg['Subject']  = subject
+    msg['Subject']  = bulk_email.subject
     msg['From']     = fromEmail
     msg['To']       = toEmail
     msg["X-SMTPAPI"] = hdr.asJSON()
 
-    text = message_markdown
-    html = markdown.markdown(message_markdown)
+    text = bulk_email.message_markdown
+    html = markdown.markdown(bulk_email.message_markdown)
 
     # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')
@@ -63,6 +64,7 @@ def send_bulk_email(subject, message_markdown, recipients, substitutions, fromEm
     s.sendmail(fromEmail, toEmail, msg.as_string())
      
     s.quit()
+
 
 def send_email(subject, message_markdown, to_email, from_email=None, log=True):
 

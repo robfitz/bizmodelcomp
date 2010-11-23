@@ -10,10 +10,21 @@ class Bulk_email(models.Model):
 
     message_markdown = models.CharField(max_length=5000)
 
-    recipients = models.ManyToManyField(Founder)
+    recipient_founders = models.ManyToManyField(Founder)
 
     #if None, then this message hasn't been sent yet
     sent_on_date = models.DateTimeField(default=None, blank=True, null=True)
+
+
+    def recipients(self):
+
+        recipient_emails = []
+
+        for recipient in recipient_founders.all():
+
+            recipient_emails.push(recipient.email)
+
+        return recipient_emails
 
 
     def substitutions(self):
