@@ -137,6 +137,7 @@ INSTALLED_APPS = (
     'bizmodelcomp.sitecopy',
     'bizmodelcomp.judge',
     'bizmodelcomp.dashboard',
+    'bizmodelcomp.emailhelper',
     'south',
 )
 

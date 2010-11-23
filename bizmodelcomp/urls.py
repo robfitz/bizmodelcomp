@@ -41,6 +41,9 @@ urlpatterns = patterns('',
          'entercompetition.views.edit_pitch',
          {'competition_url': 'echallenge'}),
 
+    #email
+    (r'email/', include('bizmodelcomp.emailhelper.urls')),
+
     (r'^dashboard/', include('bizmodelcomp.dashboard.urls')),
 
     (r'^judge/', include('bizmodelcomp.judge.urls')),

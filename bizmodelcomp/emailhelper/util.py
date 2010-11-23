@@ -9,7 +9,62 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send_email(subject, message_markdown, to_email, from_email=None, log=True, smtp=None):
+
+#send a bunch of emails. message_markdown should have substitution strings already embedded
+#in it.
+#
+#recipients is a list [email1, email2, email3]
+#substitutions is dict of lists { '-name-': ['rob', 'tom', 'joe'],
+#                                 '-team-': ['the cats', 'the dogs', 'the bogs'] }
+def send_bulk_email(subject, message_markdown, recipients, substitutions, fromEmail=None, log=True):
+
+    toEmail = "irrelevant@example.com"
+
+    hdr = SmtpApiHeader.SmtpApiHeader()
+
+    hdr.addTo(recipients)
+    for sub, val in substitutions:
+        hdr.addSubVal(sub, val)
+
+    #TODO: probably not accurate!
+    hdr.setCategory("initial")
+
+    hdr.addFilterSetting("footer", "enable", 1)
+
+    msg = MIMEMultipart('alternative')
+    msg['Subject']  = subject
+    msg['From']     = fromEmail
+    msg['To']       = toEmail
+    msg["X-SMTPAPI"] = hdr.asJSON()
+
+    text = message_markdown
+    html = markdown.markdown(message_markdown)
+
+    # Record the MIME types of both parts - text/plain and text/html.
+    part1 = MIMEText(text, 'plain')
+    part2 = MIMEText(html, 'html')
+     
+    # Attach parts into message container.
+    msg.attach(part1)
+    msg.attach(part2)
+
+    # Login credentials
+    username = EMAIL_USER
+    password = EMAIL_PASSWORD
+
+    # Open a connection to the SendGrid mail server
+    s = smtplib.SMTP('smtp.sendgrid.net')
+     
+    # Authenticate
+    s.login(username, password)
+     
+    # sendmail function takes 3 arguments: sender's address, recipient's address
+    # and message to send - here it is sent as one string.
+    s.sendmail(fromEmail, toEmail, msg.as_string())
+     
+    s.quit()
+
+def send_email(subject, message_markdown, to_email, from_email=None, log=True):
 
     if not from_email: from_email = EMAIL_DEFAULT_FROM
 
