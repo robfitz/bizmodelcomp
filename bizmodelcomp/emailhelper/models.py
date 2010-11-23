@@ -63,6 +63,12 @@ class Sub_val(models.Model):
 
 class Val(models.Model):
 
+    order = models.IntegerField()
+
     sub_val = models.ForeignKey(Sub_val)
 
     val = models.CharField(max_length=500)
+
+    class Meta:
+        ordering = ['order']
+
