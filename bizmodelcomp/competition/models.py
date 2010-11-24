@@ -425,13 +425,8 @@ class PitchQuestion(models.Model):
     #phase of the contest wanting this Q answered
     phase = models.ForeignKey(Phase) 
 
-    #if prompt is None or "", then the applicant won't see this question at all and
-    #the raw_choices and field_rows and is_required fields are ignored.
-    #
-    #set to null when you want to ask the judge for a score that doesn't relate
-    #as a 1:1 with a pitch question (ie multiple judgements for one upload or
-    #overall pitch feedback)
-    prompt = models.CharField(max_length=1000, default="", blank=True) #instructions for applicant
+    #instructions for the user
+    prompt = models.CharField(max_length=1000, default="", blank=True)
 
     #string of choices delimited with newlines. no choices means it's a
     #free answer text field. 1 choice is invalid. 2 choices of "True\nFalse"
@@ -443,6 +438,11 @@ class PitchQuestion(models.Model):
 
     #optional questions aren't displayed to judges when they're blank
     is_required = models.BooleanField(default=True)
+
+    #if true, then users don't see the question. this is used when you want
+    #judges to leave feedback in a way that's disconnected from a particular
+    #question.
+    is_hidden_from_applicants = models.BooleanField(default=False)
 
     #how many points this question can be worth if answered perfectly
     #if max_points == 0, then there is no numerical grading portion to this

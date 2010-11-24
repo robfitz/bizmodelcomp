@@ -44,6 +44,19 @@ function set_click_handlers() {
 			//$( "#feedback_div_" + id + " textarea").text("");
 		}
 	});
+	
+	$('.is_judge_only').click( function() {
+	
+		var id = get_id( $(this) );
+		
+		if ( $(this).attr( "checked" ) ) {
+			$("#applicant_prompt_" + id).slideUp();
+		}
+		else {
+			$("#applicant_prompt_" + id).slideDown();
+		}
+	
+	});
 }
 
 function addUpload() {

@@ -30,13 +30,24 @@ def set_question_options(request, question, is_new=False):
     show_choices = request.POST.get("show_choices_%s" % id, False)
     choices = request.POST.get("choices_%s" % id, "")
 
-    if is_required is not None:
-        question.is_required = is_required
+    is_hidden_from_applicants = request.POST.get("is_judge_only_%s" % id, False)
 
-    if show_choices:
-        question.raw_choices = choices
-    else:
+    print 'is hidden from applicants? %s' % is_hidden_from_applicants
+
+    question.is_hidden_from_applicants = is_hidden_from_applicants
+    if is_hidden_from_applicants:
+        question.prompt = ""
+        question.is_required = False
         question.raw_choices = ""
+
+    else:        
+        if is_required is not None:
+            question.is_required = is_required
+
+        if show_choices:
+            question.raw_choices = choices
+        else:
+            question.raw_choices = ""
 
     if has_score:
         question.max_points = max_points
@@ -52,8 +63,7 @@ def set_question_options(request, question, is_new=False):
 
     return question
 
-    
-    
+
 
 @login_required
 def edit_application(request, phase_id):

@@ -12,22 +12,30 @@
 
 	<div class="applicant">
 
-		<strong>Question prompt</strong> (what you want to ask the applicant):
-		<br/>
-		<textarea name='old_question_prompt_{{question.id}}' class='question_prompt_field' rows='3'>{{question.prompt}}</textarea>
-		<br/>
+		<div id="applicant_prompt_{{question.id}}" class="interactive {% if question.is_hidden_from_applicants %}hidden{% endif %}">
 
-		<div class="subsection ui-corner-all">
-			<input type="checkbox" class="show_choices" id="show_choices_{{question.id}}" name="show_choices_{{question.id}}" {% if question.raw_choices %}checked="on"{% endif %} />
-			<strong><label for="show_choices_{{question.id}}">Applicant should choose answer from a dropdown</label></strong>
+			<strong>Question prompt</strong> (what you want to ask the applicant):
+			<br/>
+			<textarea name='old_question_prompt_{{question.id}}' class='question_prompt_field' rows='3'>{{question.prompt}}</textarea>
+			<br/>
 
-			<div id="choices_div_{{question.id}}" class="interactive{% if question.raw_choices %}{% else %} hidden{% endif %}">
-				<p>
-				Answer drop-down choices (type one option per line, which the applicant will select between):
-				<textarea id="choices_{{question.id}}" name="choices_{{question.id}}">{{question.raw_choices}}</textarea>
-				</p>
+			<div class="subsection ui-corner-all">
+				<input type="checkbox" class="show_choices" id="show_choices_{{question.id}}" name="show_choices_{{question.id}}" {% if question.raw_choices %}checked="on"{% endif %} />
+				<strong><label for="show_choices_{{question.id}}">Applicant should choose answer from a dropdown</label></strong>
+
+				<div id="choices_div_{{question.id}}" class="interactive{% if question.raw_choices %}{% else %} hidden{% endif %}">
+					<p>
+					Answer drop-down choices (type one option per line, which the applicant will select between):
+					<textarea id="choices_{{question.id}}" name="choices_{{question.id}}">{{question.raw_choices}}</textarea>
+					</p>
+				</div>
+
 			</div>
+
 		</div>
+
+		<input type="checkbox" class="is_judge_only" id="is_judge_only_{{question.id}}" name="is_judge_only_{{question.id}}" {% if question.is_hidden_from_applicants %}checked="on"{% endif %} />
+		<label for="is_judge_only_{{question.id}}"><strong>Hide question from applicants</strong> (ie make this an extra question only for judges)</label>
 	</div>
 
 	<div class="judge">
