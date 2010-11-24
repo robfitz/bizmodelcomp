@@ -91,6 +91,43 @@ h1 sup {
 }
 
 
+
+/***** judge stuff *****/
+div.slider {
+    width:180px;
+    float:left;
+    margin-right:10px;
+    margin-top:6px;
+}
+
+.score_input {
+    width:50px;
+    height:0px;
+    display:inline;
+}
+.score_input input {
+    width:50px;
+}
+.judging textarea {
+    width:240px;
+}
+.judge_question {
+    margin-bottom:20px;
+    float:left;
+}
+.judge_application {
+    float:left;
+    width:500px;
+}
+
+.judging {
+    float:left;
+    margin-left:25px;
+    margin-top:8px;
+}
+
+
+
 /***** misc *******/
 .hidden {
     display:none;

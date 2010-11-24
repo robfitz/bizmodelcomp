@@ -26,33 +26,11 @@
 	$('.slider').bind('slidechange', slider_changed);
 	$('.slider').bind('slide', slider_changed);
 
-	$('.score_field').keyup(score_field_changed);
-
 {% endblock %}
 
 {% block script %}
 
 	var max_points = [];
-
-	function score_field_changed(event) {
-
-		var tokens = $(this).attr("id").split('_');
-		var id = tokens[tokens.length - 1];
-
-		//restrict input
-		var v = "";
-		for (i = 0; i < $(this).val().length; i ++) {
-			var c = $(this).val().charAt(i);
-			if (c >= '0' && c <= '9') {
-				v = v + c;
-			}
-		}
-
-		if (v > max_points[id]) v = max_points[id];
-		$(this).val(v);
-
-		$('#slider_' + id).slider("option", "value", $(this).val());
-	}
 
 	function slider_changed(event, ui) {
 		var tokens = $(this).attr("id").split('_');
@@ -75,70 +53,67 @@
 
 		{% for question in questions %}
 
-			{% if forloop.counter >= 2 and forloop.counter <= 16 %}
-			{% else %}
+			<div class="judge_question">
 
-			<div class="judge_question" style="float:left;width:760px;margin-bottom:20px;">
+				{% if question.is_hidden_from_applicants %}
+					<div class="judge_application">
+					</div>
+				{% else %}
+					<div class="judge_application">
 
-				<div class="application" style="float:left;width:400px;">
+						<strong class="prompt">{{ question.prompt }}</strong>
+						<br/>
+						<div style="border:1px solid #ccc;padding:8px;background-color:#eee;">
 
-					<strong class="prompt">{{ question.prompt }}</strong>
-					<br/>
-					<div style="width:100%;border:1px solid #ccc;padding:8px;background-color:#eee;">
+							{% if question.answer.answer %}
 
-						{% if question.answer.answer %}
+								{{question.answer.answer|markdown}}
 
-							{{question.answer.answer|markdown}}
+							{% else %} {% if question.is_required %}
 
-						{% else %} {% if question.is_required %}
+								(no answer)
 
-							(no answer)
+							{% endif %}{% endif %}
 
-						{% endif %}{% endif %}
+						</div>
 
 					</div>
+				{% endif %}
 
-				</div>
+				<div class="judging">
 
-				<div class="judging" style="float:left;width:150px;margin-left:25px;margin-top:8px;">
+					{% if question.is_required and question.max_points > 0 %}
 
-					{% if question.is_required and question.answer.answer %}
-
-					<strong>Score:</strong>
-					<input id="score_label_{{question.id}}" value="{{question.score}}" class="score_field" name="answer_{{question.answer.id}}" />
-
-					<div class="slider" id="slider_{{question.id}}" />
-
-<!--					<select name="answer_{{question.answer.id}}">
-
-						{% for score in scores %}
-
-							{% if score <= question.max_points %}
-
-								{% ifequal score question.score %}
-
-									<option value="{{score}}" selected="selected">{{score}}</option>
-
-								{% else %}
-
-									<option value="{{score}}">{{score}}</option>
-
-								{% endifequal %}
-
+						<strong>
+							{% if question.judge_points_prompt %}
+								{{ question.judge_points_prompt }}
+							{% else %}
+								Score:
 							{% endif %}
+						</strong>
 
-						{% endfor %}
+						<br/>
 
-					</select>
--->
+						<div class="slider" id="slider_{{question.id}}"></div>
+						<div class="score_input">
+							<input type="number" min="0" max="{{question.max_points}}" id="score_label_{{question.id}}" value="{{question.score}}" class="score_field" name="answer_{{question.answer.id}}" />
+						</div>
+
+						<br/>
+
+					{% endif %}
+
+					{% if question.is_required and question.judge_feedback_prompt %}
+
+						<strong>{{ question.judge_feedback_prompt }}</strong>
+						<br/>
+						<textarea name="feedback_{{question.id}}">{{question.feedback}}</textarea>
 
 					{% endif %}
 
 				</div>
 
 			</div>
-
-			{% endif %}
 
 		{% endfor %}
 

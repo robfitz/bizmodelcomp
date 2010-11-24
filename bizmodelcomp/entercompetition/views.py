@@ -366,7 +366,8 @@ def edit_pitch(request, competition_url, phase_id=None):
         try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
         except: upload.file = None
 
-    return render_to_response(competition.template_pitch, locals())
+    #return render_to_response(competition.template_pitch, locals())
+    return render_to_response('entercompetition/pitch_form.html', locals())
 
 
 

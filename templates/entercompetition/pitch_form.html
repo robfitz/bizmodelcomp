@@ -88,6 +88,9 @@ Apply to {{ competition }}
 
 				{% for question in questions %}
 
+					{% if question.is_hidden_from_applicants %}
+					{% else %}
+
 						{% if question.choices %}
 							<strong class="prompt">{{ question.prompt }}</strong>
 							<br/>
@@ -114,6 +117,8 @@ Apply to {{ competition }}
 							{% endifequal %}
 
 						{% endif %}
+
+					{% endif %}
 
 				{% endfor %}
 

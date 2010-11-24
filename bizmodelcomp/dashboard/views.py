@@ -64,6 +64,23 @@ def set_question_options(request, question, is_new=False):
     return question
 
 
+def should_delete(question):
+
+    if question.is_hidden_from_applicants:
+        #if the applicant can't see it and there's no instructions
+        #for the judges, then delete it
+        if not question.max_score and not question.judge_feedback_prompt:
+
+            return True
+
+    else:
+        #if there's no instructions for the applicant, delete it
+        if not question.prompt:
+
+            return True
+
+    return False
+
 
 @login_required
 def edit_application(request, phase_id):
@@ -108,6 +125,9 @@ def edit_application(request, phase_id):
                             
                         q = set_question_options(request, q)
                         q.save()
+
+                    if should_delete(q):
+                        q.delete()
                                     
                 elif key.startswith('old_upload_prompt_'):
 

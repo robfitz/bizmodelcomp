@@ -150,10 +150,11 @@ def judging(request, judgedpitch_id=None):
                                         pitch=pitch)
                 judgement.save()
 
-            if "feedback" in request.POST:
-
-                judgement.feedback = request.POST["feedback"]
-                judgement.save()
+## deprecated - was a hack for echallenge
+##            if "feedback" in request.POST:
+##
+##                judgement.feedback = request.POST["feedback"]
+##                judgement.save()
 
             if "overall_score" in request.POST:
 
@@ -163,25 +164,34 @@ def judging(request, judgedpitch_id=None):
             
             for key in request.POST:
 
-                if key.startswith("answer_"):
+                if key.startswith("answer_") or key.startswith("feedback_"):
+
+                    toks = key.split('_')
+                    answer_id = int(toks[len(toks) - 1]) #last token is ID
 
                     try:
-                        score = int(request.POST[key])
+                        answer = PitchAnswer.objects.get(id=answer_id)
                     except:
-                        #this happens when there was no submitted answer, so,
-                        #they loooose.
-                        score = 0
-                        
-                    answer_id = int(key[len("answer_"):])
-                    answer = PitchAnswer.objects.get(id=answer_id)
+                        answer = None
 
                     try:
                         judged_answer = JudgedAnswer.objects.filter(judged_pitch=judgement).get(answer=answer)
-                        judged_answer.score = score
                     except:
                         judged_answer = JudgedAnswer(judged_pitch=judgement,
-                                                     answer=answer,
-                                                     score=score)
+                                                     answer=answer)
+
+                    if key.startswith("answer_"):
+                        try:
+                            judged_answer.score = int(request.POST[key])
+                        except:
+                            #this happens when there was no submitted answer, so
+                            #they loooose.
+                            judged_answer.score = 0
+
+                    elif key.startswith("feedback_"):
+
+                        judged_answer.feedback = request.POST[key]
+
                     judged_answer.save()
 
             #keep page refresh clean of POST data

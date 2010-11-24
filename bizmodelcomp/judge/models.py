@@ -157,7 +157,9 @@ class JudgedAnswer(models.Model):
 
     judged_pitch = models.ForeignKey(JudgedPitch)
 
-    answer = models.ForeignKey("competition.PitchAnswer")
+    #answer can be null if applicant didn't fill anything in or when it's a
+    #judge-feedback-only question
+    answer = models.ForeignKey("competition.PitchAnswer", blank=True, null=True)
 
     score = models.IntegerField(blank=True, null=True)
 
