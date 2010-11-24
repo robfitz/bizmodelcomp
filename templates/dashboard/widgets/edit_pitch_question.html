@@ -21,7 +21,7 @@
 			<input type="checkbox" class="show_choices" id="show_choices_{{question.id}}" name="show_choices_{{question.id}}" {% if question.raw_choices %}checked="on"{% endif %} />
 			<strong><label for="show_choices_{{question.id}}">Applicant should choose answer from a dropdown</label></strong>
 
-			<div id="choices_div_{{question.id}}" {% if question.raw_choices %}{% else %}class="hidden"{% endif %}>
+			<div id="choices_div_{{question.id}}" class="interactive{% if question.raw_choices %}{% else %} hidden{% endif %}">
 				<p>
 				Answer drop-down choices (type one option per line, which the applicant will select between):
 				<textarea id="choices_{{question.id}}" name="choices_{{question.id}}">{{question.raw_choices}}</textarea>
@@ -36,7 +36,7 @@
 			<input type="checkbox" class="has_score" id="has_score_{{question.id}}" name="has_score_{{question.id}}" {% if question.max_points > 0 %}checked="on"{% endif %} />
 			<strong><label for="has_score_{{question.id}}">Judges should assign a score</label></strong>
 
-			<div id="score_div_{{question.id}}" {% if question.max_points == 0 %}class="hidden"{% endif %}>
+			<div id="score_div_{{question.id}}" class="interactive{% if question.max_points == 0 %} hidden{% endif %}">
 				<p>
 				Max score (how many points is this question worth?):
 				<input type="number" class="max_points" id="max_points_{{question.id}}" name="max_points_{{question.id}}" value="{{question.max_points}}" />
@@ -52,7 +52,7 @@
 			<input type="checkbox" class="has_feedback" id="has_feedback_{{question.id}}" name="has_feedback_{{question.id}}" {% if question.judge_feedback_prompt %}checked="on"{% endif %} />
 			<strong><label for="has_feedback_{{question.id}}">Judges should write text feedback</label></strong>
 
-			<div id="feedback_div_{{question.id}}" {% if question.judge_feedback_prompt %}{% else %}class="hidden"{% endif %}>
+			<div id="feedback_div_{{question.id}}" class="interactive{% if question.judge_feedback_prompt %}{% else %} hidden{% endif %}">
 				<p>
 				Text feedback hint for judges(what should the judges write about?)
 				<textarea id="feedback_prompt_{{question.id}}" name="feedback_prompt_{{question.id}}">{{ question.judge_feedback_prompt }}</textarea>

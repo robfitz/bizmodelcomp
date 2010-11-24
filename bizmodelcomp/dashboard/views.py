@@ -13,11 +13,13 @@ import smtplib
 
 
 
-def set_question_options(request, question):
+def set_question_options(request, question, is_new=False):
 
     print 'set question options: %s' % question
 
     id = question.id
+    if is_new:
+        id = "new%s" % id
 
     is_required = request.POST.get("is_required_%s" % id, None)
     has_score = request.POST.get("has_score_%s" % id, None)
@@ -76,14 +78,14 @@ def edit_application(request, phase_id):
                     id  = key[len('old_question_prompt_'):]
                     prompt = request.POST.get(key)
                     
-                    if id.startswith('new'):
+                    if id != 'new' and id.startswith('new'):
 
                         #create new question
                         if prompt is not None:
                             q = PitchQuestion(prompt=prompt,
                                               phase=phase)
                             q.save()
-                            q = set_question_options(request, q)
+                            q = set_question_options(request, q, is_new=True)
                             q.save()
 
                     else:
@@ -103,7 +105,7 @@ def edit_application(request, phase_id):
                     
                     id  = key[len('old_upload_prompt_'):]
 
-                    if id.startswith('new'):
+                    if id != 'new' and id.startswith('new'):
                         #create new upload
                         if prompt and len(prompt.strip()) > 0:
                             u = PitchUpload(phase=phase,
@@ -127,7 +129,7 @@ def edit_application(request, phase_id):
     #this is pretty hacky, but it lets us include the standard
     #question editing chunk to clone for new entries by mimicking
     #the list[i].id format
-    new_questions = [ { "id": "new" } ]
+    new_questions = [ { "id": "new", "max_points": 0 } ]
 
     return render_to_response('dashboard/edit_application.html', locals())
 

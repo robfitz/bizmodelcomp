@@ -5,7 +5,11 @@
 # Last Updated 6/22/2009
  
  
-import json
+try:
+    import json
+except ImportError:
+    import simplejson as json
+    
 import re
 import textwrap
  
