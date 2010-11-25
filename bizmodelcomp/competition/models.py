@@ -107,7 +107,22 @@ class Competition(models.Model):
 
     def pitches(self):
 
-        return self.current_phase.pitches.all()
+        unsorted = self.current_phase.pitches.all()
+        sorted_pitches = []
+    
+        for u in unsorted:
+            inserted = False
+            
+            for s in sorted_pitches:
+                if u.average_score() >= s.average_score():
+                    sorted_pitches.insert(sorted_pitches.index(s), u)
+                    inserted = True
+                    break
+
+            if not inserted:
+                sorted_pitches.append(u)
+
+        return sorted_pitches
     
 
     def is_judging_open(self):

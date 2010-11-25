@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
+
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
+{% endblock %}
+
+
 {% block header_title %}
-Manage Applicants
+Review judged submissions
 {% endblock %}
 
 {% block script %}
@@ -17,32 +23,52 @@ td {
 
 {% block content %}
 
-	<table>
-		<tr style="height:30px;font-weight:bold">
-			<td></td>
-			<td>Name</td>
-			<td>Email</td>
-			<td>Pitch</td>
-			<td>Scores</td>
-			<td>Average</td>
-		</tr>
+<div class="ui-dialog ui-widget ui-widget-content ui-corner-all dashboard_section">
 
-		{% for pitch in competition.pitches %}
-		<tr>
-			<td><input type="checkbox" />
-			<td>{{ pitch.owner.name }}</td>
-			<td>{{ pitch.owner.email }}</td>
-			<td><a href="/dashboard/pitch/{{pitch.id}}/">View pitch</a></td>
-			<td align="center">
-				{% for judgement in pitch.judgements.all %}
-					<a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a>
-					<br/>
+		<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+
+			<span class="ui-dialog-title" id="ui-dialog-title-dialog">
+
+				<span class="ui-icon ui-icon-plus" style="float:left;margin-left:-8px;margin-right:4px;"></span>
+				<span class="section_title">
+					Review judged pitches & declare winners
+				</span>
+			</span>
+
+		</div>
+
+		<div class="summary">
+
+			<button>Announce selected teams as winners</button>
+
+			<table>
+				<tr style="height:30px;font-weight:bold">
+					<td></td>
+					<td style="min-width:90px;">Name</td>
+					<td style="min-width:90px;">Email</td>
+					<td style="min-width:90px;">Pitch</td>
+					<td style="min-width:90px;">Scores</td>
+					<td style="min-width:90px;">Average</td>
+				</tr>
+
+				{% for pitch in competition.pitches %}
+				<tr>
+					<td><input type="checkbox" />
+					<td>{{ pitch.owner.name }}</td>
+					<td>{{ pitch.owner.email }}</td>
+					<td><a href="/dashboard/pitch/{{pitch.id}}/">View pitch</a></td>
+					<td>
+						{% for judgement in pitch.judgements.all %}
+							<strong>Score: </strong><a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a>
+							<br/>
+						{% endfor %}
+					</td>
+					<td>{{ pitch.average_score }}</td>
+				</tr>
 				{% endfor %}
-			</td>
-			<td>{{ pitch.average_score }}</td>
-		</tr>
-		{% endfor %}
 
-	</table>
+			</table>
+		</div>
+</div>
 
 {% endblock %}

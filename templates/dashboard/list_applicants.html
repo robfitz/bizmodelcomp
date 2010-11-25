@@ -17,23 +17,48 @@ td {
 
 {% block content %}
 
-	<table>
-		<tr style="height:30px;font-weight:bold">
-			<td></td>
-			<td>Name</td>
-			<td>Email</td>
-			<td>Phone</td>
-		</tr>
+	<div class="ui-dialog ui-widget ui-widget-content ui-corner-all dashboard_section {% block section_class %}{% endblock %}" style="{% block section_style %}{% endblock %}">
 
-		{% for applicant in competition.applicants.all %}
-		<tr>
-			<td><input type="checkbox" />
-			<td>{{ applicant.name }}</td>
-			<td>{{ applicant.email }}</td>
-			<td>{{ applicant.phone }}</td>
-		</tr>
-		{% endfor %}
+		<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
 
-	</table>
+			<span class="ui-dialog-title" id="ui-dialog-title-dialog">
+
+				<span class="ui-icon {% block icon_class %}{% endblock %}" style="float:left;margin-left:-8px;margin-right:4px;"></span>
+				<span class="section_title">
+					{% block section_title %}
+						Applicants
+					{% endblock %}
+				</span>
+			</span>
+
+		</div>
+
+		<div class="summary">
+
+			<table>
+					<tr style="height:30px;font-weight:bold">
+						<td></td>
+						<td>Name</td>
+						<td>Email</td>
+						<td>Phone</td>
+					</tr>
+
+					{% for applicant in competition.applicants.all %}
+					<tr>
+						<td><input type="checkbox" />
+						<td>{{ applicant.name }}</td>
+						<td>{{ applicant.email }}</td>
+						<td>{{ applicant.phone }}</td>
+					</tr>
+					{% endfor %}
+
+			</table>
+
+		</div>
+
+	</div>
+
+
+
 
 {% endblock %}
