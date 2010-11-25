@@ -84,14 +84,6 @@ class AnonymousFounderKey(models.Model):
 #a business model competition
 class Competition(models.Model):
 
-    #how far through the linear initial setup they are
-    #0/false: done with setup, default view is current_phase
-    #1: comp details (name, website logo)
-    #   phase 1 overview (date, online vs live)
-    #2: applicant requirements
-    #3: share it! (with skip option)
-    setup_step = models.IntegerField(default=1)
-
     name = models.CharField(max_length=500, blank=True, default="")
     website =  models.CharField(max_length=500, blank=True, default="")
     hosted_url = models.CharField(max_length=100, unique=True)
@@ -159,9 +151,11 @@ class Phase(models.Model):
     #their data if needed
     is_deleted = models.BooleanField(default=False)
 
-    current_status = models.CharField(max_length=140,
-                                      choices=PHASE_STATUS_CHOICES,
-                                      default='pending')
+    #current_status = models.CharField(max_length=140,
+    #                                  choices=PHASE_STATUS_CHOICES,
+    #                                  default='pending')
+
+    setup_step = models.IntegerField(default=0)
 
     min_judgements_per_pitch = models.IntegerField(default=2)
 

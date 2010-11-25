@@ -1,10 +1,13 @@
 {% extends 'dashboard/alerts/alert.html' %}
 
+	{% block alert_class %}half_width{% endblock %}
+
 	{% block alert_intro %}
 
 		{% ifequal competition.current_phase phase %}
 
-			Pie charts!
+			Todo for this phase:
+			<br/>
 
 		{% else %}
 
@@ -19,7 +22,7 @@
 
 		{% ifequal competition.current_phase phase %}
 
-				Pie charts!
+				{% include 'dashboard/widgets/phase_todo.html' %}
 
 		{% else %}
 

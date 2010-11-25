@@ -156,8 +156,6 @@ def registerUser(request):
 
 
 
-
-
 #display a page telling them they need to go click that email
 def verify_email(request):
 

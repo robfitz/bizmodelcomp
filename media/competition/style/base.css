@@ -1,4 +1,8 @@
 
+.strikethrough, del {
+    text-decoration: line-through;
+}
+
 /***** layout ********/
 
 .hr {

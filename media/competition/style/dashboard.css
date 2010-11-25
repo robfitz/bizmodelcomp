@@ -6,7 +6,8 @@
 }
 
 .half_width {
-	width:49%;
+    float:left;
+    width:49%;
 }
 
 .dashboard_section .summary {

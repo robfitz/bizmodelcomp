@@ -145,8 +145,8 @@ class JudgedPitch(models.Model):
         judged_answers = JudgedAnswer.objects.filter(judged_pitch=self)
 
         for ja in judged_answers:
-
-            points += ja.score
+            if ja.score:
+                points += ja.score
 
         points += self.overall_score
         return points
