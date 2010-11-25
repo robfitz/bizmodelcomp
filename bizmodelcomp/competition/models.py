@@ -119,6 +119,36 @@ class Competition(models.Model):
 
 
 
+class PhaseSetupSteps(models.Model):
+
+    phase = models.OneToOneField("competition.models.Phase")
+
+    details_confirmed = models.BooleanField(default=False)
+    application_setup = models.BooleanField(default=False)
+    announced_applications = models.BooleanField(default=False)
+    invited_judges = models.BooleanField(default=False)
+    announced_judging_open = models.BooleanField(default=False)
+    selected_winners = models.BooleanField(default=False)
+
+    def steps(self):
+
+        return [self.details_confirmed,
+                self.application_setup,
+                self.announced_applications,
+                self.invited_judged,
+                self.announced_judging_open,
+                self.selected_winners]
+
+    def next_step_num(self):
+        i = 0
+        for step in self.steps():
+            if not step:
+                return i
+            i += 1
+        
+    
+
+
 PHASE_STATUS_CHOICES = (('pending', 'pending'),
                         ('accepting pitches', 'accepting pitches'),
                         ('being judged', 'being judged'),
@@ -155,12 +185,14 @@ class Phase(models.Model):
     #                                  choices=PHASE_STATUS_CHOICES,
     #                                  default='pending')
 
-    setup_step = models.IntegerField(default=0)
-
     min_judgements_per_pitch = models.IntegerField(default=2)
 
     #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
 
+    def setup_step(self):
+
+        None.fail()
+        
 
     def deadline_date_js(self):
 

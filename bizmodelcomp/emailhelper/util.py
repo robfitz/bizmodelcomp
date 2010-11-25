@@ -123,13 +123,9 @@ def send_email(subject, message_markdown, to_email, from_email=None, log=True):
     username = EMAIL_USER
     password = EMAIL_PASSWORD
 
-    close_smtp = False
-    if not smtp: 
-        # Open a connection to the SendGrid mail server
-        smtp = smtplib.SMTP('smtp.sendgrid.net')
-        close_smtp = True
+    # Open a connection to the SendGrid mail server
+    smtp = smtplib.SMTP('smtp.sendgrid.net')
         
-
     if log: f.write("       created SMTP connection to sendgrid\n")
 
     # Authenticate
@@ -154,8 +150,7 @@ def send_email(subject, message_markdown, to_email, from_email=None, log=True):
 
     if log: f.write("       sent mail with result=%s\n\n\n" % str(result))
 
-    if close_smtp:
-        smtp.quit()
+    smtp.quit()
 
     #send a duplicate of the email to rob for debugging
 
