@@ -40,39 +40,14 @@ Phase {{forloop.counter}} - {{phase.name}}
 			{% endifequal %}
 		</div>
 
-		<a href="/dashboard/{{competition.id}}/phases/?open={{phase.id}}" class="button" id="edit_phase_button" style="float:left;">Edit phase details</a>
-		<div class="hr">&nbsp;</div>
-
-		{% ifequal phase.pitch_type "online" %}
-
-				<div class="stat_number">
-					Questions
-					<h1>{{phase.questions.count}}</h1>
-				</div>
-
-				<div class="stat_number">
-					Uploads
-					<h1>{{phase.uploads.count}}</h1>
-				</div>
-
-			{% endifequal %}
-
-			<div class="stat_number">
-				Judging criteria
-				<h1>{{phase.judging_criteria.count}}</h1>
-		</div>
-
-		<div class="hr">&nbsp;</div>
-		<a id="edit_pitch_button" href="/dashboard/phase/{{phase.id}}/application/" class="button">Edit pitch & judging questions</a>
-
-
+		<a href="/dashboard/{{competition.id}}/phases/?open={{phase.id}}" class="button edit_phase_button" id="edit_phase_button_{{phase.id}}" style="float:left;">Edit phase details</a>
 
 	</div>
 
 	<script>
 		$(function() {
-			$('#edit_phase_button').button("option", { icons: { primary: "ui-icon-wrench" } });
-			$( "#edit_pitch_button" ).button("option", { icons: { primary: "ui-icon-wrench" } } );
+			$('.edit_phase_button').button("option", { icons: { primary: "ui-icon-wrench" } });
+			$(".edit_pitch_button").button("option", { icons: { primary: "ui-icon-wrench" } } );
 		});
 	</script>
 

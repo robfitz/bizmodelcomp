@@ -77,13 +77,8 @@ View & edit phases
 
 	<div id="navbar">
 
-		<a href="/dashboard/"><button id="home_button">Overview</button></a>
+		{% include 'dashboard/navbar.html' %}
 
-		<script>
-			$(function() {
-				$('#home_button').button("option", { icons: { primary: "ui-icon-home" } });
-			});
-		</script>
 	</div>
 
 	<div id="tab_contents">

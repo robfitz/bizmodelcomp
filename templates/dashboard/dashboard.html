@@ -26,8 +26,11 @@
 
 		{% if phase %}
 
-			{% include 'dashboard/widgets/mini_phase_details.html' %}
+
 			{% include 'dashboard/alerts/phase_status.html' %}
+
+			{% include 'dashboard/widgets/mini_phase_details.html' %}
+			{% include 'dashboard/widgets/pitch_questions.html' %}
 
 			{% include 'dashboard/section_manage_pitches.html' %}
 
