@@ -49,7 +49,7 @@ class JudgeInvitation(models.Model):
             subject = "Judging the %s" % self.competition.name
             message_markdown = """Hello,
 
-You've been invited to help judge the %s. The judging period runs from %s until %s or as soon as all the applications have been assessed.
+You've been invited to help judge the %s. Judging will run from shortly after the application deadline at %s until as soon as all the applications have been assessed.
 
 You can start judging at:
 
@@ -59,8 +59,7 @@ Thanks very much for the help!
 
 Sincerely,
 %s team""" % (self.competition.name,
-              self.competition.current_phase.applications_close_judging_open,
-              self.competition.current_phase.judging_close,
+              self.competition.current_phase.deadline,
               judging_link,
               self.email,
               self.competition.name)

@@ -8,12 +8,13 @@ Manage Judges
 
 {% block section_content %}
 
-	<p>
-		<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">View & invite more:</a>
-	</p>
+
 
 	{% if phase %}
 
+		<p>
+			<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">View & invite more:</a>
+		</p>
 		<p>
 			<strong>{{ phase.judgements|length }}</strong> judged applications, <strong>{{competition.current_phase.pitches_to_judge|length}}</strong> remaining
 		</p>
@@ -22,10 +23,18 @@ Manage Judges
 
 		{% include 'dashboard/chart_score_distribution.html' %}
 
+		<p>
+			<strong><a href="/export/{{phase.id}}/scores.csv">Download scores .csv</a></strong> (to load into excel)
+		</p>
+
+	{% else %}
+
+		<p>
+			<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.id}}/judges/">View & invite more:</a>
+		</p>
+
 	{% endif %}
 
-	<p>
-		<strong><a href="/export/{{phase.id}}/scores.csv">Download scores .csv</a></strong> (to load into excel)
-	</p>
+
 
 {% endblock %}
