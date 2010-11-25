@@ -12,28 +12,57 @@ Manage Judges
 
 	{% if phase %}
 
-		<p>
-			<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">View & invite more:</a>
-		</p>
-		<p>
-			<strong>{{ phase.judgements|length }}</strong> judged applications, <strong>{{competition.current_phase.pitches_to_judge|length}}</strong> remaining
-		</p>
+		<div class="half_width">
+			<div class="stat_number">
+				Num Judges
+				<h1>{{competition.judge_invitations.count}}</h1>
+			</div>
 
-		{% include 'dashboard/judge_leaderboard.html' %}
 
-		{% include 'dashboard/chart_score_distribution.html' %}
+			<div class="stat_number">
+						Pitches Judged
+						<h1>{{ phase.judgements|length }}</h1>
+					</div>
 
-		<p>
-			<strong><a href="/export/{{phase.id}}/scores.csv">Download scores .csv</a></strong> (to load into excel)
-		</p>
+			<div class="stat_number">
+				Pitches Remain
+				<h1>{{competition.current_phase.pitches_to_judge|length}}</h1>
+			</div>
+
+			<div class="hr">&nbsp;</div>
+
+			<a style="float:left;" href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.id}}/judges/" class="button">View & invite more judges</a>
+
+		</div>
+
+		<div style="half">
+
+			{% include 'dashboard/judge_leaderboard.html' %}
+
+		</div>
+
+		<div style="float:left;">
+
+			{% include 'dashboard/chart_score_distribution.html' %}
+
+			<p>
+				<strong><a href="/export/{{phase.id}}/scores.csv">Download scores .csv</a></strong> (to load into excel)
+			</p>
+
+		</div>
 
 	{% else %}
 
-		<p>
-			<strong>{{competition.judge_invitations.count}}</strong> judges: <a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.id}}/judges/">View & invite more:</a>
-		</p>
+			<div class="stat_number">
+				Num Judges
+				<h1>{{competition.judge_invitations.count}}</h1>
+			</div>
+
+			<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.id}}/judges/" class="button">View & invite more judges</a>
+
 
 	{% endif %}
+
 
 
 
