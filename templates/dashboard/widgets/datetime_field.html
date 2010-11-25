@@ -1,32 +1,31 @@
 <label for="date">Date</label>
 
-<input type="text" id="date" name="date" />
+<input type="text" id="date_{{forloop.counter}}" name="date" />
 
 <script language="javascript" type="text/javascript">
 
 	$(function() {
 
-		$( "#date" ).datepicker();
-		$( "#date" ).datepicker( "option", "dateFormat", "DD, d MM, yy" );
-		//$( "#date" ).val("{{phase.deadline_date_js}}");
+		$( "#date_{{forloop.counter}}" ).datepicker();
+		$( "#date_{{forloop.counter}}" ).datepicker( "option", "dateFormat", "DD, d MM, yy" );
 
-		$( "#date" ).val($( "#initial_date_holder" ).val());
+		$( "#date_{{forloop.counter}}" ).val($( "#initial_date_holder_{{forloop.counter}}" ).val());
 
-		$( "#hour" ).change( update_am_pm );
-		$( "#hour" ).val("{{phase.deadline.hour}}");
+		$( "#hour_{{forloop.counter}}" ).change( update_am_pm_{{forloop.counter}} );
+		$( "#hour_{{forloop.counter}}" ).val("{{phase.deadline.hour}}");
 
-		$( "#minute" ).val("{{phase.deadline.minute}}");
+		$( "#minute_{{forloop.counter}}" ).val("{{phase.deadline.minute}}");
 
-		update_am_pm();
+		update_am_pm_{{forloop.counter}}();
 
 	});
 
-	function update_am_pm() {
-		if ( parseInt($( "#hour" ).val()) <= 11 ) {
-			$( "#am_pm" ).text("am");
+	function update_am_pm_{{forloop.counter}}(count) {
+		if ( parseInt($( "#hour_{{forloop.counter}}" ).val()) <= 11 ) {
+			$( "#am_pm_{{forloop.counter}}" ).text("am");
 		}
 		else {
-			$( "#am_pm" ).text("pm");
+			$( "#am_pm_{{forloop.counter}}" ).text("pm");
 		}
 	}
 
@@ -34,10 +33,10 @@
 
 <br/>
 
-<input type="hidden" id="initial_date_holder" value="{{phase.deadline|date:'l, j F, Y'}}" />
+<input type="hidden" id="initial_date_holder_{{forloop.counter}}" value="{{phase.deadline|date:'l, j F, Y'}}" />
 
-<label for="hour">Time: </label>
-<select name="hour" id="hour">
+<label for="hour_{{forloop.counter}}">Time: </label>
+<select name="hour" id="hour_{{forloop.counter}}">
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -61,11 +60,11 @@
     <option value="21">21</option>
     <option value="22">22</option>
     <option value="23">23</option>
-</select>:<select name="minute" id="minute">
+</select>:<select name="minute" id="minute_{{forloop.counter}}">
     <option value="0">00</option>
     <option value="15">15</option>
     <option value="30">30</option>
     <option value="45">45</option>
     <option value="59">59</option>
 </select>
-<span id="am_pm">pm</span> (GMT)
+<span id="am_pm_{{forloop.counter}}">pm</span> (GMT)
