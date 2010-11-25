@@ -121,7 +121,7 @@ class Competition(models.Model):
 
 class PhaseSetupSteps(models.Model):
 
-    phase = models.OneToOneField("competition.models.Phase")
+    phase = models.OneToOneField("Phase")
 
     details_confirmed = models.BooleanField(default=False)
     application_setup = models.BooleanField(default=False)
@@ -145,6 +145,8 @@ class PhaseSetupSteps(models.Model):
             if not step:
                 return i
             i += 1
+
+        return i
         
     
 
