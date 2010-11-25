@@ -1,6 +1,9 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
+
+    (r'^ajax/phase_steps/(?P<phase_id>[0-9]{1,10})/$',
+         'dashboard.ajax.set_phase_step'),
     
     #organizer dashboard - overview
     (r'^$', 'dashboard.views.dashboard'),

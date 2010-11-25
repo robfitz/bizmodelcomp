@@ -11,6 +11,8 @@ from settings import MEDIA_URL
 from utils.util import rand_key, ordinal
 from judge.models import *
 
+from django.forms import ModelForm
+
 
 #guy with a business model who is developing it, applying
 #for contests, or getting feedback from peers
@@ -119,36 +121,8 @@ class Competition(models.Model):
 
 
 
-class PhaseSetupSteps(models.Model):
 
-    phase = models.OneToOneField("Phase")
 
-    details_confirmed = models.BooleanField(default=False)
-    application_setup = models.BooleanField(default=False)
-    announced_applications = models.BooleanField(default=False)
-    invited_judges = models.BooleanField(default=False)
-    announced_judging_open = models.BooleanField(default=False)
-    selected_winners = models.BooleanField(default=False)
-
-    def steps(self):
-
-        return [self.details_confirmed,
-                self.application_setup,
-                self.announced_applications,
-                self.invited_judged,
-                self.announced_judging_open,
-                self.selected_winners]
-
-    def next_step_num(self):
-        i = 0
-        for step in self.steps():
-            if not step:
-                return i
-            i += 1
-
-        return i
-        
-    
 
 
 PHASE_STATUS_CHOICES = (('pending', 'pending'),
@@ -191,9 +165,17 @@ class Phase(models.Model):
 
     #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
 
-    def setup_step(self):
+    def setup_steps(self):
 
-        None.fail()
+        try:
+            steps = PhaseSetupSteps.objects.get(phase=self)
+        except:
+            steps = PhaseSetupSteps(phase=self)
+            steps.save()
+
+        print 'phase %s setup steps: %s' % (self.id, steps.id)
+            
+        return steps
         
 
     def deadline_date_js(self):
@@ -401,6 +383,45 @@ class Phase(models.Model):
 
         return "phase (id=%s) for (competition=%s)" % (self.pk, self.competition)
     
+
+class PhaseSetupSteps(models.Model):
+
+    phase = models.OneToOneField(Phase)
+
+    details_confirmed = models.BooleanField(default=False)
+    application_setup = models.BooleanField(default=False)
+    announced_applications = models.BooleanField(default=False)
+    invited_judges = models.BooleanField(default=False)
+    announced_judging_open = models.BooleanField(default=False)
+    selected_winners = models.BooleanField(default=False)
+
+    def steps(self):
+
+        return [self.details_confirmed,
+                self.application_setup,
+                self.announced_applications,
+                self.invited_judged,
+                self.announced_judging_open,
+                self.selected_winners]
+
+    def next_step_num(self):
+        i = 0
+        for step in self.steps():
+            if not step:
+                return i
+            i += 1
+
+        return i
+        
+
+class PhaseSetupStepsForm(ModelForm):
+
+    class Meta:
+
+        model = PhaseSetupSteps
+        exclude = ('phase',)
+
+
 
 #a collection of answers and files that a founder submits to a
 #competition phase

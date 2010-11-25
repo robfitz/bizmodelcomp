@@ -1,79 +1,83 @@
 
-	<input type="checkbox" id="step_0" />
-	<label for="step_0" {% if phase.setup_step > 0 %}class="strikethrough"{% endif %}>
+<form id="phase_steps_form" method="POST" action=".">
+
+	<input {% if phase.setup_steps.details_confirmed %}checked="checked"{% endif %} type="checkbox" id="id_details_confirmed" name="details_confirmed" />
+	<label for="id_details_confirmed" {% if phase.setup_steps.details_confirmed %}class="strikethrough"{% endif %}>
 		Confirm phase details and dates
 	</label>
-	<a href="/dashboard/{{competition.id}}/phases/?open={{phase.id}}">Do this now</a>
+	(<a href="/dashboard/{{competition.id}}/phases/?open={{phase.id}}">Do this now</a>)
 
 	<br/>
 
 	{% if phase.pitch_type == "online" %}
 
-		<input type="checkbox" id="step_1" />
-		<label for="step_1" {% if phase.setup_step > 1 %}class="strikethrough"{% endif %}>
+		<input {% if phase.setup_steps.application_setup %}checked="checked"{% endif %} type="checkbox" id="id_application_setup" name="application_setup" />
+		<label for="id_application_setup" {% if phase.setup_steps.application_setup %}class="strikethrough"{% endif %}>
 			Add pitch questions and judging criteria
 		</label>
-		<a href="/dashboard/phase/{{phase.id}}/application/">Do this now</a>
+		(<a href="/dashboard/phase/{{phase.id}}/application/">Do this now</a>)
 
 		<br/>
 
-		<input type="checkbox" id="step_2" />
-		<label for="step_2" {% if phase.setup_step > 0 %}class="strikethrough"{% endif %}>
+		<input {% if phase.setup_steps.announced_applications %}checked="checked"{% endif %} type="checkbox" id="id_announced_applications" name="announced_applications" />
+		<label for="id_announced_applications" {% if phase.setup_steps.announced_applications %}class="strikethrough"{% endif %}>
 			Announce applications are open
 		</label>
-		<a href="">Do this now</a>
+		(<a href="">Do this now</a>)
 
 		<br/>
 
 	{% else %}
 
-		<input type="checkbox" id="step_1a" />
-		<label for="step_1a" {% if phase.setup_step > 0 %}class="strikethrough"{% endif %}>
+		<input {% if phase.setup_steps.application_setup %}checked="checked"{% endif %} type="checkbox" id="id_application_setup" name="application_setup" />
+		<label for="id_application_setup" {% if phase.setup_steps.application_setup %}class="strikethrough"{% endif %}>
 			Send reminder & info for live pitch
 		</label>
-		<a href="">Do this now</a>
+		(<a href="">Do this now</a>)
 
 		<br/>
 
 	{% endif %}
 
-	<input type="checkbox" id="step_3" />
-	<label for="step_3" {% if phase.setup_step > 0 %}class="strikethrough"{% endif %}>
+	<input {% if phase.setup_steps.invited_judges %}checked="checked"{% endif %} type="checkbox" id="id_invited_judges" name="invited_judges" />
+	<label for="id_invited_judges" {% if phase.setup_steps.invited_judges %}class="strikethrough"{% endif %}>
 		Invite judges
 	</label>
-		<a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">Do this now</a>
+		(<a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">Do this now</a>)
 
 	<br/>
 
 	{% if phase.pitch_type == "online" %}
 
-		<input type="checkbox" id="step_4" />
-		<label for="step_4" {% if phase.setup_step > 0 %}class="strikethrough"{% endif %}>
+		<input {% if phase.setup_steps.announced_judging_open %}checked="checked"{% endif %} type="checkbox" id="id_announced_judging_open" name="announced_judging_open" />
+		<label for="id_announced_judging_open" {% if phase.setup_steps.announced_judging_open %}class="strikethrough"{% endif %}>
 			Announce that judging is now open
 		</label>
-		<a href="">Do this now</a>
+		(<a href="">Do this now</a>)
 
 		<br/>
 
 	{% else %}
 
-		<input type="checkbox" id="step_4a" />
-		<label for="step_4a" {% if phase.setup_step > 0 %}class="strikethrough"{% endif %}>
+		<input {% if phase.setup_steps.announced_judging_open %}checked="checked"{% endif %} type="checkbox" id="id_announced_judging_open" name="announced_judging_open" />
+		<label for="id_announced_judging_open" {% if phase.setup_steps.announced_judging_open %}class="strikethrough"{% endif %}>
 			Send event reminder to judges & collect scores
 		</label>
-		<a href="">Do this now</a>
+		(<a href="">Do this now</a>)
 
 		<br/>
 
 	{% endif %}
 
-	<input type="checkbox" id="step_5" />
-	<label for="step_5" {% if phase.setup_step > 0 %}class="strikethrough"{% endif %}>
+	<input {% if phase.setup_steps.selected_winners %}checked="checked"{% endif %} type="checkbox" id="id_selected_winners" name="selected_winners" />
+	<label for="id_selected_winners" {% if phase.setup_steps.selected_winners %}class="strikethrough"{% endif %}>
 		Select winners and send feedback
 	</label>
-	<a href="">Do this now</a>
+	(<a href="">Do this now</a>)
 
 	<br/>
+
+</form>
 
 <!--
 <div class="half_width">
@@ -91,23 +95,23 @@
 
 	</div>
 
-	<div class="step_1" class="hidden">
+	<div class="id_application_setup" class="hidden">
 
 	</div>
 
-	<div class="step_2" class="hidden">
+	<div class="id_announced_applications" class="hidden">
 
 	</div>
 
-	<div class="step_3" class="hidden">
+	<div class="id_invited_judges" class="hidden">
 
 	</div>
 
-	<div class="step_4" class="hidden">
+	<div class="id_announced_judging_open" class="hidden">
 
 	</div>
 
-	<div class="step_5" class="hidden">
+	<div class="id_selected_winners" class="hidden">
 
 	</div>
 
@@ -117,7 +121,22 @@
 <script language="javascript" type="text/javascript">
 
 	$(function () {
+
+		$("#phase_steps_form").submit(function() {
+
+		    $.post('/dashboard/ajax/phase_steps/{{phase.id}}/',
+			   $("#phase_steps_form").serialize(),
+			   function(data) {
+				   //var new_row = data["new_row"];
+			   }
+			);
+		    return false;
+		});
+
 		$(":checkbox").click( function() {
+
+			$("#phase_steps_form").submit();
+
 			if ($(this).attr("checked")) {
 				$(this).next().addClass("strikethrough");
 			}
