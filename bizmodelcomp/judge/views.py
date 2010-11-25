@@ -57,7 +57,7 @@ def get_permissions_redirect(request, competition):
                 #if it's an organizer trying to judge, we'll make
                 #a judge entry for them, since they should always
                 #have one
-                invite = JudgeInvite(competition=competition,
+                invite = JudgeInvitation(competition=competition,
                                      email=request.user.email,
                                      user=request.user,
                                      has_received_invite_email=True) #don't sent them another
