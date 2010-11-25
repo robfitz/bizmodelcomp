@@ -261,6 +261,9 @@ def list_judges(request, competition_id, phase_id):
     if not has_dash_perms(request, competition_id):
         return HttpResponseRedirect("/no_permissions/")
 
+    competition = get_object_or_404(Competition, id=competition_id)
+    phase = get_object_or_404(Phase, id=phase_id)
+
     #new judges are invited from a small form on the single management/list page,
     #so if it's a post we're going to be inviting a new judge
     if request.method == "POST" and len(request.POST) > 0:
@@ -274,7 +277,7 @@ def list_judges(request, competition_id, phase_id):
         else:
             #otherwise, if we haven't already invited this judge, add them
             #to the system and invite them
-            invite = JudgeInvitation(competition__id=competition_id,
+            invite = JudgeInvitation(competition=competition,
                                      email=email)
             invite.save()
             

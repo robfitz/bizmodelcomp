@@ -59,8 +59,8 @@ Thanks very much for the help!
 
 Sincerely,
 %s team""" % (self.competition.name,
-              self.competition.current_phase().applications_close_judging_open,
-              self.competition.current_phase().judging_close,
+              self.competition.current_phase.applications_close_judging_open,
+              self.competition.current_phase.judging_close,
               judging_link,
               self.email,
               self.competition.name)
