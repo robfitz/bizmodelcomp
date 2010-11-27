@@ -4,10 +4,6 @@
 <link rel="stylesheet" type="text/css" href="/media/competition/style/index.css" />
 {% endblock %}
 
-{% block header_title %}
-Biz Pitch Comp
-{% endblock %}
-
 {% block content %}
 
 	{% load markup %}
@@ -25,12 +21,12 @@ Biz Pitch Comp
 		{% endif %}
 	</div>
 
-<div id="roi">
+	<div id="roi">
 		{{ copy.roi|markdown|safe }}
 	</div>
 
-
 	<div id="testimonials">
+		
 		<h2>Testimonials</h2>
 
 		<p>

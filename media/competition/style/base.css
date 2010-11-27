@@ -16,9 +16,6 @@ body, #header, #footer {
 	position:relative;
 }
 
-body {
-text-align:center;
-}
 #body {
 	width:796px;
 	margin: 0px auto;
@@ -97,6 +94,7 @@ h1 sup {
 
 
 /***** judge stuff *****/
+
 div.slider {
     width:180px;
     float:left;
@@ -142,8 +140,10 @@ div.slider {
 /***** text ********/
 
 body {
-    font-size:12px;
-    font-family: Verdana, Geneva, sans-serif;
+    font-size:14px;
+    font-family: 'Droid Sans';
+	color: #A9A9A9;
+	line-height:150%
 }
 
 .medium {
@@ -160,6 +160,9 @@ body {
 h1, h2 {
 	margin:0px;
 	padding:0px;
+	font-style:italic;
+	color: #333333;
+	line-height:120%
 }
 
 h4 {
@@ -167,16 +170,34 @@ h4 {
 }
 
 strong {
-    color: #EB8F00;
+    color: #3062C4;
 }
 
+/***** horizontal rule ********/
 
+.funk {
+	height:20px;
+	background: url(images/hr.png) no-repeat scroll center;
+	border:none;
+}
+
+/***** lists ********/
+
+ul {
+    list-style-type:none;
+}
+
+li {
+    padding-left:25px;
+    background:transparent url(images/bullet.png) no-repeat;
+
+}
 
 /***** forms ********/
 
 .question {
 	width: 600px;
-	border: 1px solid #cccccc;
+	border: 1px solid #CCCCCC;
 	padding: 5px;
 	margin-bottom: 20px;
 }
