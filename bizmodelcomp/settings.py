@@ -1,5 +1,6 @@
 # Django settings for bizmodelcomp project.
 import socket
+import os
 
 is_local = False
 
@@ -83,7 +84,7 @@ MEDIA_ROOT = '/var/www/bizmodelcomp/media/'
 if filesystem == "WINDOWS":
     MEDIA_ROOT = 'c:/www/bizmodelcomp/media/'
 elif filesystem == "MAC":
-    MEDIA_ROOT = '~/www/bizmodelcomp/media/'
+    MEDIA_ROOT = 'Users/%s/www/bizmodelcomp/media/' % os.getlogin()
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -122,9 +123,8 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     "C:/www/bizmodelcomp/templates/",
-    "/Users/thomasstone/www/bizmodelcomp/templates/",
+    "/Users/%s/www/bizmodelcomp/templates/" % os.getlogin(),
     "/var/www/bizmodelcomp/templates/",
-    "/Users/robfitz/www/bizmodelcomp/templates/",
 )
 
 INSTALLED_APPS = (
