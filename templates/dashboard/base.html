@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
+{% endblock %}
+
+{% block header_title %}
+
+	{% if phase %}
+		{{ phase.name }} - {{ competition.name }}
+	{% else %}
+		{{ competition.name }} Dashboard
+	{% endif %}
+
+{% endblock %}
+
+{% block content_outer_top %}
+
+	<div id="navbar">
+
+		{% include 'dashboard/navbar.html' %}
+
+	</div>
+
+	<div id="tab_contents">
+
+{% endblock %}
+
+
+{% block content_outer_bottom %}
+
+	</div>
+
+{% endblock %}

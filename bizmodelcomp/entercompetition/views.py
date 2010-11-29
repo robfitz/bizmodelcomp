@@ -174,7 +174,7 @@ def submit_pitch(request, competition_url, phase_id=None):
         pass
     
     if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
-    else: phase = competition.phases.all()[0] #use default (first) phase
+    else: phase = competition.phases()[0] #use default (first) phase
 
     if phase.is_judging_enabled:
         #sorry, applications are closed :(((
@@ -335,7 +335,7 @@ def edit_pitch(request, competition_url, phase_id=None):
         pass
 
     if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
-    else: phase = competition.phases.all()[0] #use default (first) phase
+    else: phase = competition.phases()[0] #use default (first) phase
 
     if phase.is_judging_enabled and not request.GET.get('ignorejudging', False):
         #sorry, applications are closed :(((

@@ -1,8 +1,4 @@
-{% extends 'base.html' %}
-
-{% block meta %}
-<link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
-{% endblock %}
+{% extends 'dashboard/base.html' %}
 
 {% block header_title %}
 View & edit phases
@@ -75,14 +71,6 @@ View & edit phases
 
 {% block content %}
 
-	<div id="navbar">
-
-		{% include 'dashboard/navbar.html' %}
-
-	</div>
-
-	<div id="tab_contents">
-
 		{% for phase in phases %}
 
 			{% include 'dashboard/widgets/phase_details.html' %}
@@ -108,8 +96,6 @@ View & edit phases
 			{% include 'dashboard/widgets/phase_new.html' %}
 
 		</div>
-
-	</div>
 
 {% endblock %}
 

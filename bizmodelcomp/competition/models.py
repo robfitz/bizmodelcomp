@@ -100,9 +100,14 @@ class Competition(models.Model):
     current_phase = models.OneToOneField("competition.Phase", blank=True, null=True, related_name="competition_unused")
 
 
+    def phases(self):
+
+	    return Phase.objects.filter(competition=self).filter(is_deleted=False)
+
+
     def first_phase(self):
 
-        return self.phases.all()[0]
+        return self.phases()[0]
     
 
     def pitches(self):
@@ -139,10 +144,6 @@ class Competition(models.Model):
 
 
 
-
-
-
-
 PHASE_STATUS_CHOICES = (('pending', 'pending'),
                         ('accepting pitches', 'accepting pitches'),
                         ('being judged', 'being judged'),
@@ -156,7 +157,7 @@ PHASE_PITCH_TYPES = [('online', 'online'),
 #some form of pitch which is then judged
 class Phase(models.Model):
 
-    competition = models.ForeignKey(Competition, editable=False, related_name="phases")
+    competition = models.ForeignKey(Competition, editable=False, related_name="all_phases")
     name = models.CharField(max_length=140, blank=True, default="")
 
     deadline = models.DateTimeField(default=datetime.now())
@@ -247,7 +248,7 @@ class Phase(models.Model):
             self.current_status = 'completed'
 
             #get next phase
-            phases = self.competition.phases.all()
+            phases = self.competition.phases()
             i = phases.index(self)
             if i + 1 < len(phases):
                 next_phase = phases[i + 1]

@@ -28,7 +28,7 @@ Manage Applications
 		$(function() {
 			var d = [ [0, {{competition.applicants.count}}] ];
 
-			{% for phase in competition.phases.all %}
+			{% for phase in competition.phases %}
 				d.push([ {{forloop.counter}}, {{phase.pitches.count}} ]);
 			{% endfor %}
 
@@ -48,7 +48,7 @@ Manage Applications
 						tickSize: 1,
 						tickDecimals: 0,
 						ticks: [[0, "Applicants"]
-							{% for phase in competition.phases.all %}
+							{% for phase in competition.phases %}
 								, [{{forloop.counter}}, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phase {{forloop.counter}}"]
 							{% endfor %}
 							, [{{competition.phases.count}}+1, ""]]
