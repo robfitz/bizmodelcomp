@@ -4,7 +4,7 @@ import socket
 is_local = False
 
 local_windows = ['robfitz-PC', 'tugboat']
-local_mac = ['mango', 'papaya', 'mango.local']
+local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local']
 
 filesystem = "UNIX"
 
@@ -14,6 +14,8 @@ if socket.gethostname() in local_windows:
 elif socket.gethostname() in local_mac:
     is_local = True
     filesystem = "MAC"
+else:
+    print 'Unrecognized hostname in settings.py: %s' % socket.gethostname()
 
 DEBUG = is_local
 TEMPLATE_DEBUG = DEBUG
@@ -81,7 +83,7 @@ MEDIA_ROOT = '/var/www/bizmodelcomp/media/'
 if filesystem == "WINDOWS":
     MEDIA_ROOT = 'c:/www/bizmodelcomp/media/'
 elif filesystem == "MAC":
-    MEDIA_ROOT = '/Users/thomasstone/www/bizmodelcomp/media/'
+    MEDIA_ROOT = '~/www/bizmodelcomp/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -122,6 +124,7 @@ TEMPLATE_DIRS = (
     "C:/www/bizmodelcomp/templates/",
     "/Users/thomasstone/www/bizmodelcomp/templates/",
     "/var/www/bizmodelcomp/templates/",
+    "/Users/robfitz/www/bizmodelcomp/templates/",
 )
 
 INSTALLED_APPS = (
