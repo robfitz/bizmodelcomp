@@ -3,3 +3,5 @@ apache/server.log
 bizmodelcomp/db_local
 media/uploads/*
 logs/*
+*.swp
+*~
