@@ -179,9 +179,9 @@ def edit_phases(request, competition_id):
 
     editing_phase = request.GET.get("open", None)
 
-    if request.method == "POST":
+    competition = get_object_or_404(Competition, id=competition_id)
 
-	competition = Competition.objects.get(id=competition_id)
+    if request.method == "POST":
 
         try: phase = Phase.objects.get(id=request.POST.get("phase_id", None))
         except:
