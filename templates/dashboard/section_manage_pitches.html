@@ -7,8 +7,14 @@ View Pitches
 {% block icon_class %}ui-icon-document{% endblock %}
 
 {% block section_content %}
+
+	<div class="stat_number">
+		Num Pitches
+		<h1>{{competition.pitches.count}}</h1>
+	</div>
+
 	<p>
-	<a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/"><strong>{{competition.pitches.count}}</strong> submitted pitches</a>
+	<a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View pitches</a>
 	</p>
 
 	<div id="pitches_over_time" style="float:left;width:75%;height:200px;"></div>
