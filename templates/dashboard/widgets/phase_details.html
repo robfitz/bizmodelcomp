@@ -7,7 +7,7 @@
 
 	{{ block.super }}
 
-	<div id="edit_phase_{{forloop.counter}}" class="edit_phase hidden">
+	<div id="edit_phase_{{phase.id}}" class="edit_phase hidden">
 
 		<form action="" method="POST">
 
@@ -26,20 +26,20 @@
 					<b>Warning:</b> Leaving this box checked when you save will delete everything about this phase, including any setup, judges, and submitted applications. Please be careful and un-tick it if you aren't sure!
 				</p>
 				<p>
-					<input type="checkbox" id="delete_2_{{forloop.counter}}" onclick="toggle_delete({{forloop.counter}}, false);">
-					<label for="delete_2_{{forloop.counter}}"><b>Yes, I want to delete this phase.</b></label>
+					<input type="checkbox" id="delete_2_{{phase.id}}" onclick="toggle_delete({{phase.id}}, false);">
+					<label for="delete_2_{{phase.id}}"><b>Yes, I want to delete this phase.</b></label>
 				</p>
 			</div>
 			</p>
 
 			<p class="delete_check_container">
-				<input type="checkbox" id="delete_1_{{forloop.counter}}" name="is_deleted" onclick="toggle_delete({{forloop.counter}}, true);">
-				<label for="delete_1_{{forloop.counter}}">Delete this phase?</label>
+				<input type="checkbox" id="delete_1_{{phase.id}}" name="is_deleted" onclick="toggle_delete({{phase.id}}, true);">
+				<label for="delete_1_{{phase.id}}">Delete this phase?</label>
 			</p>
 
 			<a href="javascript:void(0);" onclick="cancel_edit();">Cancel changes</a>
 
-			<input class="button save_phase_button" type="submit" value="Save changes to phase {{forloop.counter}}" />
+			<input class="button save_phase_button" type="submit" value="Save changes to phase {{phase.id}}" />
 
 		</form>
 

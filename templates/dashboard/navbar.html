@@ -1,5 +1,15 @@
 <div class="navbar">
 
+	{% if request.user.get_profile.competitions.count > 1 %}
+
+		<select>
+		{% for comp in request.user.get_profile.competitions %}
+			<option>{{comp.name}}</option>
+		{% endfor %}
+		</select>
+
+	{% endif %}
+
 	{% if phase %}
 
 		<a href="/dashboard/"><button id="home_button">Overview</button></a>

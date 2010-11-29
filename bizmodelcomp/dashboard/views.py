@@ -199,6 +199,10 @@ def edit_phases(request, competition_id):
 		    competition.current_phase = phase
 		    competition.save()
 
+	    if competition.current_phase.is_deleted:
+	        competition.current_phase = competition.phases()[0]
+		competition.save()
+
             date = request.POST.get("date", None)
             hour = int(request.POST.get("hour", 23))
             minute = int(request.POST.get("minute", 59))
