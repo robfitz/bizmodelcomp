@@ -1,4 +1,4 @@
-{% extends competition.template_base %}
+{% extends 'base.html' %}
 
 {% block breadcrumbs %}
 {% endblock %}
@@ -90,10 +90,10 @@ Apply to {{ competition }}
 
 					{% if question.is_hidden_from_applicants %}
 					{% else %}
-
+						<div style="float:left;clear:both;">
 						{% if question.choices %}
 							<strong class="prompt">{{ question.prompt }}</strong>
-							<br/>
+							<div class="hr>&nbsp;</div>
 							<select name="question_{{question.pk}}">
 							{% for choice in question.choices %}
 								{{question.answer.answer}} {{choice}}
@@ -109,18 +109,23 @@ Apply to {{ competition }}
 							{% ifequal question.field_rows 1 %}
 
 							<strong class="prompt">{{ question.prompt }}</strong>
+							<div class="hr">&nbsp;</div>
 							<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 
 							{% else %}
 							<strong class="prompt">{{ question.prompt }}</strong>
+							<div class="hr">&nbsp;</div>
 							<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
 							{% endifequal %}
 
 						{% endif %}
+						</div>
 
 					{% endif %}
 
 				{% endfor %}
+
+				<div class="hr">&nbsp;</div>
 
 			{% endblock %}
 

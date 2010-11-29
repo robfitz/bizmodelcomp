@@ -17,7 +17,7 @@ Competition phases
 	(<a href="">edit requirements</a>)
 	<br />
 
-	{% for phase in competition.phases.all %}
+	{% for phase in phases %}
 
 		<strong><a href="/dashboard/phase/{{phase.id}}/">Phase {{forloop.counter}}</a></strong>
 		<a href="/dashboard/phase/{{phase.id}}/">{{phase.name}}</a>

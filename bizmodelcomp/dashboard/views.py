@@ -181,10 +181,12 @@ def edit_phases(request, competition_id):
 
     if request.method == "POST":
 
+	competition = Competition.objects.get(id=competition_id)
+
         try: phase = Phase.objects.get(id=request.POST.get("phase_id", None))
         except:
             if "new_phase" in request.POST:
-                phase = Phase(competition=Competition.objects.get(id=competition_id))
+                phase = Phase(competition=competition)
 
         if phase:
             form = PhaseForm(request.POST, instance=phase)
@@ -192,6 +194,10 @@ def edit_phases(request, competition_id):
 
             phase.is_deleted = request.POST.get("is_deleted") == "on"
             phase.save()
+
+	    if not competition.current_phase:
+		    competition.current_phase = phase
+		    competition.save()
 
             date = request.POST.get("date", None)
             hour = int(request.POST.get("hour", 23))
