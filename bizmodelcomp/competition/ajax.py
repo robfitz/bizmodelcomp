@@ -1,8 +1,13 @@
 from django.http import HttpResponse
-import simplejson
 
 from competition.models import *
-    
+ 
+try:
+	import simplejson
+except ImportError: 
+	import json as simplejson
+
+   
 
 
 ##def apply_to_competition(request):

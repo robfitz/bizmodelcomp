@@ -1,6 +1,10 @@
 from competition.models import *
 
-import simplejson
+try:
+	import simplejson
+except ImportError:
+	import json as simplejson
+
 from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.core import serializers
