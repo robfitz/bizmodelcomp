@@ -6,8 +6,10 @@ from django.contrib.auth.models import User
 
 from settings import ACCOUNT_EMAIL_CONFIRM_REQUIRED
 from userhelper.util import *
+from userhelper.models import *
+from judge.models import *
 
-from competition.models import Competition
+from competition.models import *
 
 def noPermissions(request):
 
@@ -62,19 +64,64 @@ def logoutUser(request):
     return HttpResponseRedirect('/') #back to the index
 
 
+def is_new_user_judge(user):
+
+	try:
+                #is new acct meant to be a judgeman?
+                judge = JudgeInvitation.objects.get(email=user.email)
+                judge.user = user
+                judge.save()
+		return judge
+        except:
+                #not a judge
+		return False
+
+
+
+def create_new_comp_for_user(user):
+	competition = Competition(owner=user)
+	competition.save()
+	competition.current_phase = Phase(competition=competition)
+	competition.current_phase.save()
+	competition.save()
+
+       	if not user.get_profile():
+	    #ensure old accounts have a profile
+	    profile = UserProfile(user=request.user)
+	    profile.selected_competition = competition
+	    profile.save()
+
+
 
 def registerUser(request):
 
     if request.user.is_authenticated():
-        return HttpResponseRedirect('/dashboard/')
+	#already logged in
+
+	try:
+	    request.user.get_profile()
+	except:
+	    #ensure old accounts have a profile
+	    profile = UserProfile(user=request.user)
+	    profile.save()
+
+	if request.user.get_profile().competition():
+	    #user has at least one competition, so
+	    #redirect them to their dashboard
+            return HttpResponseRedirect('/dashboard/')
+
+        else:
+	    #doesn't own a competition, so check if he's a judge
+	    if JudgeInvitation.objects.filter(user=request.user).count() > 0:
+		return HttpResponseRedirect('/judge/')
+
+            else:
+	        #no competition and not a judge, so try creating a comp for them
+		create_new_comp_for_user(request.user)
+		return HttpResponseRedirect('/dashboard/')
+
     
     alert = None
-
-    default_code = ""
-    try:
-        default_code = request.GET["code"]
-    except:
-        pass
 
     if request.method == "POST":
 
@@ -82,9 +129,15 @@ def registerUser(request):
         pass1 = request.POST["password1"]
         pass2 = request.POST["password2"]
         
-        discount_code = default_code
-
-        user = createNewUser(request, email, pass1, pass2, "default", discount_code)
+	user = None
+	try:
+            user = createNewUser(request, email, pass1, pass2)
+	except:
+	    next = request.POST.get("next")
+	    login = "/accounts/login/"
+	    if next:
+	        login += "?next=%s" % next
+	    alert = "That email has already been registered. Try <a href='%s'>logging in</a> instead?" % login
 
         try:
             #is there a verification key already hooked up to that email?
@@ -95,22 +148,20 @@ def registerUser(request):
 
         if user is not None:
 
-            try: next = request.POST["next"]
-            except:
-                if len(Competition.objects.filter(owner=user)) > 0:
-                    next = "/dashboard/"
-                else:
-                    next = "/judge/"
+            is_judge = is_new_user_judge(user)
 
-            try:
-                #is new acct meant to be a judgeman?
-                judge = JudgeInvitation.objects.get(email=user.email)
-                judge.user = user
-                judge.save()
-            except:
-                #not a judge
-                pass
-            
+            next = request.POST.get("next")
+	    if not next:
+                #if we don't have an explicitly set next page, we take our best guess
+	        if is_judge:
+                    next = "/judge/"
+		else:
+		    next = "/dashboard/"
+
+	    if not is_judge:
+		   create_new_comp_for_user(request.user)
+
+		    
             #require email confirmation?
             if ACCOUNT_EMAIL_CONFIRM_REQUIRED:
                 user.is_active = False
@@ -138,8 +189,10 @@ def registerUser(request):
             
             return HttpResponseRedirect(next)
                                             
-        else:
+        elif not alert:
+	    #if we don't have a more specific alert, go with a generic fail message
             alert = "Passwords don't match or your email isn't valid. Try again?"
+
 
     elif request.method == "GET":
                                 
@@ -163,7 +216,7 @@ def verify_email(request):
 
 
 
-def createNewUser(request, email, pass1, pass2, account_type, discount_code=None):
+def createNewUser(request, email, pass1, pass2, account_type="default", discount_code=None):
 
     if email is not None and pass1 == pass2:
             user = User.objects.create_user(username=email,
@@ -173,23 +226,11 @@ def createNewUser(request, email, pass1, pass2, account_type, discount_code=None
                 user.save()
                 user = auth.authenticate(username=email, password=pass1)            
                 if user is not None:
-##                    user_info = UserInfo(user=user,
-##                                         account_type=account_type)
-##                    user_info.save()
-                    #successful login
+                    user_info = UserProfile(user=user)
+		    user_info.save()
+                    
+		    #successful login
                     login(request, user)
-
-                    #check for valid discount code
-##                    if discount_code is not None:
-##                        try:
-##                            code = DiscountCodeTemplate.objects.filter(code=discount_code)[0]
-##                            user_discount = code.newDiscountCode(user)
-##                            if not user_discount:
-##                                #TODO: alert user that their code failed and prompt them
-##                                #to re-enter it
-##                                pass
-##                        except:
-##                            pass
 
                     return user
 

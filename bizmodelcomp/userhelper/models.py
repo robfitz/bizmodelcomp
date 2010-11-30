@@ -20,6 +20,7 @@ class VerificationKey(models.Model):
 class UserProfile(models.Model):
 
     selected_competition = models.ForeignKey(Competition, blank=True, null=True)
+    user = models.OneToOneField(User, null=True)
 
 
     def competition(self):
@@ -29,7 +30,7 @@ class UserProfile(models.Model):
         
         else:
 	    
-	    comps = Competition.objects.get(owner=self.user)
+	    comps = Competition.objects.filter(owner=self.user)
 	    if len(comps) > 0:
 	        return comps[0]
 

@@ -2,6 +2,7 @@ from bizmodelcomp.competition.models import *
 from django.contrib import admin
 from django import forms
 from bizmodelcomp.emailhelper.models import *
+from bizmodelcomp.userhelper.models import *
 
 ##class QuestionInline(admin.TabularInline):
 ##    model = Question
@@ -92,4 +93,6 @@ admin.site.register(Bulk_email)
 admin.site.register(Sub_val)
 admin.site.register(Val)
 
+admin.site.register(VerificationKey)
+admin.site.register(UserProfile)
 ##admin.site.register(Worksheet, WorksheetAdmin)

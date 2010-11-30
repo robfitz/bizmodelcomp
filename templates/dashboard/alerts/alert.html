@@ -4,7 +4,7 @@
 			<span class="ui-icon {% block alert_icon_class %}ui-icon-info{% endblock %}" style="float: left; margin-right: .3em;"></span>
 
 			<strong>{% block alert_intro %}Alert:{% endblock %}</strong>
-			{% block alert_message %} Pay attention! {% endblock %}
+			{% block alert_message %} {{alert|safe}} {% endblock %}
 
 		</p>
 	</div>
