@@ -25,50 +25,71 @@ def index(request):
 
 
 
+def create_new_comp_for_user(user):
+	key = None
+	while True: 
+		#find a unique url for the competition
+		key = rand_key(6)
+		try: 	Competition.objects.get(hosted_url=key)
+		except:	break
+			
+	competition = Competition(owner=user, hosted_url=key)
+	competition.save()
+	competition.current_phase = Phase(competition=competition)
+	competition.current_phase.save()
+	competition.save()
+
+       	if not user.get_profile():
+	    #ensure old accounts have a profile
+	    profile = UserProfile(user=request.user)
+	    profile.selected_competition = competition
+	    profile.save()
+
+	return competition
+
+
+
 #if competition_id is none, then you are editing a new
 #contest which should be created when the user saves
 #the inputted details
 @login_required
 def edit_competition(request, competition_id=None):
 
+    alert = ""
     competition = None
     
     if request.method == "POST" and len(request.POST) > 0:
 
         if competition_id:
+	    print 'competition id: %s' % competition_id
             competition = Competition.objects.get(pk=competition_id)
             #must own competition to edit it
             if request.user != competition.owner:
                 return HttpResponseRedirect("/user/no_permissions/")
 
         else:
-            #if logged in and creating new competition, then
-            #guaranteed to own it already
-            competition = Competition()
-            competition.owner = request.user
-            competition.save()
+            competition = create_new_comp_for_user(request.user)
 
-            #every competition is composed of at least one phase,
-            #which is the container for all of our questions & uploads
-            default_phase = Phase(competition=competition)
-            default_phase.save()
-
-            #first phase is active
-            competition.current_phase = default_phase
-            competition.save()
 
         competition.name = request.POST["name"]
         competition.website = request.POST["website"]
-        competition.hosted_url = request.POST["hosted_url"]
-            
         competition.save()
+
+	competition.hosted_url = request.POST["hosted_url"]
+        
+	try:
+            competition.save()
+	except:
+	    alert = "The competition URL \"%s\" is already taken. Try using a different one." % request.POST.get("hosted_url")
 
         #allow chaining together of setup steps by the templates
         try:
             next = request.POST["next"] + str(competition.id)
         except: next = "/dashboard/"
 
-        return HttpResponseRedirect(next)
+        if not alert:
+	    #if there's an error alert, don't go on to the next step
+	    return HttpResponseRedirect(next)
 
     elif competition_id:
         
@@ -82,11 +103,10 @@ def edit_competition(request, competition_id=None):
 def edit_application(request, phase_id):
 
     #competition = Competition.objects.get(pk=competition_id)
-    #TODO: support multiple phases
-    #phase = Phase.objects.filter(competition=competition)[0]
     phase = Phase.objects.get(id=phase_id)
 
     if request.user != phase.competition.owner:
+	print 'request.user: %s, phase id: %s, comp owner: %s' % (request.user, phase_id, phase.competition.owner)
         return HttpResponseRedirect("/accounts/no_permissions/")
 
     if request.method == "POST" and len(request.POST) > 0:

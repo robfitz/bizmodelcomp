@@ -8,6 +8,7 @@ from settings import ACCOUNT_EMAIL_CONFIRM_REQUIRED
 from userhelper.util import *
 from userhelper.models import *
 from judge.models import *
+from utils.util import rand_key
 
 from competition.models import *
 
@@ -78,20 +79,6 @@ def is_new_user_judge(user):
 
 
 
-def create_new_comp_for_user(user):
-	competition = Competition(owner=user)
-	competition.save()
-	competition.current_phase = Phase(competition=competition)
-	competition.current_phase.save()
-	competition.save()
-
-       	if not user.get_profile():
-	    #ensure old accounts have a profile
-	    profile = UserProfile(user=request.user)
-	    profile.selected_competition = competition
-	    profile.save()
-
-
 
 def registerUser(request):
 
@@ -116,9 +103,8 @@ def registerUser(request):
 		return HttpResponseRedirect('/judge/')
 
             else:
-	        #no competition and not a judge, so try creating a comp for them
-		create_new_comp_for_user(request.user)
-		return HttpResponseRedirect('/dashboard/')
+	        #no competition and not a judge, so get them started w/ a new comp
+		return HttpResponseRedirect('/new_competition/')
 
     
     alert = None
@@ -159,7 +145,7 @@ def registerUser(request):
 		    next = "/dashboard/"
 
 	    if not is_judge:
-		   create_new_comp_for_user(request.user)
+		    next = "/new_competition/"
 
 		    
             #require email confirmation?

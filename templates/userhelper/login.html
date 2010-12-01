@@ -20,6 +20,10 @@ Log in
 
 <div id="left">
 
+	{% if alert %}
+		{% include 'dashboard/alerts/alert.html' %}
+	{% endif %}
+
 	<form action="." method="POST" class="focus">
 
 		{% include 'userhelper/login_fields.html' %}

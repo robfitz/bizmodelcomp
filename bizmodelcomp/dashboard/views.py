@@ -450,7 +450,7 @@ def dashboard(request, phase_id=None):
     
     if len(competitions) == 0:
         
-        return HttpResponseRedirect("/no_permissions/")
+        return HttpResponseRedirect("/new_competition/")
 
     else:
     
