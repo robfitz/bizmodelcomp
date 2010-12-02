@@ -83,29 +83,7 @@ def is_new_user_judge(user):
 def registerUser(request):
 
     if request.user.is_authenticated():
-	#already logged in
-
-	try:
-	    request.user.get_profile()
-	except:
-	    #ensure old accounts have a profile
-	    profile = UserProfile(user=request.user)
-	    profile.save()
-
-	if request.user.get_profile().competition():
-	    #user has at least one competition, so
-	    #redirect them to their dashboard
-            return HttpResponseRedirect('/dashboard/')
-
-        else:
-	    #doesn't own a competition, so check if he's a judge
-	    if JudgeInvitation.objects.filter(user=request.user).count() > 0:
-		return HttpResponseRedirect('/judge/')
-
-            else:
-	        #no competition and not a judge, so get them started w/ a new comp
-		return HttpResponseRedirect('/new_competition/')
-
+       return HttpResponseRedirect('/dashboard/')
     
     alert = None
 
@@ -114,16 +92,16 @@ def registerUser(request):
         email = request.POST["email"]
         pass1 = request.POST["password1"]
         pass2 = request.POST["password2"]
-        
-	user = None
-	try:
-            user = createNewUser(request, email, pass1, pass2)
-	except:
-	    next = request.POST.get("next")
-	    login = "/accounts/login/"
-	    if next:
-	        login += "?next=%s" % next
-	    alert = "That email has already been registered. Try <a href='%s'>logging in</a> instead?" % login
+            
+        user = None
+        try:
+                user = createNewUser(request, email, pass1, pass2)
+        except:
+            next = request.POST.get("next")
+            login = "/accounts/login/"
+            if next:
+                login += "?next=%s" % next
+            alert = "That email has already been registered. Try <a href='%s'>logging in</a> instead?" % login
 
         try:
             #is there a verification key already hooked up to that email?
@@ -137,17 +115,13 @@ def registerUser(request):
             is_judge = is_new_user_judge(user)
 
             next = request.POST.get("next")
-	    if not next:
+            if not next:
                 #if we don't have an explicitly set next page, we take our best guess
-	        if is_judge:
+                if is_judge:
                     next = "/judge/"
-		else:
-		    next = "/dashboard/"
+                else:
+                    next = "/dashboard/"
 
-	    if not is_judge:
-		    next = "/new_competition/"
-
-		    
             #require email confirmation?
             if ACCOUNT_EMAIL_CONFIRM_REQUIRED:
                 user.is_active = False
@@ -171,19 +145,22 @@ def registerUser(request):
                     send_verification_email(user, next)
 
                 #display a page telling them what's going on
-                return HttpResponseRedirect("/accounts/verify_email/")
+                return HttpResponseRedirect("/accounts/verify_email/?next=%s" % next)
             
+            #successfully made a user and don't require email confirmation, 
+            #so redirect to next page
             return HttpResponseRedirect(next)
                                             
         elif not alert:
-	    #if we don't have a more specific alert, go with a generic fail message
+            #if we failed to make a user and don't have a more specific alert, 
+            #go with a generic fail message
             alert = "Passwords don't match or your email isn't valid. Try again?"
 
 
     elif request.method == "GET":
                                 
         #page to redirect to after success
-        next = request.GET.get("next", "/dashboard")
+        next = request.GET.get("next", "/dashboard/")
 
         email = request.GET.get("e", "")
 

@@ -13,6 +13,118 @@ import smtplib
 
 
 
+def create_new_comp_for_user(user):
+	key = None
+	while True: 
+		#find a unique url for the competition
+		key = rand_key(6)
+		try: 	Competition.objects.get(hosted_url=key)
+		except:	break
+		
+	competition = Competition(owner=user, hosted_url=key)
+	competition.save()
+	competition.current_phase = Phase(competition=competition)
+	competition.current_phase.save()
+	competition.save()
+
+       	if not user.get_profile():
+	    #ensure old accounts have a profile
+	    profile = UserProfile(user=request.user)
+	    profile.selected_competition = competition
+	    profile.save()
+
+	return competition
+
+
+
+@login_required
+def setup(request, step_num):
+
+
+    templates = { "1": "dashboard/setup_comp_details.html",
+            "2": "dashboard/setup_app_reqs.html",
+            "3": "dashboard/setup_distribution.html" }
+
+    form = None
+
+    if request.method == "POST":
+
+        if step_num == "1":
+
+            #create new competition for user with inputted details
+            competition = create_new_comp_for_user(request.user) 
+
+            if not competition:
+                #display error if non-unique hosted URL
+                alert = "That URL has already been used by someone. Try something different?"
+
+            #create model form from POST data
+            form = CompetitionInfoForm(request.POST, instance=competition)
+
+            #save instance
+            try:
+                form.save()
+
+                #if success, set as user's current competition
+                request.user.get_profile().current_competition = competition
+                request.user.get_profile().save()
+
+            except:
+
+                if competition:
+                    #delete comp we just created since there was an error saving data
+                    #and we don't want half-baked multiples floating around
+                    competition.delete()
+                    
+                    alert = "That URL has already been used by someone. Try something different?"
+
+
+        elif step_num == "2":
+
+            competition = request.user.get_profile().competition
+
+            #save application requirements
+
+        elif step_num == "3":
+
+            #nothing to do, submission is just used to advance to
+            #next step
+            pass
+
+
+        #go to next step
+        try:
+            if alert:
+                next_step = step_num
+            else:
+                next_step = str(int(step_num) + 1)
+            temp = templates[next_step]
+            #got a submission for the current step, move on to next one
+            return HttpResponseRedirect('/dashboard/setup/%s/' % str(int(step_num) + 1))
+
+        except:
+            #no more steps to show, so go to dashboard
+            return HttpResponseRedirect('/dashboard/')
+
+    else: #request.method==GET
+        try:
+            temp = templates[str(int(step_num) + 1)]
+
+            if step_num == "1":
+                form = CompetitionInfoForm()
+
+            elif step_num == "2":
+                pass
+
+            #for a GET, just render the relevant template
+            return render_to_response(templates[step_num], locals())
+
+        else:
+            #can't find what they're looking for, back to dash 
+            return HttpResponseRedirect('/dashboard/')
+
+
+
 def set_question_options(request, question, is_new=False):
 
     print 'set question options: %s' % question
@@ -450,7 +562,7 @@ def dashboard(request, phase_id=None):
     
     if len(competitions) == 0:
         
-        return HttpResponseRedirect("/new_competition/")
+        return HttpResponseRedirect("/dashboard/setup/1/")
 
     else:
     

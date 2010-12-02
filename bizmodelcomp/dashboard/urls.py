@@ -2,9 +2,14 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
 
+    #setup new competition
+    (r'^setup/(?P<step_num>[0-9]{1,2})/$',
+        'dashboard.views.setup'),
+
+    #ajaxy stuff
     (r'^ajax/phase_steps/(?P<phase_id>[0-9]{1,10})/$',
          'dashboard.ajax.set_phase_step'),
-    
+         
     #organizer dashboard - overview
     (r'^$', 'dashboard.views.dashboard'),
 

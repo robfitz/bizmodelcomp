@@ -5,6 +5,14 @@ from competition.models import *
 
 
 
+class CompetitionInfoForm(ModelForm):
+
+    class Meta:
+        model = Competition
+        fields = ("name",
+                "website",
+                "hosted_url")
+
 #for editing the details of a phase from the dashboard
 class PhaseForm(ModelForm):
 
