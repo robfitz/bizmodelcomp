@@ -37,9 +37,17 @@ def create_new_comp_for_user(user):
 
 
 
-@login_required
 def setup(request, step_num):
+    
+    #custom auth handling bc we generally want to redirect to register rather than login
+    if not request.user.is_authenticated():
+        if step_num == "1":
+            return HttpResponseRedirect("/accounts/register/?next=/dashboard/setup/%s/" % step_num)
+        else:
+            return HttpResponseRedirect("/accounts/login/?next=/dashboard/setup/%s/" % step_num)
 
+
+    alert = ""
 
     templates = { "1": "dashboard/setup_comp_details.html",
             "2": "dashboard/setup_app_reqs.html",
@@ -76,7 +84,7 @@ def setup(request, step_num):
                     #and we don't want half-baked multiples floating around
                     competition.delete()
                     
-                    alert = "That URL has already been used by someone. Try something different?"
+                alert = "That URL has already been used by someone. Try something different?"
 
 
         elif step_num == "2":
@@ -94,21 +102,27 @@ def setup(request, step_num):
 
         #go to next step
         try:
+            next_step = ""
             if alert:
                 next_step = step_num
+                print 'alert: %s' % alert
             else:
                 next_step = str(int(step_num) + 1)
+
+            print 'next step: %s' % next_step
             temp = templates[next_step]
+            print 'temp: %s' % temp
             #got a submission for the current step, move on to next one
-            return HttpResponseRedirect('/dashboard/setup/%s/' % str(int(step_num) + 1))
+            return HttpResponseRedirect('/dashboard/setup/%s/' % next_step)
 
         except:
+            print 'except: %s' % sys.exc_info()[0]
             #no more steps to show, so go to dashboard
             return HttpResponseRedirect('/dashboard/')
 
     else: #request.method==GET
         try:
-            temp = templates[str(int(step_num) + 1)]
+            temp = templates[step_num]
 
             if step_num == "1":
                 form = CompetitionInfoForm()
@@ -116,10 +130,13 @@ def setup(request, step_num):
             elif step_num == "2":
                 pass
 
+            print 'get rendering step: %s' % step_num
+
             #for a GET, just render the relevant template
             return render_to_response(templates[step_num], locals())
 
-        else:
+        except:
+            print 'get except: %s' % sys.exc_info()[0]
             #can't find what they're looking for, back to dash 
             return HttpResponseRedirect('/dashboard/')
 
