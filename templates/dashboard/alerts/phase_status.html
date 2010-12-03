@@ -1,47 +1,37 @@
 {% extends 'dashboard/alerts/alert.html' %}
 
-	{% block alert_class %}{% endblock %}
+    {% block alert_class %}{% endblock %}
 
-	{% block alert_intro %}
+    {% block alert_intro %}
 
-		{% ifequal competition.current_phase phase %}
+        {% ifequal competition.current_phase phase %}
 
-			Todo for this phase:
-			<br/>
+            Todo for this phase:
+            <br/>
 
-		{% else %}
+        {% else %}
 
-			Just a reminder:
+            Just a reminder:
 
-		{% endifequal %}
+        {% endifequal %}
 
-	{% endblock %}
+    {% endblock %}
 
 
-	{% block alert_message %}
+    {% block alert_message %}
 
-		{% ifequal competition.current_phase phase %}
+        {% ifequal competition.current_phase phase %}
+                {% include 'dashboard/widgets/phase_todo.html' %}
+        {% else %}
 
-				{% include 'dashboard/widgets/phase_todo.html' %}
+            {% if competition.current_phase %}
+                This phase isn't currently active. You may <a href="/dashboard/phase/{{competition.current_phase.id}}/">return to the current phase</a> to manage what's currently happening with your competition.
+            {% else %}
+                Error: No active phase :(
+            {% endif %}
 
-		{% else %}
+        {% endifequal %}
 
-			{% if competition.current_phase %}
-				This phase isn't currently active. You may <a href="/dashboard/phase/{{competition.current_phase.id}}/">return to the current phase</a> to manage what's currently happening with your competition.
-			{% else %}
-
-				{% ifequal phase competition.first_phase %}
-					To start accepting pitches from applicants, click the button below. But before you do, make sure that you're happy with the application questions and deadline dates.
-					<p>
-					<button>Start accepting pitches</button>
-					</p>
-				{% else %}
-					This competition hasn't yet begun. You may <a href="/dashboard/phase{{competition.first_phase.id}}/">return to the first phase</a> to start accepting applications.
-				{% endifequal %}
-			{% endif %}
-
-		{% endifequal %}
-
-	{% endblock %}
+    {% endblock %}
 
 

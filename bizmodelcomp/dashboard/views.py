@@ -14,26 +14,27 @@ import smtplib
 
 
 def create_new_comp_for_user(user):
-	key = None
-	while True: 
-		#find a unique url for the competition
-		key = rand_key(6)
-		try: 	Competition.objects.get(hosted_url=key)
-		except:	break
-		
-	competition = Competition(owner=user, hosted_url=key)
-	competition.save()
-	competition.current_phase = Phase(competition=competition)
-	competition.current_phase.save()
-	competition.save()
+    key = None
+    while True: 
+        #find a unique url for the competition
+        key = rand_key(6)
+        try: 	Competition.objects.get(hosted_url=key)
+        except:	break
+        
+    competition = Competition(owner=user, hosted_url=key)
+    competition.save()
+    current_phase = Phase(competition=competition)
+    current_phase.save()
+    competition.current_phase = current_phase
+    competition.save()
 
-       	if not user.get_profile():
-	    #ensure old accounts have a profile
-	    profile = UserProfile(user=request.user)
-	    profile.selected_competition = competition
-	    profile.save()
+    if not user.get_profile():
+        #ensure old accounts have a profile
+        profile = UserProfile(user=request.user)
+        profile.selected_competition = competition
+        profile.save()
 
-	return competition
+    return competition
 
 
 @login_required
@@ -106,7 +107,7 @@ def setup(request, step_num):
                 request.user.get_profile().save()
 
             except:
-
+                                    
                 if competition:
                     #delete comp we just created since there was an error saving data
                     #and we don't want half-baked multiples floating around
@@ -352,30 +353,30 @@ def edit_phases(request, competition_id):
             phase.is_deleted = request.POST.get("is_deleted") == "on"
             phase.save()
 
-	    if not competition.current_phase:
-		    competition.current_phase = phase
-		    competition.save()
+        if not competition.current_phase:
+            competition.current_phase = phase
+            competition.save()
 
-	    if competition.current_phase.is_deleted:
-	        competition.current_phase = competition.phases()[0]
-		competition.save()
+        if competition.current_phase.is_deleted:
+            competition.current_phase = competition.phases()[0]
+            competition.save()
 
-            date = request.POST.get("date", None)
-            hour = int(request.POST.get("hour", 23))
-            minute = int(request.POST.get("minute", 59))
+        date = request.POST.get("date", None)
+        hour = int(request.POST.get("hour", 23))
+        minute = int(request.POST.get("minute", 59))
 
-            print 'date %s, %s:%s' % (date, hour, minute)
+        print 'date %s, %s:%s' % (date, hour, minute)
+        
+        if date is not None:
+
+            year = int(date.split()[3])
+            month = MONTH_NUMS[date.split()[2].strip(',')]
+            day = int(date.split()[1])
             
-            if date is not None:
+            print 'date2 %s, %s, %s' % (year, month, day)
 
-                year = int(date.split()[3])
-                month = MONTH_NUMS[date.split()[2].strip(',')]
-                day = int(date.split()[1])
-                
-                print 'date2 %s, %s, %s' % (year, month, day)
-
-                phase.deadline = datetime(year, month, day, hour, minute)
-                phase.save()
+            phase.deadline = datetime(year, month, day, hour, minute)
+            phase.save()
                 
         return HttpResponseRedirect("/dashboard/%s/phases/" % competition_id)
 
