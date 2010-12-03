@@ -36,6 +36,34 @@ def create_new_comp_for_user(user):
 	return competition
 
 
+@login_required
+def edit_comp_details(request):
+
+    competition = request.user.get_profile().competition()
+    alert = ""
+
+    if not competition:
+        return HttpResponseRedirect('/dashboard/setup/1/')
+
+
+    if request.method == "POST":
+        #create model form from POST data
+        form = CompetitionInfoForm(request.POST, instance=competition)
+
+        try:
+            form.save()
+            #success, return to dashboard
+            return HttpResponseRedirect("/dashboard/")
+
+        except:
+            #form saving failed, alert user and re-display
+            alert = "That URL has already been used by someone. Try something else?"
+            return render_to_response('dashboard/edit_comp_details.html', locals())
+
+    else: #GET
+        form = CompetitionInfoForm(instance=competition)
+
+        return render_to_response('dashboard/edit_comp_details.html', locals())
 
 def setup(request, step_num):
     

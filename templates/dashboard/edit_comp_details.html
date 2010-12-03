@@ -1,0 +1,18 @@
+{% extends 'dashboard/base.html' %}
+
+{% block header_title %}
+    Edit competition details
+{% endblock %}
+
+{% block title %}
+    Nvana - Edit competition details
+{% endblock %}
+
+{% block content %}
+
+    <form action="." method="POST">
+        {{ form.as_p }}
+        <input type="submit" value="Save and Continue" class="button" />
+    </form>
+
+{% endblock %}
