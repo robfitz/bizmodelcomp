@@ -14,10 +14,13 @@
 		$( "#hour_{{forloop.counter}}" ).change( update_am_pm_{{forloop.counter}} );
 		$( "#hour_{{forloop.counter}}" ).val("{{phase.deadline.hour}}");
 
-		$( "#minute_{{forloop.counter}}" ).val("{{phase.deadline.minute}}");
+        var m = {{phase.deadline.minute}};
+        if (m != 0 &&  m != 15 && m != 30 && m != 45 && m != 59) {
+            m = 0;
+        }
+		$( "#minute_{{forloop.counter}}" ).val(m);
 
 		update_am_pm_{{forloop.counter}}();
-
 	});
 
 	function update_am_pm_{{forloop.counter}}(count) {

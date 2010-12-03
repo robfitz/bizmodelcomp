@@ -7,7 +7,7 @@ View & edit phases
 {% block ready_script %}
 
 	{% if editing_phase %}
-		edit_phase({{editing_phase}});
+		edit_initial_phase({{editing_phase}});
 	{% endif %}
 
 {% endblock %}
@@ -16,17 +16,33 @@ View & edit phases
 
 	var open_phase;
 
+	function edit_initial_phase(phase_num) {
+
+		open_phase = phase_num;
+
+        $('#view_phase_' + phase_num).hide();
+        $('#edit_phase_' + phase_num).show();
+    }
+
 	function edit_phase(phase_num) {
 
 		cancel_edit();
 
 		open_phase = phase_num;
 
-		$('#view_phase_' + phase_num).slideUp();
-		$('#edit_phase_' + phase_num).slideDown();
+        $('#view_phase_' + phase_num).slideUp();
+        $('#edit_phase_' + phase_num).slideDown();
 	}
 
 	function cancel_edit() {
+
+        {% if editing_phase %}
+            //if we're editing only a single phase, that means we got
+            //there from the phase dashboard and cancelling should
+            //take us back there
+            window.location = "/dashboard/phase/{{editing_phase}}/";
+            return;
+        {% endif %}
 
 		$('#view_phase_' + open_phase).slideDown();
 		$('#edit_phase_' + open_phase).slideUp();
@@ -68,21 +84,28 @@ View & edit phases
 {% endblock %}
 
 
-
 {% block content %}
 
 		{% for phase in phases %}
 
-			{% include 'dashboard/widgets/phase_details.html' %}
+            {% ifequal phase.id editing_phase %}
+                {% include 'dashboard/widgets/phase_details.html' %}
+            {% endifequal %}
+
+
+            {% if not editing_phase %}
+                {% include 'dashboard/widgets/phase_details.html' %}
+            {% endif %}
 
 		{% endfor %}
 
-
-		<div id="view_phase_new" class="view_phase">
-			<button id="add_new_phase_button">
-				Add another phase
-			</button>
-		</div>
+        {% if not editing_phase %}
+            <div id="view_phase_new" class="view_phase">
+                <button id="add_new_phase_button">
+                    Add another phase
+                </button>
+            </div>
+        {% endif %}
 
 		<script>
 			$(function() {
@@ -91,11 +114,13 @@ View & edit phases
 			});
 		</script>
 
-		<div id="edit_phase_new" class="edit_phase hidden">
+        {% if not editing_phase %}
+            <div id="edit_phase_new" class="edit_phase hidden">
 
-			{% include 'dashboard/widgets/phase_new.html' %}
+                {% include 'dashboard/widgets/phase_new.html' %}
 
-		</div>
+            </div>
+        {% endif %}
 
 {% endblock %}
 

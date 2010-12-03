@@ -335,7 +335,7 @@ def edit_phases(request, competition_id):
        return HttpResponseRedirect("/no_permissions/")
 
 
-    editing_phase = request.GET.get("open", None)
+    editing_phase = int(request.GET.get("open", 0))
 
     competition = get_object_or_404(Competition, id=competition_id)
 
@@ -378,7 +378,14 @@ def edit_phases(request, competition_id):
             phase.deadline = datetime(year, month, day, hour, minute)
             phase.save()
                 
-        return HttpResponseRedirect("/dashboard/%s/phases/" % competition_id)
+        if editing_phase:
+            #if editing a single phase, redirect back to that phase page
+            #after saving
+            return HttpResponseRedirect("/dashboard/phase/%s/" % editing_phase)
+        else:
+            #if editing the competition's phases all together, then stay on
+            #the page for further editing & navigation
+            return HttpResponseRedirect("/dashboard/%s/phases/" % competition_id)
 
     phases = Phase.objects.filter(competition__id=competition_id).filter(is_deleted=False)
     for phase in phases:
