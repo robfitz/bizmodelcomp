@@ -6,6 +6,9 @@ urlpatterns = patterns('',
     (r'^setup/(?P<step_num>[0-9]{1,2})/$',
         'dashboard.views.setup'),
 
+    #email applicants that phase is opening. applies only to competition's current phase
+    (r'^announce_applications_open/$', 'dashboard.views.announce_applications_open'),
+
     #edit basic details of existing comp
     (r'edit_comp_details/$', 'dashboard.views.edit_comp_details'),
 

@@ -13,6 +13,39 @@ import smtplib
 
 
 
+@login_required
+def announce_applications_open(request):
+
+    competition = request.user.get_profile().competition()
+    phase = competition.current_phase
+
+    from_email = "competitions@nvana.com"
+
+    subject = "%s - Applications open" % competition.name
+
+    message_template = """Hello __[[team_name]]__,
+
+Applications to __%s__ are now open. You may apply at the following link:
+
+%s
+
+You'll be able to submit and revise your application until the __deadline of %s__. Only one person per team needs to apply. 
+
+Thanks for participating. We look forward to your submissions. Please contact the organizer if you have any questions.
+
+Sincerely,
+
+%s team
+""" % (competition.name, competition.hosted_url, phase.deadline, competition.name)
+
+    recipients = []
+
+    confirm_warning = "Are you sure you want to send this email to <strong>%s recipients</strong> and begin accepting pitches? You won't be able to change the application questions after you do this!" % len(recipients)
+
+    return render_to_response('emailhelper/review_email.html', locals())
+
+    
+
 def create_new_comp_for_user(user):
     key = None
     while True: 
@@ -312,7 +345,12 @@ def edit_application(request, phase_id):
                         
             except: pass
 
+        setup = phase.setup_steps()
+        setup.application_setup = True
+        setup.save()
+
         return HttpResponseRedirect("/dashboard/phase/%s/" % phase_id)
+
     
     #this is pretty hacky, but it lets us include the standard
     #question editing chunk to clone for new entries by mimicking
@@ -333,7 +371,6 @@ def edit_phases(request, competition_id):
 
     if not has_dash_perms(request, competition_id):
        return HttpResponseRedirect("/no_permissions/")
-
 
     editing_phase = int(request.GET.get("open", 0))
 
@@ -379,7 +416,13 @@ def edit_phases(request, competition_id):
             phase.save()
                 
         if editing_phase:
-            #if editing a single phase, redirect back to that phase page
+            #if editing a single phase
+            
+            #then we've accomplished the first todo for that phase! yay!
+            phase.setup_steps().details_confirmed = True
+            phase.setup_steps().save()
+
+            #redirect back to that phase page
             #after saving
             return HttpResponseRedirect("/dashboard/phase/%s/" % editing_phase)
         else:

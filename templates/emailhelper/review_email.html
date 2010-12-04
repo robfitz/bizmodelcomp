@@ -1,0 +1,62 @@
+{% extends 'dashboard/base.html' %}
+
+{% block ready_script %}
+
+    //since we're sending out emails to lots of people, make sure they
+    //click something to show they understand what is happening and
+    //actually want to go ahead with it.
+    $("#confirm").click( function() {
+        if ( $(this).is(":checked") ) {
+            $("#submit").button("enable");
+        }
+        else {
+            $("#submit").button("disable")
+        }
+    });
+{% endblock %}
+
+{% block content %}
+
+    {% load markup %}
+
+    <form action="" method="POST">
+
+        <!--
+        <input name="subject" value="{{subject}}" class="hidden" />
+
+        <textarea class="hidden" name="message_template">{{message_template}}</textarea>
+        -->
+        
+        <p>
+            <strong>Subject</strong> {{ subject }}
+            <br/>
+            <strong>From</strong> {{ from_email }}
+        </p>
+
+        <p>
+            <strong>To</strong>
+            {% for recipient in recipients %}
+                <span style="margin-right:12px;">{{recipient}}</span>
+            {% endfor %}
+        </p>
+
+        <p>
+            <strong>Message</strong>
+            <br/>
+            {{ message_template|markdown }}
+        </p>
+
+        <p>
+            <a href="javascript:void(0);" onclick="preview_emails()">Preview emails</a>
+        </p>
+
+        <input type="checkbox" id="confirm"/>
+        <label for="confirm">{{ confirm_warning|safe }}</label>
+
+        <br/>
+
+        <input id="submit" type="submit" disabled="disabled" class="button" value="Send emails and accept pitches">
+
+    </form>
+
+{% endblock %}
