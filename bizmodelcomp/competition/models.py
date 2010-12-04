@@ -8,7 +8,7 @@ import sys
 import time
 
 from settings import MEDIA_URL
-from utils.util import rand_key, ordinal
+from utils.util import *
 from judge.models import *
 
 from django.forms import ModelForm

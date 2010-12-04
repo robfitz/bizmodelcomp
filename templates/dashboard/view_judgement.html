@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'dashboard/base.html' %}
 
 {% block content %}
 
@@ -6,7 +6,7 @@
 
 	<div style="float:left;width:100%;margin-bottom:40px;">
 		<p>
-			<strong>Judge:</strong> {{ judged_pitch.judge.user.email }}
+			<strong>Judge:</strong> {{ judged_pitch.judge.email }}
 			<br/>
 			<strong>Total score:</strong> {{ judged_pitch.score }}
 		</p>

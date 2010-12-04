@@ -42,6 +42,16 @@ Sincerely,
 
     confirm_warning = "Are you sure you want to send this email to <strong>%s recipients</strong> and begin accepting pitches? You won't be able to change the application questions after you do this!" % len(recipients)
 
+    messages = []
+    for i in range(0, len(recipients) - 1):
+
+        #TODO: use string.parse(format_string) instead of this manual replacing
+        message = {}
+        message.to_email = recipients[i]
+        message.body = message_template.replace(message_template, "[[team_name]]", "[[TODO]]")
+
+        messages.append(message)
+
     return render_to_response('emailhelper/review_email.html', locals())
 
     
@@ -539,8 +549,10 @@ def view_judgement(request, judgement_id):
         try:
             question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
             try:
+
                 question.judged_answer = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer)
             except:
+                print 'Couldnt find judged_answer score because: %s' % sys.exc_info()[0]
                 question.judged_answer = None
         except:
             question.answer = None
@@ -662,7 +674,7 @@ def dashboard(request, phase_id=None):
 
     else:
     
-        competition = competitions[0]
+        competition = request.user.get_profile().competition()
 
         organizer_judge = None
 

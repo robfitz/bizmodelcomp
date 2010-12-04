@@ -1,5 +1,15 @@
 {% extends 'dashboard/base.html' %}
 
+{% block script %}
+
+function preview_emails() {
+
+    $("#dialog").jqmShow();
+
+}
+
+{% endblock %}
+
 {% block ready_script %}
 
     //since we're sending out emails to lots of people, make sure they
@@ -14,6 +24,29 @@
         }
     });
 {% endblock %}
+
+{% block jqmWindow %}
+
+    {% load markup %}
+
+    <div id="dialogHeader">
+        <div style="float:left">Review emails before sending them</div>
+        <div style="float:right">
+            <a href="javascript:void(0);" onclick="$('#dialog').jqmHide();" class="button">Close popup</a>
+        </div>
+    </div>
+    <div id="jqmContent">
+        {% for message in messages %}
+
+            <strong>To:</strong> {{ message.to_email }}
+            <br/>
+            {{ message.body|markdown }}
+
+            <hr>
+
+        {% endfor %}
+    </div>
+{% endblock %} 
 
 {% block content %}
 
