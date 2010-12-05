@@ -94,6 +94,21 @@ Sincerely,
 
     return render_to_response('emailhelper/review_email.html', locals())
 
+
+
+@login_required
+def set_current_phase(request, phase_id):
+
+    phase = get_object_or_404(Phase, id=phase_id)
+
+    if phase.competition.owner != request.user:
+        return HttpResponseRedirect('/dashboard/')
+
+    phase.competition.current_phase = phase
+    phase.competition.save()
+
+    return HttpResponseRedirect('/dashboard/phase/%s' % phase_id)
+
     
 
 def create_new_comp_for_user(user):

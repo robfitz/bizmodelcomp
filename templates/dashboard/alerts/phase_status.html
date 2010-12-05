@@ -11,7 +11,7 @@
 
         {% else %}
 
-            Just a reminder:
+           Hello: 
 
         {% endifequal %}
 
@@ -25,10 +25,15 @@
         {% else %}
 
             {% if competition.current_phase %}
-                This phase isn't currently active. You may <a href="/dashboard/phase/{{competition.current_phase.id}}/">return to the current phase</a> to manage what's currently happening with your competition.
-            {% else %}
-                Error: No active phase :(
+                <p>
+                    This phase isn't currently active. You may <a href="/dashboard/phase/{{competition.current_phase.id}}/">return to the current phase</a> to manage what's currently happening with your competition.
+                </p>
             {% endif %}
+            <p>
+                If you're ready, you can make this the active phase.
+                <br/>
+                <a href="/dashboard/phase/{{phase.id}}/set_current/" class="button">Activate this phase</a>
+            </p>
 
         {% endifequal %}
 
