@@ -20,6 +20,7 @@ from emailhelper import SmtpApiHeader
 #                                 '-team-': ['the cats', 'the dogs', 'the bogs'] }
 def send_bulk_email(bulk_email, fromEmail="competitions@nvana.com", log=True):
 
+    print 'Sending bulk email to %s recipients' % len(bulk_email.recipient_founders.split(';'))
     toEmail = "irrelevant@example.com"
 
     hdr = SmtpApiHeader.SmtpApiHeader()
@@ -55,17 +56,19 @@ def send_bulk_email(bulk_email, fromEmail="competitions@nvana.com", log=True):
     username = EMAIL_USER
     password = EMAIL_PASSWORD
 
-    # Open a connection to the SendGrid mail server
-    s = smtplib.SMTP('smtp.sendgrid.net')
-     
-    # Authenticate
-    s.login(username, password)
-     
-    # sendmail function takes 3 arguments: sender's address, recipient's address
-    # and message to send - here it is sent as one string.
-    s.sendmail(fromEmail, toEmail, msg.as_string())
-     
-    s.quit()
+    if not is_local and not DISABLE_ALL_EMAIL:
+
+        # Open a connection to the SendGrid mail server
+        s = smtplib.SMTP('smtp.sendgrid.net')
+         
+        # Authenticate
+        s.login(username, password)
+         
+        # sendmail function takes 3 arguments: sender's address, recipient's address
+        # and message to send - here it is sent as one string.
+        s.sendmail(fromEmail, toEmail, msg.as_string())
+         
+        s.quit()
 
 
 def send_email(subject, message_markdown, to_email, from_email=None, log=True):

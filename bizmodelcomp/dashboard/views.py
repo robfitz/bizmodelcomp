@@ -7,6 +7,9 @@ from judge.models import *
 from dashboard.forms import *
 from dashboard.util import *
 from userhelper.models import UserProfile
+from emailhelper.models import Bulk_email
+from emailhelper.util import send_bulk_email
+
 import charts.util as chart_util
 from datetime import datetime
 import time
@@ -68,16 +71,21 @@ Sincerely,
                     phase=phase,
                     tag="applications open",
                     message_markdown=message_template,
-                    recipient_founders = recipients.join(';'),
-                    sent_on_date=datetime.now())
+                    recipient_founders = ';'.join(recipients))
            
             email.save()
-
+            
             send_bulk_email(email)
+            
+            email.sent_on_date = datetime.now()
+            email.save()
 
             #mark the step as ticked off
-            phase.setup_steps.announced_applications = True
-            phase.setup_steps.save()
+            print 'setting announced_applications for phase %s' % phase.id
+            setup_steps = phase.setup_steps()
+            setup_steps.announced_applications = True
+            setup_steps.save()
+            print 'saved announed_applications: %s' % phase.setup_steps().announced_applications
 
             #redirect-o
             return HttpResponseRedirect("/dashboard/phase/%s/" % phase.id)
