@@ -107,6 +107,7 @@ def create_dummy_competition(user):
         if judge_1 != judge_2:
             judged_2 = JudgedPitch(pitch=pitch,
                     judge=judge_2)
+            judged_2.save()
              
         #answers
         for q in competition.current_phase.questions():
