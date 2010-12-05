@@ -4,6 +4,14 @@
 <link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
 {% endblock %}
 
+{% block logo %}
+    {% if competition.logo %}
+        {{ block.super }}
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
+
 {% block header_title %}
 
 	{% if phase %}

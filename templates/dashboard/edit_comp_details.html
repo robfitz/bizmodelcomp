@@ -10,7 +10,7 @@
 
 {% block content %}
 
-    <form action="." method="POST">
+    <form action="." method="POST" enctype="multipart/form-data">
         {{ form.as_p }}
         <input type="submit" value="Save and Continue" class="button" />
     </form>

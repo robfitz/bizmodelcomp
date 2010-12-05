@@ -61,14 +61,12 @@ function set_click_handlers() {
 
 function addUpload() {
 
-/*	
 	var num = 'nu' + $("#uploads").children().length;
 
-	var new_upload = "<p>Upload prompt:<textarea id='upload_prompt_"+num+"' name='upload_prompt_"+num+"' class='upload_prompt_field' rows='3'></textarea></p>";
+	var new_upload = "<p>Upload prompt:<textarea id='old_upload_prompt_new'+num+' name='old_upload_prompt_new_"+num+" class='upload_prompt_field' rows='3'></textarea></p>";
 
 	$("#uploads").append(new_upload);
 	$('#upload_prompt_' + num).focus();
-*/
 
 }
 

@@ -23,22 +23,25 @@ def announce_applications_open(request):
 
     subject = "%s - Applications open" % competition.name
 
-    message_template = """Hello __[[team_name]]__,
+    message_template = """Hello,
 
 Applications to __%s__ are now open. You may apply at the following link:
 
-%s
+http://www.nvana.com/%s/
 
-You'll be able to submit and revise your application until the __deadline of %s__. Only one person per team needs to apply. 
+You'll be able to submit and revise your application until __%s__. Only one person per team needs to submit an application. 
 
 Thanks for participating. We look forward to your submissions. Please contact the organizer if you have any questions.
 
 Sincerely,
 
 %s team
-""" % (competition.name, competition.hosted_url, phase.deadline, competition.name)
+""" % (competition.name, competition.hosted_url, phase.deadline.strftime("%A, %B %d, %H:%M %p"), competition.name)
 
     recipients = []
+    for founder in phase.applicants():
+        if founder.email:
+            recipients.append(founder.email)
 
     confirm_warning = "Are you sure you want to send this email to <strong>%s recipients</strong> and begin accepting pitches? You won't be able to change the application questions after you do this!" % len(recipients)
 
@@ -47,8 +50,9 @@ Sincerely,
 
         #TODO: use string.parse(format_string) instead of this manual replacing
         message = {}
-        message.to_email = recipients[i]
-        message.body = message_template.replace(message_template, "[[team_name]]", "[[TODO]]")
+        message["to_email"] = recipients[i]
+        message["body"] = message_template
+        #message.body = message_template.replace(message_template, "[[team_name]]", "[[TODO]]")
 
         messages.append(message)
 
@@ -92,7 +96,7 @@ def edit_comp_details(request):
 
     if request.method == "POST":
         #create model form from POST data
-        form = CompetitionInfoForm(request.POST, instance=competition)
+        form = CompetitionInfoForm(request.POST, request.FILES, instance=competition)
 
         try:
             form.save()

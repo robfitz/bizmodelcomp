@@ -30,12 +30,12 @@ function preview_emails() {
     {% load markup %}
 
     <div id="dialogHeader">
-        <div style="float:left">Review emails before sending them</div>
-        <div style="float:right">
+        <div style="float:left"><h3>Review emails before sending them</h3></div>
+        <div style="float:right;margin-right:16px;">
             <a href="javascript:void(0);" onclick="$('#dialog').jqmHide();" class="button">Close popup</a>
         </div>
     </div>
-    <div id="jqmContent">
+    <div id="jqmContent" style="overflow-x:hidden;overflow-y:auto;">
         {% for message in messages %}
 
             <strong>To:</strong> {{ message.to_email }}

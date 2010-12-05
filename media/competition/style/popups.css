@@ -30,6 +30,7 @@
 #dialogHeader {
 	width:700px;
 	padding:8px;
+    min-height:40px;
 }
 
 .jqmOverlay { background-color: #000; }

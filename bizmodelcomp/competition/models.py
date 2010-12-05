@@ -93,11 +93,15 @@ class Competition(models.Model):
     owner = models.ForeignKey(User) #single owner who can delete it
     applicants = models.ManyToManyField(Founder, related_name="competitions", blank=True, null=True) #info about peeps entered in contest
 
+    current_phase = models.OneToOneField("competition.Phase", blank=True, null=True, related_name="competition_unused")
+
+    #branding
+    logo = models.FileField(null=True, blank=True, upload_to="uploads/logos/")
+
+    #more branding, only used for totally custom whitelabelling
     template_base = models.CharField(max_length=200, default="base.html")
     template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
-
-    current_phase = models.OneToOneField("competition.Phase", blank=True, null=True, related_name="competition_unused")
 
 
     def phases(self):
@@ -397,6 +401,11 @@ class Phase(models.Model):
 
         return self.pitchquestion_set.all()
     
+    
+    #TODO: make this better (currently everyone is in every phase)
+    def applicants(self):
+
+        return self.competition.applicants.all()
 
     def __unicode__(self):
 

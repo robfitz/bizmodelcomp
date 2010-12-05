@@ -11,7 +11,8 @@ class CompetitionInfoForm(ModelForm):
         model = Competition
         fields = ("name",
                 "website",
-                "hosted_url")
+                "hosted_url",
+                "logo")
 
 #for editing the details of a phase from the dashboard
 class PhaseForm(ModelForm):

@@ -56,8 +56,10 @@ EMAIL_USER = "robftz+nvana@gmail.com"
 EMAIL_PASSWORD = "It's spam time!"
 EMAIL_DEFAULT_FROM = "london.e.challenge@gmail.com"
 EMAIL_LOG = '/var/www/bizmodelcomp/logs/email.log'
-if is_local:
+if filesystem == "WINDOWS":
     EMAIL_LOG = 'c:/www/bizmodelcomp/logs/email.log'
+elif filesystem == "MAC":
+    EMAIL_LOG = "/Users/%s/www/bizmodelcomp/logs/email.log" % os.getlogin()
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -84,7 +86,7 @@ MEDIA_ROOT = '/var/www/bizmodelcomp/media/'
 if filesystem == "WINDOWS":
     MEDIA_ROOT = 'c:/www/bizmodelcomp/media/'
 elif filesystem == "MAC":
-    MEDIA_ROOT = 'Users/%s/www/bizmodelcomp/media/' % os.getlogin()
+    MEDIA_ROOT = '../media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
