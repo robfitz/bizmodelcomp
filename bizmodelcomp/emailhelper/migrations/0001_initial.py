@@ -16,7 +16,9 @@ class Migration(SchemaMigration):
             ('tag', self.gf('django.db.models.fields.CharField')(max_length=140, null=True, blank=True)),
             ('subject', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('message_markdown', self.gf('django.db.models.fields.CharField')(max_length=5000)),
-            ('timestamp', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
+            ('dummy', self.gf('django.db.models.fields.CharField')(default='', max_length=1)),
+            ('recipient_founders', self.gf('django.db.models.fields.CharField')(default='', max_length=1000000, null=True, blank=True)),
+            ('sent_on_date', self.gf('django.db.models.fields.DateTimeField')(default=None, null=True, blank=True)),
         ))
         db.send_create_signal('emailhelper', ['Bulk_email'])
 
@@ -34,8 +36,6 @@ class Migration(SchemaMigration):
             ('order', self.gf('django.db.models.fields.IntegerField')()),
             ('sub_val', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['emailhelper.Sub_val'])),
             ('val', self.gf('django.db.models.fields.CharField')(max_length=500)),
-            ('recipient_founders', self.gf('django.db.models.fields.CharField')(max_length=1000000)),
-            ('sent_on_date', self.gf('django.db.models.fields.DateTimeField')(default=None, null=True, blank=True)),
         ))
         db.send_create_signal('emailhelper', ['Val'])
 
@@ -109,7 +109,7 @@ class Migration(SchemaMigration):
         'competition.phase': {
             'Meta': {'object_name': 'Phase'},
             'competition': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'all_phases'", 'to': "orm['competition.Competition']"}),
-            'deadline': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2010, 12, 5, 20, 2, 38, 920407)'}),
+            'deadline': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2010, 12, 5, 21, 6, 33, 134920)'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_judging_enabled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -127,12 +127,14 @@ class Migration(SchemaMigration):
         'emailhelper.bulk_email': {
             'Meta': {'object_name': 'Bulk_email'},
             'competition': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['competition.Competition']"}),
+            'dummy': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '1'}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'message_markdown': ('django.db.models.fields.CharField', [], {'max_length': '5000'}),
             'phase': ('django.db.models.fields.related.ForeignKey', [], {'default': 'None', 'to': "orm['competition.Phase']", 'null': 'True', 'blank': 'True'}),
+            'recipient_founders': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '1000000', 'null': 'True', 'blank': 'True'}),
+            'sent_on_date': ('django.db.models.fields.DateTimeField', [], {'default': 'None', 'null': 'True', 'blank': 'True'}),
             'subject': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'tag': ('django.db.models.fields.CharField', [], {'max_length': '140', 'null': 'True', 'blank': 'True'}),
-            'timestamp': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'})
+            'tag': ('django.db.models.fields.CharField', [], {'max_length': '140', 'null': 'True', 'blank': 'True'})
         },
         'emailhelper.sub_val': {
             'Meta': {'object_name': 'Sub_val'},
@@ -144,8 +146,6 @@ class Migration(SchemaMigration):
             'Meta': {'ordering': "['order']", 'object_name': 'Val'},
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'order': ('django.db.models.fields.IntegerField', [], {}),
-            'recipient_founders': ('django.db.models.fields.CharField', [], {'max_length': '1000000'}),
-            'sent_on_date': ('django.db.models.fields.DateTimeField', [], {'default': 'None', 'null': 'True', 'blank': 'True'}),
             'sub_val': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['emailhelper.Sub_val']"}),
             'val': ('django.db.models.fields.CharField', [], {'max_length': '500'})
         }

@@ -6,6 +6,10 @@ from competition.models import *
 from judge.models import *
 from dashboard.forms import *
 from dashboard.util import *
+from userhelper.models import UserProfile
+from emailhelper.models import Bulk_email
+from emailhelper.util import send_bulk_email
+
 import charts.util as chart_util
 from datetime import datetime
 import time
@@ -56,11 +60,59 @@ Sincerely,
 
         messages.append(message)
 
+
+    #POST means they have confirmed their email and are ready to send it out
+    if request.method == "POST":
+
+        if request.POST.get("confirm"):
+
+            #they've confirmed that they're really truly ready to send this email
+            email = Bulk_email(competition=competition,
+                    phase=phase,
+                    tag="applications open",
+                    message_markdown=message_template,
+                    recipient_founders = ';'.join(recipients))
+           
+            email.save()
+            
+            send_bulk_email(email)
+            
+            email.sent_on_date = datetime.now()
+            email.save()
+
+            #mark the step as ticked off
+            print 'setting announced_applications for phase %s' % phase.id
+            setup_steps = phase.setup_steps()
+            setup_steps.announced_applications = True
+            setup_steps.save()
+            print 'saved announed_applications: %s' % phase.setup_steps().announced_applications
+
+            #redirect-o
+            return HttpResponseRedirect("/dashboard/phase/%s/" % phase.id)
+
+
+
     return render_to_response('emailhelper/review_email.html', locals())
+
+
+
+@login_required
+def set_current_phase(request, phase_id):
+
+    phase = get_object_or_404(Phase, id=phase_id)
+
+    if phase.competition.owner != request.user:
+        return HttpResponseRedirect('/dashboard/')
+
+    phase.competition.current_phase = phase
+    phase.competition.save()
+
+    return HttpResponseRedirect('/dashboard/phase/%s' % phase_id)
 
     
 
 def create_new_comp_for_user(user):
+
     key = None
     while True: 
         #find a unique url for the competition
@@ -662,6 +714,13 @@ def list_pitches(request, competition_id, phase_id, judge_id=None):
 #view & manage your competitions
 @login_required
 def dashboard(request, phase_id=None):
+
+    try:
+        request.user.get_profile()
+    except:
+        #catch old users and give them a profile
+        profile = UserProfile(user=request.user)
+        profile.save()
 
     #find if user is the organizer for.. something
     competitions = Competition.objects.filter(owner = request.user)

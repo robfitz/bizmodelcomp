@@ -4,32 +4,41 @@
     Bulk emails
 {% endblock %}
 
+{% block style %}
+    tr td {
+        padding-right:16px;
+    }
+{% endblock %}
+
 {% block section_content %}
 
-    <table>
-        <tr>
-            <td>Sent on</td>
-            <td>Subject</td>
-            <td>Num recipients</td>
-            <td>Phase</td>
-        </tr>
-        {% for email in emails %}
+    {% if emails %}
+        <table>
             <tr>
-                {% if email.sent_on_date %}
-                <td>{{ email.sent_on_date }}</td>
-                {% else %}
-                <td>Not sent</td>
-                {% endif %}
-                <td>{{ email.subject }}</td>
-                <td>{{ email.recipients.count }}</td>
-                {% if email.phase %}
-                <td>{{ email.phase }}</td>
-                {% else %}
-                <td>---</td>
-                {% endif %}
+                <td>Sent on</td>
+                <td>Subject</td>
+                <td>Num recipients</td>
+                <td>Phase</td>
             </tr>
-        {% endfor %}
-    </table>
-
+            {% for email in emails %}
+                <tr>
+                    {% if email.sent_on_date %}
+                    <td>{{ email.sent_on_date }}</td>
+                    {% else %}
+                    <td>Not sent</td>
+                    {% endif %}
+                    <td>{{ email.subject }}</td>
+                    <td>{{ email.recipients.count }}</td>
+                    {% if email.phase %}
+                    <td>{{ email.phase }}</td>
+                    {% else %}
+                    <td>---</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        No emails sent yet.
+    {% endif %}
                 
 {% endblock %}
