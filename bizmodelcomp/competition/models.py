@@ -606,6 +606,14 @@ class PitchFile(models.Model):
     file_location = models.CharField(max_length=500) #absolute path of location on server file was uploaded to
 
 
+    def scribd(self):
+
+        try:
+            return self.scribd_file_data
+        except:
+            return None
+
+
     def url(self):
 
         return "%suploads/%s" % (MEDIA_URL, self.filename)
@@ -614,7 +622,20 @@ class PitchFile(models.Model):
         
         return str(self.filename.split('/')[-1])
 
+
+
+#some extra metadata for embedding uploaded docs as Scribd objects
+class ScribdFileData(models.Model):
+
+    #PitchFile we have an embed for
+    pitch_file = models.OneToOneField(PitchFile, related_name="scribd_file_data")
+
+    #scribd stuff, sent in the response when we upload
+    doc_id = models.CharField(max_length=100)
+    access_key = models.CharField(max_length=100)
+    secret_password = models.CharField(max_length=100)
     
+
 
 #an arbitrary, user-definable question for requesting non-standard information
 #about a founder in the application

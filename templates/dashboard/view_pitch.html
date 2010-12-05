@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block meta %}
+<script language="javascript" type="text/javascript" src="http://www.scribd.com/javascripts/view.js"></script>
+{% endblock %}
+
 {% block header_title %}
 View pitch
 {% endblock %}
@@ -18,13 +22,27 @@ View pitch
 
 		<strong class="prompt">{{upload.prompt}}</strong>
 		<br/>
-		<a href="{{upload.file.url}}">{{ upload.file }}</a>
+        {% if upload.file.scribd %}
+            <div id="scribd_{{upload.id}}"></div>
+        {% else %}
+            <a href="{{upload.file.url}}">{{ upload.file }}</a>
+        {% endif %}
 		<p>
 		</p>
 		<p>
 		</p>
 
 	{% endfor %}
+
+    <script language="javascript" type="text/javascript">
+        {% for upload in uploads %}
+            {% if upload.file.scribd %}
+                var scribd_doc = scribd.Document.getDoc({{ upload.file.scribd.doc_id }}, "{{ upload.file.scribd.access_key }}");
+                scribd_doc.addParam( 'jsapi_version', 1 );
+                scribd_doc.write( 'scribd_{{ upload.id }}' );
+            {% endif %}
+        {% endfor %}
+    </script>
 
 	{% for question in questions %}
 

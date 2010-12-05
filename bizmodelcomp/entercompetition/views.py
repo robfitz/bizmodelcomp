@@ -18,6 +18,7 @@ from settings import SCRIBD_UPLOAD_URL
 from poster.encode import multipart_encode
 from poster.streaminghttp import register_openers
 import urllib2
+from xml.dom import minidom
 
 
 
@@ -421,13 +422,34 @@ def handle_uploaded_file(request, f, upload, pitch):
     #send file to scribd for display
     register_openers()
 
-    print "UPLOAD URL: %s" % pitch_file.file_location
     datagen, headers = multipart_encode({"file": open(pitch_file.file_location, "rb")})
     request = urllib2.Request(SCRIBD_UPLOAD_URL, datagen, headers)
 
-    print "UPLOAD REQUEST RESPONSE: %s" % urllib2.urlopen(request).read()
+    #xml with <doc_id>, <access_key>, and <secret_password>
+    scribd_response = urllib2.urlopen(request).read()
+    xml = minidom.parseString(scribd_response)
+    try:
+        doc_id = xml.getElementsByTagName("doc_id")[0].firstChild.data
+        access_key = xml.getElementsByTagName("access_key")[0].firstChild.data
+        secret_password = xml.getElementsByTagName("secret_password")[0].firstChild.data
 
+        scribd_file_data = None
+        try:
+            scribd_file_data = ScribdFileData.objects.get(pitch_file=pitch_file)
+            scribd_file_data.doc_id = doc_id
+            scribd_file_data.access_key = access_key
+            scribd_file_data.secret_password = secret_password
+        except:
+            scribd_file_data = ScribdFileData(pitch_file=pitch_file,
+                    doc_id=doc_id,
+                    access_key=access_key,
+                    secret_password=secret_password)
 
+        scribd_file_data.save()
+        
+    except:
+        #no scribd file basically means it was a non-doc (image etc)
+        pass
 
 #a hosted microsite to accept contest applications
 def applicationMicrosite(request, competition_url):
@@ -442,7 +464,8 @@ def applicationMicrosite(request, competition_url):
 
 #creates some slightly customized javascript to load the appropriate
 #contest widget into the admin's page
-def applicationWidget(request, competition_url):
+def applicationWidget(request, competition_url): 
+    
     callback_function = "bmc_callback"
 
     form = """\
