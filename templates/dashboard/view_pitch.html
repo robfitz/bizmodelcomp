@@ -24,9 +24,11 @@ View pitch
 		<br/>
         {% if upload.file.scribd %}
             <div id="scribd_{{upload.id}}"></div>
+        {% else %}{% if upload.file.is_image %}
+            <img src="{{upload.file.url}}" />
         {% else %}
             <a href="{{upload.file.url}}">{{ upload.file }}</a>
-        {% endif %}
+        {% endif %}{% endif %}
 		<p>
 		</p>
 		<p>

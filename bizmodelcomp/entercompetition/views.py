@@ -427,6 +427,7 @@ def handle_uploaded_file(request, f, upload, pitch):
 
     #xml with <doc_id>, <access_key>, and <secret_password>
     scribd_response = urllib2.urlopen(request).read()
+    print 'Scribd response: %s' % scribd_response
     xml = minidom.parseString(scribd_response)
     try:
         doc_id = xml.getElementsByTagName("doc_id")[0].firstChild.data
@@ -449,7 +450,14 @@ def handle_uploaded_file(request, f, upload, pitch):
         
     except:
         #no scribd file basically means it was a non-doc (image etc)
-        pass
+        print 'Scribd exception: %s' % sys.exc_info()[0]
+        try:
+            #we might have an old upload that _did_ use scribd for this upload, 
+            #in which case we scrap it
+            scribd_file_data = ScribdFileData.objects.get(pitch_file=pitch_file)
+            scribd_file_data.delete()
+        except:
+            pass
 
 #a hosted microsite to accept contest applications
 def applicationMicrosite(request, competition_url):

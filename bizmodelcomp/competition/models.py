@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from datetime import datetime
 from itertools import chain
 
+import string
 import array
 import sys
 import time
@@ -604,6 +605,15 @@ class PitchFile(models.Model):
     
     filename = models.CharField(max_length=200) #/random_string/uploaded_file_name.ext
     file_location = models.CharField(max_length=500) #absolute path of location on server file was uploaded to
+
+
+    def is_image(self):
+
+        extension = self.filename.split('.')[-1]
+        print 'extension: %s' % extension
+        images = ['jpg', 'jpeg', 'png', 'gif', 'bmp']
+
+        return string.lower(extension) in images
 
 
     def scribd(self):
