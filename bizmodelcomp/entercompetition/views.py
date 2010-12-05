@@ -1,16 +1,23 @@
-from bizmodelcomp.competition.models import *
 from django.shortcuts import render_to_response
 from django.template import loader, Context
 from django.http import HttpResponse, HttpResponseRedirect
 
-from random import choice
-import string
+#saving file uploads
+from utils.util import rand_key
 import os
 
-from bizmodelcomp.settings import MEDIA_ROOT
+from settings import MEDIA_ROOT
+
+from competition.models import *
 from sitecopy.models import SiteCopy
 from sitecopy.util import get_custom_copy
 from emailhelper.util import send_email
+
+#file uploads to scribd
+from settings import SCRIBD_UPLOAD_URL
+from poster.encode import multipart_encode
+from poster.streaminghttp import register_openers
+import urllib2
 
 
 
@@ -299,9 +306,6 @@ Good luck!"""
             upload = PitchUpload.objects.get(pk=upload_pk)
             handle_uploaded_file(request, request.FILES[file], upload, pitch)
 
-
-    
-
     if is_first_pitch:
         #show 1st time sweet success message
         copy = get_custom_copy('thanks for applying', competition)
@@ -351,15 +355,12 @@ def edit_pitch(request, competition_url, phase_id=None):
     uploads = phase.uploads()
     
     for question in questions:
-        print 'question: %s' % question
         #render existing answers
         try:
             question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-            print 'answer: %s' % question.answer
             
         except:
             question.answer = ""
-            print 'exception'
             
     for upload in uploads:
         #render existing uploads
@@ -380,7 +381,7 @@ def handle_uploaded_file(request, f, upload, pitch):
     file_name = ""
     
     #add to a random directory to avoid collisions
-    rand_folder = ''.join([choice(string.letters+string.digits) for i in range(20)])
+    rand_folder = rand_key(20)
     upload_path = "%s%s/" % (upload_path, rand_folder)
     download_path = "%s/" % rand_folder
 
@@ -416,7 +417,16 @@ def handle_uploaded_file(request, f, upload, pitch):
                                filename=file_name,
                                pitch=pitch)
     pitch_file.save()
-    
+
+    #send file to scribd for display
+    register_openers()
+
+    print "UPLOAD URL: %s" % pitch_file.file_location
+    datagen, headers = multipart_encode({"file": open(pitch_file.file_location, "rb")})
+    request = urllib2.Request(SCRIBD_UPLOAD_URL, datagen, headers)
+
+    print "UPLOAD REQUEST RESPONSE: %s" % urllib2.urlopen(request).read()
+
 
 
 #a hosted microsite to accept contest applications
