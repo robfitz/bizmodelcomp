@@ -1,29 +1,37 @@
 from django.db import models
-from competition.models import Founder
+from competition.models import *
 
 
 
 #
 class Bulk_email(models.Model):
 
+    #which competition this email was sent with regards to
+    competition = models.ForeignKey(Competition)
+
+    #if it refers to a specific phase (eg applications are open) then
+    #this value is set. if it's generic for a competition (eg thanks
+    #for applying) then this is null
+    phase = models.ForeignKey(Phase, default=None, blank=True, null=True)
+
+    #if this is the sort of email we only want to send once per comp/phase
+    #pair, we can set a tag and reject identically tagged future mail
+    tag = models.CharField(max_length=140, blank=True, null=True)
+
     subject = models.CharField(max_length=200)
 
     message_markdown = models.CharField(max_length=5000)
 
     #semicolon delimited list
-    recipient_founders = models.CharField(max_length=10000)
+    #TODO: there's probably a more efficient option than making this
+    #a million characters long (4MB per object)
+    recipient_founders = models.CharField(max_length=1000000)
 
     #if None, then this message hasn't been sent yet
     sent_on_date = models.DateTimeField(default=None, blank=True, null=True)
 
 
     def recipients(self):
-
-##        recipient_emails = []
-##
-##        for recipient in self.recipient_founders.all():
-##
-##            recipient_emails.push(recipient.email)
 
         recipient_emails = self.recipient_founders.split(';')
 
