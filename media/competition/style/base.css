@@ -173,6 +173,10 @@ strong {
     color: #3062C4;
 }
 
+.silver {
+	color: #A9A9A9;
+}
+
 /***** horizontal rule ********/
 
 .funk {
@@ -209,7 +213,6 @@ li {
 }
 
 .prompt, .input_prompt {
-	font-size: 12px;
 	float: left;
 	clear:both;
 }
