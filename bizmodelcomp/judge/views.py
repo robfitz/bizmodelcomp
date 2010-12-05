@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
 from userhelper.util import got_ev_key
+from userhelper.models import UserProfile
 from judge.models import *
 from judge.util import get_next_pitch_to_judge
 from competition.models import *
@@ -108,6 +109,13 @@ def dashboard(request):
 #or start having applications thrown at you to judge
 @login_required
 def judging(request, judgedpitch_id=None):
+
+    try:
+        request.user.get_profile()
+    except:
+        #ensure old users have a profile
+        profile = UserProfile(user=request.user)
+        profile.save()
 
     #if we're requesting a specific pitch, only allow it for
     #either the organizer or the person who did the judging

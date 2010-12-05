@@ -6,6 +6,7 @@ from competition.models import *
 from judge.models import *
 from dashboard.forms import *
 from dashboard.util import *
+from userhelper.models import UserProfile
 import charts.util as chart_util
 from datetime import datetime
 import time
@@ -56,11 +57,39 @@ Sincerely,
 
         messages.append(message)
 
+
+    #POST means they have confirmed their email and are ready to send it out
+    if request.method == "POST":
+
+        if request.POST.get("confirm"):
+
+            #they've confirmed that they're really truly ready to send this email
+            email = Bulk_email(competition=competition,
+                    phase=phase,
+                    tag="applications open",
+                    message_markdown=message_template,
+                    recipient_founders = recipients.join(';'),
+                    sent_on_date=datetime.now())
+           
+            email.save()
+
+            send_bulk_email(email)
+
+            #mark the step as ticked off
+            phase.setup_steps.announced_applications = True
+            phase.setup_steps.save()
+
+            #redirect-o
+            return HttpResponseRedirect("/dashboard/phase/%s/" % phase.id)
+
+
+
     return render_to_response('emailhelper/review_email.html', locals())
 
     
 
 def create_new_comp_for_user(user):
+
     key = None
     while True: 
         #find a unique url for the competition
@@ -662,6 +691,13 @@ def list_pitches(request, competition_id, phase_id, judge_id=None):
 #view & manage your competitions
 @login_required
 def dashboard(request, phase_id=None):
+
+    try:
+        request.user.get_profile()
+    except:
+        #catch old users and give them a profile
+        profile = UserProfile(user=request.user)
+        profile.save()
 
     #find if user is the organizer for.. something
     competitions = Competition.objects.filter(owner = request.user)

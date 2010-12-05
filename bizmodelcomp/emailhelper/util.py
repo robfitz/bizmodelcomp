@@ -18,7 +18,7 @@ from emailhelper import SmtpApiHeader
 #recipients is a list [email1, email2, email3]
 #substitutions is dict of lists { '-name-': ['rob', 'tom', 'joe'],
 #                                 '-team-': ['the cats', 'the dogs', 'the bogs'] }
-def send_bulk_email(bulk_email, fromEmail=None, log=True):
+def send_bulk_email(bulk_email, fromEmail="competitions@nvana.com", log=True):
 
     toEmail = "irrelevant@example.com"
 
