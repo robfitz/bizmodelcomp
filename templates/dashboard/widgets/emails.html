@@ -1,0 +1,35 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_title %}
+    Bulk emails
+{% endblock %}
+
+{% block section_content %}
+
+    <table>
+        <tr>
+            <td>Sent on</td>
+            <td>Subject</td>
+            <td>Num recipients</td>
+            <td>Phase</td>
+        </tr>
+        {% for email in emails %}
+            <tr>
+                {% if email.sent_on_date %}
+                <td>{{ email.sent_on_date }}</td>
+                {% else %}
+                <td>Not sent</td>
+                {% endif %}
+                <td>{{ email.subject }}</td>
+                <td>{{ email.recipients.count }}</td>
+                {% if email.phase %}
+                <td>{{ email.phase }}</td>
+                {% else %}
+                <td>---</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </table>
+
+                
+{% endblock %}
