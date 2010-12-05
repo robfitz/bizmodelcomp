@@ -105,6 +105,14 @@ class Competition(models.Model):
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
 
+    def logo_url(self):
+
+        if self.logo:
+            return "%s%s" % (MEDIA_URL, self.logo) 
+        else:
+            return None
+
+
     def phases(self):
 
 	    return Phase.objects.filter(competition=self).filter(is_deleted=False)
