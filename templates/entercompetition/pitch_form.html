@@ -50,6 +50,10 @@ Apply to {{ competition }}
 
 	</div>
 
+    {% if alert %}
+        {% include 'dashboard/alerts/alert.html' %}
+    {% endif %}
+
 	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data" class="focus">
 
 		{% if founder %}

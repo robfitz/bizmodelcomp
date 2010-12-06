@@ -203,7 +203,10 @@ Good luck!"""
             
             try:
                 #this field should be present in the form whenever founder==None
-                email = request.POST["email"]
+                email = request.POST.get("email")
+                if not email:
+                    alert = "You need to enter a valid email address."
+                    return render_to_response('entercompetition/pitch_form.html', locals())
 
                 #do we recognize that email?
                 mystery_founder = None
