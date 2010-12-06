@@ -26,12 +26,12 @@ Manage Judges
 
 			<div class="stat_number">
 				Pitches Remain
-				<h1>{{competition.current_phase.pitches_to_judge|length}}</h1>
+				<h1>{{phase.pitches_to_judge|length}}</h1>
 			</div>
 
 			<div class="hr">&nbsp;</div>
 
-			<a style="float:left;" href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.id}}/judges/" class="button">View & invite more judges</a>
+			<a style="float:left;" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/" class="button">View & invite more judges</a>
 
 		</div>
 
@@ -58,7 +58,11 @@ Manage Judges
 				<h1>{{competition.judge_invitations.count}}</h1>
 			</div>
 
-			<a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.id}}/judges/" class="button">View & invite more judges</a>
+            {% if phase %}
+                <a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/" class="button">View & invite more judges</a>
+            {% else %}
+                <a href="/dashboard/{{competition.id}}/phase/{{competition.current_phase.id}}/judges/" class="button">View & invite more judges</a>
+            {% endif %}
 
 
 	{% endif %}
