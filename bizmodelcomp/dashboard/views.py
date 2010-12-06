@@ -270,13 +270,14 @@ def setup(request, step_num):
 
 
 
-def set_question_options(request, question, is_new=False):
+def set_question_options(request, question, is_new=False, id=None):
 
     print 'set question options: %s' % question
 
-    id = question.id
-    if is_new:
-        id = "new%s" % id
+    if not id:
+        id = question.id
+
+    print 'set_question_options for id: %s' % id
 
     is_required = request.POST.get("is_required_%s" % id, None)
     has_score = request.POST.get("has_score_%s" % id, None)
@@ -307,15 +308,19 @@ def set_question_options(request, question, is_new=False):
             question.raw_choices = ""
 
     if has_score:
+        print 'has score: %s' % max_points
         question.max_points = max_points
         question.judge_points_prompt = points_prompt
     else:
+        print 'no has score'
         question.max_points = 0
         question.judge_points_prompt = ""
 
     if has_feedback:
+        print 'has feedback'
         question.judge_feedback_prompt = feedback_prompt
     else:
+        print 'no feedback'
         question.judge_feedback_prompt = ""
 
     return question
@@ -323,20 +328,14 @@ def set_question_options(request, question, is_new=False):
 
 def should_delete(question):
 
-    if question.is_hidden_from_applicants:
-        #if the applicant can't see it and there's no instructions
-        #for the judges, then delete it
-        if not question.max_score and not question.judge_feedback_prompt:
+    #if the applicant can't see it and there's no instructions
+    #for the judges, then delete it
+    if (not question.prompt) and question.max_score == 0 and (not question.judge_feedback_prompt):
 
-            return True
+        return True
 
     else:
-        #if there's no instructions for the applicant, delete it
-        if not question.prompt:
-
-            return True
-
-    return False
+        return False
 
 
 @login_required
@@ -364,13 +363,15 @@ def edit_application(request, phase_id):
                     
                     if id != 'new' and id.startswith('new'):
 
-                        #create new question
-                        if prompt is not None:
                             q = PitchQuestion(prompt=prompt,
                                               phase=phase)
                             q.save()
-                            q = set_question_options(request, q, is_new=True)
+                            q = set_question_options(request, q, id=id, is_new=True)
                             q.save()
+
+                            if should_delete(q): 
+                                q.delete()
+                                        
 
                     else:
 
