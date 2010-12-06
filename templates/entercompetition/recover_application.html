@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block header_title %}
-Recover your previous pitch to {{competition.name}}
+Confirm your email & get your application to {{competition.name}}
 {% endblock %}
 
 {% block account_controls %}
@@ -23,13 +23,20 @@ Recover your previous pitch to {{competition.name}}
 
 	<form method="POST" action=".">
 
-		Your email: <input type="text" name="email" value="{{get_email}}" class="focus" />
+        Your email: 
+        <input type="text" name="email" value="{{get_email}}" class="focus" style="font-size:18px;" />
 
 		</br>
 
-		<input type="submit" value="Send a reminder email" />
+		<input id="sub" type="submit" value="Send a reminder email" />
 
 	</form>
+
+    <script language="javascript" type="text/javascript">
+        $( function () {
+            $("#sub").button();
+        });
+    </script>
 
 	{{ cancel|markdown }}
 

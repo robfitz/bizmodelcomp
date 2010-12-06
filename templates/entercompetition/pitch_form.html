@@ -5,7 +5,7 @@
 
 {% block logo %}
     {% if competition.logo %}
-        {{competition.logo_url}}
+        <a href="{{competition.website}}"><img src="{{competition.logo_url}}" style="border:0px solid black;"></a>
     {% else %}
         {{block.super}}
     {% endif %}

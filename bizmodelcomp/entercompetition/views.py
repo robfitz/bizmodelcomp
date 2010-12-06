@@ -33,7 +33,7 @@ def recover_application(request, competition_url):
     security = SiteCopy.objects.get(id='recover_application_security')
 
     application_url = "/apply/pitch/%s/" % competition.hosted_url
-    cancel = "<a href='%s'>Cancel and return to a new application</a>" % application_url
+    cancel = "<a href='%s'>Cancel and apply with a different email</a>" % application_url
 
     get_email = ""
     if request.method == "GET":
@@ -86,7 +86,7 @@ Otherwise, <a href="%s">click here to go back to your new application</a>.""" % 
 
 def sent_reminder(request):
 
-    copy = """We've sent an email with a login link to the address you just submitted. After clicking that link, you'll be asked to type in your email one last time and then you'll [finally] see your application.
+    copy = """We've sent an email with a login link to the address you just submitted. After clicking that link, you'll be asked to type in your email one last time.
 
 Jumping through these hoops helps ensure your pitch stays private -- sorry for the hassle!"""
 
@@ -349,8 +349,10 @@ def edit_pitch(request, competition_url, phase_id=None):
         return render_to_response('util/message.html', locals())
 
 
-    try: pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
-    except: pitch = None
+    try: 
+        pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
+    except: 
+        pitch = None
         
     questions = phase.questions()
     uploads = phase.uploads()
@@ -525,11 +527,15 @@ def applyToCompetition(request, competition_url):
 
             #set standard/required values
             if key in request.GET:
-                try: setattr(founder, key, request.GET[key])
-                except: print 'failed to set attr: %s' % key
+                try: 
+                    setattr(founder, key, request.GET[key])
+                except: 
+                    print 'failed to set attr: %s' % key
 
-        try: callback_function = request.GET["callback_function"]
-        except: pass
+        try: 
+            callback_function = request.GET["callback_function"]
+        except: 
+            pass
 
         try:
             duplicate_founder = Founder.objects.get(email=founder.email)
@@ -542,7 +548,6 @@ def applyToCompetition(request, competition_url):
 You can either <a href='/apply/pitch/%s/'>visit the competition pitch page</a> or <a href='/apply/load/%s/'>recover your login link from your email</a>""" % (competition.hosted_url, competition.hosted_url)
 
         else: 
-
         
             founder.save()
 
