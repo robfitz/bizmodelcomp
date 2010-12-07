@@ -23,20 +23,16 @@ class Bulk_email(models.Model):
 
     message_markdown = models.CharField(max_length=5000)
 
-    dummy = models.CharField(default="", max_length=1)
-
-    #semicolon delimited list
-    #TODO: there's probably a more efficient option than making this
-    #a million characters long (4MB per object)
-    recipient_founders = models.CharField(max_length=1000000, default="", blank=True, null=True)
-
     #if None, then this message hasn't been sent yet
     sent_on_date = models.DateTimeField(default=None, blank=True, null=True)
 
 
     def recipients(self):
 
-        recipient_emails = self.recipient_founders.split(';')
+        recipient_emails = []
+
+        for address in self.recipient_addresses:
+            recipient_emails.append(address.address)
 
         return recipient_emails
 
@@ -51,6 +47,14 @@ class Bulk_email(models.Model):
 
         return subs
 
+
+
+class Email_address(models.Model):
+
+    bulk_email = models.ForeignKey(Bulk_email, related_name="recipient_addresses")
+
+    address = models.CharField(max_length=140)
+    
 
 
 class Sub_val(models.Model):

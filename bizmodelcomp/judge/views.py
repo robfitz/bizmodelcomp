@@ -92,7 +92,7 @@ def dashboard(request):
 
     judged_pitches = competition.current_phase.judgements(judge)
     num_judged = len(judged_pitches)
-    num_to_judge = len(competition.current_phase.pitches_to_judge(judge))
+    num_to_judge = len(competition.current_phase.pitches_to_judge())
     judge_rank = competition.current_phase.judge_rank(judge)
 
     max_score = competition.current_phase.max_score()
