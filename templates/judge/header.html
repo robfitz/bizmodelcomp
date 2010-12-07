@@ -1,15 +1,24 @@
-<div id="title">
-	Currently judging
-	<h1>{{competition.name}}<h1>
-</div>
+{% extends 'header_base.html' %}
 
-<div id="account">
+{% block logo %}
+    {% if competition.logo %}
+        <img src="{{ competition.logo_url }}" style="height:12px;">
+    {% else %}
+        {{ block.super }}
+    {% endif %}
+{% endblock %}
+
+{% block header_title %}
+	Now judging {{competition.name}}
+{% endblock %}
+
+{% block account_controls %}
 	{% if request.user.is_authenticated %}
 		<a href="/judge/">Dashboard</a> or <a href="/accounts/logout/">Log out</a>
 	{% else %}
 		<a href="/accounts/login/?next=/judge/">Log in</a>
 	{% endif %}
-</div>
+{% endblock %}
 
 <div id="extras">
 	{% block extras %}
