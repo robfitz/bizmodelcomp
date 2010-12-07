@@ -54,8 +54,12 @@ class Email_address(models.Model):
     bulk_email = models.ForeignKey(Bulk_email, related_name="recipient_addresses")
 
     address = models.CharField(max_length=140)
-    
 
+    #optional link to a user. set it if it's relevant just so we
+    #have a bit of extra info in case people's email or whatever changes.
+    user = models.ForeignKey(User, default=None, blank=True, null=True)
+
+    
 
 class Sub_val(models.Model):
 
