@@ -144,18 +144,20 @@ Apply to {{ competition }}
 
 				{% endfor %}
 
-				<div class="hr">&nbsp;</div>
+				<div class="hr" style="height:30px">&nbsp;</div>
 
 			{% endblock %}
 
 		{% endif %}
 
 		<input id="is_draft" type="hidden" name="is_draft" value="False" />
-
-		<input type="submit" style="font-size:20px;" value="Save & submit" onclick="$('#is_draft').val('False');" />
+                
+                <div style="float:left;">
+		<input type="submit" style="font-size:18px;" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
 		<p>
 		You can update your pitch until the application deadline.
 		</p>
+                </div>
 	</form>
 
 {% endblock %}
