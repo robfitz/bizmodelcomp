@@ -73,6 +73,10 @@ A message!
             steps.announced_judging_open = True
             steps.save()
 
+            #the setup_steps flag is just for UI. this is the real one
+            phase.is_judging_enabled = True
+            phase.save()
+
             return HttpResponseRedirect('/dashboard/phase/%s/' % phase.id)
 
 

@@ -325,6 +325,8 @@ class Phase(models.Model):
         
         pitches = Pitch.objects.filter(phase=self)
         to_judge = []
+
+        print '%s pitches for phase id=%s' % (len(pitches), self.id)
         
         organizer = self.competition.owner
         
@@ -337,7 +339,8 @@ class Phase(models.Model):
                     #if we're looking for pitches a particular judge needs to look at,
                     #we also disregard the stuff he's already cast judgement on
                     
-                    if pitch.judgements.filter(judge=for_judge).count() == 0:
+                    #if pitch.judgements.filter(judge=for_judge).count() == 0:
+                    if JudgedPitch.objects.filter(judge=for_judge).filter(pitch=pitch).count() == 0:
                         to_judge.append(pitch)
                     
                 else:
