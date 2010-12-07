@@ -42,7 +42,7 @@ td {
 					<td style="min-width:90px;">Average</td>
 				</tr>
 
-				{% for pitch in competition.pitches %}
+				{% for pitch in phase.pitches.all %}
 				<tr>
 					<td><input type="checkbox" />
 					<td>{{ pitch.owner.name }}</td>
