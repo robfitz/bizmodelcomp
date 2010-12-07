@@ -20,11 +20,11 @@ from emailhelper import SmtpApiHeader
 #                                 '-team-': ['the cats', 'the dogs', 'the bogs'] }
 def send_bulk_email(bulk_email, fromEmail="competitions@nvana.com", log=True):
 
-    print 'Sending bulk email to %s recipients' % len(bulk_email.recipient_founders.split(';'))
+    print 'Sending bulk email to %s recipients' % len(bulk_email.recipients())
+
     toEmail = "irrelevant@example.com"
-
     hdr = SmtpApiHeader.SmtpApiHeader()
-
+    
     hdr.addTo(bulk_email.recipients())
               
     for sub, val in bulk_email.substitutions().items():

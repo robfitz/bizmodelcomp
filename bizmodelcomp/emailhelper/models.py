@@ -31,7 +31,7 @@ class Bulk_email(models.Model):
 
         recipient_emails = []
 
-        for address in self.recipient_addresses:
+        for address in self.recipient_addresses.all():
             recipient_emails.append(address.address)
 
         return recipient_emails

@@ -9,6 +9,9 @@ urlpatterns = patterns('',
     #email applicants that phase is opening. applies only to competition's current phase
     (r'^announce_applications_open/$', 'dashboard.views.announce_applications_open'),
 
+    #email judges that judging is open and set it to open
+    (r'^announce_judging_open/$', 'dashboard.views.announce_judging_open'),
+
     #edit basic details of existing comp
     (r'edit_comp_details/$', 'dashboard.views.edit_comp_details'),
 

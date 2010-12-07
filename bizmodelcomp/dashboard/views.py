@@ -7,13 +7,76 @@ from judge.models import *
 from dashboard.forms import *
 from dashboard.util import *
 from userhelper.models import UserProfile
-from emailhelper.models import Bulk_email
+from emailhelper.models import Bulk_email, Email_address
 from emailhelper.util import send_bulk_email
 
 import charts.util as chart_util
 from datetime import datetime
 import time
 import smtplib
+
+
+
+@login_required
+def announce_judging_open(request):
+
+    competition = request.user.get_profile().competition()
+    phase = competition.current_phase
+
+    message_template = """\
+Hello,
+
+A message!
+"""
+    
+    recipients = []
+    #send to all judges from this phase
+    for judge in phase.judges():
+        recipients.append(judge)
+
+    email = Bulk_email(competition=competition,
+            phase=phase,
+            tag="judging open",
+            message_markdown=message_template)
+
+    messages = []
+    for i in range(0, len(recipients) - 1):
+
+        message = {}
+        message["to_email"] = recipients[i]
+        message["body"] = message_template
+
+        #TODO: use string.parse(format_string) instead of this manual replacing
+        #message.body = message_template.replace(message_template, "[[team_name]]", "[[TODO]]")
+
+        messages.append(message) 
+
+    confirm_warning = "Are you sure you want to send this email to <strong>%s judges</strong> and begin judging pitches? You'll still be able to invite more judges later, but you won't be able to change the judging criteria." % len(recipients)
+
+    if request.method == "POST":
+
+        if request.POST.get("confirm"):
+
+            #create recipient list
+            for judge in recipients:
+                print 'judge: %s, judge.user: %s' % (judge, judge.user)
+                r = Email_address(bulk_email=email,
+                        address=judge.email,
+                        user=judge.user)
+                r.save()
+
+            #ship it 
+            send_bulk_email(email)
+
+            #update phase todo progress
+            steps = phase.setup_steps()
+            steps.announced_judging_open = True
+            steps.save()
+
+            return HttpResponseRedirect('/dashboard/phase/%s/' % phase.id)
+
+
+    return render_to_response('emailhelper/review_email.html', locals())
 
 
 
@@ -45,17 +108,18 @@ Sincerely,
     recipients = []
     for founder in phase.applicants():
         if founder.email:
-            recipients.append(founder.email)
+            recipients.append(founder)
 
-    confirm_warning = "Are you sure you want to send this email to <strong>%s recipients</strong> and begin accepting pitches? You won't be able to change the application questions after you do this!" % len(recipients)
+    confirm_warning = "Are you sure you want to send this email to <strong>%s applicants</strong> and begin accepting pitches? You won't be able to change the application questions after you do this!" % len(recipients)
 
     messages = []
     for i in range(0, len(recipients) - 1):
 
-        #TODO: use string.parse(format_string) instead of this manual replacing
         message = {}
         message["to_email"] = recipients[i]
         message["body"] = message_template
+
+        #TODO: use string.parse(format_string) instead of this manual replacing
         #message.body = message_template.replace(message_template, "[[team_name]]", "[[TODO]]")
 
         messages.append(message)
@@ -70,10 +134,16 @@ Sincerely,
             email = Bulk_email(competition=competition,
                     phase=phase,
                     tag="applications open",
-                    message_markdown=message_template,
-                    recipient_founders = ';'.join(recipients))
+                    message_markdown=message_template)
            
             email.save()
+
+            #create recipient list
+            for recipient in recipients:
+
+                r = Email_address(bulk_email=email,
+                        address=founder.email)
+                r.save()
             
             send_bulk_email(email)
             
