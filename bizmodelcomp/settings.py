@@ -6,6 +6,7 @@ is_local = False
 
 local_windows = ['robfitz-PC', 'tugboat']
 local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local']
+test_server_hostnames = ['ip-10-122-193-156']
 
 filesystem = "UNIX"
 
@@ -16,13 +17,14 @@ elif socket.gethostname() in local_mac:
     is_local = True
     filesystem = "MAC"
 else:
+    is_test_server = socket.gethostname() in test_server_hostnames
     print 'Unrecognized hostname in settings.py: %s' % socket.gethostname()
 
-DEBUG = is_local
+DEBUG = is_local or is_test_server
 TEMPLATE_DEBUG = DEBUG
 
 #kill switch for emailhelper
-DISABLE_ALL_EMAIL = False
+DISABLE_ALL_EMAIL = DEBUG
 
 #whether new accounts are required to confirm
 #their email before gaining their permissions.
@@ -91,9 +93,11 @@ elif filesystem == "MAC":
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = 'http://ec2-184-73-137-17.compute-1.amazonaws.com/media/'
+MEDIA_URL = 'http://nvana.com/media/'
 if is_local:
     MEDIA_URL = 'http://localhost:8000/media/'
+elif is_test_server:
+    MEDIA_URL = 'http://ec2-50-16-25-181.compute-1.amazonaws.com'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -125,8 +129,9 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     "C:/www/bizmodelcomp/templates/",
-    "/Users/%s/www/bizmodelcomp/templates/" % os.getlogin(),
     "/var/www/bizmodelcomp/templates/",
+    "/Users/robfitz/www/bizmodelcomp/templates/",
+    "/Users/tstonez/www/bizmodelcomp/templates/",
 )
 
 INSTALLED_APPS = (
