@@ -2,7 +2,7 @@
 
 {% block logo %}
     {% if competition.logo %}
-        <img src="{{ competition.logo_url }}" style="height:12px;">
+    <img src="{{ competition.logo_url }}" /> 
     {% else %}
         {{ block.super }}
     {% endif %}
@@ -20,7 +20,3 @@
 	{% endif %}
 {% endblock %}
 
-<div id="extras">
-	{% block extras %}
-	{% endblock %}
-</div>
