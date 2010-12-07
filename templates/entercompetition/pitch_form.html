@@ -112,7 +112,7 @@ Apply to {{ competition }}
 						<div style="float:left;clear:both;">
 						{% if question.choices %}
 							<strong class="prompt">{{ question.prompt }}</strong>
-							<div class="hr>&nbsp;</div>
+							<div class="hr">&nbsp;</div>
 							<select name="question_{{question.pk}}">
 							{% for choice in question.choices %}
 								{{question.answer.answer}} {{choice}}
