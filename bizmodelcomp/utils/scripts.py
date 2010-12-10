@@ -143,3 +143,4 @@ def create_dummy_competition(user):
 
 
 
+

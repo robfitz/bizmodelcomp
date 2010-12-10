@@ -81,8 +81,11 @@ class PitchQuestionAdmin(admin.ModelAdmin):
 
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Phase)
+
 admin.site.register(Founder)
+admin.site.register(Team)
 admin.site.register(ExtraFounderInfo)
+
 admin.site.register(Pitch)
 admin.site.register(PitchQuestion, PitchQuestionAdmin)
 admin.site.register(PitchUpload)

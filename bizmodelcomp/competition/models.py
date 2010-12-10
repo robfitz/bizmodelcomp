@@ -69,6 +69,24 @@ class Founder(models.Model):
 
 
 
+#one lead founder, plus some info about the team and any additional founders
+class Team(models.Model):
+
+    owner = models.ForeignKey(Founder, related_name="owner_set")
+
+    other_members = models.ManyToManyField(Founder)
+
+    name = models.CharField(max_length="140", default="", blank=True)
+
+
+    def members(self):
+        members = [self.owner]
+        members.extend(self.other_members.all())
+
+        return members
+
+
+
 #a random key used in links to take an applicant
 #to their application without needing to create an account
 class AnonymousFounderKey(models.Model):
@@ -284,7 +302,7 @@ class Phase(models.Model):
             for j in judgements:
                 total_score = total_score + j.score()
 
-            if judge and judge.user and judgements and len(judgements) > 0:
+            if judge and judgements and len(judgements) > 0:
                 leaderboard.append({'judge': judge, 'num_judged': len(judgements), 'average_score': float(total_score) / len(judgements) })
 
         if num_leaders == -1:
@@ -469,7 +487,11 @@ class Pitch(models.Model):
 
     #creator & submitter of this pitch, who has applied to the
     #competition the pitch relates to
+    #
+    #TODO: DEPRECATED: will be replaced by self.team.owner
     owner = models.ForeignKey(Founder) 
+
+    team = models.ForeignKey(Team, null=True)
 
     #the part of the contest this pitch is a submission to
     phase = models.ForeignKey(Phase, related_name="pitches")
@@ -504,6 +526,17 @@ class Pitch(models.Model):
 
         try: return float(total_score) / num_pitches
         except: return 0
+
+
+    #who is pitching this idea?
+    def team_name(self):
+
+        if self.team:
+            return self.team.name
+
+        else:
+            num = self.phase.pitches().index(self)
+            return "Team %s" % num
 
 
     def __unicode__(self):
