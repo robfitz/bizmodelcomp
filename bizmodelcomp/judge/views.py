@@ -12,6 +12,36 @@ from competition.util import get_competition_for_user
 from utils.util import ordinal
 import charts.util as chart_util
 
+
+
+@login_required
+def list(request):
+    
+    redirect = get_permissions_redirect(request, competition)
+    if redirect:
+        return HttpResponseRedirect(redirect)
+
+    judged = []
+    unjudged = []
+    
+    competition = get_competition_for_user(request.user)
+
+    for pitch in competition.current_phase.pitches():
+
+        #figure if i've judged this one yet or not
+        judgements = JudgedPitch.objects.filter(pitch=pitch).filter(judge__user=request.user)
+        
+        if judgements.count() == 0:
+            unjudged.append(pitch)
+        else:
+            pitch.judgement = judgements[0]
+            judged.append(pitch)
+
+
+    return render_to_response('judge/list.html', locals())
+
+
+
 def get_permissions_redirect(request, competition):
     
     #not logged it
@@ -108,7 +138,7 @@ def dashboard(request):
 #basically the one-stop-shop for judging. You come here and either log in
 #or start having applications thrown at you to judge
 @login_required
-def judging(request, judgedpitch_id=None):
+def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
 
     try:
         request.user.get_profile()
@@ -117,14 +147,31 @@ def judging(request, judgedpitch_id=None):
         profile = UserProfile(user=request.user)
         profile.save()
 
+    judged_pitch = None
+    pitch = None
+
     #if we're requesting a specific pitch, only allow it for
     #either the organizer or the person who did the judging
-    judged_pitch = None
     if judgedpitch_id is not None:
         judged_pitch = get_object_or_404(JudgedPitch, id=judgedpitch_id)
         if judged_pitch.judge.user != request.user and request.user != judged_pitch.pitch.phase.competition.owner:
             return HttpResponseRedirect('/no_permissions/')
-        
+
+    elif unjudged_pitch_id is not None:
+        pitch = get_object_or_404(Pitch, id=unjudged_pitch_id)
+        competition = pitch.phase.competition
+
+        #they're allowed to judge this particular application if they're either a judge
+        #or the owner of this competition
+        if request.user != competition.owner and JudgeInviation.objects.filter(user=request.user).filter(competition=competition):
+
+            #if they've already judged this application, we want to redirect them to
+            #the edit page (which ends up in the same place for now, but it may not always)
+            earlier_pitches = JudgedPitch.objects.filter(pitch=pitch, judge__user=request.user).count()
+            if earlier_pitches.count() > 0:
+
+                return HttpResponseRedirect('/judge/review/%s/' % earlier_pitches[0].id)
+
     
     competition = get_competition_for_user(request.user)
     is_organizer = competition.owner == request.user
@@ -157,12 +204,6 @@ def judging(request, judgedpitch_id=None):
                 judgement = JudgedPitch(judge=judge,
                                         pitch=pitch)
                 judgement.save()
-
-## deprecated - was a hack for echallenge
-##            if "feedback" in request.POST:
-##
-##                judgement.feedback = request.POST["feedback"]
-##                judgement.save()
 
             if "overall_score" in request.POST:
 

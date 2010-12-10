@@ -2,26 +2,34 @@
 
 <br/>
 
-{% if upload.file.scribd %}
-    <div id="scribd_{{upload.id}}"></div>
+{% if upload.file.url %}
+    {% if upload.file.scribd %}
 
-    <script language="javascript" type="text/javascript">
-        {% if upload.file.scribd %}
-            var scribd_doc = scribd.Document.getDoc({{ upload.file.scribd.doc_id }}, "{{ upload.file.scribd.access_key }}");
-            scribd_doc.addParam( 'jsapi_version', 1 );
-            scribd_doc.write( 'scribd_{{ upload.id }}' );
-        {% endif %}
-    </script>
+        <div id="scribd_{{upload.id}}"></div>
 
-{% else %}{% if upload.file.is_image %}
+        <script language="javascript" type="text/javascript">
+            {% if upload.file.scribd %}
+                var scribd_doc = scribd.Document.getDoc({{ upload.file.scribd.doc_id }}, "{{ upload.file.scribd.access_key }}");
+                scribd_doc.addParam( 'jsapi_version', 1 );
+                scribd_doc.write( 'scribd_{{ upload.id }}' );
+            {% endif %}
+        </script>
 
-    <img src="{{upload.file.url}}" />
+    {% else %}{% if upload.file.is_image %}
+
+        <img src="{{upload.file.url}}" />
+
+    {% else %}
+
+        <a href="{{upload.file.url}}">{{ upload.file }}</a>
+
+    {% endif %}{% endif %}
 
 {% else %}
 
-    <a href="{{upload.file.url}}">{{ upload.file }}</a>
+    (No upload)
 
-{% endif %}{% endif %}
+{% endif %}
 
 <p>
 </p>

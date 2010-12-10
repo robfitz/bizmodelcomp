@@ -19,65 +19,9 @@
 
 	{{ block.super }}
 
-	<div class="dashboard_section">
+    {% include 'judge/widgets/judge_stats.html' %}
 
-			<h4>Your activity</h4>
+    <a class="button" href="/judge/go/">Begin judging pitches</a>
 
-			<div class="summary">
-
-				<table>
-					<tr style="height:30px;font-weight:bold">
-						<td>Name</td>
-						<td>Score</td>
-					</tr>
-
-					{% for judged in judged_pitches %}
-						<tr>
-							<td>
-								<a href="/judge/go/{{judged.id}}/">
-								{{ judged.pitch.owner.name }}
-								</a>
-							</td>
-							<td align="center">
-								<a href="/judge/go/{{judged.id}}/">
-								{{judged.score}}
-								</a>
-							</td>
-						</tr>
-					{% endfor %}
-
-				</table>
-
-				<input type="submit" class="button" value="GO!"><a href="/judge/go/">Begin judging pitches</a></input>
-
-				{% include 'judge/ranking.html' %}
-
-			</div>
-
-	</div>
-
-	<div class="dashboard_section">
-
-		<h4>Most active judges</h4>
-
-		<div class="summary">
-
-			{% include 'dashboard/judge_leaderboard.html' %}
-
-		</div>
-
-	</div>
-
-	<div class="dashboard_section">
-
-			<h4>Pitch scores</h4>
-
-			<div class="summary">
-
-				{% include 'dashboard/chart_score_distribution.html' %}
-
-			</div>
-
-	</div>
-
+    {% include 'judge/widgets/overview.html' %}
 {% endblock %}

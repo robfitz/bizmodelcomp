@@ -12,7 +12,7 @@
 			<td>{% if leader.judge.user.name %}
 					{{ leader.judge.user.name }}
 				{% else %}
-					{{ leader.judge.user.email }}
+					{{ leader.judge.display_name }}
 				{% endif %}
 			<td>{{ leader.num_judged }}
 			<td>{{ leader.average_score|floatformat:-2 }}

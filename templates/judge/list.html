@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+
+    {% import 'judge/header.html' %}
+
+{% endblock %}
+
+{% block content %}
+
+    {% include 'judge/widgets/list_judged.html' %}
+
+    {% include 'judge/widgets/list_unjudged.html' %}
+
+{% endblock %}

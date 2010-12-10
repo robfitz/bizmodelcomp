@@ -1,0 +1,27 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_class %}half{% endblock %}
+
+{% block section_title %}
+Un-judged pitches
+{% endblock %}
+
+{% block section_content %}
+
+    <table>
+        <tr>
+            <td>Company</td>
+            <td>Options</td>
+        </tr>
+
+        {% for pitch in judged %}
+
+            <tr>
+                <td>pitch.team_name</td>
+                <td>pitch.judgement.score</td>
+                <td><a href="/judge/go/{{pitch.judgement.id}}">Edit</a></td>
+            </tr>
+
+        {% endfor %}
+
+{% endblock %}

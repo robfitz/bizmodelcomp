@@ -1,0 +1,29 @@
+{% extends 'dashboard/section.html' %}
+
+{% block style %}width:65%{% endblock %}
+
+{% block icon_class %}ui-icon-person{% endblock %}
+
+{% block section_title %}
+Overall competition progress
+{% endblock %}
+
+{% block section_content %}
+
+    <h4>Most active judges</h4>
+
+    <div class="summary">
+
+        {% include 'dashboard/judge_leaderboard.html' %}
+
+    </div>
+
+    <h4>Pitch scores</h4>
+
+    <div class="summary">
+
+        {% include 'dashboard/chart_score_distribution.html' %}
+
+    </div>
+
+{% endblock %}

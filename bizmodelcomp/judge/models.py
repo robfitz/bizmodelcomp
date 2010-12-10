@@ -40,6 +40,19 @@ class JudgeInvitation(models.Model):
     #user=None means that the invite hasn't yet been accepted.
     user = models.ForeignKey(User, null=True, blank=True)
 
+
+    #sort out an appropriate way to identify this judge to other judges
+    def display_name(self):
+        if self.user:
+            if self.user.name:
+                return self.user.name
+            else:
+                return self.user.email.split('@')[0]
+
+        else:
+            return self.email.split('@')[0]
+
+
     #tell them they're a winner
     def send_invitation_email(self, judging_link):
         if not self.has_received_invite_email:
