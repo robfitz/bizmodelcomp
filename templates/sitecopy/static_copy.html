@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+    {{ title }}
+{% endblock %}
+
+{% block content %}
+
+    {% load markup %}
+
+    {{ copy|markdown }}
+
+{% endblock %}

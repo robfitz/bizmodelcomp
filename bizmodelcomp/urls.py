@@ -47,4 +47,7 @@ urlpatterns = patterns('',
     (r'^dashboard/', include('bizmodelcomp.dashboard.urls')),
 
     (r'^judge/', include('bizmodelcomp.judge.urls')),
+
+    #flat pages
+    (r'flat/(?P<site_copy_id>[a-zA-Z ]{1,30})/$', 'sitecopy.views.static_copy'),
 )
