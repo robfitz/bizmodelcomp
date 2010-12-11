@@ -512,8 +512,8 @@ class Pitch(models.Model):
 
 
     def num_times_judged(self):
-        
-        return len(self.judgements)
+        print 'num times judged: %s, %s' % (len(self.judgements.all()), self.judgements.all())        
+        return len(self.judgements.all())
 
 
     def average_score(self):
@@ -531,7 +531,7 @@ class Pitch(models.Model):
     #who is pitching this idea?
     def team_name(self):
 
-        if self.team:
+        if self.team and self.team.name:
             return self.team.name
 
         else:

@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
+{% block meta %}
+    <link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
+{% endblock %}
+
 {% block header %}
 
-    {% import 'judge/header.html' %}
+    {% include 'judge/header.html' %}
 
 {% endblock %}
 

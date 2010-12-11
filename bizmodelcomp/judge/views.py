@@ -17,6 +17,8 @@ import charts.util as chart_util
 @login_required
 def list(request):
     
+    competition = get_competition_for_user(request.user)
+
     redirect = get_permissions_redirect(request, competition)
     if redirect:
         return HttpResponseRedirect(redirect)
@@ -24,9 +26,7 @@ def list(request):
     judged = []
     unjudged = []
     
-    competition = get_competition_for_user(request.user)
-
-    for pitch in competition.current_phase.pitches():
+    for pitch in competition.current_phase.pitches.all():
 
         #figure if i've judged this one yet or not
         judgements = JudgedPitch.objects.filter(pitch=pitch).filter(judge__user=request.user)
@@ -153,12 +153,16 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
     #if we're requesting a specific pitch, only allow it for
     #either the organizer or the person who did the judging
     if judgedpitch_id is not None:
+
         judged_pitch = get_object_or_404(JudgedPitch, id=judgedpitch_id)
+
         if judged_pitch.judge.user != request.user and request.user != judged_pitch.pitch.phase.competition.owner:
             return HttpResponseRedirect('/no_permissions/')
 
     elif unjudged_pitch_id is not None:
+
         pitch = get_object_or_404(Pitch, id=unjudged_pitch_id)
+
         competition = pitch.phase.competition
 
         #they're allowed to judge this particular application if they're either a judge

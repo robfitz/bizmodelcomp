@@ -33,8 +33,11 @@ body, #header, #footer {
 	color:#999999;
 }
 
+#content_outer {
+    float:left;
+}
+
 #content_outer, #content_inner {
-	float:left;
 	padding:0px;
 	margin:0px;
 }
@@ -215,4 +218,9 @@ li {
 .prompt, .input_prompt {
 	float: left;
 	clear:both;
+}
+
+th {
+    padding-left:8px;
+    padding-right:8px;
 }

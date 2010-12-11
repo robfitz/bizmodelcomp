@@ -1,6 +1,7 @@
 {% extends 'dashboard/section.html' %}
 
-{% block section_class %}half{% endblock %}
+{% block section_class %}half_width{% endblock %}
+{% block section_style %}float:right;{% endblock %}
 
 {% block section_title %}
 Un-judged pitches
@@ -8,20 +9,44 @@ Un-judged pitches
 
 {% block section_content %}
 
+    <p>
+        <input type="checkbox" id="filter" checked="on" />
+        <label for="filter">Hide pitches which have already been evaluated by at least {{ competition.current_phase.min_judgements_per_pitch }} other judges</label>
+    </p>
+
     <table>
         <tr>
-            <td>Company</td>
-            <td>Options</td>
+            <th>Company</th>
+            <th>Num times<br/>judged</th>
+            <th>Options</th>
         </tr>
 
-        {% for pitch in judged %}
-
+        {% for pitch in unjudged %}
+            {% if pitch.num_times_judged >= pitch.phase.min_judgements_per_pitch %}
+            <tr class="judged_enough hidden">
+            {% else %}
             <tr>
-                <td>pitch.team_name</td>
-                <td>pitch.judgement.score</td>
-                <td><a href="/judge/go/{{pitch.judgement.id}}">Edit</a></td>
+            {% endif %}
+                <td>{{ pitch.team_name }}</td>
+                <td style="text-align:center;">{{ pitch.num_times_judged }}</td>
+                <td><a href="/judge/go/{{pitch.id}}">View & judge it</a></td>
             </tr>
 
         {% endfor %}
+    </table>
 
+    <script language="javascript" type="text/javascript">
+
+        $(function () {
+            $('#filter').click( function() {
+                if ($(this).attr("checked")) {
+                    $(".judged_enough").hide();
+                }
+                else {
+                    $(".judged_enough").show();
+                }
+            });
+        });
+
+    </script>
 {% endblock %}

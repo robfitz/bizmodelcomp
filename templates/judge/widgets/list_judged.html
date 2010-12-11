@@ -1,6 +1,6 @@
 {% extends 'dashboard/section.html' %}
 
-{% block section_class %}half{% endblock %}
+{% block section_class %}half_width{% endblock %}
 
 {% block section_title %}
 Your judged pitches
@@ -10,6 +10,7 @@ Your judged pitches
 
     <table>
         <tr>
+            <td></td>
             <td>Company</td>
             <td>Score</td>
             <td>Options</td>
@@ -18,11 +19,13 @@ Your judged pitches
         {% for pitch in judged %}
 
             <tr>
-                <td>pitch.team_name</td>
-                <td>pitch.judgement.score</td>
-                <td><a href="/judge/review/{{pitch.judgement.id}}">Edit</a></td>
+                <td style="text-align:right;">{{ forloop.counter }}.</td>
+                <td>{{ pitch.team_name }}</td>
+                <td>{{ pitch.judgement.score }}</td>
+                <td><a href="/judge/review/{{pitch.judgement.id}}">View & edit judgement</a></td>
             </tr>
 
         {% endfor %}
+    </table>
 
 {% endblock %}

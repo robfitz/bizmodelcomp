@@ -1,7 +1,5 @@
 {% extends 'dashboard/section.html' %}
 
-{% block section_style %}width:65%{% endblock %}
-
 {% block icon_class %}ui-icon-person{% endblock %}
 
 {% block section_title %}
@@ -10,43 +8,18 @@ Your judging stats
 
 {% block section_content %}
 
-    
-
-    <div style="float:left;">
-        {% if judged_pitches %}
-            <table>
-
-                <tr style="height:30px;font-weight:bold">
-                    <td>Name</td>
-                    <td>Score</td>
-                </tr>
-
-                {% for judged in judged_pitches %}
-                    <tr>
-                        <td>
-                            <a href="/judge/go/{{judged.id}}/">{{ judged.pitch.owner.name }}</a>
-                        </td>
-                        <td align="center"> <a href="/judge/go/{{judged.id}}/">{{judged.score}}</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-
-            </table>
-
-        {% else %}
-
-            You haven't yet justed any pitches. <a href="/judge/go">Get started now!</a>
-
-        {% endif %}
-
-    </div>
-
-    <div class="hr">&nbsp;</div>
-
-    <div style="float:left;">
-        
+    <div style="float:left;width:48%" >
         {% include 'judge/ranking.html' %}
-        
+        <div style="float:left;clear:both;padding-left:30px;">
+            <a href="/judge/list/">View all applications & scores</a>
+        </div>
     </div>
+
+    <div style="float:left;width:48%;margin-left:10px;">
+        <span class="">Click here to go straight to the next pitch that needs judging:</span>
+        <a class="button" href="/judge/go/">Begin judging pitches</a>
+    </div>
+
+    <div class="hr" style="height:10px;">&nbsp;</div>
 
 {% endblock %}
