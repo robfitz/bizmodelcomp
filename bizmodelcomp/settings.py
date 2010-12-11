@@ -6,7 +6,7 @@ is_local = False
 
 local_windows = ['robfitz-PC', 'tugboat']
 local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local']
-test_server_hostnames = ['ip-10-122-193-156']
+test_server_hostnames = ['ip-10-122-193-156', 'ip-10-194-205-193']
 
 filesystem = "UNIX"
 
@@ -97,7 +97,8 @@ MEDIA_URL = 'http://nvana.com/media/'
 if is_local:
     MEDIA_URL = 'http://localhost:8000/media/'
 elif is_test_server:
-    MEDIA_URL = 'http://ec2-50-16-25-181.compute-1.amazonaws.com'
+    #MEDIA_URL = 'http://ec2-50-16-25-181.compute-1.amazonaws.com'
+    MEDIA_URL = "http://ec2-50-16-41-90.compute-1.amazonaws.com"
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -120,7 +121,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-APPEND_SLASH = True #from CommonMiddleware, makes either /page/ or /page valid
+#from CommonMiddleware, makes either /page/ or /page valid
+APPEND_SLASH = True 
 
 ROOT_URLCONF = 'bizmodelcomp.urls'
 
