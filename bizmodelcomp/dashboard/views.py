@@ -251,9 +251,11 @@ def setup(request, step_num):
 
     alert = ""
 
-    templates = { "1": "dashboard/setup_comp_details.html",
-            "2": "dashboard/setup_app_reqs.html",
-            "3": "dashboard/setup_distribution.html" }
+    #templates = { "1": "dashboard/setup_comp_details.html",
+    #        "2": "dashboard/setup_app_reqs.html",
+    #        "3": "dashboard/setup_distribution.html" }
+
+    templates = { "1": "dashboard/setup_comp_details.html" }
 
     form = None
 

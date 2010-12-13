@@ -12,9 +12,6 @@
 
     {{ block.super }}
 
-    <form action="." method="POST">
-        {{ form.as_p }}
-        <input type="submit" value="Save and Continue" class="button" />
-    </form>
+    {% include 'dashboard/widgets/comp_details.html' %}
 
 {% endblock %}

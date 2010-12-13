@@ -1,0 +1,10 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_title %}Setup new competition{% endblock %}
+
+{% block section_content %}
+    <form action="." method="POST">
+        {{ form.as_p }}
+        <input type="submit" value="Save and Continue" class="button" />
+    </form>
+{% endblock %}
