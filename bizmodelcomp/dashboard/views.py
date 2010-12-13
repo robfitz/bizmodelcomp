@@ -45,12 +45,6 @@ Thanks very much for the help.
     for judge in phase.judges():
         recipients.append(judge)
 
-    email = Bulk_email(competition=competition,
-            phase=phase,
-            tag="judging open",
-            message_markdown=message_template,
-            subject=subject)
-
     messages = []
     for i in range(0, len(recipients)):
 
@@ -69,6 +63,14 @@ Thanks very much for the help.
 
         if request.POST.get("confirm"):
 
+            email = Bulk_email(competition=competition,
+		    phase=phase,
+		    tag="judging open",
+		    message_markdown=message_template,
+		    subject=subject)
+
+            email.save()
+
             #create recipient list
             for judge in recipients:
                 print 'judge: %s, judge.user: %s' % (judge, judge.user)
@@ -79,6 +81,9 @@ Thanks very much for the help.
 
             #ship it 
             send_bulk_email(email)
+
+            email.sent_on_date = datetime.now()
+            email.save()
 
             #update phase todo progress
             steps = phase.setup_steps()

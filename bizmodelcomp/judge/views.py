@@ -167,11 +167,11 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
 
         #they're allowed to judge this particular application if they're either a judge
         #or the owner of this competition
-        if request.user != competition.owner and JudgeInviation.objects.filter(user=request.user).filter(competition=competition):
+        if request.user != competition.owner and JudgeInvitation.objects.filter(user=request.user).filter(competition=competition):
 
             #if they've already judged this application, we want to redirect them to
             #the edit page (which ends up in the same place for now, but it may not always)
-            earlier_pitches = JudgedPitch.objects.filter(pitch=pitch, judge__user=request.user).count()
+            earlier_pitches = JudgedPitch.objects.filter(pitch=pitch, judge__user=request.user)
             if earlier_pitches.count() > 0:
 
                 return HttpResponseRedirect('/judge/review/%s/' % earlier_pitches[0].id)
