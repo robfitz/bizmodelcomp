@@ -29,7 +29,7 @@ class Migration(SchemaMigration):
         # Adding field 'Pitch.team'
         db.add_column('competition_pitch', 'team', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['competition.Team'], null=True), keep_default=False)
         
-        create_team_models()
+        #create_team_models()
 
 
     def backwards(self, orm):
