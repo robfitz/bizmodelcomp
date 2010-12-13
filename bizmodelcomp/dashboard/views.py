@@ -23,11 +23,22 @@ def announce_judging_open(request):
     competition = request.user.get_profile().competition()
     phase = competition.current_phase
 
+    subject = "Judging is open - %s" % competition.name
+    from_email = "london.e.challenge@gmail.com"
+
     message_template = """\
 Hello,
 
-A message!
-"""
+Judging for %s has begun. We have %s applications to judge, which you can view here:
+
+%s
+
+When you press the 'start judging' button you'll be automatically provided with the next unjudged plan. Alternately, you can view the full list of pitches to select a particular one.
+
+Thanks very much for the help.
+
+%s team
+""" % (competition.name, Pitch.objects.filter(phase=phase).count(), 'http://www.nvana.com/judge/', competition.name)
     
     recipients = []
     #send to all judges from this phase
@@ -37,10 +48,11 @@ A message!
     email = Bulk_email(competition=competition,
             phase=phase,
             tag="judging open",
-            message_markdown=message_template)
+            message_markdown=message_template,
+            subject=subject)
 
     messages = []
-    for i in range(0, len(recipients) - 1):
+    for i in range(0, len(recipients)):
 
         message = {}
         message["to_email"] = recipients[i]
@@ -138,7 +150,8 @@ Sincerely,
             email = Bulk_email(competition=competition,
                     phase=phase,
                     tag="applications open",
-                    message_markdown=message_template)
+                    message_markdown=message_template,
+                    subject=subject)
            
             email.save()
 
