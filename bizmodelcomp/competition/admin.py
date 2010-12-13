@@ -1,6 +1,7 @@
 from bizmodelcomp.competition.models import *
 from django.contrib import admin
 from django import forms
+
 from bizmodelcomp.emailhelper.models import *
 from bizmodelcomp.userhelper.models import *
 
