@@ -505,6 +505,12 @@ class Pitch(models.Model):
     #timestamp for when this pitch was last modified
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now)
 
+    order = models.IntegerField(default=0)
+
+
+    class Meta:
+        ordering = ['order']
+
 
     def created_ms(self):
 
@@ -535,7 +541,7 @@ class Pitch(models.Model):
             return self.team.name
 
         else:
-            num = self.phase.pitches().index(self)
+            num = self.phase.pitches.all().index(self)
             return "Team %s" % num
 
 

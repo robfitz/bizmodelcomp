@@ -79,6 +79,13 @@ class PitchQuestionAdmin(admin.ModelAdmin):
 
 
 
+class PitchAdmin(admin.ModelAdmin):
+    list_display = ('id', 'team_name', 'phase', 'order')
+    list_editable = ('order',)
+    list_filter = ('phase',)
+
+
+
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Phase)
 
@@ -86,7 +93,7 @@ admin.site.register(Founder)
 admin.site.register(Team)
 admin.site.register(ExtraFounderInfo)
 
-admin.site.register(Pitch)
+admin.site.register(Pitch, PitchAdmin)
 admin.site.register(PitchQuestion, PitchQuestionAdmin)
 admin.site.register(PitchUpload)
 admin.site.register(PitchAnswer)
