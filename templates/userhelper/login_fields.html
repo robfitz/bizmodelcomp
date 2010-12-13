@@ -1,6 +1,8 @@
 <input type="hidden" name="form_type" value="login">
 
+{% if next %}
 <input type="hidden" name="next" value="{{next}}">
+{% endif %}
 
 <div id="form_field_container">
 	<div id="prompt" style="float:left;padding-top:8px;width:120px;">

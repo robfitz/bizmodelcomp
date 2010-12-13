@@ -32,8 +32,8 @@ Create a new account
         <div class="hr">&nbsp;</div>
 
         <div id="submission" style="float:left;">
-				<a href="/accounts/login/?next={{next}}">Already have an account? Click to log in</a>.
-				<input type="submit" class="button" value="Sign up" style="margin-left:10px" />
+            <a href="/accounts/login/?{% if next %}next={{next}}{% endif %}">Already have an account? Click to log in</a>.
+            <input type="submit" class="button" value="Sign up" style="margin-left:10px" />
 		</div>
 	</form>
 </div>

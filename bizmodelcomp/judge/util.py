@@ -21,7 +21,7 @@ def get_next_pitch_to_judge(competition, judge):
         pitches = unjudged
 
     else:
-        pitches = competition.current_phase.pitches_to_judge.all()
+        pitches = competition.current_phase.pitches_to_judge()
 
     if len(pitches) > 1:
         index = random.randrange(0, len(pitches)-1)

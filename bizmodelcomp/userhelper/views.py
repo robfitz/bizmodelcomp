@@ -33,13 +33,17 @@ def loginUser(request):
             #logged in successfully
             login(request, user)
 
-            try: next = request.POST["next"]
-            except:
-                
-                if len(Competition.objects.filter(owner=user)) > 0:
-                    next = "/dashboard/"
-                else:
+            next = request.POST.get("next", None)
+            print 'got next: %s' % next
+
+            if not next:
+
+                print 'length of judge invitations: %s' % JudgeInvitation.objects.filter(user=user)
+
+                if len(JudgeInvitation.objects.filter(user=user)) > 0:
                     next = "/judge/"
+                else:
+                    next = "/dashboard/"
             
             return HttpResponseRedirect(next)
         
@@ -49,12 +53,9 @@ def loginUser(request):
 
     elif request.method == "GET":
         #page to redirect to after success
-        next = request.GET.get("next", "/dashboard")
+        next = request.GET.get("next", None)
 
         email = request.GET.get("e", "")
-
-    
-
             
     return render_to_response('userhelper/login.html', locals())
 
@@ -97,7 +98,7 @@ def registerUser(request):
             
         user = None
         try:
-                user = createNewUser(request, email, pass1, pass2)
+            user = createNewUser(request, email, pass1, pass2)
         except:
             next = request.POST.get("next")
             login = "/accounts/login/"
