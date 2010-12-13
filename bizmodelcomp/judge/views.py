@@ -107,7 +107,7 @@ def dashboard(request):
     got_ev_key(request.GET.get("ev", False))
     
     competition = get_competition_for_user(request.user)
-    is_organizer = competition.owner == request.user
+    is_organizer = competition is not None and competition.owner == request.user
     
     redirect = get_permissions_redirect(request, competition)
     if redirect:
@@ -220,12 +220,19 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
                 if key.startswith("answer_") or key.startswith("feedback_"):
 
                     toks = key.split('_')
-                    answer_id = int(toks[len(toks) - 1]) #last token is ID
-
                     try:
-                        answer = PitchAnswer.objects.get(id=answer_id)
+                        answer_id = int(toks[len(toks) - 1]) #last token is ID
                     except:
-                        answer = None
+                        answer_id = None
+
+                    if key.startswith("answer_q_") or key.startswith("feedback_q_"):
+                        question_id = int(toks[len(toks) - 1]) #last token is ID
+                        question = PitchQuestion.objects.get(id=question_id)
+                        answer = PitchAnswer(question=question, pitch=pitch)
+                        answer.save()
+
+                    else:
+                        answer = PitchAnswer.objects.get(id=answer_id)
 
                     try:
                         judged_answer = JudgedAnswer.objects.filter(judged_pitch=judgement).get(answer=answer)
@@ -256,7 +263,7 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
         #get a pitch to judge
         if judged_pitch is not None:
             pitch = judged_pitch.pitch
-        else:
+        elif not pitch:
             pitch = get_next_pitch_to_judge(competition, judge)
 
         if pitch:
@@ -267,17 +274,23 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
             for question in questions:
                 try:
                     question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-
+                except:
+                    question.answer = None
+		try:
                     if judged_pitch is not None:
                         try:
                             question.score = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).score
                         except:
                             question.score = 0
+                        try:
+                            question.feedback = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).feedback
+                        except:
+                            question.feedback = ""
                     else:
                         question.score = 0
+                        question.feedback = ""
+                except: pass
                             
-                except:
-                    question.answer = None
 
             for upload in uploads:
                 try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)

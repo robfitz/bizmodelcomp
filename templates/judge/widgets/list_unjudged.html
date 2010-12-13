@@ -27,7 +27,7 @@ Un-judged pitches
             {% else %}
             <tr>
             {% endif %}
-                <td>{{ pitch.team_name }}</td>
+                <td>{{ pitch.team.name }}</td>
                 <td style="text-align:center;">{{ pitch.num_times_judged }}</td>
                 <td><a href="/judge/go/{{pitch.id}}">View & judge it</a></td>
             </tr>

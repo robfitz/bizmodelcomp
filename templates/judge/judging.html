@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block meta %}
+<script language="javascript" type="text/javascript" src="http://www.scribd.com/javascripts/view.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -18,9 +19,15 @@
 	});
 
 	{% for question in questions %}
-		$('#slider_{{question.id}}').slider('option', 'max', {{question.max_points}});
-		max_points[{{question.id}}] = {{question.max_points}};
-		$('#slider_{{question.id}}').slider('option', 'value', {{question.score}});
+		{% if question.max_points %}
+			$('#slider_{{question.id}}').slider('option', 'max', {{question.max_points}});
+			max_points[{{question.id}}] = {{question.max_points}};
+			{% if question.score %}
+			$('#slider_{{question.id}}').slider('option', 'value', {{question.score}});
+			{% else %}
+			$('#slider_{{question.id}}').slider('option', 'value', 0);
+			{% endif %}
+		{% endif %}
 	{% endfor %}
 
 	$('.slider').bind('slidechange', slider_changed);
@@ -86,7 +93,7 @@
 
 				<div class="judging">
 
-					{% if question.is_required and question.max_points > 0 %}
+					{% if question.max_points > 0 %}
 
 						<strong>
 							{% if question.judge_points_prompt %}
@@ -100,18 +107,26 @@
 
 						<div class="slider" id="slider_{{question.id}}"></div>
 						<div class="score_input">
+{% if question.answer %}
 							<input type="number" min="0" max="{{question.max_points}}" id="score_label_{{question.id}}" value="{{question.score}}" class="score_field" name="answer_{{question.answer.id}}" />
+{% else %}
+							<input type="number" min="0" max="{{question.max_points}}" id="score_label_{{question.id}}" value="{{question.score}}" class="score_field" name="answer_q_{{question.id}}" />
+{% endif %}
 						</div>
 
 						<br/>
 
 					{% endif %}
 
-					{% if question.is_required and question.judge_feedback_prompt %}
+					{% if question.judge_feedback_prompt %}
 
 						<strong>{{ question.judge_feedback_prompt }}</strong>
 						<br/>
-						<textarea name="feedback_{{question.id}}">{{question.feedback}}</textarea>
+{% if question.answer %}
+						<textarea style="width:600px;" rows="6" name="feedback_{{question.answer.id}}">{{question.feedback}}</textarea>
+{% else %}
+						<textarea style="width:600px;" rows="6" name="feedback_q_{{question.id}}">{{question.feedback}}</textarea>
+{% endif %}
 
 					{% endif %}
 
@@ -121,9 +136,13 @@
 
 		{% endfor %}
 
+		<div class="hr">&nbsp;</div>
+
+		<div style="float:left;">
 		<p>
 		<input type="submit" value="Submit scores & feedback" style="font-size:18px;" />
 		</p>
+		</div>
 
 
 
