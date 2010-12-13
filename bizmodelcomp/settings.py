@@ -6,7 +6,7 @@ is_local = False
 
 local_windows = ['robfitz-PC', 'tugboat']
 local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local']
-test_server_hostnames = ['ip-10-122-193-156', 'ip-10-194-205-193']
+test_server_hostnames = ['ip-10-122-193-156', 'ip-10-245-129-64']
 
 filesystem = "UNIX"
 
@@ -98,12 +98,11 @@ if is_local:
     MEDIA_URL = 'http://localhost:8000/media/'
 elif is_test_server:
     #MEDIA_URL = 'http://ec2-50-16-25-181.compute-1.amazonaws.com'
-    MEDIA_URL = "http://ec2-50-16-41-90.compute-1.amazonaws.com"
+    MEDIA_URL = 'http://ec2-184-72-203-232.compute-1.amazonaws.com' 
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
+# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a # trailing slash.
 # Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/admin_media/'
+ADMIN_MEDIA_PREFIX = '/media/admin/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = 'qj16npul8@&t&cec9pwic=vs=i#mke9te_wok^b!$#@r2$!0mo'
@@ -121,8 +120,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
 )
 
-#from CommonMiddleware, makes either /page/ or /page valid
-APPEND_SLASH = True 
+APPEND_SLASH = True #from CommonMiddleware, makes either /page/ or /page valid
 
 ROOT_URLCONF = 'bizmodelcomp.urls'
 
