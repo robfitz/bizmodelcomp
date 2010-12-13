@@ -23,10 +23,17 @@ def get_next_pitch_to_judge(competition, judge):
     else:
         pitches = competition.current_phase.pitches_to_judge()
 
-    if len(pitches) > 1:
+    if pitch.phase.pitch_type == "live pitch":
+        #for live pitches we assume the pitches are listed sequentially and
+        #then just go through them in order
+        index = 0
+
+    elif len(pitches) > 1:
         index = random.randrange(0, len(pitches)-1)
+
     else:
         index = 0
+
     try:
         return pitches[index]
     except:
