@@ -65,18 +65,20 @@ def logoutUser(request):
     return HttpResponseRedirect('/') #back to the index
 
 
+
 def is_new_user_judge(user):
-
-	try:
-                #is new acct meant to be a judgeman?
-                judge = JudgeInvitation.objects.get(email=user.email)
-                judge.user = user
-                judge.save()
-		return judge
-        except:
-                #not a judge
-		return False
-
+    print 'is new user judge? user=%s, email=%s' % (user, user.email)
+    try:
+        #is new acct meant to be a judgeman?
+        judge = JudgeInvitation.objects.get(email=user.email)
+        print 'judge = %s' % judge
+        judge.user = user
+        judge.save()
+        print 'saved judge, returning true'
+        return judge
+    except:
+        #not a judge
+        return False
 
 
 
@@ -113,14 +115,17 @@ def registerUser(request):
         if user is not None:
 
             is_judge = is_new_user_judge(user)
+            print 'so was it a judge? %s' % is_judge
 
-            next = request.POST.get("next")
-            if not next:
-                #if we don't have an explicitly set next page, we take our best guess
-                if is_judge:
-                    next = "/judge/"
-                else:
+            if is_judge:
+                next = "/judge/"
+            else: 
+                next = request.POST.get("next")
+                if not next:
+                    #if we don't have an explicitly set next page, we take our best guess
                     next = "/dashboard/"
+
+            print 'go here next: %s' % next
 
             #require email confirmation?
             if ACCOUNT_EMAIL_CONFIRM_REQUIRED:

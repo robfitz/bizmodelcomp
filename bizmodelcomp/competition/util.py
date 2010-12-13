@@ -12,14 +12,14 @@ def get_competition_for_user(user):
         return user.get_profile().competition()
 
     #are they a judge?
-    judging = JudgeInvite.objects.filter(user = user)
+    judging = JudgeInvitation.objects.filter(user = user)
     if judging.count() > 0:
         for j in judging:
-            if j.competition.current_phase().is_judging_enabled:
-                return j
+            if j.competition.current_phase.is_judging_enabled:
+                return j.competition
 
         #couldn't find an open one, so just return the first one
-        return judging[0]
+        return judging[0].competition
 
     #nope :(
     return None
