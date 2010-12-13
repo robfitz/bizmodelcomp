@@ -254,7 +254,7 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
 
                     judged_answer.save()
 
-            if pitch.phase.pitch_type = "live pitch":
+            if pitch.phase.pitch_type == "live pitch":
                 #judging live we always go back to the list so they can be sure
                 #to pick the correct next pitch
                 return HttpResponseRedirect('/judge/list/')
