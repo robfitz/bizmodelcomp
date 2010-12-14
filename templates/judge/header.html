@@ -9,7 +9,11 @@
 {% endblock %}
 
 {% block header_title %}
-	Now judging {{competition.name}}
+    {% if pitch %}
+        Now judging {{ pitch.team_name }}
+    {% else %}
+        Now judging {{competition.name}}
+    {% endif %}
 {% endblock %}
 
 {% block account_controls %}
