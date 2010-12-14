@@ -9,7 +9,7 @@ Un-judged pitches
 
 {% block section_content %}
 
-    {% if pitch.phase.pitch_type == 'live_pitch' %}
+    {% if pitch.phase.pitch_type == 'live pitch' %}
     {% else %}
         <p>
             <input type="checkbox" id="filter" checked="on" />
@@ -25,7 +25,7 @@ Un-judged pitches
         </tr>
 
         {% for pitch in unjudged %}
-            {% if pitch.phase.pitch_type == 'live_pitch' %}
+            {% if pitch.phase.pitch_type == 'live pitch' %}
             <tr>
             {% else %}
                 {% if pitch.num_times_judged >= pitch.phase.min_judgements_per_pitch %}
