@@ -155,6 +155,7 @@ def create_dummy_pitches_for_live_phase(from_phase_id, to_phase_id):
 
     for pitch in Pitch.objects.filter(phase=online):
         dummy_pitch = Pitch(team=pitch.team,
+                owner=pitch.owner,
                 phase=live,
                 order=pitch.order)
         dummy_pitch.save()
