@@ -36,14 +36,14 @@ td {
 
 			<table>
 				<tr style="height:30px;font-weight:bold">
-					<td></td>
-					<td style="min-width:70px;">Name</td>
-					<td style="min-width:70px;">Email</td>
-                    <td style="min-width:70px;">{{ phase_1.name }}</td>
+					<th style="padding:0px;"></th>
+					<th style="padding-left:0px;min-width:70px;">Name</th>
+					<th style="min-width:70px;">Email</th>
+                    <th style="min-width:70px;">{{ phase_1.name }}</th>
                     {% if phase_2 %}
-                    <td style="min-width:70px;">{{ phase_2.name }}</td>
+                    <th style="min-width:70px;">{{ phase_2.name }}</th>
                     {% endif %}
-					<td style="min-width:70px;">Total Avg</td>
+                    <th style="">Total (avg)</th>
 				</tr>
 
 				{% for team in teams %}
@@ -73,7 +73,7 @@ td {
                         {% endif %}
 					</td>
                     {% endif %}
-                    <td style="text-align:right;">{{ team.total_avg }}</td>
+                    <td style="text-align:right;border-left-color: gray; border-left-style: solid; border-left-width: 1px;">{{ team.total_avg|floatformat }}</td>
 				</tr>
 				{% endfor %}
 
