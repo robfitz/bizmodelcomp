@@ -285,7 +285,7 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
                     question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
                 except:
                     question.answer = None
-		try:
+                try:
                     if judged_pitch is not None:
                         try:
                             question.score = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).score

@@ -699,15 +699,19 @@ def view_judgement(request, judgement_id):
     for question in questions:
         try:
             question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-            try:
-
-                question.judged_answer = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer)
-            except:
-                print 'Couldnt find judged_answer score because: %s' % sys.exc_info()[0]
-                question.judged_answer = None
         except:
             question.answer = None
-        
+
+        try:
+            question.score = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).score
+        except:
+            question.score = 0
+
+        try:
+            question.feedback = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).feedback
+        except:
+            question.feedback = ""
+
     for upload in uploads:
         try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
         except: upload.file = None
