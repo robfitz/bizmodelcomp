@@ -166,7 +166,9 @@ class Competition(models.Model):
 
     def is_judging_open(self):
 
-        return self.current_phase and self.current_phase.is_judging_enabled
+        #judging is always open for live pitches, since there's nothing to submit.
+        #it needs to be explicitly set for online phases.
+        return self.current_phase and (self.current_phase.is_judging_enabled or self.current_phase.pitch_type == "live pitch")
 
 
     def __unicode__(self):

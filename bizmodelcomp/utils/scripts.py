@@ -143,4 +143,20 @@ def create_dummy_competition(user):
 
 
 
+def create_dummy_pitches_for_live_phase(from_phase_id, to_phase_id):
 
+    online = Phase.objects.get(id=from_phase_id)
+    live = Phase.objects.get(id=to_phase_id)
+
+    if Pitch.objects.filter(phase=live).count() != 0:
+
+        print 'ERROR: live phase already has pitches. Please delete them manually before using this script, since we dont want to double-create the pitches'
+        return
+
+    for pitch in Pitch.objects.filter(phase=online):
+        dummy_pitch = Pitch(team=pitch.team,
+                phase=live,
+                order=pitch.order)
+        dummy_pitch.save()
+
+    print '%s created successfully' % Pitch.objects.filter(phase=live).count()
