@@ -37,6 +37,8 @@ def list(request):
             pitch.judgement = judgements[0]
             judged.append(pitch)
 
+    #cleanup of local vars so header displays properly
+    pitch = None
 
     return render_to_response('judge/list.html', locals())
 

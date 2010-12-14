@@ -834,7 +834,7 @@ def list_pitches(request, competition_id, phase_id, judge_id=None):
                 if phase_2_id:
                     try:
                         pitch.team.pitch_2 = Pitch.objects.get(phase=phase_2, team=pitch.team)
-                        pitch.team.total_avg += pitch_2.average_score()
+                        pitch.team.total_avg += pitch.team.pitch_2.average_score()
                     except:
                         pass
 
