@@ -9,7 +9,8 @@ Un-judged pitches
 
 {% block section_content %}
 
-    {% if pitch.phase.pitch_type != 'live_pitch' %}
+    {% if pitch.phase.pitch_type == 'live_pitch' %}
+    {% else %}
         <p>
             <input type="checkbox" id="filter" checked="on" />
             <label for="filter">Hide pitches which have already been evaluated by at least {{ competition.current_phase.min_judgements_per_pitch }} other judges</label>
@@ -24,14 +25,14 @@ Un-judged pitches
         </tr>
 
         {% for pitch in unjudged %}
-            {% if pitch.phase.pitch_type != 'live_pitch' %}
+            {% if pitch.phase.pitch_type == 'live_pitch' %}
+            <tr>
+            {% else %}
                 {% if pitch.num_times_judged >= pitch.phase.min_judgements_per_pitch %}
                 <tr class="judged_enough hidden">
                 {% else %}
                 <tr>
                 {% endif %}
-            {% else %}
-            <tr>
             {% endif %}
                 <td>{{ pitch.team.name }}</td>
                 <td style="text-align:center;">{{ pitch.num_times_judged }}</td>
