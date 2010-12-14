@@ -57,7 +57,7 @@ td {
 							<br/>
 						{% endfor %}
                         {% if phase_1.pitch_type != 'live pitch' %}
-                            <a href="/dashboard/pitch/{{team.pitch_1.id}}/">View pitch</a>
+                            <a style="font-size:10px;" href="/dashboard/pitch/{{team.pitch_1.id}}/">View pitch</a>
                         {% endif %}
 					</td>
                     {% if phase_2 %}
@@ -68,7 +68,7 @@ td {
                                 <br/>
                             {% endfor %}
                             {% if phase_2.pitch_type != 'live pitch' %}
-                                <a href="/dashboard/pitch/{{team.pitch_2.id}}/">View pitch</a>
+                                <a style="font-size:10px;" href="/dashboard/pitch/{{team.pitch_2.id}}/">View pitch</a>
                             {% endif %}
                         {% endif %}
 					</td>
