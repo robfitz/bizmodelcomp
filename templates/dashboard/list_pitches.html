@@ -30,31 +30,50 @@ td {
 
 		<div class="summary">
 
+            <!--
 			<button>Announce selected teams as winners</button>
+            -->
 
 			<table>
 				<tr style="height:30px;font-weight:bold">
-					<td></td>
-					<td style="min-width:90px;">Name</td>
-					<td style="min-width:90px;">Email</td>
-					<td style="min-width:90px;">Pitch</td>
-					<td style="min-width:90px;">Scores</td>
-					<td style="min-width:90px;">Average</td>
+					<th style="padding:0px;"></th>
+					<th style="padding-left:0px;min-width:70px;">Name</th>
+					<th style="min-width:70px;">Email</th>
+                    <th style="min-width:70px;">{{ phase_1.name }}</th>
+                    {% if phase_2 %}
+                    <th style="min-width:70px;">{{ phase_2.name }}</th>
+                    {% endif %}
+                    <th style="">Total (avg)</th>
 				</tr>
 
-				{% for pitch in phase.pitches.all %}
+				{% for team in teams %}
 				<tr>
 					<td><input type="checkbox" />
-					<td>{{ pitch.owner.name }}</td>
-					<td>{{ pitch.owner.email }}</td>
-					<td><a href="/dashboard/pitch/{{pitch.id}}/">View pitch</a></td>
+					<td>{{ team.name }}</td>
+					<td style="font-size:10px;">{{ team.owner.email }}</td>
 					<td>
-						{% for judgement in pitch.judgements.all %}
+						{% for judgement in team.pitch_1.judgements.all %}
 							<strong>Score: </strong><a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a>
 							<br/>
 						{% endfor %}
+                        {% if phase_1.pitch_type != 'live pitch' %}
+                            <a style="font-size:10px;" href="/dashboard/pitch/{{team.pitch_1.id}}/">View pitch</a>
+                        {% endif %}
 					</td>
-					<td>{{ pitch.average_score }}</td>
+                    {% if phase_2 %}
+					<td>
+                        {% if team.pitch_2 %}
+                            {% for judgement in team.pitch_2.judgements.all %}
+                                <strong>Score: </strong><a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a>
+                                <br/>
+                            {% endfor %}
+                            {% if phase_2.pitch_type != 'live pitch' %}
+                                <a style="font-size:10px;" href="/dashboard/pitch/{{team.pitch_2.id}}/">View pitch</a>
+                            {% endif %}
+                        {% endif %}
+					</td>
+                    {% endif %}
+                    <td style="text-align:right;border-left-color: gray; border-left-style: solid; border-left-width: 1px;">{{ team.total_avg|floatformat }}</td>
 				</tr>
 				{% endfor %}
 

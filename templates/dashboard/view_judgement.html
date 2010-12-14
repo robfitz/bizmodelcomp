@@ -4,44 +4,61 @@
 
 	{% load markup %}
 
-	<div style="float:left;width:100%;margin-bottom:40px;">
-		<p>
-			<strong>Judge:</strong> {{ judged_pitch.judge.email }}
-			<br/>
-			<strong>Total score:</strong> {{ judged_pitch.score }}
-		</p>
-		<p>
-			<strong>Overall idea attractiveness:</strong> {{ judged_pitch.overall_score }}
-			<br />
-			<strong>Feedback:</strong> {{ judged_pitch.feedback }}
-		</p>
-	</div>
+    {% for upload in uploads %}
+        {% include 'entercompetition/review_upload.html' %}
+    {% endfor %}
 
 	{% for question in questions %}
 
-		<div class="judge_question" style="float:left;width:760px;">
+        <div class="judge_question">
 
-			<div class="application" style="float:left;width:400px;">
+            {% if question.is_hidden_from_applicants %}
+                <div class="judge_application">
+                </div>
+            {% else %}
+                <div class="judge_application">
 
-				<strong class="prompt">{{ question.prompt }}</strong>
-				<br/>
-				<div style="width:100%;border:1px solid #ccc;padding:8px;background-color:#eee;">
-				{% if question.answer.answer %}
-					{{question.answer.answer|markdown}}
-				{% else %} {% if question.is_required %}
-					(no answer)
-				{% endif %}{% endif %}
-				</div>
+                    <strong class="prompt">{{ question.prompt }}</strong>
+                    <br/>
+                    <div style="border:1px solid #ccc;padding:8px;background-color:#eee;">
 
-			</div>
+                        {% if question.answer.answer %}
 
-			<div class="judging" style="float:left;width:150px;margin-left:10px;">
+                            {{question.answer.answer|markdown}}
 
-				{% if question.is_required and question.answer.answer %}
-					<strong>Score: {{ question.judged_answer.score }} / {{ question.max_points }}</strong>
-				{% endif %}
+                        {% else %} {% if question.is_required %}
 
-			</div>
+                            (no answer)
+
+                        {% endif %}{% endif %}
+
+                    </div>
+
+                </div>
+            {% endif %}
+
+            <div class="judging">
+
+                {% if question.max_points > 0 %}
+
+                    <strong>
+                        {% if question.judge_points_prompt %}
+                            {{ question.judge_points_prompt }}
+                        {% else %}
+                        Score: {{question.score}} / {{question.max_points}}
+                        {% endif %}
+                    </strong>
+
+                {% endif %}
+
+                {% if question.judge_feedback_prompt %}
+
+                    <strong>{{ question.judge_feedback_prompt }}</strong>
+                    <br/>
+                    <textarea readonly="readonly" style="width:600px;" rows="6" name="feedback_{{question.answer.id}}">{{question.feedback}}</textarea>
+
+                {% endif %}
+
 
 		</div>
 

@@ -37,6 +37,8 @@ def list(request):
             pitch.judgement = judgements[0]
             judged.append(pitch)
 
+    #cleanup of local vars so header displays properly
+    pitch = None
 
     return render_to_response('judge/list.html', locals())
 
@@ -254,10 +256,19 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
 
                     judged_answer.save()
 
-            #keep page refresh clean of POST data
-            if judged_pitch is not None:
-                return HttpResponseRedirect('/judge/')
+            if pitch.phase.pitch_type == "live pitch":
+                #judging live we always go back to the list so they can be sure
+                #to pick the correct next pitch
+                return HttpResponseRedirect('/judge/list/')
+
+            elif judgedpitch_id is not None or unjudged_pitch_id is not None:
+                #judging online phases, we go back to the list if they have
+                #already started choosing specific pitches
+                return HttpResponseRedirect('/judge/list/')
+
             else:
+                #if they're judging online ptiches and going via the "go"
+                #option, we just keep feeding them more relevant pitches
                 return HttpResponseRedirect('/judge/go/')
 
         #get a pitch to judge
@@ -276,7 +287,7 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
                     question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
                 except:
                     question.answer = None
-		try:
+                try:
                     if judged_pitch is not None:
                         try:
                             question.score = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).score

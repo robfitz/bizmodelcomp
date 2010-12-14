@@ -1,6 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 from competition.models import *
 from judge.models import *
@@ -699,15 +700,19 @@ def view_judgement(request, judgement_id):
     for question in questions:
         try:
             question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-            try:
-
-                question.judged_answer = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer)
-            except:
-                print 'Couldnt find judged_answer score because: %s' % sys.exc_info()[0]
-                question.judged_answer = None
         except:
             question.answer = None
-        
+
+        try:
+            question.score = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).score
+        except:
+            question.score = 0
+
+        try:
+            question.feedback = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).feedback
+        except:
+            question.feedback = ""
+
     for upload in uploads:
         try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
         except: upload.file = None
@@ -798,7 +803,41 @@ def list_pitches(request, competition_id, phase_id, judge_id=None):
 
 
     #is organizer?
+    #TODO: this is now totally insecure and doesn't check phase ownership at all
     if competition.owner == request.user:
+
+        phase_1_id = request.GET.get("p1", None)
+        phase_2_id = request.GET.get("p2", None)
+        
+        phase_1 = phase
+        phase_2 = None
+
+        if phase_1_id:
+            phase_1 = Phase.objects.get(id=int(phase_1_id))
+
+        if phase_2_id:
+            phase_2 = Phase.objects.get(id=int(phase_2_id))
+
+        if phase_1 and phase_2: 
+            pitches = Pitch.objects.filter( Q( phase=phase_1 ) | Q( phase=phase_2 ) )
+
+        elif phase_1:
+            pitches = Pitch.objects.filter( Q( phase=phase_1 ) )
+
+        #make a list of unique teams involved in these pitches
+        teams = []
+        for pitch in pitches:
+            if not pitch.team in teams:
+                teams.append(pitch.team)
+                pitch.team.pitch_1 = Pitch.objects.get(phase=phase_1, team=pitch.team)
+                pitch.team.total_avg = pitch.team.pitch_1.average_score()
+                if phase_2_id:
+                    try:
+                        pitch.team.pitch_2 = Pitch.objects.get(phase=phase_2, team=pitch.team)
+                        pitch.team.total_avg += pitch.team.pitch_2.average_score()
+                    except:
+                        pass
+
         return render_to_response("dashboard/list_pitches.html", locals())
 
     else:
