@@ -56,7 +56,9 @@ td {
 							<strong>Score: </strong><a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a>
 							<br/>
 						{% endfor %}
-					    <a href="/dashboard/pitch/{{team.pitch_1.id}}/">View pitch</a>
+                        {% if phase_1.pitch_type != 'live pitch' %}
+                            <a href="/dashboard/pitch/{{team.pitch_1.id}}/">View pitch</a>
+                        {% endif %}
 					</td>
                     {% if phase_2 %}
 					<td>
@@ -65,7 +67,9 @@ td {
                                 <strong>Score: </strong><a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a>
                                 <br/>
                             {% endfor %}
-                            <a href="/dashboard/pitch/{{team.pitch_2.id}}/">View pitch</a>
+                            {% if phase_2.pitch_type != 'live pitch' %}
+                                <a href="/dashboard/pitch/{{team.pitch_2.id}}/">View pitch</a>
+                            {% endif %}
                         {% endif %}
 					</td>
                     {% endif %}
