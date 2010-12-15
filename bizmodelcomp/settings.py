@@ -131,7 +131,7 @@ TEMPLATE_DIRS = (
     "C:/www/bizmodelcomp/templates/",
     "/var/www/bizmodelcomp/templates/",
     "/Users/robfitz/www/bizmodelcomp/templates/",
-    "/Users/tstonez/www/bizmodelcomp/templates/",
+    "/Users/thomasstone/www/bizmodelcomp/templates/",
 )
 
 INSTALLED_APPS = (
