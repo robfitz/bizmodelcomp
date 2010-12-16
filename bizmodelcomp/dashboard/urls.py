@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     (r'^announce_judging_open/$', 'dashboard.views.announce_judging_open'),
 
     #email contestants their feedback from phases 2 & 3
-    (r'^announce_judging_open/$', 'dashboard.views.send_competition_feedback'),
+    (r'^send_competition_feedback/$', 'dashboard.views.send_competition_feedback'),
 
     #edit basic details of existing comp
     (r'edit_comp_details/$', 'dashboard.views.edit_comp_details'),
