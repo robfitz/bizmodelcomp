@@ -150,8 +150,9 @@ Sincerely,
 
         i += 1
         
-
+    return render_to_response('emailhelper/review_email.html', locals())
     
+
     
 @login_required
 def announce_judging_open(request):
