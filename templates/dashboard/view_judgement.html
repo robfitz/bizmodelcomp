@@ -9,7 +9,7 @@
     {% endfor %}
 
 	{% for question in questions %}
-
+            {{ question.id }}|{{question.answer.id}}
         <div class="judge_question">
 
             {% if question.is_hidden_from_applicants %}
@@ -44,9 +44,11 @@
                     <strong>
                         {% if question.judge_points_prompt %}
                             {{ question.judge_points_prompt }}
-                        {% else %}
-                        Score: {{question.score}} / {{question.max_points}}
                         {% endif %}
+                    </strong>
+			<br/>
+                        Score: 
+		    <strong>{{question.score}} / {{question.max_points}}
                     </strong>
 
                 {% endif %}
@@ -55,13 +57,13 @@
 
                     <strong>{{ question.judge_feedback_prompt }}</strong>
                     <br/>
-                    <textarea readonly="readonly" style="width:600px;" rows="6" name="feedback_{{question.answer.id}}">{{question.feedback}}</textarea>
+                    <textarea readonly="readonly" style="width:600px;" rows="10" name="feedback_{{question.answer.id}}">{{question.feedback}}</textarea>
 
                 {% endif %}
 
 
-		</div>
-
+	    </div>
+        </div>
 	{% endfor %}
 
 

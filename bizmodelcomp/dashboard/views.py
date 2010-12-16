@@ -677,7 +677,7 @@ def list_judges(request, competition_id, phase_id):
 def view_judgement(request, judgement_id):
 
     try:
-        judged_pitch = JudgedPitch.objects.get(id=judgement_id)
+        judged_pitch = JudgedPitch.objects.get(id=int(judgement_id))
         pitch = judged_pitch.pitch
         can_edit = False
 
@@ -699,7 +699,10 @@ def view_judgement(request, judgement_id):
 
     for question in questions:
         try:
-            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+            #question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+            answers = PitchAnswer.objects.filter(pitch=pitch).filter(question=question)
+            question.answer = answers[0]#len(answers) - 1]
+
         except:
             question.answer = None
 

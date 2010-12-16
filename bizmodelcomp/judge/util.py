@@ -23,7 +23,7 @@ def get_next_pitch_to_judge(competition, judge):
     else:
         pitches = competition.current_phase.pitches_to_judge()
 
-    if pitch.phase.pitch_type == "live pitch":
+    if competition.current_phase.pitch_type == "live pitch":
         #for live pitches we assume the pitches are listed sequentially and
         #then just go through them in order
         index = 0
