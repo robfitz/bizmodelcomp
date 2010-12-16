@@ -18,6 +18,141 @@ import smtplib
 
 
 
+def get_feedback_for_question(question_id):
+
+    feedback = ""
+
+    for judged_answer in JudgedAnswer.objects.filter(answer__question__id=question_id):
+        if judged_answer and judged_answer.feedback:
+            feedback = """%s%s
+
+""" % (feedback, judged_answer.feedback.strip())
+
+    return feedback
+
+
+
+@login_required
+def send_competition_feedback(request):
+    
+    competition = request.user.get_profile().competition()
+
+    subject = "EChallenge feedback"
+    from_email = "london.e.challenge@gmail.com"
+
+    message_template = """\
+Hello <<team name>>,
+
+Thanks for being a part of the %s. You did a great job and we are looking forward to seeing these ideas grow into successful companies.
+
+Below you'll find the feedback from judges. It's un-edited and was often written in a hurry, so apologies in advance if you receive something that's overly obscure.
+
+Your business plan was scored in the __<<online rank>> third__ of and your live pitch was in the __<<live rank>> third__.
+
+__Business plan: Positive__
+
+<<online positive>>
+
+__Business plan: To Improve__
+
+<<online negative>>
+
+__Live pitch: Positive__
+
+<<live positive>>
+
+__Live pitch: To Improve__
+
+<<live negative>>
+
+Sincerely,
+
+%s team
+""" % (competition.name, competition.name)
+
+    #make the email
+    bulk_email = Bulk_email(competition=competition,
+            tag="feedback",
+            subject=subject,
+            message_markdown=message_template)
+    bulk_email.save()
+
+    #TODO: un-hardcode plz
+    pitches = Pitch.objects.get(phase=7)
+
+    #collect all the variables that are custom for each team/email
+    team_names = []
+    online_positives = []
+    online_negatives = []
+    live_positives = []
+    live_negatives = []
+    online_ranks = []
+    live_ranks = []
+
+    i = 0
+
+    team_name = Sub_val(email=bulk_email,
+           key="<<team name">>)
+    team_name.save()
+
+    online_negative = Sub_val(email=bulk_email,
+            key="<<online negative>>")
+    online_negative.save()
+
+    online_positive = Sub_val(email=bulk_email,
+            key="<<online positive>>")
+    online_positive.save()
+
+    live_negative = Sub_val(email=bulk_email,
+            key="<<live negative>>")
+    live_negative.save()
+
+    live_positive = Sub_val(email=bulk_email,
+            key="<<live positive>>")
+    live_positive.save()
+
+    for pitch in pitches:
+
+        #who we're shipping it to
+        recipient = Email_address(order=i,
+                bulk_email=bulk_email,
+                address=pitch.team.owner.email)
+
+        #team name
+        val = Val(order = i,
+                val=pitch.team.name,
+                sub_val=team_name)
+        val.save() 
+
+        #online negative: 74
+        val = Val(order = i,
+                val=get_feedback_for_question(74),
+                sub_val=online_negative)
+        val.save() 
+
+        #online positive: 75
+        val = Val(order = i,
+                val=get_feedback_for_question(75),
+                sub_val=online_positive)
+        val.save() 
+
+        #live negative: 77
+        val = Val(order = i,
+                val=get_feedback_for_question(77),
+                sub_val=live_negative)
+        val.save() 
+
+        #live positive: 76
+        val = Val(order = i,
+                val=get_feedback_for_question(76),
+                sub_val=live_positive)
+        val.save() 
+
+        i += 1
+        
+
+    
+    
 @login_required
 def announce_judging_open(request):
 

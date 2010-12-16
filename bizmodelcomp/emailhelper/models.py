@@ -51,6 +51,8 @@ class Bulk_email(models.Model):
 
 class Email_address(models.Model):
 
+    order = models.IntegerField()
+
     bulk_email = models.ForeignKey(Bulk_email, related_name="recipient_addresses")
 
     address = models.CharField(max_length=140)
@@ -91,20 +93,3 @@ class Val(models.Model):
     class Meta:
 
         ordering = ['order']
-
-    def recipients(self):
-
-        recipient_emails = self.recipient_founders.split(';')
-
-        return recipient_emails
-
-
-    def substitutions(self):
-
-        subs = {}
-        
-        for sub_val in self.sub_val_set.all():
-            
-            subs[sub_val.key] = sub_val.vals()
-
-        return subs
