@@ -1,5 +1,6 @@
 from django.db import models
 from competition.models import *
+import string
 
 from datetime import datetime
 
@@ -25,6 +26,44 @@ class Bulk_email(models.Model):
 
     #if None, then this message hasn't been sent yet
     sent_on_date = models.DateTimeField(default=None, blank=True, null=True)
+
+
+    def preview_messages(self):
+
+        subs = {}
+        for sub_val in Sub_val.objects.filter(email=self): 
+            subs[sub_val.key] = []
+
+        messages = []
+        val = ""
+
+        for i in range(0, len(self.recipients())):
+
+            message = {}
+            message["to_email"] = self.recipients()[i]
+            message["body"] = self.message_markdown
+
+            #TODO: use string.parse(format_string) instead of this manual replacing
+            for sub_val in Sub_val.objects.filter(email=self):
+                print 'looking @ sub_val: %s' % sub_val.key
+                try:
+                    val = Val.objects.get(order=i, sub_val=sub_val).val
+                    print '    found val: %s' % val
+                except: val = ""
+
+                subs[sub_val.key].append(val)
+
+                message["body"] = string.replace(message["body"], sub_val.key, val)
+                print '    replaced in body'
+                print message["body"]
+                print ''
+                print ''
+        
+
+            messages.append(message) 
+
+        return messages
+
 
 
     def recipients(self):
@@ -88,7 +127,7 @@ class Val(models.Model):
 
     sub_val = models.ForeignKey(Sub_val)
 
-    val = models.CharField(max_length=500)
+    val = models.CharField(max_length=10000)
 
     class Meta:
 
