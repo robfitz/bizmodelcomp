@@ -43,9 +43,9 @@ def send_competition_feedback(request):
     message_template = """\
 Hello ++team name++,
 
-Thanks for being a part of the %s. Everyone did a impressive work and we look forward to seeing these ideas grow into successful companies.
+Thanks for being a part of the %s. Everyone did great work and we look forward to seeing these ideas grow into successful companies.
 
-Below you'll find the feedback from judges. It's un-edited and was written on the fly, so apologies in advance if you receive something that's overly obscure. Please feel free to follow up with the judges if you'd like additional info.
+Below you'll find the feedback from judges -- it's only sent to one person per team, so please share it with your teammates. It's un-edited and was written on the fly, so apologies in advance if you receive something that's overly obscure. And remember that you are more than welcome to follow up with the judges if you'd like additional info.
 
 Your business plan was scored in the __++online rank++ third__ of the scores and your live pitch was in the __++live rank++ third__.
 

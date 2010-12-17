@@ -100,6 +100,10 @@ class Email_address(models.Model):
     #have a bit of extra info in case people's email or whatever changes.
     user = models.ForeignKey(User, default=None, blank=True, null=True)
 
+
+    class Meta:
+
+        ordering = ['order']
     
 
 class Sub_val(models.Model):
