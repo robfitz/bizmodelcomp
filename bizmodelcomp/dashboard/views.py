@@ -8,7 +8,7 @@ from judge.models import *
 from dashboard.forms import *
 from dashboard.util import *
 from userhelper.models import UserProfile
-from emailhelper.models import Bulk_email, Email_address
+from emailhelper.models import *
 from emailhelper.util import send_bulk_email
 
 import charts.util as chart_util
@@ -18,6 +18,179 @@ import smtplib
 
 
 
+def get_feedback_for_question(question_id, pitch):
+
+    feedback = ""
+
+    for judged_answer in JudgedAnswer.objects.filter(answer__question__id=question_id).filter(answer__pitch__team=pitch.team):
+        if judged_answer and judged_answer.feedback:
+            feedback = """%s%s
+
+""" % (feedback, judged_answer.feedback.strip())
+
+    return feedback
+
+
+
+@login_required
+def send_competition_feedback(request):
+    
+    competition = request.user.get_profile().competition()
+
+    subject = "E Challenge feedback"
+    from_email = "london.e.challenge@gmail.com"
+
+    message_template = """\
+Hello ++team name++,
+
+Thanks for being a part of the %s. Everyone did great work and we look forward to seeing these ideas grow into successful companies.
+
+Below you'll find the feedback from judges -- it's only sent to one person per team, so please share it with your teammates. It's un-edited and was written on the fly, so apologies in advance if you receive something that's overly obscure. And remember that you are more than welcome to follow up with the judges if you'd like additional info.
+
+Your business plan was scored in the __++online rank++ third__ of the scores and your live pitch was in the __++live rank++ third__.
+
+__Business plan: Positive__
+
+++online positive++
+
+__Business plan: To Improve__
+
+++online negative++
+
+__Live pitch: Positive__
+
+++live positive++
+
+__Live pitch: To Improve__
+
+++live negative++
+
+Sincerely,
+
+%s team
+""" % (competition.name, competition.name)
+
+    #make the email
+    bulk_email = Bulk_email(competition=competition,
+            tag="feedback",
+            subject=subject,
+            message_markdown=message_template)
+    bulk_email.save()
+
+    email = bulk_email
+
+    #TODO: un-hardcode plz
+    pitches = Pitch.objects.filter(phase=7)
+
+    live_scores = [] 
+    online_scores = []
+
+    for pitch in pitches:
+        live_scores.append(pitch.average_score())
+    for pitch in Pitch.objects.filter(phase=3):
+        online_scores.append(pitch.average_score())
+
+    live_scores.sort()
+    online_scores.sort()
+
+    i = 0
+
+    team_name = Sub_val(email=bulk_email,
+           key="++team name++")
+    team_name.save()
+
+    online_negative = Sub_val(email=bulk_email,
+            key="++online negative++")
+    online_negative.save()
+
+    online_positive = Sub_val(email=bulk_email,
+            key="++online positive++")
+    online_positive.save()
+
+    live_negative = Sub_val(email=bulk_email,
+            key="++live negative++")
+    live_negative.save()
+
+    live_positive = Sub_val(email=bulk_email,
+            key="++live positive++")
+    live_positive.save()
+
+    online_rank = Sub_val(email=bulk_email,
+            key="++online rank++")
+    online_rank.save()
+
+    live_rank = Sub_val(email=bulk_email,
+            key="++live rank++")
+    live_rank.save()
+
+    for pitch in pitches:
+        online_pitch = Pitch.objects.filter(phase__id=3).get(team__owner__email=pitch.owner.email)
+
+        online_position = online_scores.index(online_pitch.average_score())
+        live_position = live_scores.index(pitch.average_score())
+
+        rank = "top"
+        if online_position < len(online_scores) / 3:
+            rank = "bottom"
+        elif online_position < len(online_scores) * 2 / 3:
+            rank = "middle"
+
+        val = Val(order=i, val=rank, sub_val=online_rank)
+        val.save()
+
+        rank = "top"
+        if live_position < len(live_scores) / 3:
+            rank = "bottom"
+        elif live_position < len(live_scores) * 2 / 3:
+            rank = "middle"
+
+        val = Val(order=i, val=rank, sub_val=live_rank)
+        val.save()
+
+        #who we're shipping it to
+        recipient = Email_address(order=i,
+                bulk_email=bulk_email,
+                address=pitch.team.owner.email)
+        recipient.save()
+
+        #team name
+        val = Val(order = i,
+                val=pitch.team.name,
+                sub_val=team_name)
+        val.save() 
+
+        #online negative: 74
+        feedback = get_feedback_for_question(74, pitch)
+        val = Val(order = i,
+                val=feedback,
+                sub_val=online_negative)
+        val.save() 
+
+        #online positive: 75
+        feedback = get_feedback_for_question(75, pitch)
+        val = Val(order = i,
+                val=get_feedback_for_question(75, pitch),
+                sub_val=online_positive)
+        val.save() 
+
+        #live negative: 77
+        val = Val(order = i,
+                val=get_feedback_for_question(77, pitch),
+                sub_val=live_negative)
+        val.save() 
+
+        #live positive: 76
+        val = Val(order = i,
+                val=get_feedback_for_question(76, pitch),
+                sub_val=live_positive)
+        val.save() 
+
+        i += 1
+        
+    return render_to_response('emailhelper/review_email.html', locals())
+    
+
+    
 @login_required
 def announce_judging_open(request):
 
@@ -46,17 +219,7 @@ Thanks very much for the help.
     for judge in phase.judges():
         recipients.append(judge)
 
-    messages = []
-    for i in range(0, len(recipients)):
-
-        message = {}
-        message["to_email"] = recipients[i]
-        message["body"] = message_template
-
-        #TODO: use string.parse(format_string) instead of this manual replacing
-        #message.body = message_template.replace(message_template, "[[team_name]]", "[[TODO]]")
-
-        messages.append(message) 
+    messages = email.preview_messages()
 
     confirm_warning = "Are you sure you want to send this email to <strong>%s judges</strong> and begin judging pitches? You'll still be able to invite more judges later, but you won't be able to change the judging criteria." % len(recipients)
 

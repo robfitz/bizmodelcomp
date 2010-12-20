@@ -20,7 +20,7 @@ else:
     is_test_server = socket.gethostname() in test_server_hostnames
     print 'Unrecognized hostname in settings.py: %s' % socket.gethostname()
 
-DEBUG = is_local or is_test_server
+DEBUG = True#is_local or is_test_server
 TEMPLATE_DEBUG = DEBUG
 
 #kill switch for emailhelper
