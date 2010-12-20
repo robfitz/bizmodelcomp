@@ -16,13 +16,15 @@ from competition.models import *
 
 def account_settings(request):
 
+    alert = None
+
     if request.method == "POST":
 
-        username = request.POST.get("username")
+        name = request.POST.get("name")
         email = request.POST.get("email_1")
         email_2 = request.POST.get("email_2")
 
-        if email is not None and email != email_2:
+        if email and email != email_2:
             alert = "The email addresses you entered didn't match. Please try again."
 
         elif email and email == email_2:
@@ -30,14 +32,14 @@ def account_settings(request):
             request.user.email = email
             request.user.save()
 
-        if username is not None:
-            #change username
+        if name:
+            #change name
             try:
-                request.user.username = username
+                request.user.first_name = name
                 request.user.save()
 
             except:
-                alert = "That username is already taken. Please try something different."
+                alert = "%s" % sys.exc_info()[0]
 
         if not alert:
             #no alert means success
@@ -72,8 +74,18 @@ def loginRegister(request):
 
             email = request.POST.get("email", None)
             password = request.POST.get("password", None)
+            username = None
 
-            user = auth.authenticate(username=email, password=password)
+            try:
+                email_user = User.objects.get(email=email)
+                username = email_user.username
+            except:
+                alert = "We couldn't find a user with that email. Typo? Please try again or create a new account if you don't yet have one."
+
+                return render_to_response('userhelper/login_register.html', locals())
+
+
+            user = auth.authenticate(username=username, password=password)
 
             if user is not None:
 

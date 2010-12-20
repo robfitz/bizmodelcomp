@@ -1,1 +1,20 @@
-<a href="/judge/">Judge</a> or <a href="/dashboard/">dashboard</a> or <a href="/accounts/logout/">log out</a>
+<a href="/judge/">Judge</a> or <a href="/dashboard/">dashboard</a> 
+or 
+<select id="account_options">
+    <option value="">Account Options</option>
+    <option value="Log out">Log out</option>
+    <option value="Change info">Change info</option>
+</select>
+
+<script language="javascript" type="text/javascript">
+    $( function() {
+        $("#account_options").change( function() {
+            if ( $(this).val() == "Log out" ) {
+                window.location = "/accounts/logout/";
+            }
+            else if ( $(this).val() == "Change info" ) {
+                window.location = "/accounts/settings/";
+            }
+        });
+    });
+</script>
