@@ -1,0 +1,61 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_title %}
+Manage Applications
+{% endblock %}
+
+{% block icon_class %}ui-icon-document{% endblock %}
+
+{% block section_content %}
+
+	{% include 'dashboard/alerts/early_promotion.html' %}
+
+	<div style="float:left;width:20%;">
+		<div class="stat_number">
+			Total Applicants
+			<h1>{{competition.applicants.count}}</h1>
+		</div>
+
+		<p>
+		<a href="">Edit application requirements</a>
+		</p>
+
+	</div>
+
+	<div id="pitch_funnel" style="float:left;width:75%;height:200px;"></div>
+
+	<script language="javascript" type="text/javascript">
+		$(function() {
+			var d = [ [0, {{competition.applicants.count}}] ];
+
+			{% for phase in competition.phases %}
+				d.push([ {{forloop.counter}}, {{phase.pitches.count}} ]);
+			{% endfor %}
+
+
+			$.plot($("#pitch_funnel"),
+				[
+					{
+						data: d,
+						bars: { show: true },
+
+					}
+				],
+				{
+					yaxis: { min:0, minTickSize: 1, tickDecimals: 0 },
+					xaxis: {
+						min:0,
+						tickSize: 1,
+						tickDecimals: 0,
+						ticks: [[0, "Applicants"]
+							{% for phase in competition.phases %}
+								, [{{forloop.counter}}, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phase {{forloop.counter}}"]
+							{% endfor %}
+							, [{{competition.phases.count}}+1, ""]]
+					}
+				}
+				);
+		});
+	</script>
+
+{% endblock %}

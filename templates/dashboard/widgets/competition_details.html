@@ -1,0 +1,29 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_style %}
+width:48%;
+{% endblock %}
+
+{% block icon_class %}ui-icon-pencil{% endblock %}
+
+{% block section_title %}
+Competition details
+{% endblock %}
+
+{% block section_content %}
+
+	<p>
+	<strong>Name:</strong> {{competition.name}}
+	</p>
+
+	<p>
+	<strong>Website:</strong> <a href="{{competition.website}}">{{competition.website}}</a>
+	</p>
+
+    <p>
+    <strong>Branded URL:</strong> {{competition.hosted_url}}
+    </p>
+
+    <a href="/dashboard/edit_comp_details/" class="button">Edit competition info</a>
+
+{% endblock %}
