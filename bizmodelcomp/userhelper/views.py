@@ -14,6 +14,43 @@ from competition.models import *
 
 
 
+def account_settings(request):
+
+    if request.method == "POST":
+
+        username = request.POST.get("username")
+        email = request.POST.get("email_1")
+        email_2 = request.POST.get("email_2")
+
+        if email is not None and email != email_2:
+            alert = "The email addresses you entered didn't match. Please try again."
+
+        elif email and email == email_2:
+            #change email address
+            request.user.email = email
+            request.user.save()
+
+        if username is not None:
+            #change username
+            try:
+                request.user.username = username
+                request.user.save()
+
+            except:
+                alert = "That username is already taken. Please try something different."
+
+        if not alert:
+            #no alert means success
+            return HttpResponseRedirect('/dashboard/')
+
+        else:
+            #failure of some kind, show a message
+            return render_to_response('userhelper/account_settings.html', locals())
+
+    return render_to_response('userhelper/account_settings.html', locals())
+
+
+
 def noPermissions(request):
 
     return render_to_response('userhelper/no_permissions.html')
