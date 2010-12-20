@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
+{% endblock %}
+
+{% block header_title %}
+Log in or Register
+{% endblock %}
+
+{% block style %}
+	#submission {
+		float:right;
+		clear:both;
+		margin-right:80px;
+		margin-top:20px;
+	}
+
+    div.form_button_spacing {
+        float:left;
+        height:100px;
+    }
+{% endblock %}
+
+{% block content %}
+
+<div id="left">
+
+	{% if alert %}
+		{% include 'dashboard/alerts/alert.html' %}
+	{% endif %}
+
+    <div class="half_width">
+
+        <h3>Log in to an existing account</h3>
+
+        <form action="." method="POST" class="focus">
+
+            <div class="form_button_spacing">
+                {% include 'userhelper/login_fields.html' %}
+            </div>
+
+            <div id="submission" style="float:left;">
+                <input type="submit" class="button" value="Log in" style="margin-left:10px" />
+            </div>
+
+
+        </form>
+    </div>
+
+    <div class="half_width">
+
+        <h3>Create a new account</h3>
+
+        <form action="." method="POST" class="focus">
+
+            <div class="form_button_spacing">
+
+                {% include 'userhelper/register_fields.html' %}
+
+            </div>
+
+            <div id="submission" style="float:left;">
+                <input type="submit" class="button" value="Sign up" style="margin-left:10px" />
+            </div>
+
+        </form>
+
+    </div>
+</div>
+
+<div class="hr" style="height:100px;">&nbsp;</div>
+
+{% endblock %}
