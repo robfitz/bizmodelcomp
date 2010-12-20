@@ -1,5 +1,6 @@
 from django.db import models
 from competition.models import *
+import string
 
 from datetime import datetime
 
@@ -27,6 +28,44 @@ class Bulk_email(models.Model):
     sent_on_date = models.DateTimeField(default=None, blank=True, null=True)
 
 
+    def preview_messages(self):
+
+        subs = {}
+        for sub_val in Sub_val.objects.filter(email=self): 
+            subs[sub_val.key] = []
+
+        messages = []
+        val = ""
+
+        for i in range(0, len(self.recipients())):
+
+            message = {}
+            message["to_email"] = self.recipients()[i]
+            message["body"] = self.message_markdown
+
+            #TODO: use string.parse(format_string) instead of this manual replacing
+            for sub_val in Sub_val.objects.filter(email=self):
+                print 'looking @ sub_val: %s' % sub_val.key
+                try:
+                    val = Val.objects.get(order=i, sub_val=sub_val).val
+                    print '    found val: %s' % val
+                except: val = ""
+
+                subs[sub_val.key].append(val)
+
+                message["body"] = string.replace(message["body"], sub_val.key, val)
+                print '    replaced in body'
+                print message["body"]
+                print ''
+                print ''
+        
+
+            messages.append(message) 
+
+        return messages
+
+
+
     def recipients(self):
 
         recipient_emails = []
@@ -51,6 +90,8 @@ class Bulk_email(models.Model):
 
 class Email_address(models.Model):
 
+    order = models.IntegerField()
+
     bulk_email = models.ForeignKey(Bulk_email, related_name="recipient_addresses")
 
     address = models.CharField(max_length=140)
@@ -59,6 +100,10 @@ class Email_address(models.Model):
     #have a bit of extra info in case people's email or whatever changes.
     user = models.ForeignKey(User, default=None, blank=True, null=True)
 
+
+    class Meta:
+
+        ordering = ['order']
     
 
 class Sub_val(models.Model):
@@ -86,25 +131,8 @@ class Val(models.Model):
 
     sub_val = models.ForeignKey(Sub_val)
 
-    val = models.CharField(max_length=500)
+    val = models.CharField(max_length=10000)
 
     class Meta:
 
         ordering = ['order']
-
-    def recipients(self):
-
-        recipient_emails = self.recipient_founders.split(';')
-
-        return recipient_emails
-
-
-    def substitutions(self):
-
-        subs = {}
-        
-        for sub_val in self.sub_val_set.all():
-            
-            subs[sub_val.key] = sub_val.vals()
-
-        return subs

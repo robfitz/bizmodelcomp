@@ -18,13 +18,14 @@ from emailhelper import SmtpApiHeader
 #recipients is a list [email1, email2, email3]
 #substitutions is dict of lists { '-name-': ['rob', 'tom', 'joe'],
 #                                 '-team-': ['the cats', 'the dogs', 'the bogs'] }
-def send_bulk_email(bulk_email, fromEmail="competitions@nvana.com", log=True):
+def send_bulk_email(bulk_email, fromEmail="competitions@nvana.com", log=True, override_disable=False):
 
     print 'Sending bulk email to %s recipients' % len(bulk_email.recipients())
-
-    toEmail = "irrelevant@example.com"
-    hdr = SmtpApiHeader.SmtpApiHeader()
     
+    #irrelevant because we're sending to multiple recipients, so this field is ignored
+    toEmail = "irrelevant@example.com" 
+
+    hdr = SmtpApiHeader.SmtpApiHeader()
     hdr.addTo(bulk_email.recipients())
               
     for sub, val in bulk_email.substitutions().items():
@@ -56,7 +57,7 @@ def send_bulk_email(bulk_email, fromEmail="competitions@nvana.com", log=True):
     username = EMAIL_USER
     password = EMAIL_PASSWORD
 
-    if not is_local and not DISABLE_ALL_EMAIL:
+    if override_disable or (not is_local and not DISABLE_ALL_EMAIL):
 
         # Open a connection to the SendGrid mail server
         s = smtplib.SMTP('smtp.sendgrid.net')

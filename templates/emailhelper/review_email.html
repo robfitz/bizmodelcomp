@@ -36,7 +36,7 @@ function preview_emails() {
         </div>
     </div>
     <div id="jqmContent" style="overflow-x:hidden;overflow-y:auto;">
-        {% for message in messages %}
+        {% for message in email.preview_messages %}
 
             <strong>To:</strong> {{ message.to_email }}
             <br/>
@@ -51,6 +51,9 @@ function preview_emails() {
 {% block content %}
 
     {% load markup %}
+
+email id: {{ email.id }}
+<br/>
 
     <form action="" method="POST">
 
@@ -67,8 +70,8 @@ function preview_emails() {
         </p>
 
         <p>
-            <strong>To</strong>
-            {% for recipient in recipients %}
+            <strong>To:</strong>
+            {% for recipient in email.recipients %}
                 <span style="margin-right:12px;">{{recipient}}</span>
             {% endfor %}
         </p>
