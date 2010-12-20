@@ -1,4 +1,3 @@
-
 .strikethrough, del {
     text-decoration: line-through;
 }
@@ -210,12 +209,12 @@ li {
 }
 
 .input_prompt {
-        width:142px;
-        margin-right:8px;
-        float:left;
+    width:120px;
+    float:left;
+    padding-top:8px;
 }
 
-.prompt, .input_prompt {
+.prompt {
 	float: left;
 	clear:both;
 }
