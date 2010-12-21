@@ -14,6 +14,45 @@ from competition.models import *
 
 
 
+def account_settings(request):
+
+    alert = None
+
+    if request.method == "POST":
+
+        name = request.POST.get("name")
+        email = request.POST.get("email_1")
+        email_2 = request.POST.get("email_2")
+
+        if email and email != email_2:
+            alert = "The email addresses you entered didn't match. Please try again."
+
+        elif email and email == email_2:
+            #change email address
+            request.user.email = email
+            request.user.save()
+
+        if name:
+            #change name
+            try:
+                request.user.first_name = name
+                request.user.save()
+
+            except:
+                alert = "%s" % sys.exc_info()[0]
+
+        if not alert:
+            #no alert means success
+            return HttpResponseRedirect('/dashboard/')
+
+        else:
+            #failure of some kind, show a message
+            return render_to_response('userhelper/account_settings.html', locals())
+
+    return render_to_response('userhelper/account_settings.html', locals())
+
+
+
 def noPermissions(request):
 
     return render_to_response('userhelper/no_permissions.html')
@@ -35,8 +74,18 @@ def loginRegister(request):
 
             email = request.POST.get("email", None)
             password = request.POST.get("password", None)
+            username = None
 
-            user = auth.authenticate(username=email, password=password)
+            try:
+                email_user = User.objects.get(email=email)
+                username = email_user.username
+            except:
+                alert = "We couldn't find a user with that email. Typo? Please try again or create a new account if you don't yet have one."
+
+                return render_to_response('userhelper/login_register.html', locals())
+
+
+            user = auth.authenticate(username=username, password=password)
 
             if user is not None:
 

@@ -1,0 +1,105 @@
+{% extends 'dashboard/base.html' %}
+
+{% block header_title %}
+Change account settings
+{% endblock %}
+
+{% block script %}
+
+    function change_name() {
+
+        $( '#user_display' ).hide();
+        $( '#user_form' ).show();
+
+    }
+
+    function change_email() {
+
+        cancel_changes();
+        
+        $( '#email_display' ).hide();
+        $( '#email_form' ).show();
+        
+    }
+
+    function cancel_changes() {
+
+        $( ':text' ).val('');
+
+        $( '#email_display' ).show();
+        $( '#email_form' ).hide();
+
+        $( '#user_display' ).show();
+        $( '#user_form' ).hide();
+
+    }
+
+{% endblock %}
+
+{% block content %}
+
+<form method="POST" action="">
+
+    {% if alert %}
+    {% include 'dashboard/alerts/alert.html' %}
+    {% endif %}
+
+    <div class="input_prompt">
+        <strong>Name</strong>
+    </div>
+    <div id="user_display" style="float:left;padding-top:8px;">
+        {{request.user.get_profile.name}}
+        <a class="medium" style="padding-left:20px;" href="javascript:void(0);" onclick="change_name();">Change name</a>
+    </div>
+    <div id="user_form" class="hidden" style="float:left;padding-top:0px;">
+        <input type="text" name="name" class="large" />
+
+        <input type="submit" value="Save" class="button" />
+        <a href="javascript:void(0);" onclick="cancel_changes()" class="medium">Cancel changes</a>
+    </div>
+
+    <div class="hr">&nbsp;</div>
+
+    <div id="email_display">
+        <div class="input_prompt">
+            <strong>Email</strong>
+        </div>
+        <div style="float:left;padding-top:8px;">
+            {{request.user.email}}
+            <a class="medium" style="padding-left:20px;" href="javascript:void(0);" onclick="change_email();">Change email</a>
+        </div>
+    </div>
+
+    <div id="email_form" class="hidden">
+        <div class="input_prompt">
+            <strong>New Email</strong>
+        </div>
+        <div style="float:left;padding-top:0px;">
+            <input type="text" name="email_1" class="large" />
+        </div>
+
+        <div class="hr">&nbsp;</div>
+
+        <div class="input_prompt">
+            <strong>Repeat Email</strong>
+        </div>
+        <div style="float:left;padding-top:0px;">
+            <input type="text" name="email_2" class="large" />
+
+            <input type="submit" value="Save" class="button" />
+            <a href="javascript:void(0);" onclick="cancel_changes()" class="medium">Cancel changes</a>
+        </div>
+    </div>
+
+</form>
+
+<div class="hr">&nbsp;</div>
+
+<div class="input_prompt">
+    <strong>Password</strong>
+</div>
+<div style="float:left;padding-top:8px;">
+    <a class="medium" href="/accounts/pw_change/">Change password</a> 
+</div>
+
+{% endblock %}

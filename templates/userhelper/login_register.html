@@ -34,16 +34,23 @@ Log in or Register
 
         <h3>Log in to an existing account</h3>
 
-        <form action="." method="POST" class="focus">
+        <form action="" method="POST" class="focus">
+
+            {% csrf_token %}
 
             <div class="form_button_spacing">
                 {% include 'userhelper/login_fields.html' %}
             </div>
 
             <div id="submission" style="float:left;">
-                <input type="submit" class="button" value="Log in" style="margin-left:10px" />
+                <div class="input_prompt">
+                    <a href="/accounts/pw_reset/">Forgot password?</a>
+                </div>
+                <input type="submit" class="button" value="Log in" /> 
             </div>
 
+            <div style="float:left;clear:both;">
+            </div>
 
         </form>
     </div>
@@ -52,7 +59,9 @@ Log in or Register
 
         <h3>Create a new account</h3>
 
-        <form action="." method="POST" class="focus">
+        <form action="" method="POST" class="focus">
+
+            {% csrf_token %}
 
             <div class="form_button_spacing">
 
@@ -61,7 +70,10 @@ Log in or Register
             </div>
 
             <div id="submission" style="float:left;">
-                <input type="submit" class="button" value="Sign up" style="margin-left:10px" />
+                <div class="input_prompt">
+                    &nbsp;
+                </div>
+                <input type="submit" class="button" value="Sign up" />
             </div>
 
         </form>

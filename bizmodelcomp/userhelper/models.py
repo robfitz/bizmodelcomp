@@ -35,3 +35,17 @@ class UserProfile(models.Model):
 	        return comps[0]
 
 	return None
+
+
+    #best guess at an appropriate display name
+    def name(self):
+
+        try:
+            if self.user.first_name:
+                return self.user.first_name
+
+            else:
+                return self.user.email.split('@')[0]
+
+        except:
+            return "No name!"
