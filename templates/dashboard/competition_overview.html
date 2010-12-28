@@ -7,9 +7,9 @@
 {% endblock %}
 
 {% block tab_list %}
-                <li><a href="#judging">Judging</a></li>
-                <li><a href="#applications">Applications</a></li>
-                <li><a href="#setup">Setup</a></li>
+                <li id="tab_judging"><a href="#judging">Judging</a></li>
+                <li id="tab_applications"><a href="#applications">Applications</a></li>
+                <li id="tab_setup"><a href="#setup">Setup</a></li>
 {% endblock %}
 
 {% block tab_divs %}
@@ -184,23 +184,23 @@
 
         </div>
 
-
     </div>
 
-    <script>
-        $(function() {
-
-            $("li > a").click( function() {
-
-                var container = $(this).parent().parent().parent().parent();
-                alert('container: ' + container);
-
-                var id = $(this).attr("href");
-                container.children(".ui-tabs-panel").hide();
-                container.children(id).show();
-
-        });
-    </script>
 
 {% endblock %}
 
+{% block tabs_ready_script %}
+
+        {% if competition.current_phase.setup_steps.details_confirmed  %}
+            {% if competition.current_phase.is_judging_enabled %}
+                var tab = "#judging";
+            {% else %}
+                var tab = "#applications";
+            {% endif %}
+        {% else %}
+            var tab = "#setup";
+        {% endif %}
+
+        $("#tabs_{{competition.id}}").tabs("select", tab);
+
+{% endblock %}

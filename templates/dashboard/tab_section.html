@@ -23,6 +23,10 @@
         $("#tabs_{{competition.id}}").tabs();
         $("#tabs_{{competition.id}} li").css("float", "right");
 
+        {% block tabs_ready_script %}
+
+        {% endblock %}
+
     });
 
 </script>

@@ -1,5 +1,12 @@
 {% extends 'dashboard/base.html' %}
 
+{% block ready_script %}
+
+    $("#tab_manage").addClass("ui-state-active");
+    $("#tab_manage").addClass("ui-tabs-selected");
+
+{% endblock %}
+
 {% block content %}
 
     {% include 'dashboard/alerts/phase_status.html' %}
