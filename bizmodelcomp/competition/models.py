@@ -141,29 +141,6 @@ class Competition(models.Model):
         return self.phases()[0]
     
 
-    def pitches(self):
-
-        unsorted = self.current_phase.pitches.all()
-        
-##        sorted_pitches = []
-##    
-##        for u in unsorted:
-##            inserted = False
-##            
-##            for s in sorted_pitches:
-##                if u.average_score() >= s.average_score():
-##                    sorted_pitches.insert(sorted_pitches.index(s), u)
-##                    inserted = True
-##                    break
-##
-##            if not inserted:
-##                sorted_pitches.append(u)
-##
-##        return sorted_pitches
-
-        return unsorted
-    
-
     def is_judging_open(self):
 
         #judging is always open for live pitches, since there's nothing to submit.
@@ -338,7 +315,7 @@ class Phase(models.Model):
                 judgements.extend(pitch.judgements.all())
 
         if num > 0:
-            return judgements[-num:]
+            return judgements[:num]
         else:
             return judgements
 
@@ -436,6 +413,14 @@ class Phase(models.Model):
 
         return self.pitchquestion_set.all()
     
+
+    def pitches(self, num=10):
+
+        if num > 0: 
+            return Pitch.objects.filter(phase=self)[:num]
+        else:
+            return Pitch.objects.filter(phase=self)
+
     
     #TODO: make this better (currently everyone is in every phase)
     def applicants(self):
@@ -514,7 +499,9 @@ class Pitch(models.Model):
 
 
     class Meta:
-        ordering = ['order']
+        #if organizer has specified an order, that takes precedence,
+        #and otherwise we go in reverse order created
+        ordering = ['order', '-created']
 
 
     def created_ms(self):

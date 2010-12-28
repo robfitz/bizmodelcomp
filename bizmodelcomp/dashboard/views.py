@@ -706,7 +706,8 @@ def edit_comp(request, comp_url):
             editing_phase = int(request.GET.get("open", 0))
             print 'editing phase = %s' % editing_phase
 
-            try: phase = Phase.objects.get(id=request.POST.get("phase_id", None))
+            try: 
+                phase = Phase.objects.get(id=request.POST.get("phase_id", None))
             except:
                 if "new_phase" in request.POST:
                     phase = Phase(competition=competition)

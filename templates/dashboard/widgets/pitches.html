@@ -8,7 +8,7 @@ Applicants and Pitches
 
 {% block section_content %}
     
-    <div style="float:left;width:38%">
+    <div class="half_width">
 
         <div class="stat_number">
             Num applicants
@@ -22,14 +22,37 @@ Applicants and Pitches
         
         <div class="hr" style="height:30px;">&nbsp;</div>
 
-        <p>
-        <a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View submitted pitches</a>
-        </p>
+
+        <h3 style="float:left;">Pitch submission times</h3>
+        <div id="pitches_over_time" style="float:left;width:100%;height:150px"></div>
     </div>
 
-    <div style="float:left;width:58%;height:200px;text-align:center;">
-        Chart of pitch submission times
-        <div id="pitches_over_time" style="width:100%;height:180px"></div>
+    <div class="half_width">
+
+        <h3>Last 10 applications</h3>
+
+        <table>
+            <tr>
+                <th>Team</th>
+                <th>Time</th>
+            </tr>
+
+            {% for pitch in competition.current_phase.pitches.all %}
+
+                <tr>
+                    <td>{{pitch.team}}</td>
+                    <td>{{pitch.created}}</td>
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <p>
+        <a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View all</a>
+        </p>
+
+
     </div>
 
 	<script language="javascript" type="text/javascript">
