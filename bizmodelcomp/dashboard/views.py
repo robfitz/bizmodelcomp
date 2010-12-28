@@ -710,6 +710,7 @@ def edit_comp(request, comp_url):
             except:
                 if "new_phase" in request.POST:
                     phase = Phase(competition=competition)
+                    print 'new phase'
 
             if phase:
                 form = PhaseForm(request.POST, instance=phase)
