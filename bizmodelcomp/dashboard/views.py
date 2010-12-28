@@ -695,7 +695,7 @@ def edit_comp(request, comp_url):
             try:
                 form.save()
                 #success, return to dashboard
-                return HttpResponseRedirect("/dashboard/%s/" % competition.hosted_url)
+                return HttpResponseRedirect("/dashboard/%s/setup/" % competition.hosted_url)
 
             except:
                 #form saving failed, alert user and re-display
@@ -704,6 +704,7 @@ def edit_comp(request, comp_url):
         elif request.POST.get("form_type") == "phase_info":
 
             editing_phase = int(request.GET.get("open", 0))
+            print 'editing phase = %s' % editing_phase
 
             try: phase = Phase.objects.get(id=request.POST.get("phase_id", None))
             except:

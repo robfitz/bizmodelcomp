@@ -5,50 +5,47 @@ half_width
 {% endblock %}
 
 {% block section_title %}
-Phase {{forloop.counter}} - {{phase.name}}
+Phase {{forloop.counter}}  {{phase.name}}
 {% endblock %}
 
 {% block icon_class %}{% endblock %}
 
 {% block section_content %}
 
-	<div id="view_phase_{{phase.id}}" class="view_phase">
+    <div id="view_phase_{{phase.id}}" class="view_phase">
+        
+       <div class="stat_number" style="textalign:left;">
+           Due date
+           <h1>{{ phase.deadline|date:"M j" }}</h1>
+       </div>
+       <div class="stat_number" style="textalign:left;">
+           Deadline time
+           <h1>{{ phase.deadline|date:"H:i" }}</h1>
+       </div>
 
-		{% ifequal phase phase.competition.current_phase %}
-			<!--
-			{% include 'dashboard/alerts/current_phase.html' %}
-			-->
-		{% endifequal %}
+       <div class="hr">&nbsp;</div>
 
-		<div class="stat_number" style="text-align:left;">
-			Due date
-			<h1>{{ phase.deadline|date:"M j" }}</h1>
-		</div>
-		<div class="stat_number" style="text-align:left;">
-			Deadline time
-			<h1>{{ phase.deadline|date:"H:i" }}</h1>
-		</div>
+       <div class="stat_number" style="textalign:left;">
+           Pitch type (online or live)
+           {% ifequal phase.pitch_type "online" %}
+               <h1>Online</h1>
+           {% else %}
+           <h1>Live</h1>
+           {% endifequal %}
+       </div>
 
-		<div class="hr">&nbsp;</div>
+       <div class="hr">&nbsp;</div>
 
-		<div class="stat_number" style="width:100%;text-align:left;">
-			Pitch type (online or live)
-			{% ifequal phase.pitch_type "online" %}
-				<h1>Online</h1>
-			{% else %}
-			<h1>Live</h1>
-			{% endifequal %}
-		</div>
+       <a href="/dashboard/{{competition.hosted_url}}/phases/?open={{phase.id}}" class="button edit_phase_button" id="edit_phase_button_{{phase.id}}" style="float:left;">Edit phase details</a>
+    
+   </div>
 
-		<a href="/dashboard/{{competition.hosted_url}}/phases/?open={{phase.id}}" class="button edit_phase_button" id="edit_phase_button_{{phase.id}}" style="float:left;">Edit phase details</a>
+   <script>
+       $(function() {
+               $('.edit_phase_button').button("option", { icons: { primary: "uiiconwrench" } });
+               $(".edit_pitch_button").button("option", { icons: { primary: "uiiconwrench" } } );
+       });
+   </script>
 
-	</div>
-
-	<script>
-		$(function() {
-			$('.edit_phase_button').button("option", { icons: { primary: "ui-icon-wrench" } });
-			$(".edit_pitch_button").button("option", { icons: { primary: "ui-icon-wrench" } } );
-		});
-	</script>
 
 {% endblock %}

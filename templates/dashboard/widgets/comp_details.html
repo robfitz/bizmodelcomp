@@ -3,12 +3,58 @@
 {% block section_title %}Setup new competition{% endblock %}
 
 {% block section_content %}
-    <form action="." method="POST">
 
-        <input type="hidden" name="form_type" value="competition_info" />
+    <div id="view_comp_details">
 
-        {{ edit_comp_form.as_p }}
+        <p>
+        <strong>Name:</strong> {{competition.name}}
+        </p>
 
-        <input type="submit" value="Save and Continue" class="button" />
-    </form>
+        <p>
+        <strong>Website:</strong> <a href="{{competition.website}}">{{competition.website}}</a>
+        </p>
+
+        <p>
+        <strong>Branded URL:</strong> {{competition.hosted_url}}
+        </p>
+
+        <a id="edit_competition_details" href="javascript:void(0);" class="button">Edit competition info</a>
+
+    </div>
+
+    <div id="edit_comp_details" class="hidden">
+
+        <form action="." method="POST">
+
+            <input type="hidden" name="form_type" value="competition_info" />
+
+            {{ edit_comp_form.as_p }}
+
+            <a id="cancel_edit_competition" href="javascript:void(0);">Cancel changes</a>
+            <input type="submit" value="Save and Continue" class="button" />
+        </form>
+
+    </div>
+
+    <script language="javascript" type="text/javascript">
+        $(function () {
+
+            $("#edit_competition_details").click( function() {
+
+                $("#view_comp_details").slideUp();
+                $("#edit_comp_details").slideDown();
+
+            });
+
+            $("#cancel_edit_competition").click( function() {
+
+                $("#view_comp_details").slideDown();
+                $("#edit_comp_details").slideUp();
+
+            });
+            
+
+        });
+    </script>
+
 {% endblock %}
