@@ -4,7 +4,11 @@
 
 {% block section_content %}
     <form action="." method="POST">
-        {{ form.as_p }}
+
+        <input type="hidden" name="form_type" value="competition_info" />
+
+        {{ edit_comp_form.as_p }}
+
         <input type="submit" value="Save and Continue" class="button" />
     </form>
 {% endblock %}

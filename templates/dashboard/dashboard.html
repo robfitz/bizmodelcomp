@@ -6,22 +6,24 @@
 
 		{% include 'dashboard/alerts/phase_status.html' %}
 
-		{% include 'dashboard/widgets/mini_phase_details.html' %}
-		{% include 'dashboard/widgets/pitch_questions.html' %}
+		{% include 'dashboard/widgets/scores.html' %}
 
-		{% include 'dashboard/widgets/manage_pitches.html' %}
+		{% include 'dashboard/widgets/pitches.html' %}
 
-		{% include 'dashboard/widgets/manage_judges.html' %}
 
 	{% else %}
 
+		{% include 'dashboard/widgets/mini_phase_details.html' %}
+		{% include 'dashboard/widgets/pitch_questions.html' %}
+
+
+		{% include 'dashboard/widgets/manage_judges.html' %}
 		{% include 'dashboard/widgets/competition_details.html' %}
 
 		{% include 'dashboard/widgets/phases.html' %}
 
 		{% include 'dashboard/widgets/manage_applicants.html' %}
 
-		{% include 'dashboard/widgets/manage_judges.html' %}
 
         {% include 'dashboard/widgets/emails.html' %}
 

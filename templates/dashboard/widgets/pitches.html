@@ -1,0 +1,76 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_title %}
+Applicants and Pitches
+{% endblock %}
+
+{% block icon_class %}ui-icon-document{% endblock %}
+
+{% block section_content %}
+    
+    <div style="float:left;width:38%">
+
+        <div class="stat_number">
+            Num applicants
+            <h1>{{phase.applicants.count}}</h1>
+       </div>
+
+        <div class="stat_number">
+            Num Pitches
+            <h1>{{phase.pitches.count}}</h1>
+        </div>
+        
+        <div class="hr" style="height:30px;">&nbsp;</div>
+
+        <p>
+        <a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View submitted pitches</a>
+        </p>
+    </div>
+
+    <div style="float:left;width:58%;height:200px;text-align:center;">
+        Chart of pitch submission times
+        <div id="pitches_over_time" style="width:100%;height:180px"></div>
+    </div>
+
+	<script language="javascript" type="text/javascript">
+
+		$(function() {
+
+			var d = [];
+			var total = 0;
+			var earliest = 0;
+
+			{% for pitch in phase.pitches.all %}
+
+				d.push( [ {{ pitch.created_ms }} , total]);
+				total = total + 1;
+				if (earliest == 0 || {{ pitch.created_ms }} < earliest) {
+					earliest = {{ pitch.created_ms }};
+				}
+
+			{% endfor %}
+
+			//empty entry one day before first one so we have a growth ramp
+			d.splice(0, 0, [earliest-1000*60*60*6, 0]);
+
+			$.plot($("#pitches_over_time"),
+				[{ data: d,
+					lines: { show:true },
+				}],
+				{
+					xaxis: {
+						mode: "time",
+						minTickSize: [6, "hour"]
+					},
+					yaxis: {
+						min: 0,
+						minTickSize: 1
+					}
+				}
+			);
+
+		});
+
+	</script>
+
+{% endblock %}

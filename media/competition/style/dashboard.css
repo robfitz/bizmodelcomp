@@ -16,8 +16,17 @@
 
 #navbar {
     float:left;
-    width:110px;
-    padding:0px 8px 0px 0px;
+    width:100%;
+    padding:0px 8px 8px 0px;
+}
+
+.dashboard-nav-tabs {
+
+    border-top: none;
+    border-right: none;
+    border-left:none;
+
+    background:none;
 }
 
 #navbar button, #navbar .button, #navbar label {
@@ -27,7 +36,7 @@
 
 #tab_contents {
     float:left;
-    width:650px;
+    width:100%;
 }
 
 .subsection {

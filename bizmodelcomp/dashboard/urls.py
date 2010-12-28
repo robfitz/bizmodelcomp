@@ -2,29 +2,36 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
 
+    #organizer dashboard - overview
+    (r'^$', 'dashboard.views.overall_dashboard'),
+
+    #organizer dashboard - setup & comp info
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/setup/$', 'dashboard.views.edit_comp'),
+    
+    #organizer dashboard - manage current phase
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/$', 'dashboard.views.dashboard'),
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/manage/$', 'dashboard.views.dashboard'),
+
     #setup new competition
-    (r'^setup/(?P<step_num>[0-9]{1,2})/$',
+    (r'^new_comp/$',
+        'dashboard.views.setup'),
+    (r'^(?P<comp_id>[0-9]{1,10})/setup/(?P<step_num>[0-9]{1,2})/$',
         'dashboard.views.setup'),
 
     #email applicants that phase is opening. applies only to competition's current phase
     (r'^announce_applications_open/$', 'dashboard.views.announce_applications_open'),
-
     #email judges that judging is open and set it to open
     (r'^announce_judging_open/$', 'dashboard.views.announce_judging_open'),
-
     #email contestants their feedback from phases 2 & 3
     (r'^send_competition_feedback/$', 'dashboard.views.send_competition_feedback'),
 
     #edit basic details of existing comp
-    (r'edit_comp_details/$', 'dashboard.views.edit_comp_details'),
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/edit_comp/$', 'dashboard.views.edit_comp'),
 
     #ajaxy stuff
     (r'^ajax/phase_steps/(?P<phase_id>[0-9]{1,10})/$',
          'dashboard.ajax.set_phase_step'),
          
-    #organizer dashboard - overview
-    (r'^$', 'dashboard.views.dashboard'),
-
     #org dashboard - individual phase
     (r'^phase/(?P<phase_id>[0-9]{1,10})/$',
          'dashboard.views.dashboard'),
@@ -33,12 +40,8 @@ urlpatterns = patterns('',
     (r'^phase/(?P<phase_id>[0-9]{1,10})/set_current/$',
          'dashboard.views.set_current_phase'),
 
-    #org dash - edit phases
-    (r'^(?P<competition_id>[0-9]{1,10})/phases/$',
-         'dashboard.views.edit_phases'),
-
     #list applicants (whole competition)
-    (r'^(?P<competition_id>[0-9]{1,10})/applicants/$',
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/applicants/$',
          'dashboard.views.list_applicants'),
 
     #edit application (per phase)
@@ -46,7 +49,7 @@ urlpatterns = patterns('',
          'dashboard.views.edit_application'),
 
     #list pitches (per phase)
-    (r'^(?P<competition_id>[0-9]{1,10})/phase/(?P<phase_id>[0-9]{1,10})/pitches/$',
+    (r'^phase/(?P<phase_id>[0-9]{1,10})/pitches/$',
          'dashboard.views.list_pitches'),
     
     #view details of a single submitted pitch
@@ -58,15 +61,15 @@ urlpatterns = patterns('',
          'dashboard.views.view_judgement'),
 
     #view details of the judgements a judge has made
-    (r'^(?P<competition_id>[0-9]{1,10})/phase/(?P<phase_id>[0-9]{1,10})/judgements/(?P<judge_id>[0-9]{1,10})/$',
+    (r'^phase/(?P<phase_id>[0-9]{1,10})/judgements/(?P<judge_id>[0-9]{1,10})/$',
          'dashboard.views.list_judgements'),
 
     #list judges (per phase)
-    (r'^(?P<competition_id>[0-9]{1,10})/phase/(?P<phase_id>[0-9]{1,10})/judges/$',
+    (r'^phase/(?P<phase_id>[0-9]{1,10})/judges/$',
          'dashboard.views.list_judges'),
 
     #delete judges (per phase)
-    (r'^(?P<competition_id>[0-9]{1,10})/phase/(?P<phase_id>[0-9]{1,10})/delete_judge_invites/$',
+    (r'^delete_judge_invites/$',
          'dashboard.views.delete_judge_invites'),
 
 )

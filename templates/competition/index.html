@@ -16,7 +16,7 @@
 		{% if request.user.is_authenticated %}
 		<a href="/dashboard/"><input type="button" class="button" value="{{copy.c2a}}"></a>
 		{% else %}
-		<a href="/dashboard/setup/1/"><input type="button" class="button" value="{{copy.c2a}}"></a>
+		<a href="/dashboard/new_comp/"><input type="button" class="button" value="{{copy.c2a}}"></a>
 		<br/>
 		<a href="/accounts/login" class="medium">Already have one? Log in</a>
 		{% endif %}

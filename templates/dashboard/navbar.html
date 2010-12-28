@@ -1,52 +1,22 @@
 <div class="navbar">
 
-	{% if request.user.get_profile.competitions.count > 1 %}
+    <div class="ui-tabs  ui-corner-all" id="widget-docs">
+            <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header dashboard-nav-tabs">
+                <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active"><a href="/dashboard/{{competition.hosted_url}}/setup/">Setup</a></li>
+                <li class="ui-state-default ui-corner-top"><a href="/dashboard/{{competition.hosted_url}}/manage/">Manage</a></li>
+                <li class="ui-state-default ui-corner-top"><a href="/dashboard/{{competition.hosted_url}}/analyze/">Analyze & view data</a></li>
+                <li class="ui-state-default ui-corner-top"><a href="/dashboard/{{competition.hosted_url}}/email/">Email applicants or judges</a></li>
 
-		<select>
-		{% for comp in request.user.get_profile.competitions %}
-			<option>{{comp.name}}</option>
-		{% endfor %}
-		</select>
+            </ul>
 
-	{% endif %}
-
-	{% if phase %}
-
-		<a href="/dashboard/"><button id="home_button">Overview</button></a>
-
-	{% else %}
-
-		<input type="radio" class="ui-state-selected button" checked id="home_button"><label for="home_button">Overview</label>
-
-	{% endif %}
+    </div>
 
 	<script>
 		$(function() {
-			$('#home_button').button("option", { icons: { primary: "ui-icon-home" } });
-			$('#home_button').click(function () { window.location.href = "/dashboard/"; } );
+
+            
+
 		});
 	</script>
-
-
-	{% for ph in competition.phases %}
-
-		{% ifequal ph phase %}
-
-			<input type="radio" class="ui-state-selected button" checked id="current_phase"><label for="current_phase">Phase {{forloop.counter}}</label>
-
-	<script>
-		$(function() {
-			$('#current_phase').click(function () { window.location.href = "/dashboard/phase/{{ph.id}}/"; } );
-		});
-	</script>
-
-
-		{% else %}
-
-			<a href="/dashboard/phase/{{ph.id}}/"><button>Phase {{forloop.counter}}</button></a>
-
-		{% endifequal %}
-
-	{% endfor %}
 
 </div>

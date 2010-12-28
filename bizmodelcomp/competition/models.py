@@ -325,7 +325,7 @@ class Phase(models.Model):
         return "N/A"
     
     
-    def judgements(self, for_judge=None):
+    def judgements(self, for_judge=None, num=10):
         
         pitches = Pitch.objects.filter(phase=self)
         judgements = []
@@ -337,7 +337,10 @@ class Phase(models.Model):
             else:
                 judgements.extend(pitch.judgements.all())
 
-        return judgements
+        if num > 0:
+            return judgements[-num:]
+        else:
+            return judgements
 
 
     #get list of all applications yet to be judged enough times

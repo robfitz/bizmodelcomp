@@ -1,0 +1,62 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_title %}
+Scores
+{% endblock %}
+
+{% block icon_class %}ui-icon-person{% endblock %}
+
+{% block section_content %}
+
+    <div class="half_width">
+        <div class="stat_number">
+            Num Judges
+            <h1>{{competition.judge_invitations.count}}</h1>
+        </div>
+
+        <a style="float:left;" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">View & invite more judges</a>
+
+        <div class="hr">&nbsp;</div>
+
+        <div class="stat_number">
+                    Pitches Judged
+                    <h1>{{ phase.judgements|length }}</h1>
+                </div>
+
+        <div class="stat_number">
+            Pitches Remain
+            <h1>{{phase.pitches_to_judge|length}}</h1>
+        </div>
+
+        <div class="hr">&nbsp;</div>
+
+        {% include 'dashboard/chart_score_distribution.html' %}
+
+    </div>
+
+    <div style="half">
+
+        <h3>Last 10 scores</h3>
+
+        <table>
+            <tr>
+                <th>Team</th>
+                <th>Score</th>
+                <th>Judge</th>
+            </tr>
+
+            {% for judgement in competition.judgements %}
+
+                <tr>
+                    <td>{{judgement.pitch.team}}</td>
+                    <td>{{judgement.score}}</td>
+                    <td>{{judgement.judge}}</td>
+                </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+{% endblock %}
