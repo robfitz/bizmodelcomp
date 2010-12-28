@@ -341,7 +341,7 @@ class Phase(models.Model):
 
 
     #get list of all applications yet to be judged enough times
-    def pitches_to_judge(self, for_judge=None):
+    def pitches_to_judge(self, for_judge=None, num=10):
         
         pitches = Pitch.objects.filter(phase=self)
         to_judge = []
@@ -368,7 +368,10 @@ class Phase(models.Model):
                     #enough votes counts
                     to_judge.append(pitch)
                 
-        return to_judge
+        if num > 0:
+            return to_judge[:num]
+        else:
+            return to_judge
 
 
     def judges(self):

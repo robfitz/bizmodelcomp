@@ -21,11 +21,13 @@ import smtplib
     
 def overall_dashboard(request):
 
+    #grab all the competitions they own
     competitions = Competition.objects.filter(owner=request.user)
     inactive_competition = []
 
     for invite in JudgeInvitation.objects.filter(user=request.user):
 
+        #grab any additional competitions they're a judge for, but don't own
         if not invite.competition in competitions:
 
             if not invite.this_phase_only:
@@ -39,6 +41,29 @@ def overall_dashboard(request):
             else:
                 #we are judging a non-active part of the competition
                 inactive_competitions.append(invite.competition)
+
+
+    for competition in competitions:
+
+        judge = None
+
+        try:
+            judge = JudgeInvitation.objects.get(user=request.user, competition=competition)
+        except:
+            if request.user is competition.owner:
+                #organizers are auto-judges
+                judge = JudgeInvitation(user=request.user,
+                                        competition=competition,
+                                        email=request.user.email,
+                                        has_received_invite_email=True)
+                judge.save()
+
+        if judge:
+
+            #they should always be at least a judge for every competition that shows up, and 
+            #sometimes also an organizer
+            competition.judged_pitches = competition.current_phase.judgements(for_judge=judge, num=5)
+            competition.unjudged_pitches = competition.current_phase.pitches_to_judge(for_judge=judge, num=5)
     
     return render_to_response("dashboard/overall_dashboard.html", locals())
 

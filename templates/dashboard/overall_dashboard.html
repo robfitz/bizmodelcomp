@@ -14,7 +14,11 @@ Your competitions
 
         <div style="float:left;width:100%;">
 
-            {% include 'dashboard/competition_overview.html' %}
+            {% if competition.owner == request.user %}
+                {% include 'dashboard/competition_overview.html' %}
+            {% else %}
+                {% include 'dashboard/judge_overview.html' %}
+            {% endif %}
 
             <div style="float:right;width:28%;">
 
