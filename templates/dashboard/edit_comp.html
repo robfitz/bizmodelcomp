@@ -1,7 +1,7 @@
 {% extends 'dashboard/base.html' %}
 
 {% block header_title %}
-View & edit phases
+Edit competition
 {% endblock %}
 
 {% block ready_script %}
@@ -9,6 +9,9 @@ View & edit phases
 	{% if editing_phase %}
 		edit_initial_phase({{editing_phase}});
 	{% endif %}
+
+    $("#tab_setup").addClass("ui-state-active");
+    $("#tab_setup").addClass("ui-tabs-selected");
 
 {% endblock %}
 
@@ -86,41 +89,43 @@ View & edit phases
 
 {% block content %}
 
-		{% for phase in phases %}
+    {% include 'dashboard/widgets/comp_details.html' %}
 
-            {% ifequal phase.id editing_phase %}
-                {% include 'dashboard/widgets/phase_details.html' %}
-            {% endifequal %}
+    {% for phase in phases %}
 
+        {% ifequal phase.id editing_phase %}
+            {% include 'dashboard/widgets/phase_details.html' %}
+        {% endifequal %}
 
-            {% if not editing_phase %}
-                {% include 'dashboard/widgets/phase_details.html' %}
-            {% endif %}
-
-		{% endfor %}
 
         {% if not editing_phase %}
-            <div id="view_phase_new" class="view_phase">
-                <button id="add_new_phase_button">
-                    Add another phase
-                </button>
-            </div>
+            {% include 'dashboard/widgets/phase_details.html' %}
         {% endif %}
 
-		<script>
-			$(function() {
-				$('#add_new_phase_button').button("option", { icons: { primary: "ui-icon-circle-plus" } });
-				$('#add_new_phase_button').click(function() { new_phase(); return false; } );
-			});
-		</script>
+    {% endfor %}
 
-        {% if not editing_phase %}
-            <div id="edit_phase_new" class="edit_phase hidden">
+    {% if not editing_phase %}
+        <div id="view_phase_new" class="view_phase">
+            <button id="add_new_phase_button">
+                Add another phase
+            </button>
+        </div>
+    {% endif %}
 
-                {% include 'dashboard/widgets/phase_new.html' %}
+    <script>
+        $(function() {
+            $('#add_new_phase_button').button("option", { icons: { primary: "ui-icon-circle-plus" } });
+            $('#add_new_phase_button').click(function() { new_phase(); return false; } );
+        });
+    </script>
 
-            </div>
-        {% endif %}
+    {% if not editing_phase %}
+        <div id="edit_phase_new" class="edit_phase hidden">
+
+            {% include 'dashboard/widgets/phase_new.html' %}
+
+        </div>
+    {% endif %}
 
 {% endblock %}
 

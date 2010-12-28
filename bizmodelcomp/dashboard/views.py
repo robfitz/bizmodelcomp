@@ -18,17 +18,56 @@ import smtplib
 
 
 
-def get_feedback_for_question(question_id, pitch):
+    
+def overall_dashboard(request):
 
-    feedback = ""
+    #grab all the competitions they own
+    competitions = Competition.objects.filter(owner=request.user)
+    inactive_competition = []
 
-    for judged_answer in JudgedAnswer.objects.filter(answer__question__id=question_id).filter(answer__pitch__team=pitch.team):
-        if judged_answer and judged_answer.feedback:
-            feedback = """%s%s
+    for invite in JudgeInvitation.objects.filter(user=request.user):
 
-""" % (feedback, judged_answer.feedback.strip())
+        #grab any additional competitions they're a judge for, but don't own
+        if not invite.competition in competitions:
 
-    return feedback
+            if not invite.this_phase_only:
+                #invite is for whole competition
+                competitions.append(invite.competition)
+
+            elif invite.this_phase_only == competition.current_phase:
+                #invite is for a particular phase, and that phase is active
+                competitions.append(invite.competition)
+
+            else:
+                #we are judging a non-active part of the competition
+                inactive_competitions.append(invite.competition)
+
+
+    for competition in competitions:
+
+        judge = None
+
+        try:
+            judge = JudgeInvitation.objects.get(user=request.user, competition=competition)
+        except:
+            if request.user is competition.owner:
+                #organizers are auto-judges
+                judge = JudgeInvitation(user=request.user,
+                                        competition=competition,
+                                        email=request.user.email,
+                                        has_received_invite_email=True)
+                judge.save()
+
+        if judge:
+
+            #they should always be at least a judge for every competition that shows up, and 
+            #sometimes also an organizer
+            competition.judged_pitches = competition.current_phase.judgements(for_judge=judge, num=5)
+            competition.unjudged_pitches = competition.current_phase.pitches_to_judge(for_judge=judge, num=5)
+    
+    return render_to_response("dashboard/overall_dashboard.html", locals())
+
+
 
 
 
@@ -392,36 +431,7 @@ def create_new_comp_for_user(user):
     return competition
 
 
-@login_required
-def edit_comp_details(request):
-
-    competition = request.user.get_profile().competition()
-    alert = ""
-
-    if not competition:
-        return HttpResponseRedirect('/dashboard/setup/1/')
-
-
-    if request.method == "POST":
-        #create model form from POST data
-        form = CompetitionInfoForm(request.POST, request.FILES, instance=competition)
-
-        try:
-            form.save()
-            #success, return to dashboard
-            return HttpResponseRedirect("/dashboard/")
-
-        except:
-            #form saving failed, alert user and re-display
-            alert = "That URL has already been used by someone. Try something else?"
-            return render_to_response('dashboard/edit_comp_details.html', locals())
-
-    else: #GET
-        form = CompetitionInfoForm(instance=competition)
-
-        return render_to_response('dashboard/edit_comp_details.html', locals())
-
-def setup(request, step_num):
+def setup(request, comp_id=None, step_num="1"):
     
     #custom auth handling bc we generally want to redirect to register rather than login
     if not request.user.is_authenticated():
@@ -475,7 +485,7 @@ def setup(request, step_num):
 
         elif step_num == "2":
 
-            competition = request.user.get_profile().competition
+            competition = get_object_or_404(Competition, hosted_url=comp_url)
 
             #save application requirements
 
@@ -690,87 +700,107 @@ MONTH_NUMS = { "January": 1, "February": 2, "March": 3, "April": 4, "May": 5, "J
                "July": 7, "August": 8, "September": 9, "October": 10, "November": 11, "December": 12 }
 
 
-#edit phases
+
 @login_required
-def edit_phases(request, competition_id):
+def edit_comp(request, comp_url):
 
-    if not has_dash_perms(request, competition_id):
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+    alert = ""
+
+    if not has_dash_perms(request, competition.id):
        return HttpResponseRedirect("/no_permissions/")
-
-    editing_phase = int(request.GET.get("open", 0))
-
-    competition = get_object_or_404(Competition, id=competition_id)
 
     if request.method == "POST":
 
-        try: phase = Phase.objects.get(id=request.POST.get("phase_id", None))
-        except:
-            if "new_phase" in request.POST:
-                phase = Phase(competition=competition)
+        if request.POST.get("form_type") == "competition_info":
 
-        if phase:
-            form = PhaseForm(request.POST, instance=phase)
-            form.save()
+            #create model form from POST data
+            form = CompetitionInfoForm(request.POST, request.FILES, instance=competition)
 
-            phase.is_deleted = request.POST.get("is_deleted") == "on"
-            phase.save()
+            try:
+                form.save()
+                #success, return to dashboard
+                return HttpResponseRedirect("/dashboard/%s/setup/" % competition.hosted_url)
 
-        if not competition.current_phase:
-            competition.current_phase = phase
-            competition.save()
+            except:
+                #form saving failed, alert user and re-display
+                alert = "That URL has already been used by someone. Try something else?"
 
-        if competition.current_phase.is_deleted:
-            competition.current_phase = competition.phases()[0]
-            competition.save()
+        elif request.POST.get("form_type") == "phase_info":
 
-        date = request.POST.get("date", None)
-        hour = int(request.POST.get("hour", 23))
-        minute = int(request.POST.get("minute", 59))
+            editing_phase = int(request.GET.get("open", 0))
+            print 'editing phase = %s' % editing_phase
 
-        print 'date %s, %s:%s' % (date, hour, minute)
-        
-        if date is not None:
+            try: 
+                phase = Phase.objects.get(id=request.POST.get("phase_id", None))
+            except:
+                if "new_phase" in request.POST:
+                    phase = Phase(competition=competition)
+                    print 'new phase'
 
-            year = int(date.split()[3])
-            month = MONTH_NUMS[date.split()[2].strip(',')]
-            day = int(date.split()[1])
-            
-            print 'date2 %s, %s, %s' % (year, month, day)
+            if phase:
+                form = PhaseForm(request.POST, instance=phase)
+                form.save()
 
-            phase.deadline = datetime(year, month, day, hour, minute)
-            phase.save()
+                phase.is_deleted = request.POST.get("is_deleted") == "on"
+                phase.save()
+
+            if not competition.current_phase:
+                competition.current_phase = phase
+                competition.save()
+
+            if competition.current_phase.is_deleted:
+                competition.current_phase = competition.phases()[0]
+                competition.save()
+
+            date = request.POST.get("date", None)
+            hour = int(request.POST.get("hour", 23))
+            minute = int(request.POST.get("minute", 59))
+
+            if date is not None:
+
+                year = int(date.split()[3])
+                month = MONTH_NUMS[date.split()[2].strip(',')]
+                day = int(date.split()[1])
                 
-        if editing_phase:
-            #if editing a single phase
-            
-            #then we've accomplished the first todo for that phase! yay!
-            phase.setup_steps().details_confirmed = True
-            phase.setup_steps().save()
+                phase.deadline = datetime(year, month, day, hour, minute)
+                phase.save()
+                    
+            if editing_phase:
+                #if editing a single phase, then we've accomplished the first todo for that phase
+                phase.setup_steps().details_confirmed = True
+                phase.setup_steps().save()
 
-            #redirect back to that phase page
-            #after saving
-            return HttpResponseRedirect("/dashboard/phase/%s/" % editing_phase)
-        else:
-            #if editing the competition's phases all together, then stay on
-            #the page for further editing & navigation
-            return HttpResponseRedirect("/dashboard/%s/phases/" % competition_id)
+                #redirect back to that phase page after saving
+                return HttpResponseRedirect("/dashboard/%s/manage/" % competition.hosted_url)
 
-    phases = Phase.objects.filter(competition__id=competition_id).filter(is_deleted=False)
-    for phase in phases:
+            else:
+                #if editing the competition's phases all together, then stay on
+                #the page for further editing & navigation
+                return HttpResponseRedirect("/dashboard/%s/setup/" % competition.hosted_url)
 
-        phase.form = PhaseForm(instance=phase)
+    else: #GET
 
-    new_phase = Phase()
-    new_form = PhaseForm(instance=new_phase)
+        editing_phase = int(request.GET.get("open", 0))
 
-    return render_to_response("dashboard/edit_phases.html", locals())
+        phases = Phase.objects.filter(competition__id=competition.id).filter(is_deleted=False)
+        for phase in phases:
+
+            phase.form = PhaseForm(instance=phase)
+
+        new_phase = Phase()
+        new_form = PhaseForm(instance=new_phase)
+
+        edit_comp_form = CompetitionInfoForm(instance=competition)
+
+        return render_to_response('dashboard/edit_comp.html', locals())
 
 
 
 #organizer has chosen to remove the jduging permissions from
 #some number of judges for this phase via the dashboard.
 @login_required
-def delete_judge_invites(request, competition_id, phase_id):
+def delete_judge_invites(request):
 
     if not has_dash_perms(request, competition_id):
         return HttpResponseRedirect("/no_permissions/")
@@ -787,25 +817,27 @@ def delete_judge_invites(request, competition_id, phase_id):
 
                         id = int(key[len("is_selected_"):])
 
-                        invites = JudgeInvitation.objects.filter(competition__id=competition_id).filter(id=id)
+                        try:
+                            invite = JudgeInvitation.objects.get(id=id)
+                            if invite.judge.competition.owner == request.user:
+                                i.delete()
+                        except:
+                            pass
 
-                        for i in invites:
-                            i.delete()
+    return HttpResponseRedirect('/dashboard/')
 
-    return HttpResponseRedirect('/dashboard/%s/phase/%s/judges/' % (competition_id, phase_id))
 
-    
 
 #organizer is looking at a list of all the current judges and their performance thus far,
 #with options to modify their role
 @login_required
-def list_judges(request, competition_id, phase_id):
+def list_judges(request, phase_id):
 
-    if not has_dash_perms(request, competition_id):
-        return HttpResponseRedirect("/no_permissions/")
-
-    competition = get_object_or_404(Competition, id=competition_id)
     phase = get_object_or_404(Phase, id=phase_id)
+    competition = phase.competition
+
+    if not has_dash_perms(request, competition.id):
+        return HttpResponseRedirect("/no_permissions/")
 
     #new judges are invited from a small form on the single management/list page,
     #so if it's a post we're going to be inviting a new judge
@@ -914,27 +946,22 @@ def view_pitch(request, pitch_id):
 
 #view list of applicants, sort & manipulate them
 @login_required
-def list_applicants(request, competition_id):
+def list_applicants(request, comp_url):
 
-    #permissions?
-    try:
-        competition = Competition.objects.get(pk=competition_id)
-        
-        if not competition.owner == request.user:
-            return HttpResponseRedirect("/no_permissions/")        
-    except:
-        return HttpResponseRedirect("/no_permissions/")
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
 
-    
+    if not competition.owner == request.user:
+        return HttpResponseRedirect("/no_permissions/")        
+
     return render_to_response("dashboard/list_applicants.html", locals())
 
 
 @login_required
-def list_judgements(request, competition_id, phase_id, judge_id):
+def list_judgements(request, phase_id, judge_id):
 
-    judge = JudgeInvitation.objects.get(id=judge_id)
-    competition = Competition.objects.get(id=competition_id)
-    phase = Phase.objects.filter(competition=competition).get(id=phase_id)
+    judge = get_object_or_404(JudgeInvitation, id=judge_id)
+    phase = get_object_or_404(Phase, id=phase_id)
+    competition = phase.competition
 
     #has permissions?
     has_perms = False
@@ -958,15 +985,11 @@ def list_judgements(request, competition_id, phase_id, judge_id):
 
 #view list of pitches, sort & manipulate them
 @login_required
-def list_pitches(request, competition_id, phase_id, judge_id=None):
+def list_pitches(request, phase_id, judge_id=None):
 
     #are comp & phase valid?
-    try:
-        competition = Competition.objects.get(id=competition_id)
-        phase = Phase.objects.filter(competition=competition).get(id=phase_id)
-    except:
-        return HttpResponseRedirect("/no_permissions/")
-
+    phase = get_object_or_404(Phase, id=phase_id)
+    competition = phase.competition
 
     #is organizer?
     #TODO: this is now totally insecure and doesn't check phase ownership at all
@@ -1013,7 +1036,7 @@ def list_pitches(request, competition_id, phase_id, judge_id=None):
 
 #view & manage your competitions
 @login_required
-def dashboard(request, phase_id=None):
+def dashboard(request, comp_url=None):
 
     try:
         request.user.get_profile()
@@ -1022,33 +1045,15 @@ def dashboard(request, phase_id=None):
         profile = UserProfile(user=request.user)
         profile.save()
 
-    #find if user is the organizer for.. something
-    competitions = Competition.objects.filter(owner = request.user)
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+    phase = competition.current_phase
+    max_score = phase.max_score()
+    score_groups = chart_util.score_distribution(phase.judgements(), max(phase.max_score() / 20, 1))
 
-    if phase_id is not None:
+    if competition.owner != request.user:
+        return HttpResponseRedirect('/no_permissions/')
 
-        phase = get_object_or_404(Phase, id=phase_id)
-        max_score = phase.max_score()
-        score_groups = chart_util.score_distribution(phase.judgements(), max(phase.max_score() / 20, 1))
-    
-    if len(competitions) == 0:
-        
-        return HttpResponseRedirect("/dashboard/setup/1/")
-
-    else:
-    
-        competition = request.user.get_profile().competition()
-
-        organizer_judge = None
-
-        try:
-            organizer_judge = JudgeInvitation.objects.filter(competition=competition).get(user=competition.owner)
-        except:
-            pass
-
-        phases = Phase.objects.filter(competition=competition).filter(is_deleted=False)
-        
-        return render_to_response("dashboard/dashboard.html", locals())
+    return render_to_response("dashboard/dashboard.html", locals())
 
 
 

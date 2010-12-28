@@ -1,30 +1,18 @@
 {% extends 'dashboard/base.html' %}
 
+{% block ready_script %}
+
+    $("#tab_manage").addClass("ui-state-active");
+    $("#tab_manage").addClass("ui-tabs-selected");
+
+{% endblock %}
+
 {% block content %}
 
-	{% if phase %}
+    {% include 'dashboard/alerts/phase_status.html' %}
 
-		{% include 'dashboard/alerts/phase_status.html' %}
+    {% include 'dashboard/widgets/scores.html' %}
 
-		{% include 'dashboard/widgets/mini_phase_details.html' %}
-		{% include 'dashboard/widgets/pitch_questions.html' %}
-
-		{% include 'dashboard/widgets/manage_pitches.html' %}
-
-		{% include 'dashboard/widgets/manage_judges.html' %}
-
-	{% else %}
-
-		{% include 'dashboard/widgets/competition_details.html' %}
-
-		{% include 'dashboard/widgets/phases.html' %}
-
-		{% include 'dashboard/widgets/manage_applicants.html' %}
-
-		{% include 'dashboard/widgets/manage_judges.html' %}
-
-        {% include 'dashboard/widgets/emails.html' %}
-
-	{% endif %}
+    {% include 'dashboard/widgets/pitches.html' %}
 
 {% endblock %}

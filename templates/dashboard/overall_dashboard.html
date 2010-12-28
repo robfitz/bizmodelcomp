@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
+{% endblock %}
+
+{% block header_title %}
+Your competitions
+{% endblock %}
+
+{% block content %}
+
+    {% for competition in competitions %}
+
+        <div style="float:left;width:100%;">
+
+            {% if competition.owner == request.user %}
+                {% include 'dashboard/competition_overview.html' %}
+            {% else %}
+                {% include 'dashboard/judge_overview.html' %}
+            {% endif %}
+
+            <div style="float:right;width:28%;">
+
+                {% if competition.owner == request.user %}
+                    <p>
+                        <a href="/dashboard/{{competition.hosted_url}}/" class="button">Manage it</a>
+                    </p>
+                {% endif %}
+
+                <p>
+                    {% if competition.current_phase.is_judging_open %}
+                        <a href="" class="button">Judge it</a>
+                    {% else %}
+                        Judging is not yet open.
+                    {% endif %}
+                </p>
+
+    {% endfor %}
+
+{% endblock %}
