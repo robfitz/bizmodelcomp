@@ -16,19 +16,174 @@
 
     <div id="setup">
 
-        setup
+        <div class="half_width">
+
+            <div class="stat_number">
+                Current phase
+                <h1>{{ competition.current_phase.phase_num }} of {{ competition.phases.count }}</h1> 
+            </div>
+
+           <div class="stat_number" style="textalign:left;">
+               Pitch type
+               {% ifequal competition.current_phase.pitch_type "online" %}
+                   <h1>Online</h1>
+               {% else %}
+                   <h1>Live</h1>
+               {% endifequal %}
+           </div>
+
+            <div class="hr">&nbsp;</div>
+
+            <div class="stat_number">
+                Num questions
+                <h1>{{ competition.current_phase.questions.count }}</h1>
+            </div>
+
+            <div class="stat_number">
+                Num uploads
+                <h1>{{ competition.current_phase.uploads.count }}</h1>
+            </div>
+
+            <div class="hr">&nbsp;</div>
+
+            <a style="float:left;" href="">Edit application</a>
+
+        </div>
+
+        <div class="half_width">
+
+            <p>
+            <strong>Name:</strong> {{competition.name}}
+            </p>
+
+            <p>
+            <strong>Website:</strong> <a href="{{competition.website}}">{{competition.website}}</a>
+            </p>
+
+            <p>
+            <strong>Branded URL:</strong> {{competition.hosted_url}}
+            </p>
+
+        </div>
 
     </div>
 
     <div id="applications">
 
-        applications
+        <div class="half_width">
+            
+            <div class="stat_number">
+                Num Pitches
+                <h1>{{competition.current_phase.pitches.count}}</h1>
+            </div>
+
+            <div class="stat_number">
+                Application status
+                <h1>
+                {% if phase.is_applications_open %}
+                OPEN
+                {% else %}
+                CLOSED
+                {% endif %}
+                </h1>
+                <a href="">Preview application</a>
+            </div>
+
+            <a href="" style="float:left;" class="button">View app</a>
+
+        </div>
+
+        <div class="half_width">
+
+            <div class="hr">&nbsp;</div>
+            <div style="float:left;">
+
+                <h3 >Last 5 applications</h3>
+
+                <table>
+                    <tr>
+                        <th>Team</th>
+                        <th>Time</th>
+                    </tr>
+
+                    {% for pitch in competition.current_phase.pitches.all %}
+
+                        {% if forloop.counter < 5 %}
+
+                            <tr>
+                                <td>{{pitch.team}}</td>
+                                <td>{{pitch.created}}</td>
+                            </tr>
+
+                        {% endif %}
+
+                    {% endfor %}
+
+                </table>
+
+                <p>
+                <a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View all</a>
+                </p>
+            </div>
+
+        </div>
 
     </div>
 
     <div id="judging">
 
-        judging
+        
+        <div class="half_width">
+            <div class="stat_number">
+                Num Judges
+                <h1>{{competition.judge_invitations.count}}</h1>
+            </div>
+
+            <a style="float:left;" class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">Edit judges</a>
+
+            <div class="hr">&nbsp;</div>
+
+            <div class="stat_number">
+                        Pitches Judged
+                        <h1>{{ phase.judgements|length }}</h1>
+                    </div>
+
+            <div class="stat_number">
+                Pitches Remain
+                <h1>{{phase.pitches_to_judge|length}}</h1>
+            </div>
+
+        </div>
+
+        <div style="half">
+
+            <h3>Last 5 scores</h3>
+
+            <table>
+                <tr>
+                    <th>Team</th>
+                    <th>Score</th>
+                    <th>Judge</th>
+                </tr>
+
+                {% for judgement in competition.judgements %}
+
+                    {% if forloop.counter < 5 %}
+                        <tr>
+                            <td>{{judgement.pitch.team}}</td>
+                            <td>{{judgement.score}}</td>
+                            <td>{{judgement.judge}}</td>
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+
+            </table>
+
+            <a href="" class="button">Announce winners</a>
+
+        </div>
+
 
     </div>
 

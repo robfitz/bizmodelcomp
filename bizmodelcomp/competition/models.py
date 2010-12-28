@@ -194,6 +194,20 @@ class Phase(models.Model):
 
     #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
 
+
+    def phase_num(self):
+
+        phases = self.competition.phases()
+
+        i = 1
+        for p in self.competition.phases():
+            if p == self:
+                return i
+            i += 1
+
+        return -1
+    
+    
     def is_applications_open(self):
 
         return self.competition.current_phase == self and self.is_judging_enabled == False
