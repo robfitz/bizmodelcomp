@@ -9,91 +9,66 @@ Applicants and Pitches
 {% block section_content %}
     
     <div class="half_width">
-
-        <div class="stat_number">
-            Num applicants
-            <h1>{{phase.applicants.count}}</h1>
-       </div>
-
+        
         <div class="stat_number">
             Num Pitches
             <h1>{{phase.pitches.count}}</h1>
         </div>
-        
-        <div class="hr" style="height:30px;">&nbsp;</div>
+
+        <div class="stat_number">
+            Application status
+            <h1>
+            {% if phase.is_applications_open %}
+            OPEN
+            {% else %}
+            CLOSED
+            {% endif %}
+            </h1>
+            <a href="">Preview application</a>
+        </div>
+
+        <a href="" style="float:left;" class="button">View app</a>
+
+        <div class="hr">&nbsp;</div>
 
 
         <h3 style="float:left;">Pitch submission times</h3>
-        <div id="pitches_over_time" style="float:left;width:100%;height:150px"></div>
+        {% include 'dashboard/charts/pitch_submission_times.html' %}
+
+        <h3 style="float:left;">Applicant funnel by phase</h3>
+        {% include 'dashboard/charts/applicant_funnel.html' %}
+
     </div>
 
     <div class="half_width">
 
-        <h3>Last 10 applications</h3>
+        <div class="hr">&nbsp;</div>
+        <div style="float:left;">
 
-        <table>
-            <tr>
-                <th>Team</th>
-                <th>Time</th>
-            </tr>
+            <h3 >Last 10 applications</h3>
 
-            {% for pitch in competition.current_phase.pitches.all %}
-
+            <table>
                 <tr>
-                    <td>{{pitch.team}}</td>
-                    <td>{{pitch.created}}</td>
+                    <th>Team</th>
+                    <th>Time</th>
                 </tr>
 
-            {% endfor %}
+                {% for pitch in competition.current_phase.pitches.all %}
 
-        </table>
+                    <tr>
+                        <td>{{pitch.team}}</td>
+                        <td>{{pitch.created}}</td>
+                    </tr>
 
-        <p>
-        <a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View all</a>
-        </p>
+                {% endfor %}
 
+            </table>
+
+            <p>
+            <a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View all</a>
+            </p>
+        </div>
 
     </div>
-
-	<script language="javascript" type="text/javascript">
-
-		$(function() {
-
-			var d = [];
-			var total = 0;
-			var earliest = 0;
-
-			{% for pitch in phase.pitches.all %}
-
-				d.push( [ {{ pitch.created_ms }} , total]);
-				total = total + 1;
-				if (earliest == 0 || {{ pitch.created_ms }} < earliest) {
-					earliest = {{ pitch.created_ms }};
-				}
-
-			{% endfor %}
-
-			//empty entry one day before first one so we have a growth ramp
-			d.splice(0, 0, [earliest-1000*60*60*6, 0]);
-
-			$.plot($("#pitches_over_time"),
-				[{ data: d,
-					lines: { show:true },
-				}],
-				{
-					xaxis: {
-						mode: "time",
-						minTickSize: [6, "hour"]
-					},
-					yaxis: {
-						min: 0,
-						minTickSize: 1
-					}
-				}
-			);
-
-		});
-
-	</script>
 
 {% endblock %}

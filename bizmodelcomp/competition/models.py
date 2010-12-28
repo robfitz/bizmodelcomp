@@ -194,6 +194,12 @@ class Phase(models.Model):
 
     #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
 
+    def is_applications_open(self):
+
+        return self.competition.current_phase == self and self.is_judging_enabled == False
+
+
+
     def setup_steps(self):
 
         try:

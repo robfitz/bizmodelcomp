@@ -1,0 +1,35 @@
+<div id="pitch_funnel" style="float:left;width:100%;height:150px;"></div>
+
+<script language="javascript" type="text/javascript">
+    $(function() {
+        var d = [ [0, {{competition.applicants.count}}] ];
+
+        {% for phase in competition.phases %}
+            d.push([ {{forloop.counter}}, {{phase.pitches.count}} ]);
+        {% endfor %}
+
+
+        $.plot($("#pitch_funnel"),
+            [
+                {
+                    data: d,
+                    bars: { show: true },
+
+                }
+            ],
+            {
+                yaxis: { min:0, minTickSize: 1, tickDecimals: 0 },
+                xaxis: {
+                    min:0,
+                    tickSize: 1,
+                    tickDecimals: 0,
+                    ticks: [[0, "Applicants"]
+                        {% for phase in competition.phases %}
+                            , [{{forloop.counter}}, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Phase {{forloop.counter}}"]
+                        {% endfor %}
+                        , [{{competition.phases.count}}+1, ""]]
+                }
+            }
+            );
+    });
+</script>
