@@ -1,11 +1,51 @@
-{% extends 'dashboard/section.html' %}
+{% extends 'dashboard/tab_section.html' %}
 
 {% block section_style %}width:70%;{% endblock %}
 
-{% block section_title %}{{ competition.name }}{% endblock %}
+{% block section_title %}
+{{ competition.name }}
+{% endblock %}
 
-{% block section_content %}
+{% block tab_list %}
+                <li><a href="#judging">Judging</a></li>
+                <li><a href="#applications">Applications</a></li>
+                <li><a href="#setup">Setup</a></li>
+{% endblock %}
 
-    doop doop
+{% block tab_divs %}
+
+    <div id="setup">
+
+        setup
+
+    </div>
+
+    <div id="applications">
+
+        applications
+
+    </div>
+
+    <div id="judging">
+
+        judging
+
+    </div>
+
+    <script>
+        $(function() {
+
+            $("li > a").click( function() {
+
+                var container = $(this).parent().parent().parent().parent();
+                alert('container: ' + container);
+
+                var id = $(this).attr("href");
+                container.children(".ui-tabs-panel").hide();
+                container.children(id).show();
+
+        });
+    </script>
 
 {% endblock %}
+
