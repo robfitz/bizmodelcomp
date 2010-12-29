@@ -1,0 +1,41 @@
+{% extends 'dashboard/base.html' %}
+
+{% block ready_script %}
+
+    $("#tab_email").addClass("ui-state-active");
+    $("#tab_email").addClass("ui-tabs-selected");
+
+{% endblock %}
+
+{% block content %}
+
+    <table>
+        <tr>
+            <th>Topic</th>
+            <th>Num recipients</th>
+            <th>Phase</th>
+            <th>Sent on</th>
+        </tr>
+
+        {% for email in emails %}
+
+            <tr>
+                <td>{{ email.tag }}</td>
+                <td>{{ email.recipients.count }}</td>
+                {% if email.phase %}
+                    <td>{{ email.phase }}</td>
+                {% else %}
+                    <td>N/A</td>
+                {% endif %}
+
+                {% if email.sent_on_date %}
+                    <td>{{ email.sent_on_date }}</td>
+                {% else %}
+                    <td>Draft</td>
+                {% endif %}
+
+        {% endfor %}
+
+    </table>
+
+{% endblock %}
