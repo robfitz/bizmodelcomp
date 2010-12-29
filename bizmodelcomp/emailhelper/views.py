@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 
 from emailhelper.models import Bulk_email
+from emailhelper.forms import BulkEmailForm
 from competition.models import Competition
 
 
@@ -11,11 +12,14 @@ from competition.models import Competition
 def manage_email(request, comp_url):
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
-
     if competition.owner != request.user:
         return HttpResponseRedirect("/no_permissions/")
 
+    #all my existing mail, to list
     email = Bulk_email.objects.filter(competition=competition)
+
+    #a blank new message, to edit and save as a draft
+    new_email_form = BulkEmailForm()
 
     return render_to_response('emailhelper/dashboard.html', locals())
 
