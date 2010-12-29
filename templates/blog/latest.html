@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block header_title %}
+nvana Blog
+{% endblock %}
+
+{% block content %}
+
+    {% load markup %}
+
+    {% for post in posts %}
+
+        <h3>{{ post.title }} <span class="medium" style="font-weight:normal">{{ post.created }}</span></h3>
+
+        {{ post.text|markdown }}
+
+    {% endfor %}
+
+{% endblock %}

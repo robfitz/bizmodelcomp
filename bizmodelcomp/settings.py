@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     'bizmodelcomp.judge',
     'bizmodelcomp.dashboard',
     'bizmodelcomp.emailhelper',
+    'bizmodelcomp.blog',
     'south',
 )
 
