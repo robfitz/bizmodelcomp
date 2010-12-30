@@ -15,11 +15,20 @@ def manage_email(request, comp_url):
     if competition.owner != request.user:
         return HttpResponseRedirect("/no_permissions/")
 
-    #all my existing mail, to list
-    email = Bulk_email.objects.filter(competition=competition)
-
     #a blank new message, to edit and save as a draft
-    new_email_form = BulkEmailForm()
+    new_email_form = BulkEmailForm(instance = Bulk_email(competition=competition))
+
+    if request.method == "POST":
+        
+        if request.POST.get("form_name") == "new_draft":
+            #saving new email draft
+            saved_form = BulkEmailForm(request.POST)              
+            saved_form.instance.competition = competition
+            saved_form.instance.phase = competition.current_phase #seems like a safe default
+            saved_form.save()
+
+    #all my existing mail, to list
+    emails = Bulk_email.objects.filter(competition=competition)
 
     return render_to_response('emailhelper/dashboard.html', locals())
 
