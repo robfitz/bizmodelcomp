@@ -231,15 +231,30 @@ Sincerely,
 
     
 @login_required
-def announce_judging_open(request):
+def announce_judging_open(request, comp_url):
 
-    competition = request.user.get_profile().competition()
-    phase = competition.current_phase
+    TAG = "judging open"
 
-    subject = "Judging is open - %s" % competition.name
-    from_email = "london.e.challenge@gmail.com"
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+    if competition.owner != request.user:
+        return HttpResponseRedirect('/no_permissions/')
 
-    message_template = """\
+    email = None
+    try:
+        #if we've already crafted an email for this phase, load it up
+        email = Bulk_email.objects.get(competition=competition, phase=competition.current_phase, tag=TAG)
+        email.save()
+        
+        if email.sent_on_date is not None:
+            return HttpResponseRedirect("/dashboard/email/%s/" % competition.hosted_url)
+        else:
+            return HttpResponseRedirect("/dashboard/email/%s/confirm/%s/?next=/dashboard/%s/manage/" % (competition.hosted_url, email.id, competition.hosted_url))
+
+    except:
+        subject = "Judging is open - %s" % competition.name
+        from_email = "london.e.challenge@gmail.com"
+
+        message_template = """\
 Hello,
 
 Judging for %s has begun. We have %s applications to judge, which you can view here:
@@ -251,70 +266,75 @@ When you press the 'start judging' button you'll be automatically provided with 
 Thanks very much for the help.
 
 %s team
-""" % (competition.name, Pitch.objects.filter(phase=phase).count(), 'http://www.nvana.com/judge/', competition.name)
+""" % (competition.name, Pitch.objects.filter(phase=competition.current_phase).count(), 'http://www.nvana.com/judge/', competition.name)
     
-    recipients = []
-    #send to all judges from this phase
-    for judge in phase.judges():
-        recipients.append(judge)
+        recipients = []
+        #send to all judges from this phase
+        for judge in competition.current_phase.judges():
+            recipients.append(judge)
 
-    messages = email.preview_messages()
+        email = Bulk_email(competition=competition,
+                phase=competition.current_phase,
+                tag="judging open",
+                message_markdown=message_template,
+                subject=subject)
 
-    confirm_warning = "Are you sure you want to send this email to <strong>%s judges</strong> and begin judging pitches? You'll still be able to invite more judges later, but you won't be able to change the judging criteria." % len(recipients)
+        email.save()
 
-    if request.method == "POST":
+        #create recipient list
+        for i, judge in enumerate(recipients):
+            r = Email_address(bulk_email=email,
+                    address=judge.email,
+                    user=judge.user,
+                    order=i)
+            r.save()
 
-        if request.POST.get("confirm"):
+        return HttpResponseRedirect("/dashboard/email/%s/confirm/%s/?next=/dashboard/%s/manage/" % (competition.hosted_url, email.id, competition.hosted_url))
 
-            email = Bulk_email(competition=competition,
-		    phase=phase,
-		    tag="judging open",
-		    message_markdown=message_template,
-		    subject=subject)
-
-            email.save()
-
-            #create recipient list
-            for judge in recipients:
-                print 'judge: %s, judge.user: %s' % (judge, judge.user)
-                r = Email_address(bulk_email=email,
-                        address=judge.email,
-                        user=judge.user)
-                r.save()
-
-            #ship it 
-            send_bulk_email(email)
-
-            email.sent_on_date = datetime.now()
-            email.save()
-
-            #update phase todo progress
-            steps = phase.setup_steps()
-            steps.announced_judging_open = True
-            steps.save()
-
-            #the setup_steps flag is just for UI. this is the real one
-            phase.is_judging_enabled = True
-            phase.save()
-
-            return HttpResponseRedirect('/dashboard/phase/%s/' % phase.id)
+            ##update phase todo progress
+            #steps = phase.setup_steps()
+            #steps.announced_judging_open = True
+            #steps.save()
+            #
+            ##the setup_steps flag is just for UI. this is the real one
+            #phase.is_judging_enabled = True
+            #phase.save()
+            #
+            #return HttpResponseRedirect('/dashboard/phase/%s/' % phase.id)
 
 
-    return render_to_response('emailhelper/review_email.html', locals())
+    #return render_to_response('emailhelper/review_email.html', locals())
 
 
 
 @login_required
-def announce_applications_open(request):
+def announce_applications_open(request, comp_url):
 
-    competition = request.user.get_profile().competition()
-    phase = competition.current_phase
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+    if competition.owner != request.user:
+        return HttpResponseRedirect('/no_permissions/')
 
-    from_email = "competitions@nvana.com"
+    TAG = "applications open"
 
-    subject = "%s - Applications open" % competition.name
+    email = None
+    try:
+        #if we've already crafted an email for this phase, load it up
+        email = Bulk_email.objects.get(competition=competition, phase=competition.current_phase, tag=TAG)
+        email.save()
+        
+        if email.sent_on_date is not None:
+            return HttpResponseRedirect("/dashboard/email/%s/" % competition.hosted_url)
+        else:
+            return HttpResponseRedirect("/dashboard/email/%s/confirm/%s/?next=/dashboard/%s/manage/" % (competition.hosted_url, email.id, competition.hosted_url))
 
-    message_template = """Hello,
+    except:
+
+        #if we the email doesn't exist, load it
+        from_email = "competitions@nvana.com"
+
+        subject = "%s - Applications open" % competition.name
+
+        message_template = """Hello,
 
 Applications to __%s__ are now open. You may apply at the following link:
 
@@ -327,67 +347,39 @@ Thanks for participating. We look forward to your submissions. Please contact th
 Sincerely,
 
 %s team
-""" % (competition.name, competition.hosted_url, phase.deadline.strftime("%A, %B %d, %H:%M %p"), competition.name)
+""" % (competition.name, competition.hosted_url, competition.current_phase.deadline.strftime("%A, %B %d, %H:%M %p"), competition.name)
 
-    recipients = []
-    for founder in phase.applicants():
-        if founder.email:
-            recipients.append(founder)
+        email = Bulk_email(competition=competition,
+                phase=competition.current_phase,
+                tag=TAG,
+                subject=subject,
+                message_markdown=message_template)
+        email.save()
 
-    confirm_warning = "Are you sure you want to send this email to <strong>%s applicants</strong> and begin accepting pitches? You won't be able to change the application questions after you do this!" % len(recipients)
+        recipients = []
+        for founder in competition.current_phase.applicants():
+            if founder.email:
+                recipients.append(founder)
 
-    messages = []
-    for i in range(0, len(recipients) - 1):
+        #create recipient list
+        for i, recipient in enumerate(recipients):
 
-        message = {}
-        message["to_email"] = recipients[i]
-        message["body"] = message_template
+            r = Email_address(bulk_email=email,
+                    address=founder.email,
+                    user=founder.user, 
+                    order=i)
+            r.save()
 
-        #TODO: use string.parse(format_string) instead of this manual replacing
-        #message.body = message_template.replace(message_template, "[[team_name]]", "[[TODO]]")
+        return HttpResponseRedirect("/dashboard/email/%s/confirm/%s/?next=/dashboard/%s/manage/" % (competition.hosted_url, email.id, competition.hosted_url))
 
-        messages.append(message)
-
-
-    #POST means they have confirmed their email and are ready to send it out
-    if request.method == "POST":
-
-        if request.POST.get("confirm"):
-
-            #they've confirmed that they're really truly ready to send this email
-            email = Bulk_email(competition=competition,
-                    phase=phase,
-                    tag="applications open",
-                    message_markdown=message_template,
-                    subject=subject)
-           
-            email.save()
-
-            #create recipient list
-            for recipient in recipients:
-
-                r = Email_address(bulk_email=email,
-                        address=founder.email)
-                r.save()
-            
-            send_bulk_email(email)
-            
-            email.sent_on_date = datetime.now()
-            email.save()
-
-            #mark the step as ticked off
-            print 'setting announced_applications for phase %s' % phase.id
-            setup_steps = phase.setup_steps()
-            setup_steps.announced_applications = True
-            setup_steps.save()
-            print 'saved announed_applications: %s' % phase.setup_steps().announced_applications
-
-            #redirect-o
-            return HttpResponseRedirect("/dashboard/phase/%s/" % phase.id)
-
-
-
-    return render_to_response('emailhelper/review_email.html', locals())
+    ##mark the step as ticked off
+    #print 'setting announced_applications for phase %s' % phase.id
+    #setup_steps = phase.setup_steps()
+    #setup_steps.announced_applications = True
+    #setup_steps.save()
+    #print 'saved announed_applications: %s' % phase.setup_steps().announced_applications
+    #
+    #return render_to_response('emailhelper/review_email.html', locals())
 
 
 
