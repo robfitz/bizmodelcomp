@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 
 from emailhelper.models import Bulk_email, Email_address
+from emailhelper.util import send_bulk_email
 from emailhelper.forms import BulkEmailForm
 from competition.models import Competition
 
@@ -72,21 +73,31 @@ def manage_email(request, comp_url):
 
 
 @login_required
-def confirm_send_email(request, bulk_email_id):
+def confirm_send_email(request, comp_url, bulk_email_id):
+
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+    if competition.owner != request.user:
+        return HttpResponseRedirect("/no_permissions/")
 
     email = get_object_or_404(Bulk_email, id=bulk_email_id)
 
-    if email.sent_on_date:
-        return HttpResponseRedirect('/email/review/%s/' % bulk_email_id)
+    if request.method == "POST" and request.POST.get("confirm"):
 
-    return render_to_response('emailhelper/confirm_send_email.html', locals())
+        send_bulk_email(email)
+        return HttpResponseRedirect("/dashboard/email/%s/" % comp_url)
+
+    return render_to_response('emailhelper/review_email.html', locals())
 
 
 
 @login_required
-def already_sent(request, bulk_email_id):
+def already_sent(request, comp_url, bulk_email_id):
 
-    email = get_object_or_404(Bulk_email, bulk_email_id)
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+    if competition.owner != request.user:
+        return HttpResponseRedirect("/no_permissions/")
 
-    return render_to_response('emailhelper/summarize_sent_email.html', locals())
+    email = get_object_or_404(Bulk_email, id=bulk_email_id)
+
+    return render_to_response('emailhelper/review_email.html', locals())
 

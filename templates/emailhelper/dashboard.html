@@ -37,9 +37,9 @@
                 {% endif %}
 
                 {% if email.sent_on_date %}
-                    <td>{{ email.sent_on_date }}</td>
+                    <td><a href="/dashboard/email/{{competition.hosted_url}}/archive/{{email.id}}/">{{ email.sent_on_date }}</a></td>
                 {% else %}
-                    <td>Draft</td>
+                    <td><a href="/dashboard/email/{{competition.hosted_url}}/confirm/{{email.id}}/">Review & send</a></td>
                 {% endif %}
 
         {% endfor %}

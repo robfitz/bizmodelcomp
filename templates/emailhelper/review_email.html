@@ -12,6 +12,9 @@ function preview_emails() {
 
 {% block ready_script %}
 
+    $("#tab_email").addClass("ui-state-active");
+    $("#tab_email").addClass("ui-tabs-selected");
+
     //since we're sending out emails to lots of people, make sure they
     //click something to show they understand what is happening and
     //actually want to go ahead with it.
@@ -30,7 +33,13 @@ function preview_emails() {
     {% load markup %}
 
     <div id="dialogHeader">
-        <div style="float:left"><h3>Review emails before sending them</h3></div>
+        <div style="float:left">
+            {% if email.sent_on_date %}
+            <h3>Review sent mail</h3>
+            {% else %}
+            <h3>Review emails before sending them</h3>
+            {% endif %}
+        </div>
         <div style="float:right;margin-right:16px;">
             <a href="javascript:void(0);" onclick="$('#dialog').jqmHide();" class="button">Close popup</a>
         </div>
@@ -52,17 +61,8 @@ function preview_emails() {
 
     {% load markup %}
 
-email id: {{ email.id }}
-<br/>
-
     <form action="" method="POST">
 
-        <!--
-        <input name="subject" value="{{subject}}" class="hidden" />
-
-        <textarea class="hidden" name="message_template">{{message_template}}</textarea>
-        -->
-        
         <p>
             <strong>Subject</strong> {{ subject }}
             <br/>
@@ -79,19 +79,33 @@ email id: {{ email.id }}
         <p>
             <strong>Message</strong>
             <br/>
-            {{ message_template|markdown }}
+            {{ email.message_markdown|markdown }}
         </p>
 
         <p>
-            <a href="javascript:void(0);" onclick="preview_emails()">Preview emails</a>
+            {% if email.sent_on_date %}
+                <a href="javascript:void(0);" onclick="preview_emails()">Review emails</a>
+            {% else %}
+                <a href="javascript:void(0);" onclick="preview_emails()">Preview emails</a>
+            {% endif %}
         </p>
 
-        <input type="checkbox" id="confirm" name="confirm" />
-        <label for="confirm">{{ confirm_warning|safe }}</label>
+        {% if email.sent_on_date %}
+        {% else %}
+            <input type="checkbox" id="confirm" name="confirm" />
+            {% if confirm_warning %}
+                <label for="confirm">{{ confirm_warning|safe }}</label>
+            {% else %}
+                <label for="confirm">Click here to confirm you've <a href="javascript:void(0);" onclick="preview_emails()">previewed</a> the emails and are happy sending this message to <strong>{{email.recipients|length}}</strong> recipients.</label>
+
+            {% endif %}
+
+            <input id="submit" type="submit" disabled="disabled" class="button" value="Send emails now">
+
+        {% endif %}
 
         <br/>
 
-        <input id="submit" type="submit" disabled="disabled" class="button" value="Send emails and accept pitches">
 
     </form>
 

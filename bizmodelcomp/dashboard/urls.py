@@ -22,9 +22,9 @@ urlpatterns = patterns('',
     (r'^email/', include('bizmodelcomp.emailhelper.urls')), 
 
     #email applicants that phase is opening. applies only to competition's current phase
-    (r'^announce_applications_open/$', 'dashboard.views.announce_applications_open'),
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/announce_applications_open/$', 'dashboard.views.announce_applications_open'),
     #email judges that judging is open and set it to open
-    (r'^announce_judging_open/$', 'dashboard.views.announce_judging_open'),
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/announce_judging_open/$', 'dashboard.views.announce_judging_open'),
     #email contestants their feedback from phases 2 & 3
     (r'^send_competition_feedback/$', 'dashboard.views.send_competition_feedback'),
 
