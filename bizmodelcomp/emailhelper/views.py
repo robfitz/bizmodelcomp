@@ -2,7 +2,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 
-from emailhelper.models import Bulk_email
+from emailhelper.models import Bulk_email, Email_address
 from emailhelper.forms import BulkEmailForm
 from competition.models import Competition
 
@@ -23,9 +23,46 @@ def manage_email(request, comp_url):
         if request.POST.get("form_name") == "new_draft":
             #saving new email draft
             saved_form = BulkEmailForm(request.POST)              
-            saved_form.instance.competition = competition
-            saved_form.instance.phase = competition.current_phase #seems like a safe default
-            saved_form.save()
+            new_email=saved_form.save(commit=False)
+            new_email.competition = competition
+            new_email.phase = competition.current_phase #seems like a safe default
+            new_email.save()
+
+            #recipients
+            if request.POST.get("recipient_type") == "applicants":
+                
+                for i, founder in enumerate(competition.current_phase.applicants()):
+
+                    if founder is not None:
+
+                        recipient = Email_address(order=i, 
+                                bulk_email=new_email,
+                                address=founder.email,
+                                user=founder.user)
+                        recipient.save()
+
+            elif request.POST.get("recipient_type") == "submitted_pitches":
+
+                for i, pitch in enumerate(competition.current_phase.pitches(num=0)):
+
+                    if pitch is not None and pitch.team is not None:
+
+                        recipient = Email_address(order=i, 
+                                bulk_email=new_email,
+                                address=pitch.team.owner.email,
+                                user=pitch.team.owner.user)
+                        recipient.save()
+
+            elif request.POST.get("recipient_type") == "judges":
+
+                for i, judge in enumerate(competition.current_phase.judges()):
+
+                    recipient = Email_address(order=i, 
+                            bulk_email=new_email,
+                            address=judge.email,
+                            user=judge.user)
+                    recipient.save()
+
 
     #all my existing mail, to list
     emails = Bulk_email.objects.filter(competition=competition)

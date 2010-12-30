@@ -10,6 +10,14 @@ New email contents
 
         <input type="hidden" name="form_name" value="new_draft" />
 
+        <label for="recipient_type">Recipients:</label>
+        <select name="recipient_type" id="recipient_type">
+            <option value="unselected">&lt;&lt; choose one &gt;&gt;</option>
+            <option value="applicants">{{ competition.current_phase.applicants.count }} Total applicants</option>
+            <option value="submitted_pitches">{{ competition.current_phase.all_pitches.count }} Submitted pitches</option>
+            <option value="judges">{{ competition.current_phase.judges.count }} Judges</option>
+        </select>
+
         {{ new_email_form.as_p }}
 
         <p>

@@ -29,7 +29,7 @@
 
             <tr>
                 <td>{{ email.tag }}</td>
-                <td>{{ email.recipients.count }}</td>
+                <td>{{ email.recipients|length }}</td>
                 {% if email.phase %}
                     <td>{{ email.phase }}</td>
                 {% else %}
