@@ -1,3 +1,8 @@
+try:
+	import simplejson
+except ImportError:
+	import json as simplejson
+
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
@@ -6,6 +11,69 @@ from emailhelper.models import Bulk_email, Email_address
 from emailhelper.util import send_bulk_email
 from emailhelper.forms import BulkEmailForm
 from competition.models import Competition
+
+
+
+def newsletter_subscribe(request):
+
+    email = request.POST.get("email")
+    default_alert = "We ran into some unexpected difficulties signing you up. Perhaps try again later?"
+    result = "failure"
+    alert = None
+
+    if NewsletterSubscription.objects.filter(email=email).count() == 0:
+        #add subscriber if it's a new one
+
+        if email.find('@') != -1 and email.find('.') != -1:
+
+            for i in range(1,10):
+                try:
+                    subscription = NewsletterSubscription(email=email)
+                    subscription.save()
+                    alert = "Thanks so much for joining the newsletter. We'll keep you in the loop about noteworthy developments."
+                    result = "success"
+                    break
+                except:
+                    pass
+        else:
+            #doesn't look like a legit email address
+            alert = "That doesn't look like an email address, so we weren't able to put you on the list. Please try again?"
+
+    else:
+        alert = "That email is already on the list, so you should receive the newsletters as we send them. Maybe check your spam box if they're not arriving?"
+
+    if not alert:
+        alert = default_alert
+
+        failed_subscription = FailedNewsletterSubscription(email=email)
+        failed_subscription.save()
+
+    obj = { "result": result, "alert": alert }
+    json = simplejson.dumps(obj)
+
+    return HttpResponse(json, mimetype="application/json")
+
+    
+
+def newsletter_unsubscribe(request, unsubscribe_key):
+
+    alert_title = "All done:"
+    alert = None
+    try:
+        subscription = NewsletterSubscription.objects.get(unsubscribe_key=unsubscribe_key)
+
+        unsubscription = NewsletterUnsubscription(subscription_timestamp=subscription.timestamp, email=subscription.email)
+        unsubscription.save() 
+
+        alert = "Your email, %s, has been removed from our mailing list. Thanks for giving us a try, and please <a href='/contact/'>let us know</a> if there's anything we can do to help out." % subscription.email
+
+        subscription.delete()
+
+    except:
+        alert_title = "Quick question:"
+        alert = "It looks like the requested email has been removed from our mailing list at some previous point.  Are you still getting messages? If so, please <a href='/contact/'>contact us</a> and we'll sort it out as quickly as we can."
+
+    return render_to_response('emailhelper/unsubscribe.html', locals())
 
 
 
