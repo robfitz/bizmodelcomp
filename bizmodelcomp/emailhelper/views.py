@@ -71,7 +71,7 @@ def newsletter_unsubscribe(request, unsubscribe_key):
 
     except:
         alert_title = "Quick question:"
-        alert = "It looks like the requested email has been removed from our mailing list at some previous point.  Are you still getting messages? If so, please <a href='/contact/'>contact us</a> and we'll sort it out as quickly as we can."
+        alert = "It looks like the requested email has been already removed from our mailing list at some previous point.  Are you still getting messages? If so, please <a href='/contact/'>contact us</a> and we'll sort it out as quickly as we can."
 
     return render_to_response('emailhelper/unsubscribe.html', locals())
 
