@@ -8,6 +8,8 @@ urlpatterns = patterns('',
 
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/$', 'emailhelper.views.manage_email'),
 
+    (r'^unsubscribe/(?P<unsubscribe_key>[a-zA-Z0-9]{1,10})/$', 'emailhelper.views.newsletter_unsubscribe'),
+
 )
 
     
