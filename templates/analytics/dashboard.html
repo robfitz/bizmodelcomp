@@ -1,5 +1,18 @@
 {% extends 'dashboard/base.html' %}
 
+{% block script %}
+
+    function popup(url) {
+        $("#dialog").jqm({ajax:url, ajaxText: 'Loading'});
+        $("#dialog").jqmShow();
+    }
+
+    function all_pitches() {
+
+    }
+
+{% endblock %}
+
 {% block ready_script %}
 
     $("#tab_analyze").addClass("ui-state-active");
@@ -22,9 +35,9 @@
 
 {% block content %}
 
-<a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches">All pitches</a>
+<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches');">All pitches</a>
 <br/>
-<a href="">All judges</a>
+<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_judges');">All judges</a>
 
 
 <br/>

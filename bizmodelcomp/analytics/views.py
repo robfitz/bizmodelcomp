@@ -17,6 +17,32 @@ def dashboard(request, comp_url):
     view = None
 
     if request.method == "GET":
+        view = request.GET.get("view")
+
+        if view == "all_pitches":
+            for phase in competition.phases():
+
+                if request.GET.get("phase_%s" % phase.phase_num()):
+                    selected_phases.append(phase)
+
+            if len(selected_phases) == 0:
+                selected_phases = competition.phases()
+
+    return render_to_response('analytics/dashboard.html', locals())
+
+
+
+def table(request, comp_url):
+
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+    if competition.owner != request.user:
+        return HttpResponseRedirect('/dashboard/')
+
+    header = []
+    rows = []
+    view = None
+
+    if request.method == "GET":
 
         selected_phases = []
 
@@ -33,26 +59,61 @@ def dashboard(request, comp_url):
 
                 selected_phases = competition.phases()
 
-            header, rows = all_judges_table(selected_phases)
-            print '****'
-            print header
-            print rows
-            print ''
+            header, rows = all_pitches_table(selected_phases)
 
-    print header
-    for row in rows:
-        print row
+        elif view == "all_judges":
 
-    return render_to_response('analytics/dashboard.html', locals())
+            header, rows = all_judges_table(competition)
+
+    return render_to_response("analytics/all_pitches.html", locals())
 
 
-def all_judges_table(phases):
+def all_judges_table(competition):
+
+    judges = []
+    rows = []
+    header = ["Judge"]
+    for phase in Phase.objects.filter(competition=competition):
+        header.extend( [ "Phase %s num judged" % phase.phase_num(), "Phase %s average" % phase.phase_num() ] )
+
+    judges = JudgeInvitation.objects.filter(competition=competition)
+
+    for judge in judges:
+        print 'judge: %s' % judge
+
+        row = ["%s" % judge]
+
+        for phase in Phase.objects.filter(competition=competition):
+
+            if judge.this_phase_only and judge.this_phase_only != phase:
+
+                row.extend( [ "N/A", "N/A" ] )
+
+            else:
+
+                judgements = JudgedPitch.objects.filter(judge=judge).filter(pitch__phase=phase)
+                total_score = 0
+                for j in judgements:
+                    total_score = total_score + j.score()
+
+                row.append( len(judgements) )
+                if len(judgements) == 0:
+                    row.append("-")
+                else:
+                    row.append("%s" % (total_score / len(judgements) ) )
+
+        rows.append(row)
+
+    return header, rows
+                
+
+
+def all_pitches_table(phases):
 
     teams = []
-    header = []
+    header = ["Team"]
     rows = []
 
-    header = ["Team"]
     for phase in phases:
         header.extend( [ "Phase %s pitch" % phase.phase_num(), "Phase %s judgements" % phase.phase_num(), "Phase %s average" % phase.phase_num() ] )
     header.append("Total score")
