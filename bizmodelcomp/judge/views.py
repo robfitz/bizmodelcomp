@@ -26,7 +26,7 @@ def list(request):
     judged = []
     unjudged = []
     
-    for pitch in competition.current_phase.pitches.all():
+    for pitch in competition.current_phase.pitches(-1):
 
         #figure if i've judged this one yet or not
         judgements = JudgedPitch.objects.filter(pitch=pitch).filter(judge__user=request.user)

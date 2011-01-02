@@ -164,8 +164,8 @@
             <table>
                 <tr>
                     <th>Team</th>
-                    <th>Score</th>
                     <th>Judge</th>
+                    <th>Score</th>
                 </tr>
 
                 {% for judgement in competition.current_phase.judgements %}
@@ -173,8 +173,8 @@
                     {% if forloop.counter <= 5 %}
                         <tr>
                             <td>{{judgement.pitch.team}}</td>
-                            <td><a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a></td>
                             <td><a href="/dashboard/phase/{{competition.current_phase.id}}/judgements/{{judgement.judge.id}}/">{{judgement.judge}}</a></td>
+                            <td><a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a></td>
                         </tr>
                     {% endif %}
 

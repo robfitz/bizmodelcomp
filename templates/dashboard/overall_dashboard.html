@@ -29,8 +29,8 @@ Your competitions
                 {% endif %}
 
                 <p>
-                    {% if competition.current_phase.is_judging_open %}
-                        <a href="" class="button">Judge it</a>
+                    {% if competition.is_judging_open %}
+                        <a href="/judge/" class="button">Judge it</a>
                     {% else %}
                         Judging is not yet open.
                     {% endif %}

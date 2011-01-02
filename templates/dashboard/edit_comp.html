@@ -93,14 +93,7 @@ Edit competition
 
     {% for phase in phases %}
 
-        {% ifequal phase.id editing_phase %}
-            {% include 'dashboard/widgets/phase_details.html' %}
-        {% endifequal %}
-
-
-        {% if not editing_phase %}
-            {% include 'dashboard/widgets/phase_details.html' %}
-        {% endif %}
+        {% include 'dashboard/widgets/phase_details.html' %}
 
     {% endfor %}
 
