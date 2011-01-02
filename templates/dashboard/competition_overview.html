@@ -103,6 +103,7 @@
                 <table>
                     <tr>
                         <th>Team</th>
+                        <th>Pitch</th>
                         <th>Time</th>
                     </tr>
 
@@ -112,6 +113,7 @@
 
                             <tr>
                                 <td>{{pitch.team}}</td>
+                                <td><a href="/dashboard/pitch/{{pitch.id}}/">View</a></td>
                                 <td>{{pitch.created}}</td>
                             </tr>
 
@@ -139,7 +141,7 @@
                 <h1>{{competition.judge_invitations.count}}</h1>
             </div>
 
-            <a style="float:left;" class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">Edit judges</a>
+            <a style="float:left;" class="button" href="/dashboard/phase/{{competition.current_phase.id}}/judges/">Edit judges</a>
 
             <div class="hr">&nbsp;</div>
 
@@ -166,13 +168,13 @@
                     <th>Judge</th>
                 </tr>
 
-                {% for judgement in competition.judgements %}
+                {% for judgement in competition.current_phase.judgements %}
 
-                    {% if forloop.counter < 5 %}
+                    {% if forloop.counter <= 5 %}
                         <tr>
                             <td>{{judgement.pitch.team}}</td>
-                            <td>{{judgement.score}}</td>
-                            <td>{{judgement.judge}}</td>
+                            <td><a href="/dashboard/judgement/{{judgement.id}}/">{{judgement.score}}</a></td>
+                            <td><a href="/dashboard/phase/{{competition.current_phase.id}}/judgements/{{judgement.judge.id}}/">{{judgement.judge}}</a></td>
                         </tr>
                     {% endif %}
 

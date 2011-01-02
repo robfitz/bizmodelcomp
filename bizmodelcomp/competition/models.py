@@ -85,6 +85,16 @@ class Team(models.Model):
 
         return members
 
+    def __unicode__(self):
+
+        if self.name:
+            return self.name
+        else:
+            try:
+                return self.owner.email.split('@')[0]
+            except:
+                return "Unnamed team"
+
 
 
 #a random key used in links to take an applicant
@@ -558,13 +568,7 @@ class Pitch(models.Model):
 
     #who is pitching this idea?
     def team_name(self):
-
-        if self.team and self.team.name:
-            return self.team.name
-
-        else:
-            num = self.phase.pitches.all().index(self)
-            return "Team %s" % num
+        return "%s" % self.team
 
 
     def __unicode__(self):
@@ -608,7 +612,7 @@ class PitchQuestion(models.Model):
     max_points = models.IntegerField(default=10)
 
     #if set to a non-blank string, informs judge what the points represent (ie 0 is bad, 5 is great!)
-    judge_points_prompt = models.CharField(default="", max_length=140)
+    judge_points_prompt = models.CharField(default="Low scores are bad, high scores are great", max_length=140)
 
     #if set to a non-blank string, judge is asked to write freeform text as feedback
     judge_feedback_prompt = models.CharField(default="", max_length=140)

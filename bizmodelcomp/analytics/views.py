@@ -12,8 +12,8 @@ def dashboard(request, comp_url):
     if competition.owner != request.user:
         return HttpResponseRedirect('/dashboard/')
 
-    header = None
-    rows = None
+    header = []
+    rows = []
     view = None
 
     if request.method == "GET":
@@ -34,6 +34,10 @@ def dashboard(request, comp_url):
                 selected_phases = competition.phases()
 
             header, rows = all_judges_table(selected_phases)
+            print '****'
+            print header
+            print rows
+            print ''
 
     print header
     for row in rows:
@@ -70,10 +74,10 @@ def all_judges_table(phases):
                 new_row.append("<a href='/dashboard/pitch/%s/'>View</a>" % pitch.id)
                 judgement_list = ""
                 for judgement in JudgedPitch.objects.filter(pitch=pitch):
-                    judgement_list += "<a href='/dashboard/judgement/%s/'>%s</a><br/>" % (judgement.id, judgement.score)
+                    judgement_list += "<a href='/dashboard/judgement/%s/'>%s</a><br/>" % (judgement.id, judgement.score())
                 new_row.append(judgement_list)
-                new_row.append("%s" % pitch.average_score)
-                total_score += pitch.average_score
+                new_row.append("%s" % pitch.average_score())
+                total_score += pitch.average_score()
 
             except:
                 #three blank table cells

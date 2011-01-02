@@ -28,7 +28,7 @@ All pitches
         {% for tr in rows %}
             <tr>
                 {% for td in tr %}
-                    <td>{{td}}</td>
+                    <td>{{td|safe}}</td>
                 {% endfor %}
             </tr>
         {% endfor %}
