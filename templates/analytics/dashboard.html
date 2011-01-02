@@ -1,0 +1,40 @@
+{% extends 'dashboard/base.html' %}
+
+{% block ready_script %}
+
+    $("#tab_analyze").addClass("ui-state-active");
+    $("#tab_analyze").addClass("ui-tabs-selected");
+
+    {% if view == "all_pitches" %}
+        $("#dialog").jqmShow();
+    {% endif %}
+
+{% endblock %}
+
+{% block jqmWindow %}
+
+    {% if view == "all_pitches" %}
+        {% include 'analytics/all_pitches.html' %}
+    {% endif %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches">All pitches</a>
+<br/>
+<a href="">All judges</a>
+
+
+<br/>
+<br/>
+<br/>
+
+
+<a href="">All pitches</a>
+<br/>
+<a href="">All pitches</a>
+<br/>
+
+{% endblock %}
