@@ -3,9 +3,65 @@ from competition.models import *
 import string
 
 from datetime import datetime
+from utils.util import rand_key
 
 
-#
+
+#when we fail to sign up a subscriber for unexplained reasons, we
+#make one of these, which has less picky validation and will hopefully
+#allow us to manually fix the problem. stuff like invalid email 
+#addresses (missing an @ or a .) aren't included, since we probably
+#can't repair those.
+class FailedNewsletterSubscription(models.Model):
+
+    email = models.CharField(max_length=100)
+
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+
+    def __unicode__(self):
+
+        return self.email
+
+
+
+class NewsletterSubscription(models.Model):
+
+    unsubscribe_key = models.CharField(max_length=10, default=rand_key(length=10), unique=True)
+
+    email = models.CharField(max_length=100)
+
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+
+    def __unicode__(self):
+
+        return self.email
+
+
+
+class NewsletterUnsubscription(models.Model):
+
+    #i'm on the fence about whether to include this or not, but might
+    #be useful to have a record of the domains, or tie it to account
+    #activity or something
+    email = models.CharField(max_length=100)
+
+    subscription_timestamp = models.DateTimeField()
+
+    unsubscription_timestamp = models.DateTimeField(auto_now_add=True)
+
+
+    def __unicode__(self):
+
+        return "Unsubscribed on %s after %s" % (self.unsubscription_timestamp, self.unsubscription_timestamp - self.subscription_timestamp)
+
+
+
+
+
+
+
 class Bulk_email(models.Model):
 
     #which competition this email was sent with regards to
@@ -72,6 +128,9 @@ class Bulk_email(models.Model):
 
         for address in self.recipient_addresses.all():
             recipient_emails.append(address.address)
+            print 'recipient: %s' % address.address
+
+        print 'all recips: %s' % recipient_emails
 
         return recipient_emails
 

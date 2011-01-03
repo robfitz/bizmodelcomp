@@ -437,6 +437,11 @@ class Phase(models.Model):
         return self.pitchquestion_set.all()
     
 
+    def all_pitches(self):
+
+        return self.pitches(num=-1)
+
+
     def pitches(self, num=10):
 
         if num > 0: 
@@ -450,10 +455,12 @@ class Phase(models.Model):
 
         return self.competition.applicants.all()
 
+
     def __unicode__(self):
 
-        return "phase (id=%s) for (competition=%s)" % (self.pk, self.competition)
+        return "%s" % self.name
     
+
 
 class PhaseSetupSteps(models.Model):
 
@@ -507,7 +514,7 @@ class Pitch(models.Model):
     team = models.ForeignKey(Team, null=True)
 
     #the part of the contest this pitch is a submission to
-    phase = models.ForeignKey(Phase, related_name="pitches")
+    phase = models.ForeignKey(Phase)
 
     #has applicant chosen to publish it yet?
     is_draft = models.BooleanField(default=True)

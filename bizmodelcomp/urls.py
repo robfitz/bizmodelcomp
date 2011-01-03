@@ -44,6 +44,9 @@ urlpatterns = patterns('',
     #email
     (r'email/', include('bizmodelcomp.emailhelper.urls')),
 
+    #data slicing & dicing, spreadsheets, etc
+    (r'data/', include('bizmodelcomp.analytics.urls')),
+
     (r'^dashboard/', include('bizmodelcomp.dashboard.urls')),
 
     (r'^judge/', include('bizmodelcomp.judge.urls')),
