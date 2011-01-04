@@ -45,17 +45,36 @@
 		{% endblock %}
 
 		$(document).ready(function(){
+
 			$('#dialog').jqm();
 			$('button').button();
 			$('.button').button();
-
 
 			{% block ready_script %}
 			{% endblock %}
 
 			$('form.focus :input:visible:first').focus();
 
+            {% if request.GET.show %}
+                popup("{{request.GET.show}}");
+            {% endif %}
+
 		});
+
+        /* open a modal dialog box, ajaxing in the url param.
+         * can be nested once with a popup opening another popup */
+        function popup(url) {
+
+            var dialog = "dialog";
+
+            if ( $("#dialog").css("display") != "none" ) {
+                dialog = "dialog_2";
+            }
+
+            $("#" + dialog).jqm({ajax:url, ajaxText: 'Loading' });
+            $("#" + dialog).jqmShow();
+
+        }
 
     </script>
 
@@ -67,6 +86,9 @@
 		{% block jqmWindow %}
 		{% endblock %}
 	</div>
+
+    <div class="jqmWindow" id="dialog_2" style="z-index:5000;">
+    </div>
 
 	<div id="body">
 

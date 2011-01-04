@@ -16,14 +16,14 @@ Scores
                 <h1>{{competition.judge_invitations.count}}</h1>
             </div>
 
-            <a style="float:left;" class="button" href="/dashboard/phase/{{phase.id}}/judges/">View & invite more judges</a>
+            <a style="float:left;" class="button" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{phase.id}}/judges/');">View & invite more judges</a>
 
             <div class="hr">&nbsp;</div>
 
             <div class="stat_number">
-                        Pitches Judged
-                        <h1>{{ phase.judgements|length }}</h1>
-                    </div>
+                Pitches Judged
+                <h1>{{ phase.judgements|length }}</h1>
+            </div>
 
             <div class="stat_number">
                 Pitches Remain

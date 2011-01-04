@@ -30,6 +30,7 @@
                {% else %}
                    <h1>Live</h1>
                {% endifequal %}
+               <a href="/dashboard/{{competition.hosted_url}}/setup/?edit_comp=yup">Edit phase setup</a>
            </div>
 
             <div class="hr">&nbsp;</div>
@@ -37,6 +38,7 @@
             <div class="stat_number">
                 Num questions
                 <h1>{{ competition.current_phase.questions.count }}</h1>
+                <a href="/dashboard/{{competition.hosted_url}}/setup/?open={{competition.current_phase.id}}">Edit application</a>
             </div>
 
             <div class="stat_number">
@@ -46,7 +48,6 @@
 
             <div class="hr">&nbsp;</div>
 
-            <a style="float:left;" href="">Edit application</a>
 
         </div>
 
@@ -62,6 +63,10 @@
 
             <p>
             <strong>Branded URL:</strong> {{competition.hosted_url}}
+            </p>
+
+            <p>
+               <a class="button" href="/dashboard/{{competition.hosted_url}}/setup/?edit_comp=yup">Edit competition details</a>
             </p>
 
         </div>
@@ -113,7 +118,7 @@
 
                             <tr>
                                 <td>{{pitch.team}}</td>
-                                <td><a href="/dashboard/pitch/{{pitch.id}}/">View</a></td>
+                                <td><a href="javascript:void(0);" onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a></td>
                                 <td>{{pitch.created}}</td>
                             </tr>
 

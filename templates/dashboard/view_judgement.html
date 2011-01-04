@@ -1,6 +1,10 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/popup_section.html' %}
 
-{% block content %}
+{% block section_title %}
+Judged pitch
+{% endblock %}
+
+{% block section_content %}
 
 	{% load markup %}
 
@@ -31,7 +35,6 @@
                             (no answer)
 
                         {% endif %}{% endif %}
-
 
                     </div>
 

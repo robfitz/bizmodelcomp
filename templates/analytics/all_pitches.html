@@ -9,12 +9,19 @@ All pitches
 
         <input type="hidden" name="view" value="all_pitches" />
 
+        <h3>Filter phases</h3>
         {% for phase in competition.phases %}
-                <p>
-                <input type="checkbox" name="phase_{{phase.phase_num}}" id="phase_{{phase.id}}" {% if phase.pitches.all_pitches.count == 0 %}disabled{% endif %} />
+
+            <span style="padding-right:16px;">
+
+                <input {% if phase in selected_phases %}checked="checked"{% endif %} type="checkbox" name="phase_{{phase.phase_num}}" id="phase_{{phase.id}}" {% if phase.pitches.all_pitches.count == 0 %}disabled{% endif %} />
                 <label for="phase_{{phase.id}}">{{phase.name}}</label>
-                </p>
+
+            </span>
+
         {% endfor %}
+
+        <input type="submit" value="Show only these phases" />
 
     </form>
 

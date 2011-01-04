@@ -24,13 +24,10 @@ Applicants and Pitches
             CLOSED
             {% endif %}
             </h1>
-            <a href="">Preview application</a>
+            <a href="/apply/pitch/{{competition.hosted_url}}/?ignorejudging=True">Preview application</a>
         </div>
 
-        <a href="" style="float:left;" class="button">View app</a>
-
         <div class="hr">&nbsp;</div>
-
 
         <h3 style="float:left;">Pitch submission times</h3>
         {% include 'dashboard/charts/pitch_submission_times.html' %}
@@ -67,7 +64,7 @@ Applicants and Pitches
             </table>
 
             <p>
-            <a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View all</a>
+            <a class="button" href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on">View all</a>
             </p>
         </div>
 
