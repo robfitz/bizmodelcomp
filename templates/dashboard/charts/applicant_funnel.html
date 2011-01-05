@@ -5,7 +5,7 @@
         var d = [ [0, {{competition.applicants.count}}] ];
 
         {% for phase in competition.phases %}
-            d.push([ {{forloop.counter}}, {{phase.pitches.count}} ]);
+            d.push([ {{forloop.counter}}, {{phase.all_pitches.count}} ]);
         {% endfor %}
 
 

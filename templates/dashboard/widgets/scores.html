@@ -14,6 +14,7 @@ Scores
             <div class="stat_number">
                 Num Judges
                 <h1>{{competition.judge_invitations.count}}</h1>
+                <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_judges&phase_{{competition.current_phase.phase_num}}=on');">View all</a>
             </div>
 
             <a style="float:left;" class="button" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{phase.id}}/judges/');">View & invite more judges</a>
@@ -23,11 +24,13 @@ Scores
             <div class="stat_number">
                 Pitches judged
                 <h1>{{ phase.all_judgements|length }}</h1>
+                <a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on">View all</a></span></h3>
             </div>
 
             <div class="stat_number">
                 Pitches remain
                 <h1>{{phase.pitches_to_judge|length}}</h1>
+                <a href="/judge/">Judge now</a>
             </div>
 
             <div class="hr">&nbsp;</div>
@@ -41,7 +44,7 @@ Scores
         <div style="half">
 
             <h3>Last 10 scores
-                <span class="medium"><a href="/dashboard/data/{{competition.hosted_url}}/?view=all_judges&phase_{{competition.current_phase.phase_num}}=on">View all judging</a></span>
+                <span class="medium"><a href="/dashboard/data/{{competition.hosted_url}}/?view=all_judges&phase_{{competition.current_phase.phase_num}}=on">View all scores</a></span>
             </h3>
 
             <table>
@@ -57,15 +60,13 @@ Scores
                     <tr>
                         <td>{{judgement.pitch.team}}</td>
                         <td class="number"><a href='javascript:void(0);' onclick="popup('/dashboard/judgement/{{judgement.id}}/');">{{judgement.score}}</a></td>
-                        <td><a href="/dashboard/data/{{competition.hosted_url}}/?view=for_judge&judge={{judgement.judge.id}}">{{judgement.judge}}</td>
+                        <td><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=for_judge&judge={{judgement.judge.id}}');">{{judgement.judge}}</a></td>
                         <td>{{judgement.timestamp|date}}</td>
                     </tr>
 
                 {% endfor %}
 
             </table>
-
-            <a href="" class="button">Announce winners</a>
 
         </div>
     {% else %}

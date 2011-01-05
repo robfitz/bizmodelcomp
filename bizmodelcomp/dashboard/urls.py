@@ -5,6 +5,12 @@ urlpatterns = patterns('',
     #organizer dashboard - overview
     (r'^$', 'dashboard.views.overall_dashboard'),
 
+    #setup new competition
+    (r'^new_comp/$',
+        'dashboard.views.setup'),
+    (r'^(?P<comp_id>[0-9]{1,10})/setup/(?P<step_num>[0-9]{1,2})/$',
+        'dashboard.views.setup'),
+
     #organizer dashboard - setup & comp info
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/setup/$', 'dashboard.views.edit_comp'),
     
@@ -12,11 +18,6 @@ urlpatterns = patterns('',
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/$', 'dashboard.views.dashboard'),
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,10})/manage/$', 'dashboard.views.dashboard'),
 
-    #setup new competition
-    (r'^new_comp/$',
-        'dashboard.views.setup'),
-    (r'^(?P<comp_id>[0-9]{1,10})/setup/(?P<step_num>[0-9]{1,2})/$',
-        'dashboard.views.setup'),
 
     #pass off email to someone more qualified
     (r'^email/', include('bizmodelcomp.emailhelper.urls')), 
