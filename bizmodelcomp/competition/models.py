@@ -232,8 +232,6 @@ class Phase(models.Model):
             steps = PhaseSetupSteps(phase=self)
             steps.save()
 
-        print 'phase %s setup steps: %s' % (self.id, steps.id)
-            
         return steps
         
 
@@ -355,14 +353,17 @@ class Phase(models.Model):
             return judgements
 
 
+    def all_pitches_to_judge(self):
+
+        return self.pitches_to_judge(num=-1)
+
+
     #get list of all applications yet to be judged enough times
     def pitches_to_judge(self, for_judge=None, num=10):
         
         pitches = Pitch.objects.filter(phase=self)
         to_judge = []
 
-        print '%s pitches for phase id=%s' % (len(pitches), self.id)
-        
         organizer = self.competition.owner
         
         for pitch in pitches:
@@ -555,7 +556,6 @@ class Pitch(models.Model):
 
 
     def num_times_judged(self):
-        print 'num times judged: %s, %s' % (len(self.judgements.all()), self.judgements.all())        
         return len(self.judgements.all())
 
 
@@ -662,6 +662,7 @@ class PitchAnswer(models.Model):
         return self.answer
 
 
+
 #details about all the questions a founder needs to upload to
 #apply to the contest. 
 class PitchUpload(models.Model):
@@ -691,7 +692,6 @@ class PitchFile(models.Model):
     def is_image(self):
 
         extension = self.filename.split('.')[-1]
-        print 'extension: %s' % extension
         images = ['jpg', 'jpeg', 'png', 'gif', 'bmp']
 
         return string.lower(extension) in images
@@ -708,6 +708,7 @@ class PitchFile(models.Model):
     def url(self):
 
         return "%suploads/%s" % (MEDIA_URL, self.filename)
+
 
     def __unicode__(self):
         
