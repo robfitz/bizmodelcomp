@@ -11,8 +11,8 @@ Applicants and Pitches
     <div class="half_width">
         
         <div class="stat_number">
-            Num Pitches
-            <h1>{{phase.pitches.count}}</h1>
+            Num pitches
+            <h1>{{phase.all_pitches.count}}</h1>
         </div>
 
         <div class="stat_number">
@@ -24,13 +24,10 @@ Applicants and Pitches
             CLOSED
             {% endif %}
             </h1>
-            <a href="">Preview application</a>
+            <a href="/apply/pitch/{{competition.hosted_url}}/?ignorejudging=True">Preview application</a>
         </div>
 
-        <a href="" style="float:left;" class="button">View app</a>
-
         <div class="hr">&nbsp;</div>
-
 
         <h3 style="float:left;">Pitch submission times</h3>
         {% include 'dashboard/charts/pitch_submission_times.html' %}
@@ -45,11 +42,14 @@ Applicants and Pitches
         <div class="hr">&nbsp;</div>
         <div style="float:left;">
 
-            <h3 >Last 10 applications</h3>
+            <h3>Last 10 applications
+                <span class="medium"><a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on">View all</a></span>
+            </h3>
 
             <table>
                 <tr>
                     <th>Team</th>
+                    <th>Pitch</th>
                     <th>Time</th>
                 </tr>
 
@@ -57,7 +57,8 @@ Applicants and Pitches
 
                     <tr>
                         <td>{{pitch.team}}</td>
-                        <td>{{pitch.created}}</td>
+                        <td><a href="javascript:void(0);" onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a></td>
+                        <td>{{pitch.created|date}}</td>
                     </tr>
 
                 {% endfor %}
@@ -65,7 +66,6 @@ Applicants and Pitches
             </table>
 
             <p>
-            <a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View all</a>
             </p>
         </div>
 

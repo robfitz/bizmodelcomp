@@ -7,7 +7,7 @@ def get_next_pitch_to_judge(competition, judge):
         organizer = judge.user
     
         #get all pitches from this comp
-        pitches = competition.current_phase.pitches.all()
+        pitches = competition.current_phase.pitches(num=-1)
 
         #get all pitches not yet judged by me
         unjudged = []

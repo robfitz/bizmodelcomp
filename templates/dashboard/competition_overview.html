@@ -30,6 +30,7 @@
                {% else %}
                    <h1>Live</h1>
                {% endifequal %}
+               <a href="/dashboard/{{competition.hosted_url}}/setup/?edit_comp=yup">Edit phase setup</a>
            </div>
 
             <div class="hr">&nbsp;</div>
@@ -37,16 +38,17 @@
             <div class="stat_number">
                 Num questions
                 <h1>{{ competition.current_phase.questions.count }}</h1>
+                <a href="/dashboard/{{competition.hosted_url}}/setup/?open={{competition.current_phase.id}}">Edit application</a>
             </div>
 
             <div class="stat_number">
                 Num uploads
                 <h1>{{ competition.current_phase.uploads.count }}</h1>
+                <a href="javascript:void(0);" onclick="popup_iframe('/apply/pitch/{{competition.hosted_url}}/?ignorejudging=true');">Preview application</a>
             </div>
 
             <div class="hr">&nbsp;</div>
 
-            <a style="float:left;" href="">Edit application</a>
 
         </div>
 
@@ -64,6 +66,10 @@
             <strong>Branded URL:</strong> {{competition.hosted_url}}
             </p>
 
+            <p>
+               <a class="button" href="/dashboard/{{competition.hosted_url}}/setup/?edit_comp=yup">Edit competition details</a>
+            </p>
+
         </div>
 
     </div>
@@ -73,8 +79,9 @@
         <div class="half_width">
             
             <div class="stat_number">
-                Num Pitches
+                Num applications
                 <h1>{{competition.current_phase.pitches.count}}</h1>
+                <a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on">View all</a>
             </div>
 
             <div class="stat_number">
@@ -86,10 +93,8 @@
                 CLOSED
                 {% endif %}
                 </h1>
-                <a href="">Preview application</a>
+                <a href="javascript:void(0);" onclick="popup_iframe('/apply/pitch/{{competition.hosted_url}}/?ignorejudging=true');">Preview application</a>
             </div>
-
-            <a href="" style="float:left;" class="button">View app</a>
 
         </div>
 
@@ -98,11 +103,12 @@
             <div class="hr">&nbsp;</div>
             <div style="float:left;">
 
-                <h3 >Last 5 applications</h3>
+                <h3 >Last 5 applications <span class="medium"><a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on">View all</a></span></h3>
 
-                <table>
+                <table class="medium">
                     <tr>
                         <th>Team</th>
+                        <th>Pitch</th>
                         <th>Time</th>
                     </tr>
 
@@ -112,7 +118,8 @@
 
                             <tr>
                                 <td>{{pitch.team}}</td>
-                                <td>{{pitch.created}}</td>
+                                <td><a href="javascript:void(0);" onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a></td>
+                                <td>{{pitch.created|date}}</td>
                             </tr>
 
                         {% endif %}
@@ -121,9 +128,6 @@
 
                 </table>
 
-                <p>
-                <a class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/pitches/">View all</a>
-                </p>
             </div>
 
         </div>
@@ -137,42 +141,46 @@
             <div class="stat_number">
                 Num Judges
                 <h1>{{competition.judge_invitations.count}}</h1>
+                <a style="float:left;" href="/dashboard/phase/{{competition.current_phase.id}}/judges/">Edit judges</a>
             </div>
 
-            <a style="float:left;" class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">Edit judges</a>
 
             <div class="hr">&nbsp;</div>
 
             <div class="stat_number">
-                        Pitches Judged
-                        <h1>{{ phase.judgements|length }}</h1>
+                        Pitches judged
+                        <h1>{{ competition.current_phase.all_judgements|length }}</h1>
+                        <a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on">View all</a></span></h3>
+
                     </div>
 
             <div class="stat_number">
                 Pitches Remain
-                <h1>{{phase.pitches_to_judge|length}}</h1>
+                <h1>{{ competition.current_phase.pitches_to_judge|length}}</h1>
             </div>
 
         </div>
 
         <div style="half">
 
-            <h3>Last 5 scores</h3>
+            <h3>Last 5 scores <span class="medium"><a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on">View all</a></span></h3>
 
-            <table>
+            <table class="medium">
                 <tr>
                     <th>Team</th>
-                    <th>Score</th>
                     <th>Judge</th>
+                    <th>Score</th>
+                    <th>Time</th>
                 </tr>
 
-                {% for judgement in competition.judgements %}
+                {% for judgement in competition.current_phase.judgements %}
 
-                    {% if forloop.counter < 5 %}
+                    {% if forloop.counter <= 5 %}
                         <tr>
                             <td>{{judgement.pitch.team}}</td>
-                            <td>{{judgement.score}}</td>
-                            <td>{{judgement.judge}}</td>
+                            <td><a href="/dashboard/data/{{ competition.hosted_url }}/?view=for_judge&judge={{judgement.judge.id}}">{{judgement.judge}}</a></td>
+                            <td style="text-align:right;padding-right:18px;"><a href="javascript:void(0);" onclick="popup('/dashboard/judgement/{{judgement.id}}/');">{{judgement.score}}</a></td>
+                            <td> {{judgement.timestamp|date }}</td>
                         </tr>
                     {% endif %}
 

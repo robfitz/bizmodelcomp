@@ -25,6 +25,9 @@ def get_random_score(question):
     
     
 
+#phase 1: online pitch, already complete
+#phase 2: online pitch, submissions in, judging partial
+#phase 3: live pitch, setup complete but no pitches
 def create_dummy_competition(user):
 
     #find unique hosted url
@@ -43,27 +46,56 @@ def create_dummy_competition(user):
             website="http://loremipsum.com")
     competition.save()
 
-    #set as primary for this user so we see it in dashboard
-    user.get_profile().selected_competition = competition
-    user.get_profile().save()
-
     #create default phase
-    phase = Phase(competition=competition,
-            name="Phase 1")
-    phase.save()
-    competition.current_phase = phase
-    competition.save()
+    phase_1 = Phase(competition=competition,
+            name="first online phase",
+            is_judging_enabled=False)
+    phase_1.save()
 
     #a second, emptier phase
-    phase = Phase(competition=competition,
-            name="Phase 2")
-    phase.save() 
+    phase_2 = Phase(competition=competition,
+            name="second online phase",
+            is_judging_enabled=True)
+    phase_2.save() 
 
-    #add a few questions
+    #a third, live and incomplete phase
+    phase_3 = Phase(competition=competition,
+            name="third live phase")
+    phase_3.save() 
+
+    competition.current_phase = phase_2
+    competition.save()
+
+    #add a few questions.
+    #on phase 1 & 2 (online) you have 4 questions that 
+    #are scored normally, and then one open feedback spot
     for i in range(1, 5):
         question = PitchQuestion(order=i,
-                phase=competition.current_phase,
-                prompt=LOREM[:50])
+                phase=phase_1,
+                prompt=LOREM[:50],
+                max_points=10)
+        if i == 4:
+            question.judge_feedback_prompt = "Overall thoughts?"
+            question.is_hidden_from_applicants = True
+        question.save()
+
+        question = PitchQuestion(order=i,
+                phase=phase_2,
+                prompt=LOREM[:50],
+                max_points=10)
+        if i == 4:
+            question.judge_feedback_prompt = "Overall thoughts?"
+            question.is_hidden_from_applicants = True
+        question.save()
+
+    #three open feedback questions for the live pitch
+    for i in range(1, 3):
+        question = PitchQuestion(order=i,
+                phase=phase_3,
+                prompt=LOREM[:50],
+                max_points=10,
+                judge_feedback_prompt = LOREM[:20],
+                is_hidden_from_applicants = True)
         question.save()
 
     #some judges
@@ -76,7 +108,6 @@ def create_dummy_competition(user):
     #create a bunch of applicants
     for i in range(1, 100):
 
-        #TODO: properly avoid collisions
         email_num = rand_key(12)
 
         #applicant
@@ -84,57 +115,89 @@ def create_dummy_competition(user):
                 email = "%s@example.com" % email_num,
                 phone = "1234567890",
                 birth = "1900-01-28")
-        founder.save()
+        try:
+            founder.save()
+        except:
+            continue
+
         competition.applicants.add(founder)
 
-        #application
-        pitch = Pitch(owner=founder,
-                phase=competition.current_phase,
-                is_draft=False)
-        pitch.save()
-        
-        #judging. we intentionally don't check for collisions
-        #so that most apps will get judged twice, but not 100%
-        judge_1 = get_random_judge(competition.current_phase)
-        judge_2 = get_random_judge(competition.current_phase)
+        team = Team(owner=founder,
+                name="Team %s" % i)
+        team.save()
 
-        judged = JudgedPitch(pitch=pitch,
-                judge=judge_1)
-        judged.save()
+        #answers, but only for the first 2 phases (3rd live phase hasn't been done yet!) 
+        for phase in [phase_1, phase_2]:
+            
+            #application
+            pitch = Pitch(team=team,
+                    phase=phase,
+                    is_draft=False)
+            pitch.save()
+            
+            #judging. we intentionally don't check for collisions
+            #so that most apps will get judged twice, but not 100%
+            judge_1 = get_random_judge(phase)
+            judge_2 = get_random_judge(phase)
 
-        #don't allow the same judge to rate the same app multiple times
-        judged_2 = None
-        if judge_1 != judge_2:
-            judged_2 = JudgedPitch(pitch=pitch,
-                    judge=judge_2)
-            judged_2.save()
+            judged = JudgedPitch(pitch=pitch,
+                    judge=judge_1)
+            judged.save()
+
+            #don't allow the same judge to rate the same app multiple times
+            judged_2 = None
+            if judge_1 != judge_2:
+                judged_2 = JudgedPitch(pitch=pitch,
+                        judge=judge_2)
+                judged_2.save()
              
-        #answers
-        for q in competition.current_phase.questions():
-            answer = PitchAnswer(question=q,
-                    pitch=pitch,
-                    answer=LOREM)
-            answer.save()
-               
-            #judged answers
-            j_answer = JudgedAnswer(judged_pitch=judged,
-                    score=get_random_score(q),
-                    answer=answer)
-            j_answer.save()
+            #loop through all questions to answer and judge them
+            for question in phase.questions():
 
-            if judged_2:
-                j_answer = JudgedAnswer(judged_pitch=judged_2,
-                    score=get_random_score(q),
-                    answer=answer)
+                answer = None
+
+                if not question.is_hidden_from_applicants:
+                    #student can see the question, should answer it
+                    answer = PitchAnswer(question=question,
+                            pitch=pitch,
+                            answer=LOREM)
+                    answer.save()
+
+                #judges always answer, one way or another. answer=Null mean
+                #that the question was hidden from applicant and judges need leave feedback
+                j_answer = JudgedAnswer(judged_pitch=judged,
+                        score=get_random_score(question),
+                        answer=answer)
+                if question.judge_feedback_prompt:
+                    j_answer.feedback = LOREM
                 j_answer.save()
 
-    #setup steps
-    steps = competition.current_phase.setup_steps()
+                if judged_2:
+                    j_answer = JudgedAnswer(judged_pitch=judged_2,
+                        score=get_random_score(question),
+                        answer=answer)
+                    if question.judge_feedback_prompt:
+                        j_answer.feedback = LOREM
+                    j_answer.save()
+
+    #setup steps - phase 1 done
+    steps = phase_1.setup_steps()
     steps.details_confirmed = True
     steps.application_setup = True
     steps.announced_applications = True
     steps.invited_judges = True
     steps.announced_judging_open = True
+    steps.selected_winners = True
+    steps.save()
+
+    #setup steps - phase 2 just needs winners declared
+    steps = phase_2.setup_steps()
+    steps.details_confirmed = True
+    steps.application_setup = True
+    steps.announced_applications = True
+    steps.invited_judges = True
+    steps.announced_judging_open = True
+    steps.selected_winners = False
     steps.save()
 
     competition.save()

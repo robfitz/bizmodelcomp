@@ -16,17 +16,17 @@ Scores
                 <h1>{{competition.judge_invitations.count}}</h1>
             </div>
 
-            <a style="float:left;" class="button" href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">View & invite more judges</a>
+            <a style="float:left;" class="button" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{phase.id}}/judges/');">View & invite more judges</a>
 
             <div class="hr">&nbsp;</div>
 
             <div class="stat_number">
-                        Pitches Judged
-                        <h1>{{ phase.judgements|length }}</h1>
-                    </div>
+                Pitches judged
+                <h1>{{ phase.all_judgements|length }}</h1>
+            </div>
 
             <div class="stat_number">
-                Pitches Remain
+                Pitches remain
                 <h1>{{phase.pitches_to_judge|length}}</h1>
             </div>
 
@@ -40,21 +40,25 @@ Scores
 
         <div style="half">
 
-            <h3>Last 10 scores</h3>
+            <h3>Last 10 scores
+                <span class="medium"><a href="/dashboard/data/{{competition.hosted_url}}/?view=all_judges&phase_{{competition.current_phase.phase_num}}=on">View all judging</a></span>
+            </h3>
 
             <table>
                 <tr>
                     <th>Team</th>
                     <th>Score</th>
                     <th>Judge</th>
+                    <th>Time</th>
                 </tr>
 
-                {% for judgement in competition.judgements %}
+                {% for judgement in competition.current_phase.judgements %}
 
                     <tr>
                         <td>{{judgement.pitch.team}}</td>
-                        <td>{{judgement.score}}</td>
-                        <td>{{judgement.judge}}</td>
+                        <td class="number"><a href='javascript:void(0);' onclick="popup('/dashboard/judgement/{{judgement.id}}/');">{{judgement.score}}</a></td>
+                        <td><a href="/dashboard/data/{{competition.hosted_url}}/?view=for_judge&judge={{judgement.judge.id}}">{{judgement.judge}}</td>
+                        <td>{{judgement.timestamp|date}}</td>
                     </tr>
 
                 {% endfor %}

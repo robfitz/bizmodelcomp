@@ -1,99 +1,61 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/popup_section.html' %}
 
-{% block header_title %}
+{% block section_title %}
 Manage Judges
 {% endblock %}
 
-{% block content %}
+{% block section_content %}
 
-	<div class="ui-dialog ui-widget ui-widget-content ui-corner-all dashboard_section">
+    <h3>Invite new judges</h3>
+    {% include 'dashboard/add_judge.html' %}
 
-		<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+    <h3>Review existing judges</h3>
 
-			<span class="ui-dialog-title" id="ui-dialog-title-dialog">
+        <form method="POST" action="/dashboard/{{competition.id}}/phase/{{phase.id}}/delete_judge_invites/">
 
-				<span class="ui-icon ui-icon-plus" style="float:left;margin-left:-8px;margin-right:4px;"></span>
-				<span class="section_title">
-					Invite new judges
-				</span>
-			</span>
-
-		</div>
-
-		<div class="summary">
-
-			{% include 'dashboard/add_judge.html' %}
+            <p>
+            Action:
+            <select name="action">
+                <option value="do_nothing">-------</option>
+                <option value="delete_selected">Delete selected</option>
+            </select>
+            <input type="submit" value="Go" />
+            </p>
 
 
-		</div>
+            <table>
+                <tr style="height:30px;font-weight:bold">
+                    <td></td>
+                    <td style="width:100px">Name</td>
+                    <td>Email</td>
+                    <td>Activated?</td>
+                    <td>Applications judged</td>
+                </tr>
 
-	</div>
+                {% for invite in judge_invitations %}
+                    <tr>
+                        <td><input name="is_selected_{{invite.pk}}" type="checkbox" />
+                        <td></td>
+                        <td>{{ invite.email }}</td>
+                        <td>
+                        {% if invite.user %}
+                        Yes
+                        {% else %}
+                        No
+                        {% endif %}
+                        </td>
+                        <td>
+                        {% if invite.judgements.count > 0 %}
+                            <a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judgements/{{invite.id}}/">{{ invite.judgements.count }}</a>
+                        {% else %}
+                            {{ invite.judgements.count }}
+                        {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
 
-	<div class="ui-dialog ui-widget ui-widget-content ui-corner-all dashboard_section" style="">
+            </table>
 
-		<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
-
-			<span class="ui-dialog-title" id="ui-dialog-title-dialog">
-
-				<span class="ui-icon" style="float:left;margin-left:-8px;margin-right:4px;"></span>
-				<span class="section_title">
-					Review existing judges
-				</span>
-			</span>
-
-		</div>
-
-		<div class="summary">
-
-			<form method="POST" action="/dashboard/{{competition.id}}/phase/{{phase.id}}/delete_judge_invites/">
-
-				<p>
-				Action:
-				<select name="action">
-					<option value="do_nothing">-------</option>
-					<option value="delete_selected">Delete selected</option>
-				</select>
-				<input type="submit" value="Go" />
-				</p>
-
-
-				<table>
-					<tr style="height:30px;font-weight:bold">
-						<td></td>
-						<td style="width:100px">Name</td>
-						<td>Email</td>
-						<td>Activated?</td>
-						<td>Applications judged</td>
-					</tr>
-
-					{% for invite in judge_invitations %}
-						<tr>
-							<td><input name="is_selected_{{invite.pk}}" type="checkbox" />
-							<td></td>
-							<td>{{ invite.email }}</td>
-							<td>
-							{% if invite.user %}
-							Yes
-							{% else %}
-							No
-							{% endif %}
-							</td>
-							<td>
-							{% if invite.judgements.count > 0 %}
-								<a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judgements/{{invite.id}}/">{{ invite.judgements.count }}</a>
-							{% else %}
-								{{ invite.judgements.count }}
-							{% endif %}
-							</td>
-						</tr>
-					{% endfor %}
-
-				</table>
-
-			</form>
-
-		</div>
-
-	</div>
+        </form>
 
 {% endblock %}

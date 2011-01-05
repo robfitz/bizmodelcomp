@@ -1,30 +1,6 @@
-{% extends 'base.html' %}
+{% extends 'dashboard/popup_section.html' %}
 
-{% block meta %}
-<link rel="stylesheet" type="text/css" href="/media/competition/style/edit_application.css" />
-<link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
-{% endblock %}
-
-{% block script %}
-
-	{% include 'dashboard/edit_application.js' %}
-
-	function get_id(obj) {
-
-		var toks = obj.attr("id").split("_");
-		var id = toks[toks.length - 1];
-		return id;
-	}
-
-{% endblock %}
-
-{% block ready_script %}
-
-	set_click_handlers();
-
-{% endblock %}
-
-{% block content %}
+{% block section_content %}
 
 	<form action="" method="POST" class="focus">
 
@@ -34,6 +10,23 @@
 			<input type="submit" value="Save pitch form" />
 		</p>
 	</form>
+
+    <script language="javascript" type="text/javascript">
+        
+        $(function () {
+                set_click_handlers();
+        });
+
+        {% include 'dashboard/edit_application.js' %}
+
+        function get_id(obj) {
+
+            var toks = obj.attr("id").split("_");
+            var id = toks[toks.length - 1];
+            return id;
+        }
+
+    </script>
 
 {% endblock %}
 

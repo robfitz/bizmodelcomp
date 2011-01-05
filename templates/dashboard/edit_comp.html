@@ -1,14 +1,24 @@
 {% extends 'dashboard/base.html' %}
 
-{% block header_title %}
+{% block meta %}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/edit_application.css" />
+{% endblock %}
+
+{% block section_title %}
 Edit competition
 {% endblock %}
 
 {% block ready_script %}
 
-	{% if editing_phase %}
-		edit_initial_phase({{editing_phase}});
+	{% if request.GET.open %}
+		edit_initial_phase("{{request.GET.open}}");
 	{% endif %}
+
+    {% if request.GET.edit_comp %}
+        $("#view_comp_details").slideUp();
+        $("#edit_comp_details").slideDown();
+    {% endif %}
 
     $("#tab_setup").addClass("ui-state-active");
     $("#tab_setup").addClass("ui-tabs-selected");
@@ -38,14 +48,6 @@ Edit competition
 	}
 
 	function cancel_edit() {
-
-        {% if editing_phase %}
-            //if we're editing only a single phase, that means we got
-            //there from the phase dashboard and cancelling should
-            //take us back there
-            window.location = "/dashboard/phase/{{editing_phase}}/";
-            return;
-        {% endif %}
 
 		$('#view_phase_' + open_phase).slideDown();
 		$('#edit_phase_' + open_phase).slideUp();
@@ -93,14 +95,7 @@ Edit competition
 
     {% for phase in phases %}
 
-        {% ifequal phase.id editing_phase %}
-            {% include 'dashboard/widgets/phase_details.html' %}
-        {% endifequal %}
-
-
-        {% if not editing_phase %}
-            {% include 'dashboard/widgets/phase_details.html' %}
-        {% endif %}
+        {% include 'dashboard/widgets/phase_details.html' %}
 
     {% endfor %}
 

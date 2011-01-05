@@ -44,8 +44,8 @@ class JudgeInvitation(models.Model):
     #sort out an appropriate way to identify this judge to other judges
     def display_name(self):
         if self.user:
-            if self.user.name:
-                return self.user.name
+            if self.user.username:
+                return self.user.username.split('@')[0]
             else:
                 return self.user.email.split('@')[0]
 

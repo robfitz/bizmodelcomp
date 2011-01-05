@@ -5,36 +5,21 @@
     $("#tab_analyze").addClass("ui-state-active");
     $("#tab_analyze").addClass("ui-tabs-selected");
 
-    {% if view == "all_pitches" %}
-        $("#dialog").jqmShow();
+    {% if view %}
+        popup('/dashboard/data/table/{{competition.hosted_url}}/?{{request.META.QUERY_STRING}}');
     {% endif %}
 
 {% endblock %}
 
 {% block jqmWindow %}
 
-    {% if view == "all_pitches" %}
-        {% include 'analytics/all_pitches.html' %}
-    {% endif %}
-
 {% endblock %}
 
 
 {% block content %}
 
-<a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches">All pitches</a>
+<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches');">All pitches</a>
 <br/>
-<a href="">All judges</a>
-
-
-<br/>
-<br/>
-<br/>
-
-
-<a href="">All pitches</a>
-<br/>
-<a href="">All pitches</a>
-<br/>
+<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_judges');">All judges</a>
 
 {% endblock %}
