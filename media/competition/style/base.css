@@ -153,8 +153,12 @@ div.slider {
 body {
     font-size:14px;
     font-family: 'Droid Sans';
-	color: #A9A9A9;
+	color: #666666;
 	line-height:150%
+}
+
+.small {
+	font-size:9px;
 }
 
 .medium {
@@ -171,7 +175,6 @@ body {
 h1, h2 {
 	margin:0px;
 	padding:0px;
-	font-style:italic;
 	color: #333333;
 	line-height:120%
 }
@@ -180,32 +183,34 @@ h4 {
     font-size:14px;
 }
 
-strong {
+.blue {
     color: #3062C4;
 }
 
 .silver {
-	color: #A9A9A9;
+	color:#999999;
 }
 
+highlight {
+	background:#FFF32A;
+	}
+
+/***** hyperlinks ********/
+
+a:link {
+	color: #666666;
+	}
+
+a:visited {
+	color: #666666;
+	}
+	
 /***** horizontal rule ********/
 
 .funk {
 	height:20px;
 	background: url(images/hr.png) no-repeat scroll center;
 	border:none;
-}
-
-/***** lists ********/
-
-ul {
-    list-style-type:none;
-}
-
-li {
-    padding-left:25px;
-    background:transparent url(images/bullet.png) no-repeat;
-
 }
 
 /***** forms ********/

@@ -6,7 +6,7 @@ from competition.models import Competition
 class SiteCopy(models.Model):
 
     id = models.CharField(primary_key=True, max_length=30)
-    text = models.CharField(max_length=2000) #markdown/html
+    text = models.CharField(max_length=10000) #markdown/html
 
 
     def html(self):

@@ -18,7 +18,7 @@
 
     <title>
       {% block title %}
-      NVANA - Powering Innovation
+      NVANA - Building tools for entrepreneurship
       {% endblock %}
     </title>
 
@@ -125,16 +125,22 @@
 
 			{% block content_outer_bottom %}
 			{% endblock %}
+		
 		</div>
-
-		<div id="footer" class="medium">
-			{% block footer %}
-            <!--
-            <a href="/flat/About/">About</a> | <a href="/flat/Privacy/">Privacy & data ownership</a> | <a href="/flat/Contact/">Contact</a> | <a href="/help/">Help!</a>
-            -->
-			{% endblock %}
 		</div>
-
-	</body>
+	
+	<div id="footer" class="medium">
+			
+				<div class="funk"></div>
+				{% block footer %}
+            
+            	<a href="/flat/About/">About</a> | <a href="/flat/Terms/">Privacy & Terms</a> | <a href="/flat/Blog/">Blog</a> | <a href="/flat/Contact/">Contact</a>
+            
+				{% endblock %}
+	</div>
+	
+	</div>
+	
+</body>
 
 </html>
