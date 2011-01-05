@@ -82,7 +82,7 @@ def all_judges_table(competition):
     rows = []
     header = ["Judge"]
     for phase in Phase.objects.filter(competition=competition):
-        header.extend( [ "Phase %s num judged" % phase.phase_num(), "Phase %s average" % phase.phase_num() ] )
+        header.extend( [ "Phase %s<br/>num judged" % phase.phase_num(), "Phase %s<br/>average" % phase.phase_num() ] )
 
     judges = JudgeInvitation.objects.filter(competition=competition)
 
@@ -159,7 +159,7 @@ def all_pitches_table(phases):
     rows = []
 
     for phase in phases:
-        header.extend( [ "Phase %s pitch" % phase.phase_num(), "Phase %s judgements" % phase.phase_num(), "Phase %s average" % phase.phase_num() ] )
+        header.extend( [ "Phase %s<br/>pitches" % phase.phase_num(), "Phase %s<br/>scores" % phase.phase_num(), "Phase %s<br/>average" % phase.phase_num() ] )
     header.append("Total score")
 
     for phase in phases:
@@ -178,8 +178,10 @@ def all_pitches_table(phases):
                 pitch = Pitch.objects.get(team=team, phase=phase)
                 new_row.append("<a href='/dashboard/pitch/%s/'>View</a>" % pitch.id)
                 judgement_list = ""
-                for judgement in JudgedPitch.objects.filter(pitch=pitch):
-                    judgement_list += "<a href='javascript:void(0);' onclick=\"popup('/dashboard/judgement/%s/');\">%s</a><br/>" % (judgement.id, judgement.score())
+                for i, judgement in enumerate(JudgedPitch.objects.filter(pitch=pitch)):
+                    if i > 0:
+                        judgement_list += ", "
+                    judgement_list += "<a href='javascript:void(0);' onclick=\"popup('/dashboard/judgement/%s/');\">%s</a>" % (judgement.id, judgement.score())
                 new_row.append(judgement_list)
                 new_row.append("%s" % pitch.average_score())
                 total_score += pitch.average_score()

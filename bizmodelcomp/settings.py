@@ -161,3 +161,5 @@ AUTH_PROFILE_MODULE = "userhelper.UserProfile"
 SCRIBD_API_KEY = "4jxkxjfj8efpubbj5q7i8"
 SCRIBD_USER_ID = "pub-97515527877144087531"
 SCRIBD_UPLOAD_URL = "http://api.scribd.com/api?method=docs.upload&api_key=%s&my_user_id=%s&access=private&secure=0&download_and_drm=view-only" % (SCRIBD_API_KEY, SCRIBD_USER_ID)
+
+DATE_FORMAT = "M d, H:i"

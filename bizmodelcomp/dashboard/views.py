@@ -1040,7 +1040,7 @@ def dashboard(request, comp_url=None):
     competition = get_object_or_404(Competition, hosted_url=comp_url)
     phase = competition.current_phase
     max_score = phase.max_score()
-    score_groups = chart_util.score_distribution(phase.judgements(), max(phase.max_score() / 20, 1))
+    score_groups = chart_util.score_distribution(phase.all_judgements(), max(phase.max_score() / 20, 1))
 
     if competition.owner != request.user:
         return HttpResponseRedirect('/no_permissions/')

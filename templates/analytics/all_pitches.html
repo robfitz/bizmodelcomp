@@ -28,7 +28,7 @@ All pitches
     <table>
         <tr>
             {% for th in header %}
-            <th>{{th}}</th>
+            <th>{{th|safe}}</th>
             {% endfor %}
         </tr>
 

@@ -76,6 +76,22 @@
 
         }
 
+        /* loads the url param into an iframe in the jql window. use
+         * this instead of popup() when you need to show a whole webpage
+         * and keep the JS & CSS separate */
+        function popup_iframe(url) {
+
+            var dialog = "dialog";
+
+            if ( $("#dialog").css("display") != "none" ) {
+                dialog = "dialog_2";
+            }
+
+            $("#" + dialog).jqm();
+            $("#" + dialog).jqmShow();
+            $("#" + dialog).append("<iframe src='" + url + "'>Loading...</iframe>");
+        }
+
     </script>
 
 </head>

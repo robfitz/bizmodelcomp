@@ -1,6 +1,17 @@
+td {
+    border-bottom:1px solid #ccc;
+    padding: 0px 4px 0px 4px;
+}
+
+td.number {
+    padding-right:18px;
+    text-align:right;
+}
+
 .strikethrough, del {
     text-decoration: line-through;
 }
+
 
 /***** layout ********/
 

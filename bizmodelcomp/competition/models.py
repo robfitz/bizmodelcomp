@@ -331,6 +331,11 @@ class Phase(models.Model):
 
         return "N/A"
     
+    def all_judgements(self):
+
+        return self.judgements(num=-1)
+
+
     
     def judgements(self, for_judge=None, num=10):
         
