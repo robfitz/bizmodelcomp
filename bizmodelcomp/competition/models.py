@@ -10,6 +10,7 @@ import time
 
 from settings import MEDIA_URL
 from utils.util import *
+from utils.models import Tag
 from judge.models import *
 
 from django.forms import ModelForm
@@ -133,6 +134,15 @@ class Competition(models.Model):
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
 
+    def application_requirements(self):
+        try:
+            return ApplicationRequirements.objects.get(competition=self)
+        except:
+            reqs = ApplicationRequirements(competition=self)
+            reqs.save()
+            return reqs
+
+
     def logo_url(self):
 
         if self.logo:
@@ -161,6 +171,24 @@ class Competition(models.Model):
     def __unicode__(self):
 
         return self.name
+
+
+
+class ApplicationRequirements(models.Model):
+
+    competition = models.OneToOneField(Competition, null=True, blank=True)
+
+    #web, greentech, medical, social enterprise, etc
+    business_types = models.ManyToManyField(Tag, related_name="comp_business_types")
+
+    #undergrad, postgrad, etc
+    applicant_types = models.ManyToManyField(Tag, related_name="comp_applicant_types")
+
+    #ucl, georgia tech, sony pictures, etc
+    institutions = models.ManyToManyField(Tag, related_name="comp_institutions")
+
+    #europe..
+    locations = models.ManyToManyField(Tag, related_name="comp_locations")
 
 
 

@@ -1,0 +1,201 @@
+{% extends 'new_comp/base.html' %}
+
+{% block ready_script %}
+
+    $(".big_tag").hover(
+        function () {
+            $(this).children(".title").show();
+        },
+        function () {
+            if ($(this).hasClass("big_tag")) {
+                $(this).children(".title").hide();
+            }
+        }
+    );
+    $(".big_tag_selected").hover(
+        function () {
+            $(this).children(".title").show();
+        },
+        function () {
+            if ($(this).hasClass("big_tag")) {
+                $(this).children(".title").hide();
+            }
+        }
+    );
+
+    $(".big_tag").click( function() {
+
+        if ( $(this).hasClass("big_tag") ) {
+            $(this).removeClass("big_tag");
+            $(this).addClass("big_tag_selected");
+            $(this).children(".title").show();
+
+            $("form #" + $(this).attr("id")).attr("checked", true);
+        }
+        else if ( $(this).hasClass("big_tag_selected") ) {
+            $(this).removeClass("big_tag_selected");
+            $(this).addClass("big_tag");
+            $("form #" + $(this).attr("id")).attr("checked", false);
+        }
+    });
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="big_tag_group">
+
+        <h3>Who can apply?</h3>
+
+        <div class="big_tag" id="undergrad">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Undergraduates
+            </div>
+        </div>
+
+        <div class="big_tag" id="postgrad">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Postgraduates
+            </div>
+        </div>
+
+        <div class="big_tag" id="faculty">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Faculty & Staff
+            </div>
+        </div>
+
+        <div class="big_tag" id="nonacademic">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Non-academics
+            </div>
+        </div>
+
+    </div>
+
+    <div class="big_tag_group">
+
+        <h3>From which institutions?</h3>
+
+        <div class="big_tag" id="institutions">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Certain universities
+            </div>
+        </div>
+
+        <div class="big_tag" id="locations">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Certain countries
+            </div>
+        </div>
+
+        <div class="big_tag" id="other_requirements">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Other requirements
+            </div>
+        </div>
+
+    </div>
+
+    <div class="big_tag_group">
+
+        <h3>What type of ideas are encouraged?</h3>
+
+        <div class="big_tag" id="web">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Web & tech
+            </div>
+        </div>
+
+        <div class="big_tag" id="social">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Social enterprise
+            </div>
+        </div>
+
+        <div class="big_tag" id="green">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Green
+            </div>
+        </div>
+
+        <div class="big_tag" id="medical">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Medical & health
+            </div>
+        </div>
+
+        <div class="big_tag" id="services">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Services
+            </div>
+        </div>
+
+        <div class="big_tag" id="other_ideas">
+            <div class="icon">
+                <img src="/media/logo.png" />
+            </div>
+            <div class="title unselectable hidden">
+                Other
+            </div>
+        </div>
+
+    </div>
+
+    <form action="" method="POST">
+
+        <div class="hidden" style="position:absolute;left:0px;">
+            <input type="checkbox" id="undergrad" name="undergrad" />
+            <input type="checkbox" id="postgrad" name="postgrad" />
+            <input type="checkbox" id="faculty" name="faculty" />
+            <input type="checkbox" id="nonacademic" name="nonacademic" />
+
+            <input type="checkbox" id="web" name="web" />
+            <input type="checkbox" id="social" name="social" />
+            <input type="checkbox" id="green" name="green" />
+            <input type="checkbox" id="medical" name="medical" />
+            <input type="checkbox" id="services" name="services" />
+            <input type="checkbox" id="other_ideas" name="other_ideas" />
+        </div>
+
+        <input type="submit" value="Save & continue" />
+
+    </form>
+
+    {% endblock %}

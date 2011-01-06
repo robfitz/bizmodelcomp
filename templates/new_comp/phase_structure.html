@@ -1,0 +1,132 @@
+{% extends 'new_comp/base.html' %}
+
+{% block style %}
+
+.phase_block, .button_block {
+    float:left;
+    height:180px;
+    width:192px;
+}
+
+.icon_and_field {
+    float:left;
+    width:160px;
+    height:180px;
+}
+
+.icon_applicants, .icon_online, .icon_live {
+    width:160px;
+    height:160px;
+}
+
+.icon_online {
+    background-image:url('/media/computer.png');
+}
+
+.icon_live {
+    background-image:url('/media/computer.png');
+}
+
+.icon_arrow {
+    float:left;
+    background-image:url('/media/arrow-right.png');
+    width:32px;
+    height:100%;
+}
+
+{% endblock %}
+
+{% block script %}
+
+    var i = 1;
+
+    function add_online() {
+        var block = $("#online_template").clone();
+        var field = block.find(".name_input");
+        field.attr("name", "online_" + i);
+        block.insertBefore($(".button_block"));
+        field.focus();
+        i += 1;
+    }
+
+    function add_live() {
+        var block = $("#live_template").clone();
+        var field = block.find(".name_input");
+        field.attr("name", "live_" + i);
+        block.insertBefore($(".button_block"));
+        field.focus();
+        i += 1;
+    }
+
+{% endblock %}
+
+{% block content %}
+
+    <form action="" method="POST">
+
+        <div id="phases">
+            <div class="phase_block">
+
+                <div class="icon_and_field">
+                    <div class="icon_applicants">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="button_block">
+
+                <div class="icon_arrow">
+                </div>
+
+                <div class="icon_and_field">
+
+                    <a href="javascript:void(0);" onclick="add_online()" class="button">Add online submission</a>
+                    <br/>
+                    <a href="javascript:void(0);" onclick="add_live()" class="button">Add live pitch</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="hr">&nbsp;</div>
+
+        <input style="float:left" type="submit" value="Save phases & continue" />
+
+    </form>
+
+    <div id="templates" class="hidden">
+
+        <div id="live_template" class="phase_block">
+
+            <div class="icon_arrow">
+            </div>
+
+            <div class="icon_and_field">
+
+                <div class="icon_live">
+                </div>
+
+                <input class="name_input" type="text" value="live phase name" />
+
+            </div>
+
+        </div>
+
+        <div id="online_template" class="phase_block">
+
+            <div class="icon_arrow">
+            </div>
+
+            <div class="icon_and_field">
+
+                <div class="icon_online">
+                </div>
+
+                <input class="name_input" type="text" value="online phase name" />
+
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}

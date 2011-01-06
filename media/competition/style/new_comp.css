@@ -1,0 +1,64 @@
+.unselectable {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+         
+.big_tag_group {
+    float:left;
+    clear:both;
+}
+
+ .big_tag, .big_tag_selected {
+    position:relative;
+    width:164px;
+    height:164px;
+    overflow:hidden;
+    float:left;
+    margin:6px;
+}
+
+.big_tag {
+    border:1px solid gray;
+    padding:7px;
+}
+.big_tag_selected {
+    border:8px solid black;
+    padding:0px;
+}
+
+.big_tag .icon, .big_tag_selected .icon {
+    position:absolute;
+    width:180px;
+    height:180px;
+}
+
+.big_tag .icon img, .big_tag_selected .icon img {
+    position:absolute;
+    width:180px;
+    height:180px;
+    top:-8px;
+    left:-8px;
+    border:0px solid none;
+}
+
+.big_tag .title, .big_tag_selected .title {
+    mouseenabled:false;
+    background-color:#000;
+    color:#fff;
+    font-size:18px;
+    position:absolute;
+    width:164px;
+    height:164px;
+    padding:84px 16px;
+    left:-8px;
+    top:-8px;
+}
+
+.big_tag p, .big_tag_selected p {
+}
+
+.big_tag .title {
+    background-color:#999;
+}
+

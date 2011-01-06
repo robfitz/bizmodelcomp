@@ -27,6 +27,9 @@ urlpatterns = patterns('',
     #biz model competition
     (r'^', include('bizmodelcomp.competition.urls')),
 
+    #new competitions
+    (r'^new/', include('bizmodelcomp.new_comp.urls')),
+
     #login, register, etc
     (r'^accounts/', include('bizmodelcomp.userhelper.urls')),
     (r'^no_permissions/', 'userhelper.views.noPermissions'),
