@@ -190,6 +190,21 @@ class ApplicationRequirements(models.Model):
     #europe..
     locations = models.ManyToManyField(Tag, related_name="comp_locations")
 
+    #extra stuff, like must be a practicing entrepreneur or under 25
+    other_requirements = models.ManyToManyField(Tag, related_name="comp_other_requirements")
+
+
+    def all_tag_sets(self):
+
+        return [self.business_types, self.applicant_types, self.institutions, self.locations, self.other_requirements]
+
+
+    def remove_all(self):
+
+        for tag_set in self.all_tag_sets():
+            for tag in tag_set.all():
+                tag_set.remove(tag)
+
 
 
 PHASE_STATUS_CHOICES = (('pending', 'pending'),

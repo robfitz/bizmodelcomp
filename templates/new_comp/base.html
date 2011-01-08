@@ -3,3 +3,11 @@
 {% block meta %}
 	<link rel="stylesheet" type="text/css" href="/media/competition/style/new_comp.css" type="text/css" />
 {% endblock %}
+
+{% block content %}
+
+    {% if alert %}
+        {% include 'dashboard/alerts/alert.html' %}
+    {% endif %}
+
+{% endblock %}

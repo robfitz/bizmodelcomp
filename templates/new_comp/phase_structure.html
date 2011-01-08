@@ -17,19 +17,20 @@
 .icon_applicants, .icon_online, .icon_live {
     width:160px;
     height:160px;
+    background-image:url('/media/icons/applicants.gif');
 }
 
 .icon_online {
-    background-image:url('/media/computer.png');
+    background-image:url('/media/icons/computer.png');
 }
 
 .icon_live {
-    background-image:url('/media/computer.png');
+    background-image:url('/media/icons/live_pitch.gif');
 }
 
 .icon_arrow {
     float:left;
-    background-image:url('/media/arrow-right.png');
+    background-image:url('/media/icons/arrow-right.png');
     width:32px;
     height:100%;
 }
@@ -62,9 +63,12 @@
 
 {% block content %}
 
+    {{ block.super }}
+
     <form action="" method="POST">
 
         <div id="phases">
+
             <div class="phase_block">
 
                 <div class="icon_and_field">
@@ -85,7 +89,9 @@
                     <br/>
                     <a href="javascript:void(0);" onclick="add_live()" class="button">Add live pitch</a>
                 </div>
+
             </div>
+
         </div>
 
         <div class="hr">&nbsp;</div>
