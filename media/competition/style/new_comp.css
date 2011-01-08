@@ -11,48 +11,44 @@
 
  .big_tag, .big_tag_selected {
     position:relative;
-    width:164px;
-    height:164px;
-    overflow:hidden;
+    width:180px;
+    height:180px;
     float:left;
     margin:6px;
 }
 
-.big_tag {
-    border:1px solid gray;
-    padding:7px;
-}
-.big_tag_selected {
-    border:8px solid black;
-    padding:0px;
+.dropdown_selected {
+    height:360px;
 }
 
-.big_tag .icon, .big_tag_selected .icon {
+.list {
+    margin-top:180px;
+    height:180px;
+    width:180px;
+}
+
+.icon, .icon {
     position:absolute;
     width:180px;
     height:180px;
 }
 
-.big_tag .icon img, .big_tag_selected .icon img {
+.icon img, .icon img {
     position:absolute;
     width:180px;
     height:180px;
-    top:-8px;
-    left:-8px;
-    border:0px solid none;
 }
 
-.big_tag .title, .big_tag_selected .title {
+.title, .title {
     mouseenabled:false;
     background-color:#000;
     color:#fff;
     font-size:18px;
     position:absolute;
     width:164px;
-    height:164px;
-    padding:84px 16px;
-    left:-8px;
-    top:-8px;
+    height:96px;
+    padding-top:84px;
+    padding-left:16px;
 }
 
 .big_tag p, .big_tag_selected p {
