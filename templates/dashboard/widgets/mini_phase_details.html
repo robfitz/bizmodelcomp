@@ -14,32 +14,48 @@ Phase {{forloop.counter}}  {{phase.name}}
 
     <div id="view_phase_{{phase.id}}" class="view_phase">
         
-       <div class="stat_number" style="textalign:left;">
-           Due date
-           <h1>{{ phase.deadline|date:"M j" }}</h1>
+        <div style="float:left;width:48%;">
+           <div class="stat_number" style="textalign:left;">
+               Due date
+               <h1>{{ phase.deadline|date:"M j" }}</h1>
+           </div>
+           <div class="stat_number" style="textalign:left;">
+               Deadline time
+               <h1>{{ phase.deadline|date:"H:i" }}</h1>
+           </div>
+
+           <div class="hr">&nbsp;</div>
+
+           <div class="stat_number" style="textalign:left;">
+               Pitch type (online or live)
+               {% ifequal phase.pitch_type "online" %}
+                   <h1>Online</h1>
+               {% else %}
+               <h1>Live</h1>
+               {% endifequal %}
+           </div>
+
+           <div class="hr">&nbsp;</div>
+
+           <a href="/dashboard/{{competition.hosted_url}}/phases/?open={{phase.id}}" class="button edit_phase_button" id="edit_phase_button_{{phase.id}}" style="float:left;">Edit phase details</a>
+
        </div>
-       <div class="stat_number" style="textalign:left;">
-           Deadline time
-           <h1>{{ phase.deadline|date:"H:i" }}</h1>
+       <div style="float:left;width:48%">
+                <div class="stat_number">
+                    Num questions
+                    <h1>{{ competition.current_phase.questions.count }}</h1>
+                </div>
+
+                <div class="stat_number">
+                    Num uploads
+                    <h1>{{ competition.current_phase.uploads.count }}</h1>
+                    <a href="/a/{{competition.hosted_url}}/?ignorejudging=true">View application</a>
+                </div>
+
+           <a class="button" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{phase.id}}/application/');">Edit application questions</a>
+
        </div>
 
-       <div class="hr">&nbsp;</div>
-
-       <div class="stat_number" style="textalign:left;">
-           Pitch type (online or live)
-           {% ifequal phase.pitch_type "online" %}
-               <h1>Online</h1>
-           {% else %}
-           <h1>Live</h1>
-           {% endifequal %}
-       </div>
-
-       <div class="hr">&nbsp;</div>
-
-       <a href="/dashboard/{{competition.hosted_url}}/phases/?open={{phase.id}}" class="button edit_phase_button" id="edit_phase_button_{{phase.id}}" style="float:left;">Edit phase details</a>
-
-       <a class="button" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{phase.id}}/application/');">Edit application questions</a>
-    
    </div>
 
    <script>
