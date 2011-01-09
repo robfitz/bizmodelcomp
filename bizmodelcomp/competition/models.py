@@ -10,6 +10,7 @@ import time
 
 from settings import MEDIA_URL
 from utils.util import *
+from utils.models import Tag
 from judge.models import *
 
 from django.forms import ModelForm
@@ -119,7 +120,7 @@ class Competition(models.Model):
     website =  models.CharField(max_length=500, blank=True, default="")
     hosted_url = models.CharField(max_length=100, unique=True)
 
-    owner = models.ForeignKey(User) #single owner who can delete it
+    owner = models.ForeignKey(User, null=True, blank=True) #single owner who can delete it
     applicants = models.ManyToManyField(Founder, related_name="competitions", blank=True, null=True) #info about peeps entered in contest
 
     current_phase = models.OneToOneField("competition.Phase", blank=True, null=True, related_name="competition_unused")
@@ -131,6 +132,15 @@ class Competition(models.Model):
     template_base = models.CharField(max_length=200, default="base.html")
     template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
+
+
+    def application_requirements(self):
+        try:
+            return ApplicationRequirements.objects.get(competition=self)
+        except:
+            reqs = ApplicationRequirements(competition=self)
+            reqs.save()
+            return reqs
 
 
     def logo_url(self):
@@ -161,6 +171,39 @@ class Competition(models.Model):
     def __unicode__(self):
 
         return self.name
+
+
+
+class ApplicationRequirements(models.Model):
+
+    competition = models.OneToOneField(Competition, null=True, blank=True)
+
+    #web, greentech, medical, social enterprise, etc
+    business_types = models.ManyToManyField(Tag, related_name="comp_business_types")
+
+    #undergrad, postgrad, etc
+    applicant_types = models.ManyToManyField(Tag, related_name="comp_applicant_types")
+
+    #ucl, georgia tech, sony pictures, etc
+    institutions = models.ManyToManyField(Tag, related_name="comp_institutions")
+
+    #europe..
+    locations = models.ManyToManyField(Tag, related_name="comp_locations")
+
+    #extra stuff, like must be a practicing entrepreneur or under 25
+    other_requirements = models.ManyToManyField(Tag, related_name="comp_other_requirements")
+
+
+    def all_tag_sets(self):
+
+        return [self.business_types, self.applicant_types, self.institutions, self.locations, self.other_requirements]
+
+
+    def remove_all(self):
+
+        for tag_set in self.all_tag_sets():
+            for tag in tag_set.all():
+                tag_set.remove(tag)
 
 
 

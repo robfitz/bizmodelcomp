@@ -32,7 +32,11 @@ Create a new account
         <div class="hr">&nbsp;</div>
 
         <div id="submission" style="float:left;">
-            <a href="/accounts/login/?{% if next %}next={{next}}{% endif %}">Already have an account? Click to log in</a>.
+            {% if override_login_url %}
+                <a href="{{ override_login_url}}?{% if next %}next={{next}}{% endif %}">Already have an account? Click to log in</a>.
+            {% else %}
+                <a href="/accounts/login/?{% if next %}next={{next}}{% endif %}">Already have an account? Click to log in</a>.
+            {% endif %}
             <input type="submit" class="button" value="Sign up" style="margin-left:10px" />
 		</div>
 	</form>
