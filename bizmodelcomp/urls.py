@@ -36,6 +36,7 @@ urlpatterns = patterns('',
 
     #apply to comp
     (r'^apply/', include('bizmodelcomp.entercompetition.urls')),
+    (r'^a/', include('bizmodelcomp.entercompetition.urls')),
 
     (r'^export/', include('bizmodelcomp.export.urls')),                   
 

@@ -30,22 +30,8 @@
                {% else %}
                    <h1>Live</h1>
                {% endifequal %}
-               <a href="/dashboard/{{competition.hosted_url}}/setup/?edit_comp=yup">Edit phase setup</a>
            </div>
 
-            <div class="hr">&nbsp;</div>
-
-            <div class="stat_number">
-                Num questions
-                <h1>{{ competition.current_phase.questions.count }}</h1>
-                <a href="/dashboard/{{competition.hosted_url}}/setup/?open={{competition.current_phase.id}}">Edit application</a>
-            </div>
-
-            <div class="stat_number">
-                Num uploads
-                <h1>{{ competition.current_phase.uploads.count }}</h1>
-                <a href="javascript:void(0);" onclick="popup_iframe('/apply/pitch/{{competition.hosted_url}}/?ignorejudging=true');">Preview application</a>
-            </div>
 
             <div class="hr">&nbsp;</div>
 
