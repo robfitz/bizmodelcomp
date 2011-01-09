@@ -2,6 +2,13 @@
 
 {% block style %}
 
+.delete_button {
+    float:right;
+    margin-top:4px;
+    margin-right:4px;
+    width:20px;
+    height:20px;
+}
 .phase_block, .button_block {
     float:left;
     height:180px;
@@ -48,6 +55,7 @@
         block.insertBefore($(".button_block"));
         field.focus();
         i += 1;
+        set_delete_icons();
     }
 
     function add_live() {
@@ -57,8 +65,26 @@
         block.insertBefore($(".button_block"));
         field.focus();
         i += 1;
+        set_delete_icons();
     }
 
+    function set_delete_icons() {
+        $(".delete_button").button({
+            icons: {
+                primary: "ui-icon-closethick"
+            },
+            text: false
+        });
+
+        $(".delete_button").click( function() {
+           $(this).parents(".phase_block").remove(); 
+        });
+    }
+
+{% endblock %}
+
+{% block ready_script %}
+    set_delete_icons();
 {% endblock %}
 
 {% block content %}
@@ -110,6 +136,7 @@
             <div class="icon_and_field">
 
                 <div class="icon_live">
+                    <a href="javascript:void(0);" class="delete_button button"></a>
                 </div>
 
                 <input class="name_input" type="text" value="live phase name" />
@@ -126,6 +153,7 @@
             <div class="icon_and_field">
 
                 <div class="icon_online">
+                    <a href="javascript:void(0);" class="delete_button button"></a>
                 </div>
 
                 <input class="name_input" type="text" value="online phase name" />
