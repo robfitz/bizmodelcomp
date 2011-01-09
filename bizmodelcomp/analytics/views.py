@@ -42,6 +42,8 @@ def table(request, comp_url):
     rows = []
     view = None
 
+    html = "analytics/all_pitches.html"
+
     if request.method == "GET":
 
         selected_phases = []
@@ -61,17 +63,14 @@ def table(request, comp_url):
 
         elif view == "all_judges":
             header, rows = all_judges_table(competition)
+            html = "analytics/all_judges.html"
 
         elif view == "for_judge":
             judge_id = request.GET.get("judge")
 
             judge = JudgeInvitation.objects.get(id=judge_id)
-            print 'got judge: %s' % judge
             header, rows = pitches_for_judge_table(selected_phases, judge)
-            #print 'exception: %s' % sys.exc_info()[0]
-            #return HttpResponseRedirect("/dashboard/data/%s/" % competition.hosted_url)
-
-            
+            html = "analytics/all_judges.html"
 
     return render_to_response("analytics/all_pitches.html", locals())
 
@@ -155,7 +154,7 @@ def pitches_for_judge_table(phases, judge):
 def all_pitches_table(phases):
 
     teams = []
-    header = ["Team"]
+    header = ["<a href='javascript:void(0);' onclick=\"$(\'.checkbox\').attr(\'checked\', \'on\');\">Select<br/>all</a>", "Team"]
     rows = []
 
     for phase in phases:
@@ -169,9 +168,9 @@ def all_pitches_table(phases):
             if pitch.team not in teams:
                 teams.append(pitch.team)
 
-    for team in teams:
+    for i, team in enumerate(teams):
         total_score = 0
-        new_row = [team.name]
+        new_row = [ "<input type='checkbox' id='checkbox_%s' class='checkbox' />" % i, team.name]
         #then add the phases as columns
         for phase in phases:
             try:
