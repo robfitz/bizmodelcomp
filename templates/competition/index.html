@@ -22,27 +22,17 @@
 		{% endif %}
 	</div>
 
-	<!--
-	<div id="c2a">
-		{% if request.user.is_authenticated %}
-		<a href="/dashboard/"><input type="button" class="button" value="{{copy.c2a}}"></a>
-		{% else %}
-		<a href="/dashboard/new_comp/"><input type="button" class="button" value="{{copy.c2a}}"></a>
-		<br/>
-		<a href="/accounts/login" class="medium">Already have one? Log in</a>
-		{% endif %}
-	</div>
-	-->
-	
 	<div id="video">
 	    {{ copy.video|markdown|safe }}
 	</div>
 	
-	<div style="width: 100% clear:both">&nbsp;</div> 
+    <div class="hr">
+        &nbsp;
+    </div> 
 
 	<div id="testimonials">
     
-    {% for testimonial in testimonials %}
+        {% for testimonial in testimonials %}
             <div id="testimonial_text">
  				<div>
  					<span class="bqstart">&#8220;</span>
@@ -64,27 +54,31 @@
  				</div>
  				<div id="testimonial_author">
  					<p>{{testimonial.author_name}}</p>
- 					<a href={{testimonial.author_url}} target=blank_><img border=0  align=right src="{{testimonial.thumb_url}}"><a>
+ 					<a href={{testimonial.author_url}} target=blank_><img border=0  align=right src="{{testimonial.thumb_url}}"></a>
             	</div>
  			</div>
-    {% endfor %}
-	</div>
-	</div>
-
-	<div id="benefits">
-		{{ copy.benefits|markdown|safe }}
-	</div>
-	
-	<div id="features">
-		{{ copy.features|markdown|safe }}
-	</div>
-	
-	<div id="roi">
-		{{ copy.roi|markdown|safe }}
-	</div>
+        {% endfor %}
 
 	</div>
 
-</div>
+    <div class="hr">
+        &nbsp;
+    </div>
+
+    <div style="float:left;">
+
+        <div id="benefits">
+            {{ copy.benefits|markdown|safe }}
+        </div>
+        
+        <div id="features">
+            {{ copy.features|markdown|safe }}
+        </div>
+        
+        <div id="roi">
+            {{ copy.roi|markdown|safe }}
+        </div>
+
+    </div>
 
 {% endblock %}
