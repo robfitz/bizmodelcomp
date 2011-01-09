@@ -120,7 +120,7 @@ class Competition(models.Model):
     website =  models.CharField(max_length=500, blank=True, default="")
     hosted_url = models.CharField(max_length=100, unique=True)
 
-    owner = models.ForeignKey(User) #single owner who can delete it
+    owner = models.ForeignKey(User, null=True, blank=True) #single owner who can delete it
     applicants = models.ManyToManyField(Founder, related_name="competitions", blank=True, null=True) #info about peeps entered in contest
 
     current_phase = models.OneToOneField("competition.Phase", blank=True, null=True, related_name="competition_unused")
