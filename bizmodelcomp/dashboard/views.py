@@ -18,6 +18,28 @@ import smtplib
 
 
 
+@login_required
+def next_phase(request, comp_url):
+
+    try:
+        competition = Competition.objects.get(hosted_url=comp_url)
+    except:
+        return HttpResponseRedirect('/dashboard/')
+
+    if competition.owner != request.user:
+        return HttpResponseRedirect('/dashboard/')
+
+    phases = competition.phases()
+    i = competition.current_phase.phase_num()
+    if i < len(phases):
+        next_phase = phases[i]
+        competition.current_phase = next_phase
+        competition.save()
+
+    return HttpResponseRedirect('/dashboard/%s/manage' % comp_url)
+
+
+
     
 def overall_dashboard(request):
 

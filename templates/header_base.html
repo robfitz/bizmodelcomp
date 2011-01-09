@@ -10,11 +10,6 @@
 
         <div class="funk"></div>
 
-        <h1>
-        {% block header_title %}
-        {% endblock %}
-        </h1>
-
         <div id="account_controls" class="medium">
             {% block account_controls %}
                 {% if request.user.is_authenticated %}

@@ -5,6 +5,8 @@
     top: 20px;
     left: 50%;
 
+    height:90%;
+
     margin-left: -350px;
     width: 700px;
 
@@ -13,12 +15,14 @@
     border: 1px solid black;
     padding: 0px;
 }
+
 #feedbackDialog {
 	width:500px;
 	margin-left:-250px;
 	padding:10px;
 	text-align:left;
 }
+
 #jqmContent {
 	position:relative;
 	width:682px;
@@ -27,6 +31,7 @@
 	margin:8px;
 	background-color:#fff;
 }
+
 #dialogHeader {
 	width:700px;
 	padding:8px;
