@@ -7,6 +7,10 @@
 
 {% endblock %}
 
+{% block header_title %}
+Manage phase {{competition.current_phase.phase_num}}, "{{competition.current_phase}}," for {{competition}}
+{% endblock %}
+
 {% block content %}
 
     {% include 'dashboard/alerts/phase_status.html' %}

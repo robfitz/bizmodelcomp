@@ -15,7 +15,7 @@
 
 
     {% block section_outer_content %}
-	<div class="summary">
+    <div class="summary" style="{% block section_content_style %}{% endblock %}">
 
 		{% block section_content %}
 		{% endblock %}
