@@ -10,4 +10,6 @@ urlpatterns = patterns('',
 
     (r'^details/$', 'new_comp.views.competition_details'),
 
+    (r'^register/$', 'new_comp.views.register'),
+    (r'^login/$', 'new_comp.views.login'),
 )

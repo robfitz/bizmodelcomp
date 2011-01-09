@@ -1,18 +1,30 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
+from django.contrib import auth
+from django.contrib.auth import *
 import sys
 
 from utils.util import rand_key
 from utils.models import Tag
 from competition.models import Competition, Phase
 
+from userhelper.models import *
+from userhelper.views import createNewUser, is_new_user_judge
+
+from settings import ACCOUNT_EMAIL_CONFIRM_REQUIRED
+
 
 def new(request):
 
-    competition = Competition(name="New competition",
-            hosted_url = rand_key(),
-            owner=request.user #probably still anonymous, will update this later
-            )
+    owner = None
+    if request.user.is_authenticated:
+        competition = Competition(name="New competition",
+                hosted_url = rand_key(),
+                owner=owner)
+    else:
+        competition = Competition(name="New competition",
+                hosted_url = rand_key())
+
     competition.save()
 
     request.session["new_comp_id"] = competition.id
@@ -256,7 +268,147 @@ def competition_details(request):
     return render_to_response("new_comp/comp_details.html", locals())
 
 
+def login(request):
+
+    #try grabbing the competition-in-progress from their session
+    competition = None
+    try:
+        competition = Competition.objects.get(id=request.session["new_comp_id"])
+    except:
+        return HttpResponseRedirect("/new/")
+
+    print '### new: logging in on comp: %s' % competition.id
+
+    override_register_url = "/new/register/"
+
+    if request.method == "POST":
+
+            email = request.POST.get("email", None)
+            password = request.POST.get("password", None)
+            username = None
+
+            try:
+                email_user = User.objects.get(email=email)
+                username = email_user.username
+            except:
+                alert = "We couldn't find a user with that email. Typo? Please try again or create a new account if you don't yet have one."
+
+                return render_to_response('userhelper/login.html', locals())
+
+            user = auth.authenticate(username=username, password=password)
+
+            if user is not None:
+
+                print 'user is not none! %s, %s' % (request, user)
+
+                #logged in successfully
+                auth.login(request, user)
+
+                competition.owner = user
+                competition.save()
+
+                next = request.POST.get("next", "/dashboard/")
+
+                return HttpResponseRedirect(next)
+            
+            else:
+                #login failed
+                alert = "Login failed. Try again?"
+
+    alert = "Please register or log in so we can save your competition for you."
+
+    return render_to_response("userhelper/login.html", locals())
 
 def register(request):
 
-    return render_to_response("userhelper/login_register.html", locals())
+    override_login_url = "/new/login/"
+
+    #try grabbing the competition-in-progress from their session
+    competition = None
+    try:
+        competition = Competition.objects.get(id=request.session["new_comp_id"])
+    except:
+        return HttpResponseRedirect("/new/")
+
+    print '### new: registering on comp: %s' % competition.id
+
+    if request.method == "POST":
+
+            email = request.POST["email"]
+            pass1 = request.POST["password1"]
+            pass2 = request.POST["password2"]
+                
+            user = None
+            try:
+                user = createNewUser(request, email, pass1, pass2)
+                competition.owner = user
+                competition.save()
+                
+            except:
+                next = request.POST.get("next")
+                login = "/new/login/"
+                if next:
+                    login += "?next=%s" % next
+                alert = "That email has already been registered. Try <a href='%s'>logging in</a> instead?" % login
+                print sys.exc_info()[0]
+
+            try:
+                #is there a verification key already hooked up to that email?
+                key = VerificationKey.objects.get(email=user.email)
+                key.user = user
+                key.save()
+            except: pass
+
+            if user is not None:
+
+                is_judge = is_new_user_judge(user)
+                print 'so was it a judge? %s' % is_judge
+
+                next = request.POST.get("next")
+                if not next:
+                    #if we don't have an explicitly set next page, we take our best guess
+                    next = "/dashboard/"
+
+                print 'go here next: %s' % next
+
+                #require email confirmation?
+                if ACCOUNT_EMAIL_CONFIRM_REQUIRED:
+                    user.is_active = False
+                    user.save()
+
+                    #send a verification link for them to clicky click
+                    try:
+                        key = VerificationKey.objects.get(user=user)
+
+                        if key.is_verified:
+                            #this email has already been verified somehow,
+                            #like clicking on an email-only link. so we don't
+                            #need to check it again. yays.
+                            user.is_active = True
+                            user.save()
+                            return HttpResponseRedirect(next)
+                        
+                        else:
+                            send_verification_email(user, next)
+                    except:
+                        send_verification_email(user, next)
+
+                    #display a page telling them what's going on
+                    return HttpResponseRedirect("/accounts/verify_email/?next=%s" % next)
+                
+                #successfully made a user and don't require email confirmation, 
+                #so redirect to next page
+                return HttpResponseRedirect(next)
+                                                
+            elif not alert:
+                #if we failed to make a user and don't have a more specific alert, 
+                #go with a generic fail message
+                alert = "Passwords don't match or your email isn't valid. Try again?"
+
+
+    alert = "Please register or log in so we can save your competition for you."
+
+    return render_to_response("userhelper/register.html", locals())
+
+
+

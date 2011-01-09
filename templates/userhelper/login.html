@@ -31,12 +31,19 @@ Log in
         <div class="hr">&nbsp;</div>
 
         <div id="submission" style="float:left;">
-            <a href="/accounts/register/{% if next %}?next={{next}}{% endif %}">No account? Click to register!</a>.
+
+            {% if override_register_url %}
+                <a href="{{override_register_url}}{% if next %}?next={{next}}{% endif %}">No account? Click to register!</a>.
+            {% else %}
+                <a href="/accounts/register/{% if next %}?next={{next}}{% endif %}">No account? Click to register!</a>.
+            {% endif %}
+
 			<input type="submit" class="button" value="Log in" style="margin-left:10px" />
+
 		</div>
 
-
 	</form>
+
 </div>
 
 <div class="hr" style="height:100px;">&nbsp;</div>
