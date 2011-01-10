@@ -3,9 +3,9 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
     
     #judge dashboard
-    (r'^$', 'judge.views.dashboard'),
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/$', 'judge.views.dashboard'),
                        
-    (r'^go/$', 'judge.views.judging'),
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/go/$', 'judge.views.judging'),
 
     (r'^go/(?P<unjudged_pitch_id>[0-9]{1,10})/$',
          'judge.views.judging'),
@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     (r'^review/(?P<judgedpitch_id>[0-9]{1,10})/$',
          'judge.views.judging'),
 
-    (r'list/$', 'judge.views.list'),
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/list/$', 'judge.views.list'),
 
 ##    #list applicants (whole competition)
 ##    (r'^(?P<competition_id>[0-9]{1,10})/applicants/',

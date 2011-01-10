@@ -30,7 +30,7 @@ Your competitions
 
                 <p>
                     {% if competition.is_judging_open %}
-                        <a href="/judge/" class="button">Judge it</a>
+                    <a href="/judge/{{competition.hosted_url}}/" class="button">Judge it</a>
                     {% else %}
                         Judging is not yet open.
                     {% endif %}

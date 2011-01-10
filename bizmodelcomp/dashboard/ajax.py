@@ -9,7 +9,7 @@ from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.core import serializers
 
-def set_phase_step(request, comp_url, phase_id):
+def set_phase_step(request, phase_id, comp_url=None,):
 
     print 'set phase step'
 

@@ -2,6 +2,10 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
 
+    #begin judging
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/begin_judging/$', 'dashboard.views.begin_judging'),
+
+
     #edit application (per phase)
     (r'^phase/(?P<phase_id>[0-9]{1,100})/application/$',
          'dashboard.views.edit_application'),
