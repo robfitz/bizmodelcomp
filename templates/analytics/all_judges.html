@@ -5,7 +5,7 @@ All pitches
 {% endblock %}
 
 {% block section_content %}
-    <form action="" method="GET">
+    <form id="phase_filter" action="" method="GET">
 
         <input type="hidden" name="view" value="all_pitches" />
 
@@ -41,5 +41,14 @@ All pitches
         {% endfor %}
 
     </table>
+
+    <script language="javascript" type="text/javascript">
+        $( function () {
+            $("#phase_filter").submit( function() {
+                $("#dialog").load("/dashboard/data/table/{{competition.hosted_url}}/?" + $("form").serialize());
+                return false;
+            });
+        });
+    </script>
 
 {% endblock %}

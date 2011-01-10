@@ -623,7 +623,8 @@ def should_delete(question):
 @login_required
 def edit_application(request, phase_id):
 
-    phase = Phase.objects.get(id=phase_id)
+    phase = get_object_or_404(Phase, id=phase_id)
+    competition = phase.competition
 
     if not has_dash_perms(request, phase.competition.id):
         return HttpResponseRedirect("/no_permissions/")
@@ -698,7 +699,7 @@ def edit_application(request, phase_id):
         setup.application_setup = True
         setup.save()
 
-        return HttpResponseRedirect("/dashboard/phase/%s/" % phase_id)
+        return HttpResponseRedirect("/dashboard/%s/" % competition.hosted_url)
 
     
     #this is pretty hacky, but it lets us include the standard
@@ -726,6 +727,8 @@ def edit_comp(request, comp_url):
 
     if request.method == "POST":
 
+        print 'edit comp, form_type = %s' % request.POST.get("form_type")
+
         if request.POST.get("form_type") == "competition_info":
 
             #create model form from POST data
@@ -742,7 +745,10 @@ def edit_comp(request, comp_url):
 
         elif request.POST.get("form_type") == "phase_info":
 
+            print 'edit comp, form_type=phase_info'
+
             editing_phase = int(request.GET.get("open", 0))
+
             print 'editing phase = %s' % editing_phase
 
             try: 

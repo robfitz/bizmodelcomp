@@ -9,7 +9,7 @@
 
 	<div id="edit_phase_{{phase.id}}" class="edit_phase hidden">
 
-		<form action="" method="POST">
+        <form action="/dashboard/{{competition.hosted_url}}/setup/" method="POST">
 
             <input type="hidden" name="form_type" value="phase_info" />
 
@@ -52,8 +52,7 @@
 			$('.save_phase_button').button("option", { icons: { primary: "ui-icon-check" } });
 			$('#edit_phase_button').attr('href', '');
 			$('#edit_phase_button_{{phase.id}}').click(function() {
-
-				var toks = $(this).parent().attr('id').split('_');
+				var toks = $(this).parents(".view_phase").attr('id').split('_');
 				id = parseInt(toks[toks.length - 1]);
 				edit_phase(id);
 

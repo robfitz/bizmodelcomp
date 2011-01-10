@@ -2,6 +2,9 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
 
+    #edit application (per phase)
+    (r'^phase/(?P<phase_id>[0-9]{1,100})/application/$',
+         'dashboard.views.edit_application'),
 
     #advance to next phase
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/next_phase/$', 'dashboard.views.next_phase'),
@@ -55,9 +58,6 @@ urlpatterns = patterns('',
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/applicants/$',
          'dashboard.views.list_applicants'),
 
-    #edit application (per phase)
-    (r'^phase/(?P<phase_id>[0-9]{1,100})/application/$',
-         'dashboard.views.edit_application'),
 
     #list pitches (per phase)
     (r'^phase/(?P<phase_id>[0-9]{1,100})/pitches/$',
