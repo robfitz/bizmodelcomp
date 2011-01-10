@@ -101,10 +101,7 @@ def loginRegister(request):
 
                     print 'length of judge invitations: %s' % JudgeInvitation.objects.filter(user=user)
 
-                    if len(JudgeInvitation.objects.filter(user=user)) > 0:
-                        next = "/judge/"
-                    else:
-                        next = "/dashboard/"
+                    next = "/dashboard/"
                 
                 return HttpResponseRedirect(next)
             
@@ -141,13 +138,7 @@ def loginRegister(request):
                 is_judge = is_new_user_judge(user)
                 print 'so was it a judge? %s' % is_judge
 
-                if is_judge:
-                    next = "/judge/"
-                else: 
-                    next = request.POST.get("next")
-                    if not next:
-                        #if we don't have an explicitly set next page, we take our best guess
-                        next = "/dashboard/"
+                next = request.POST.get("next", "/dashboard")
 
                 print 'go here next: %s' % next
 
@@ -222,10 +213,7 @@ def loginUser(request):
 
                 print 'length of judge invitations: %s' % JudgeInvitation.objects.filter(user=user)
 
-                if len(JudgeInvitation.objects.filter(user=user)) > 0:
-                    next = "/judge/"
-                else:
-                    next = "/dashboard/"
+                next = "/dashboard/"
             
             return HttpResponseRedirect(next)
         
@@ -300,13 +288,7 @@ def registerUser(request):
             is_judge = is_new_user_judge(user)
             print 'so was it a judge? %s' % is_judge
 
-            if is_judge:
-                next = "/judge/"
-            else: 
-                next = request.POST.get("next")
-                if not next:
-                    #if we don't have an explicitly set next page, we take our best guess
-                    next = "/dashboard/"
+            next = request.POST.get("next", "/dashboard/")
 
             print 'go here next: %s' % next
 
