@@ -165,7 +165,7 @@ def all_pitches_table(phases):
         #first collect all the teams
         pitches = phase.all_pitches().all()
         for pitch in pitches:
-            if pitch.team not in teams:
+            if pitch.team is not None and pitch.team not in teams:
                 teams.append(pitch.team)
 
     for i, team in enumerate(teams):

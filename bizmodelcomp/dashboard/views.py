@@ -17,6 +17,23 @@ import time
 import smtplib
 
 
+@login_required
+def begin_judging(request, comp_url):
+
+    try:
+        competition = Competition.objects.get(hosted_url=comp_url)
+    except:
+        return HttpResponseRedirect('/dashboard/')
+
+    if competition.owner != request.user:
+        return HttpResponseRedirect('/dashboard/')
+
+    competition.current_phase.is_judging_enabled = True
+    competition.current_phase.save()
+
+    return HttpResponseRedirect('/judge/%s/' % competition.hosted_url)
+
+
 
 @login_required
 def next_phase(request, comp_url):
@@ -41,11 +58,24 @@ def next_phase(request, comp_url):
 
 
     
+@login_required
 def overall_dashboard(request):
 
     #grab all the competitions they own
     competitions = Competition.objects.filter(owner=request.user)
     inactive_competition = []
+
+    #make sure the organizer is assigned as a judge for all his competitions
+    for competition in competitions:
+        try:
+            if JudgeInvitation.objects.filter(competition=competition, user=competition.owner).count() == 0:
+                owner_judge = JudgeInvitation(competition=competition,
+                        email=competition.owner.email,
+                        has_received_invite_email=True,
+                        user=competition.owner)
+                owner_judge.save()
+        except:
+            pass
 
     for invite in JudgeInvitation.objects.filter(user=request.user):
 
@@ -80,7 +110,7 @@ def overall_dashboard(request):
                                         has_received_invite_email=True)
                 judge.save()
 
-        if judge:
+        if judge and competition.current_phase:
 
             #they should always be at least a judge for every competition that shows up, and 
             #sometimes also an organizer
@@ -623,7 +653,8 @@ def should_delete(question):
 @login_required
 def edit_application(request, phase_id):
 
-    phase = Phase.objects.get(id=phase_id)
+    phase = get_object_or_404(Phase, id=phase_id)
+    competition = phase.competition
 
     if not has_dash_perms(request, phase.competition.id):
         return HttpResponseRedirect("/no_permissions/")
@@ -698,7 +729,7 @@ def edit_application(request, phase_id):
         setup.application_setup = True
         setup.save()
 
-        return HttpResponseRedirect("/dashboard/phase/%s/" % phase_id)
+        return HttpResponseRedirect("/dashboard/%s/" % competition.hosted_url)
 
     
     #this is pretty hacky, but it lets us include the standard
@@ -726,6 +757,8 @@ def edit_comp(request, comp_url):
 
     if request.method == "POST":
 
+        print 'edit comp, form_type = %s' % request.POST.get("form_type")
+
         if request.POST.get("form_type") == "competition_info":
 
             #create model form from POST data
@@ -742,7 +775,10 @@ def edit_comp(request, comp_url):
 
         elif request.POST.get("form_type") == "phase_info":
 
+            print 'edit comp, form_type=phase_info'
+
             editing_phase = int(request.GET.get("open", 0))
+
             print 'editing phase = %s' % editing_phase
 
             try: 

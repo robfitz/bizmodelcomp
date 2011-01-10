@@ -74,7 +74,7 @@
     <label for="id_selected_winners" {% if phase.setup_steps.selected_winners %}class="strikethrough"{% endif %}>
         Select winners and send feedback
     </label>
-    <span class="do_now">(<a href="">Do this now</a>)</span>
+    <span class="do_now">(<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">Do this now</a>)</span>
 
     <br/>
 
