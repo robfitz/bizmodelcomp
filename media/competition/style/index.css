@@ -1,7 +1,8 @@
 /***** layout ********/
 
 #benefits {
-	width:100%;    
+	width:550px;    
+    float:left;
 }
 
 #features {
@@ -24,8 +25,10 @@
 	margin-top: 10px;
 	margin-bottom: 40px;
 	float:left;
-    width:100%;
+    width:180px;
     background:#EEEEEE;
+    padding:8px;
+    padding-bottom:32px;
 }
 
 #testimonial_text {

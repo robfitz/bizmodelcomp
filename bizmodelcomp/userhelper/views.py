@@ -65,8 +65,12 @@ def loginRegister(request):
         return HttpResponseRedirect('/dashboard/')
 
     alert = None
+    alert = "Sorry, registration is currently disabled. We'll be opening to the public soon!"
 
     if request.method == "POST" and len(request.POST) > 0:
+        pass
+
+    if False == True:
         
         login_or_register = request.POST.get("login_or_register", "login")
 
