@@ -321,6 +321,8 @@ def login(request):
 
 def register(request):
 
+    alert = "Sorry, registration is currently disabled. We'll be opening to the public soon!"
+
     override_login_url = "/new/login/"
 
     #try grabbing the competition-in-progress from their session
@@ -333,6 +335,10 @@ def register(request):
     print '### new: registering on comp: %s' % competition.id
 
     if request.method == "POST":
+
+        pass
+
+    if False == True:
 
             email = request.POST["email"]
             pass1 = request.POST["password1"]
