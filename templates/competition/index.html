@@ -32,13 +32,23 @@
 
 	<div id="testimonials">
     
+    <div id="testimonial_text">
+    The NVANA competition platform is currently used by...
+    {% for testimonial in testimonials %}
+  	<img style="padding:10px;" border=0 align=right src="{{testimonial.thumb_url}}">
+    <img style="padding:10px;" width=140px height=44px border=0 align=right src="/media/competition/style/images/lec.png">
+ 	{% endfor %}
+ 	</div>
+    
+        <!--
         {% for testimonial in testimonials %}
             <div id="testimonial_text">
  				<div>
  					<span class="bqstart">&#8220;</span>
  					{{testimonial.text}}
- 					<!--<span class="bqend">&#8221;</span>-->	
- 					<!--
+ 					
+ 					<span class="bqend">&#8221;</span>	
+ 					
  					<div style="float:left width: 10%">
  					<img src="media/competition/style/images/quote_open.gif">
  					</div>
@@ -50,14 +60,17 @@
  					<div style="float:right width: 10%">
  					<img src="media/competition/style/images/quote_close.gif">
  					</div>
- 					-->
+ 					
  				</div>
  				<div id="testimonial_author">
+ 					
  					<p>{{testimonial.author_name}}</p>
+ 				
  					<a href={{testimonial.author_url}} target=blank_><img border=0  align=right src="{{testimonial.thumb_url}}"></a>
             	</div>
  			</div>
         {% endfor %}
+     	-->
 
 	</div>
 

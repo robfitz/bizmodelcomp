@@ -59,14 +59,14 @@
         "pk": "index_shout", 
         "model": "sitecopy.sitecopy", 
         "fields": {
-            "text": "<div id=\"huge\">We run business plan competitions better than anyone else*</div>\r\n\r\n*Don\u2019t believe us, take a [free trial](/dashboard/new_comp/ \"Take a free trial!\")"
+            "text": "<div id=\"huge\">We run business plan competitions better than anyone else*</div>\r\n\r\n*Don\u2019t believe us, take a [free trial](/new/ \"Take a free trial!\")"
         }
     }, 
     {
         "pk": "index_video", 
         "model": "sitecopy.sitecopy", 
         "fields": {
-            "text": "<iframe title=\"YouTube video player\" class=\"youtube-player\" type=\"text/html\" width=\"280\" height=\"220\" src=\"http://www.youtube.com/embed/FWRgZU13bvQ\" frameborder=\"0\"></iframe>"
+            "text": "![Screenshot](/media/competition/style/images/judgescreenshot.png)"
         }
     }, 
     {
