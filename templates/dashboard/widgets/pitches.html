@@ -1,0 +1,74 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_title %}
+Applicants and Pitches
+{% endblock %}
+
+{% block icon_class %}ui-icon-document{% endblock %}
+
+{% block section_content %}
+    
+    <div class="half_width">
+        
+        <div class="stat_number">
+            Num pitches
+            <h1>{{phase.all_pitches.count}}</h1>
+        </div>
+
+        <div class="stat_number">
+            Application status
+            <h1>
+            {% if phase.is_applications_open %}
+            OPEN
+            {% else %}
+            CLOSED
+            {% endif %}
+            </h1>
+            <a href="/a/{{competition.hosted_url}}/?ignorejudging=true">View application</a>
+        </div>
+
+        <div class="hr">&nbsp;</div>
+
+        <h3 style="float:left;">Pitch submission times</h3>
+        {% include 'dashboard/charts/pitch_submission_times.html' %}
+
+        <h3 style="float:left;">Applicant funnel by phase</h3>
+        {% include 'dashboard/charts/applicant_funnel.html' %}
+
+    </div>
+
+    <div class="half_width">
+
+        <div class="hr">&nbsp;</div>
+        <div style="float:left;">
+
+            <h3>Last 10 applications
+                <span class="medium"><a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on">View all</a></span>
+            </h3>
+
+            <table>
+                <tr>
+                    <th>Team</th>
+                    <th>Pitch</th>
+                    <th>Time</th>
+                </tr>
+
+                {% for pitch in competition.current_phase.pitches.all %}
+
+                    <tr>
+                        <td>{{pitch.team}}</td>
+                        <td><a href="javascript:void(0);" onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a></td>
+                        <td>{{pitch.created|date}}</td>
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+
+            <p>
+            </p>
+        </div>
+
+    </div>
+
+{% endblock %}

@@ -181,19 +181,21 @@ def submit_pitch(request, competition_url, phase_id=None):
         #   of their personal info.
         pass
     
-    if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
-    else: phase = competition.current_phase #use default (first) phase
+    if phase_id: 
+        phase = Phase.objects.get(pk=phase_id) #requested specific phase
+    else: 
+        phase = competition.current_phase #use default (first) phase
 
-    if phase.is_judging_enabled and not request.GET.get('ignorejudging', False):
+    if phase.is_judging_enabled and not request.GET.get('ignorejudging'):
         #sorry, applications are closed :(((
-        message = """Sorry, applications for this phase of the competition are closed and judging has begun.
-
-Good luck!"""
+        message = """Sorry, applications for this phase of the competition are closed and judging has begun."""
         
         return render_to_response('util/message.html', locals())
 
-    try: pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
-    except: pass
+    try: 
+        pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
+    except: 
+        pass
 
     if request.method == "POST" and len(request.POST) > 0:
 
@@ -316,8 +318,11 @@ Good luck!"""
         return render_to_response('entercompetition/submitted_pitch.html', locals())
 
     else:
-        alert = "Your changes have been saved."
-        return HttpResponseRedirect('/apply/pitch/%s/' % competition.hosted_url)
+        copy = get_custom_copy('thanks for applying', competition)
+        return render_to_response('entercompetition/submitted_pitch.html', locals())
+
+        #alert = "Your changes have been saved."
+        #return HttpResponseRedirect('/apply/pitch/%s/' % competition.hosted_url)
 
 
 

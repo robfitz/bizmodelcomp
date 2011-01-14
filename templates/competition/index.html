@@ -8,42 +8,59 @@
 
 	{% load markup %}
 
-	<div id="benefits">
-		{{ copy.benefits|markdown|safe }}
+	<div id="shout">
+		{{ copy.shout|markdown|safe }}
 	</div>
 
 	<div id="c2a">
 		{% if request.user.is_authenticated %}
-		<a href="/dashboard/"><input type="button" class="button" value="{{copy.c2a}}"></a>
+		<a href="/dashboard/"><img border=0 src="media/competition/style/images/c2a.png"></a>
 		{% else %}
-		<a href="/dashboard/setup/1/"><input type="button" class="button" value="{{copy.c2a}}"></a>
+		<img border=0 src="media/competition/style/images/c2a.png">
 		<br/>
-		<a href="/accounts/login" class="medium">Already have one? Log in</a>
+        Coming soon!<!--<a href="/accounts/login" class="medium">Already have an account? Log in</a>-->
 		{% endif %}
 	</div>
 
-	<div id="roi">
-		{{ copy.roi|markdown|safe }}
+	<div id="video">
+	    {{ copy.video|markdown|safe }}
 	</div>
+	
+    <div class="hr">
+        &nbsp;
+    </div> 
 
-	<div id="testimonials">
-    <!--		
-		<h2>Testimonials</h2>
 
-		<p>
-		blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
-		</p>
+    <div class="hr">
+        &nbsp;
+    </div>
 
-		<p>
-		blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah
-		</p>
-    -->
-	</div>
+    <div style="float:left;">
 
-	<div id="features">
-		{{ copy.features|markdown|safe }}
-	</div>
+        <div id="benefits">
+            {{ copy.benefits|markdown|safe }}
+        </div>
 
-</div>
+        <div id="testimonials">
+
+            <h2>Used by:</h2>
+        
+            {% for testimonial in testimonials %}
+            <p>
+                <a href={{testimonial.author_url}} target=blank_><img border=0  align=left src="{{testimonial.thumb_url}}"></a>
+                </p>
+            {% endfor %}
+
+        </div>
+        
+        <div id="features">
+            {{ copy.features|markdown|safe }}
+        </div>
+        
+        <div id="roi">
+            {{ copy.roi|markdown|safe }}
+        </div>
+
+    </div>
 
 {% endblock %}

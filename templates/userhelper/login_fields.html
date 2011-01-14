@@ -4,8 +4,10 @@
 <input type="hidden" name="next" value="{{next}}">
 {% endif %}
 
+<input type="hidden" name="login_or_register" value="login">
+
 <div id="form_field_container">
-	<div id="prompt" style="float:left;padding-top:8px;width:120px;">
+	<div class="input_prompt">
 		Email
 	</div>
 	<div style="float:left">
@@ -16,10 +18,11 @@
 <div class="hr">&nbsp;</div>
 
 <div id="form_field_container">
-	<div id="prompt" style="float:left;padding-top:8px;width:120px;">
+	<div class="input_prompt">
 		Password
 	</div>
 	<div style="float:left">
 		<input class="large"  type="password" id="password" name="password"  />
 	</div>
 </div>
+

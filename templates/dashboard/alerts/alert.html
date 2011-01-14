@@ -3,7 +3,15 @@
 		<p>
 			<span class="ui-icon {% block alert_icon_class %}ui-icon-info{% endblock %}" style="float: left; margin-right: .3em;"></span>
 
-			<strong>{% block alert_intro %}Alert:{% endblock %}</strong>
+            <strong>
+                {% block alert_intro %}
+                    {% if alert_title %}
+                        {{alert_title}}
+                    {% else %}
+                        Alert:
+                    {% endif %}
+                {% endblock %}
+            </strong>
 			{% block alert_message %} {{alert|safe}} {% endblock %}
 
 		</p>

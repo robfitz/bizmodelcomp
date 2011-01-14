@@ -1,0 +1,34 @@
+<div id="tabs_{{competition.id}}" style="float:left;{% block section_style %}{% endblock %}">
+
+    <ul>
+
+        <span class="section_title" style="float:left;padding-top:6px;padding-left:8px;{% block section_title_style %}{% endblock %}">
+            {% block section_title %}
+            {% endblock %}
+        </span>
+
+        {% block tab_list %}
+        {% endblock %}
+    </ul>
+
+    {% block tab_divs %}
+    {% endblock %}
+
+</div>
+
+<script language="javascript" type="text/javascript">
+
+    $(function () {
+
+        $("#tabs_{{competition.id}}").tabs();
+        $("#tabs_{{competition.id}} li").css("float", "right");
+
+        {% block tabs_ready_script %}
+
+        {% endblock %}
+
+    });
+
+</script>
+
+

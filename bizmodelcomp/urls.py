@@ -27,12 +27,16 @@ urlpatterns = patterns('',
     #biz model competition
     (r'^', include('bizmodelcomp.competition.urls')),
 
+    #new competitions
+    (r'^new/', include('bizmodelcomp.new_comp.urls')),
+
     #login, register, etc
     (r'^accounts/', include('bizmodelcomp.userhelper.urls')),
     (r'^no_permissions/', 'userhelper.views.noPermissions'),
 
     #apply to comp
     (r'^apply/', include('bizmodelcomp.entercompetition.urls')),
+    (r'^a/', include('bizmodelcomp.entercompetition.urls')),
 
     (r'^export/', include('bizmodelcomp.export.urls')),                   
 
@@ -44,10 +48,15 @@ urlpatterns = patterns('',
     #email
     (r'email/', include('bizmodelcomp.emailhelper.urls')),
 
+    #data slicing & dicing, spreadsheets, etc
+    (r'data/', include('bizmodelcomp.analytics.urls')),
+
     (r'^dashboard/', include('bizmodelcomp.dashboard.urls')),
 
     (r'^judge/', include('bizmodelcomp.judge.urls')),
 
     #flat pages
     (r'flat/(?P<site_copy_id>[a-zA-Z ]{1,30})/$', 'sitecopy.views.static_copy'),
+
+    (r'^blog/', include('bizmodelcomp.blog.urls')),
 )

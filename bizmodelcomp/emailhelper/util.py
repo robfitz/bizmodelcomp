@@ -3,6 +3,7 @@ import markdown
 from datetime import datetime
 import os
 import time
+from datetime import datetime
 
 #sendgrid stuff
 import smtplib
@@ -18,9 +19,21 @@ from emailhelper import SmtpApiHeader
 #recipients is a list [email1, email2, email3]
 #substitutions is dict of lists { '-name-': ['rob', 'tom', 'joe'],
 #                                 '-team-': ['the cats', 'the dogs', 'the bogs'] }
+#the ordering of the various substitution lists must match the length and ordering each other and the
+#recipient list
 def send_bulk_email(bulk_email, fromEmail="competitions@nvana.com", log=True, override_disable=False):
 
     print 'Sending bulk email to %s recipients' % len(bulk_email.recipients())
+
+    if bulk_email.sent_on_date is not None:
+
+        raise Exception("Attempt to send a bulk_email which has already been sent on %s" % bulk_email.sent_on_date)
+
+
+    bulk_email.sent_on_date = datetime.now()
+    bulk_email.save()
+
+    print 'saved sent_on_date: %s' % bulk_email.sent_on_date
     
     #irrelevant because we're sending to multiple recipients, so this field is ignored
     toEmail = "irrelevant@example.com" 

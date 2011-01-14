@@ -21,6 +21,8 @@ def index(request):
         if c.id.startswith('index_'):
             copy[c.id[len('index_'):]] = c.text
 
+	testimonials = Testimonial.objects.all()
+
     return render_to_response("competition/index.html", locals())
 
 

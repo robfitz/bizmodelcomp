@@ -1,0 +1,25 @@
+{% extends 'dashboard/base.html' %}
+
+{% block ready_script %}
+
+    $("#tab_analyze").addClass("ui-state-active");
+    $("#tab_analyze").addClass("ui-tabs-selected");
+
+    {% if view %}
+        popup('/dashboard/data/table/{{competition.hosted_url}}/?{{request.META.QUERY_STRING}}');
+    {% endif %}
+
+{% endblock %}
+
+{% block jqmWindow %}
+
+{% endblock %}
+
+
+{% block content %}
+
+<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches');">All pitches</a>
+<br/>
+<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_judges');">All judges</a>
+
+{% endblock %}

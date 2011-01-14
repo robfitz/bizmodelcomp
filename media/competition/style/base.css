@@ -1,7 +1,17 @@
+td {
+    border-bottom:1px solid #ccc;
+    padding: 0px 4px 0px 4px;
+}
+
+td.number {
+    padding-right:18px;
+    text-align:right;
+}
 
 .strikethrough, del {
     text-decoration: line-through;
 }
+
 
 /***** layout ********/
 
@@ -33,11 +43,8 @@ body, #header, #footer {
 	color:#999999;
 }
 
-#content_outer {
-    float:left;
-}
-
 #content_outer, #content_inner {
+    float:left;
 	padding:0px;
 	margin:0px;
 }
@@ -80,11 +87,12 @@ body, #header, #footer {
     font-size:12px;
     text-align:center;
     padding: 0px 8px;
+    margin-bottom:8px;
 }
 .stat_number h1 {
     color: #000;
     font-size:48px;
-    margin:-12px 0px 0px 0px;
+    margin:-12px 0px -12px 0px;
     padding:0px;
 }
 
@@ -145,8 +153,12 @@ div.slider {
 body {
     font-size:14px;
     font-family: 'Droid Sans';
-	color: #A9A9A9;
+	color: #666666;
 	line-height:150%
+}
+
+.small {
+	font-size:9px;
 }
 
 .medium {
@@ -163,7 +175,6 @@ body {
 h1, h2 {
 	margin:0px;
 	padding:0px;
-	font-style:italic;
 	color: #333333;
 	line-height:120%
 }
@@ -172,32 +183,34 @@ h4 {
     font-size:14px;
 }
 
-strong {
+.blue {
     color: #3062C4;
 }
 
 .silver {
-	color: #A9A9A9;
+	color:#999999;
 }
 
+highlight {
+	background:#FFF32A;
+	}
+
+/***** hyperlinks ********/
+
+a:link {
+	color: #666666;
+	}
+
+a:visited {
+	color: #666666;
+	}
+	
 /***** horizontal rule ********/
 
 .funk {
 	height:20px;
 	background: url(images/hr.png) no-repeat scroll center;
 	border:none;
-}
-
-/***** lists ********/
-
-ul {
-    list-style-type:none;
-}
-
-li {
-    padding-left:25px;
-    background:transparent url(images/bullet.png) no-repeat;
-
 }
 
 /***** forms ********/
@@ -210,12 +223,12 @@ li {
 }
 
 .input_prompt {
-        width:142px;
-        margin-right:8px;
-        float:left;
+    width:120px;
+    float:left;
+    padding-top:8px;
 }
 
-.prompt, .input_prompt {
+.prompt {
 	float: left;
 	clear:both;
 }
@@ -224,3 +237,4 @@ th {
     padding-left:8px;
     padding-right:8px;
 }
+

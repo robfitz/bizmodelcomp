@@ -2,6 +2,9 @@ from django.db import models
 from bizmodelcomp.competition.models import Founder
 
 
+
+
+
 #randomized url to [.key] provides equivalent
 #permissions to logging in with a username and password.
 #identity should be verified by asking them to type in

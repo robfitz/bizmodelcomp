@@ -118,6 +118,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfResponseMiddleware',
 )
 
 APPEND_SLASH = True #from CommonMiddleware, makes either /page/ or /page valid
@@ -148,6 +150,9 @@ INSTALLED_APPS = (
     'bizmodelcomp.judge',
     'bizmodelcomp.dashboard',
     'bizmodelcomp.emailhelper',
+    'bizmodelcomp.new_comp',
+    'bizmodelcomp.utils',
+    'bizmodelcomp.blog',
     'south',
 )
 
@@ -158,3 +163,5 @@ AUTH_PROFILE_MODULE = "userhelper.UserProfile"
 SCRIBD_API_KEY = "4jxkxjfj8efpubbj5q7i8"
 SCRIBD_USER_ID = "pub-97515527877144087531"
 SCRIBD_UPLOAD_URL = "http://api.scribd.com/api?method=docs.upload&api_key=%s&my_user_id=%s&access=private&secure=0&download_and_drm=view-only" % (SCRIBD_API_KEY, SCRIBD_USER_ID)
+
+DATE_FORMAT = "M d, H:i"

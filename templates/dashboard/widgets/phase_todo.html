@@ -5,7 +5,7 @@
     <label for="id_details_confirmed" {% if phase.setup_steps.details_confirmed %}class="strikethrough"{% endif %}>
         Confirm phase details and dates
     </label>
-    <span class="do_now">(<a href="/dashboard/{{competition.id}}/phases/?open={{phase.id}}">Do this now</a>)</span>
+    <span class="do_now">(<a href="/dashboard/{{competition.hosted_url}}/setup/?open={{phase.id}}">Do this now</a>)</span>
 
     <br/>
 
@@ -15,7 +15,7 @@
         <label for="id_application_setup" {% if phase.setup_steps.application_setup %}class="strikethrough"{% endif %}>
             Add pitch questions and judging criteria
         </label>
-        <span class="do_now">(<a href="/dashboard/phase/{{phase.id}}/application/">Do this now</a>)</span>
+        <span class="do_now">(<a href="javascript:void(0);" onclick="popup('/dashboard/phase/{{phase.id}}/application/');">Do this now</a>)</span>
 
         <br/>
 
@@ -23,7 +23,7 @@
         <label for="id_announced_applications" {% if phase.setup_steps.announced_applications %}class="strikethrough"{% endif %}>
             Announce applications are open
         </label>
-        <span class="do_now">(<a href="/dashboard/announce_applications_open/">Do this now</a>)</span>
+        <span class="do_now">(<a href="/dashboard/{{competition.hosted_url}}/announce_applications_open/">Do this now</a>)</span>
 
         <br/>
 
@@ -43,7 +43,8 @@
     <label for="id_invited_judges" {% if phase.setup_steps.invited_judges %}class="strikethrough"{% endif %}>
         Invite judges
     </label>
-    <span class="do_now">(<a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judges/">Do this now</a>)</span>
+        
+    <span class="do_now">(<a href="javascript:void(0);" onclick="popup('/dashboard/phase/{{competition.current_phase.id}}/judges/');">Do this now</a>)</span>
 
     <br/>
 
@@ -53,7 +54,7 @@
         <label for="id_announced_judging_open" {% if phase.setup_steps.announced_judging_open %}class="strikethrough"{% endif %}>
             Announce that judging is now open
         </label>
-        <span class="do_now">(<a href="/dashboard/announce_judging_open/">Do this now</a>)</span>
+        <span class="do_now">(<a href="/dashboard/{{competition.hosted_url}}/announce_judging_open/">Do this now</a>)</span>
 
         <br/>
 
@@ -73,7 +74,7 @@
     <label for="id_selected_winners" {% if phase.setup_steps.selected_winners %}class="strikethrough"{% endif %}>
         Select winners and send feedback
     </label>
-    <span class="do_now">(<a href="">Do this now</a>)</span>
+    <span class="do_now">(<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">Do this now</a>)</span>
 
     <br/>
 

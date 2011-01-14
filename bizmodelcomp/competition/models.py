@@ -10,6 +10,7 @@ import time
 
 from settings import MEDIA_URL
 from utils.util import *
+from utils.models import Tag
 from judge.models import *
 
 from django.forms import ModelForm
@@ -85,6 +86,16 @@ class Team(models.Model):
 
         return members
 
+    def __unicode__(self):
+
+        if self.name:
+            return self.name
+        else:
+            try:
+                return self.owner.email.split('@')[0]
+            except:
+                return "Unnamed team"
+
 
 
 #a random key used in links to take an applicant
@@ -109,7 +120,7 @@ class Competition(models.Model):
     website =  models.CharField(max_length=500, blank=True, default="")
     hosted_url = models.CharField(max_length=100, unique=True)
 
-    owner = models.ForeignKey(User) #single owner who can delete it
+    owner = models.ForeignKey(User, null=True, blank=True) #single owner who can delete it
     applicants = models.ManyToManyField(Founder, related_name="competitions", blank=True, null=True) #info about peeps entered in contest
 
     current_phase = models.OneToOneField("competition.Phase", blank=True, null=True, related_name="competition_unused")
@@ -121,6 +132,15 @@ class Competition(models.Model):
     template_base = models.CharField(max_length=200, default="base.html")
     template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
+
+
+    def application_requirements(self):
+        try:
+            return ApplicationRequirements.objects.get(competition=self)
+        except:
+            reqs = ApplicationRequirements(competition=self)
+            reqs.save()
+            return reqs
 
 
     def logo_url(self):
@@ -141,29 +161,6 @@ class Competition(models.Model):
         return self.phases()[0]
     
 
-    def pitches(self):
-
-        unsorted = self.current_phase.pitches.all()
-        
-##        sorted_pitches = []
-##    
-##        for u in unsorted:
-##            inserted = False
-##            
-##            for s in sorted_pitches:
-##                if u.average_score() >= s.average_score():
-##                    sorted_pitches.insert(sorted_pitches.index(s), u)
-##                    inserted = True
-##                    break
-##
-##            if not inserted:
-##                sorted_pitches.append(u)
-##
-##        return sorted_pitches
-
-        return unsorted
-    
-
     def is_judging_open(self):
 
         #judging is always open for live pitches, since there's nothing to submit.
@@ -174,6 +171,39 @@ class Competition(models.Model):
     def __unicode__(self):
 
         return self.name
+
+
+
+class ApplicationRequirements(models.Model):
+
+    competition = models.OneToOneField(Competition, null=True, blank=True)
+
+    #web, greentech, medical, social enterprise, etc
+    business_types = models.ManyToManyField(Tag, related_name="comp_business_types")
+
+    #undergrad, postgrad, etc
+    applicant_types = models.ManyToManyField(Tag, related_name="comp_applicant_types")
+
+    #ucl, georgia tech, sony pictures, etc
+    institutions = models.ManyToManyField(Tag, related_name="comp_institutions")
+
+    #europe..
+    locations = models.ManyToManyField(Tag, related_name="comp_locations")
+
+    #extra stuff, like must be a practicing entrepreneur or under 25
+    other_requirements = models.ManyToManyField(Tag, related_name="comp_other_requirements")
+
+
+    def all_tag_sets(self):
+
+        return [self.business_types, self.applicant_types, self.institutions, self.locations, self.other_requirements]
+
+
+    def remove_all(self):
+
+        for tag_set in self.all_tag_sets():
+            for tag in tag_set.all():
+                tag_set.remove(tag)
 
 
 
@@ -217,6 +247,26 @@ class Phase(models.Model):
 
     #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
 
+
+    def phase_num(self):
+
+        phases = self.competition.phases()
+
+        i = 1
+        for p in self.competition.phases():
+            if p == self:
+                return i
+            i += 1
+
+        return -1
+    
+    
+    def is_applications_open(self):
+
+        return self.competition.current_phase == self and self.is_judging_enabled == False
+
+
+
     def setup_steps(self):
 
         try:
@@ -225,8 +275,6 @@ class Phase(models.Model):
             steps = PhaseSetupSteps(phase=self)
             steps.save()
 
-        print 'phase %s setup steps: %s' % (self.id, steps.id)
-            
         return steps
         
 
@@ -324,8 +372,13 @@ class Phase(models.Model):
 
         return "N/A"
     
+    def all_judgements(self):
+
+        return self.judgements(num=-1)
+
+
     
-    def judgements(self, for_judge=None):
+    def judgements(self, for_judge=None, num=10):
         
         pitches = Pitch.objects.filter(phase=self)
         judgements = []
@@ -337,17 +390,23 @@ class Phase(models.Model):
             else:
                 judgements.extend(pitch.judgements.all())
 
-        return judgements
+        if num > 0:
+            return judgements[:num]
+        else:
+            return judgements
+
+
+    def all_pitches_to_judge(self):
+
+        return self.pitches_to_judge(num=-1)
 
 
     #get list of all applications yet to be judged enough times
-    def pitches_to_judge(self, for_judge=None):
+    def pitches_to_judge(self, for_judge=None, num=10):
         
         pitches = Pitch.objects.filter(phase=self)
         to_judge = []
 
-        print '%s pitches for phase id=%s' % (len(pitches), self.id)
-        
         organizer = self.competition.owner
         
         for pitch in pitches:
@@ -368,7 +427,10 @@ class Phase(models.Model):
                     #enough votes counts
                     to_judge.append(pitch)
                 
-        return to_judge
+        if num > 0:
+            return to_judge[:num]
+        else:
+            return to_judge
 
 
     def judges(self):
@@ -433,16 +495,31 @@ class Phase(models.Model):
 
         return self.pitchquestion_set.all()
     
+
+    def all_pitches(self):
+
+        return self.pitches(num=-1)
+
+
+    def pitches(self, num=10):
+
+        if num > 0: 
+            return Pitch.objects.filter(phase=self)[:num]
+        else:
+            return Pitch.objects.filter(phase=self)
+
     
     #TODO: make this better (currently everyone is in every phase)
     def applicants(self):
 
         return self.competition.applicants.all()
 
+
     def __unicode__(self):
 
-        return "phase (id=%s) for (competition=%s)" % (self.pk, self.competition)
+        return "%s" % self.name
     
+
 
 class PhaseSetupSteps(models.Model):
 
@@ -496,7 +573,7 @@ class Pitch(models.Model):
     team = models.ForeignKey(Team, null=True)
 
     #the part of the contest this pitch is a submission to
-    phase = models.ForeignKey(Phase, related_name="pitches")
+    phase = models.ForeignKey(Phase)
 
     #has applicant chosen to publish it yet?
     is_draft = models.BooleanField(default=True)
@@ -511,7 +588,9 @@ class Pitch(models.Model):
 
 
     class Meta:
-        ordering = ['order']
+        #if organizer has specified an order, that takes precedence,
+        #and otherwise we go in reverse order created
+        ordering = ['order', '-created']
 
 
     def created_ms(self):
@@ -520,7 +599,6 @@ class Pitch(models.Model):
 
 
     def num_times_judged(self):
-        print 'num times judged: %s, %s' % (len(self.judgements.all()), self.judgements.all())        
         return len(self.judgements.all())
 
 
@@ -538,13 +616,7 @@ class Pitch(models.Model):
 
     #who is pitching this idea?
     def team_name(self):
-
-        if self.team and self.team.name:
-            return self.team.name
-
-        else:
-            num = self.phase.pitches.all().index(self)
-            return "Team %s" % num
+        return "%s" % self.team
 
 
     def __unicode__(self):
@@ -588,7 +660,7 @@ class PitchQuestion(models.Model):
     max_points = models.IntegerField(default=10)
 
     #if set to a non-blank string, informs judge what the points represent (ie 0 is bad, 5 is great!)
-    judge_points_prompt = models.CharField(default="", max_length=140)
+    judge_points_prompt = models.CharField(default="Low scores are bad, high scores are great", max_length=140)
 
     #if set to a non-blank string, judge is asked to write freeform text as feedback
     judge_feedback_prompt = models.CharField(default="", max_length=140)
@@ -633,6 +705,7 @@ class PitchAnswer(models.Model):
         return self.answer
 
 
+
 #details about all the questions a founder needs to upload to
 #apply to the contest. 
 class PitchUpload(models.Model):
@@ -662,7 +735,6 @@ class PitchFile(models.Model):
     def is_image(self):
 
         extension = self.filename.split('.')[-1]
-        print 'extension: %s' % extension
         images = ['jpg', 'jpeg', 'png', 'gif', 'bmp']
 
         return string.lower(extension) in images
@@ -679,6 +751,7 @@ class PitchFile(models.Model):
     def url(self):
 
         return "%suploads/%s" % (MEDIA_URL, self.filename)
+
 
     def __unicode__(self):
         

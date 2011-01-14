@@ -1,0 +1,265 @@
+{% extends 'new_comp/base.html' %}
+
+{% block ready_script %}
+
+    $(".big_tag").hover(
+        function () {
+            $(this).children(".title").show();
+        },
+        function () {
+            if ($(this).hasClass("big_tag")) {
+                $(this).children(".title").hide();
+            }
+        }
+    );
+    $(".big_tag_selected").hover(
+        function () {
+            $(this).children(".title").show();
+        },
+        function () {
+            if ($(this).hasClass("big_tag")) {
+                $(this).children(".title").hide();
+            }
+        }
+    );
+
+    $(".big_tag").click( function() {
+
+        if ( $(this).hasClass("big_tag") ) {
+            $(this).removeClass("big_tag");
+            $(this).addClass("big_tag_selected");
+            $(this).children(".title").show();
+
+            $("form #" + $(this).attr("id")).attr("checked", true);
+
+            if ( $ (this).hasClass("dropdown") ) {
+                $(this).find(".list").show();
+                $(this).addClass("dropdown_selected");
+                $(this).find('.list :input:visible:first').select();
+            }
+        }
+
+        else if ( $(this).hasClass("big_tag_selected") ) {
+            $(this).removeClass("big_tag_selected");
+            $(this).addClass("big_tag");
+            $("form #" + $(this).attr("id")).attr("checked", false);
+
+            if ( $ (this).hasClass("dropdown") ) {
+                $(this).removeClass("dropdown_selected");
+                $(this).find(".list").hide();
+            }
+        }
+    });
+
+    $(".list").click(function() {
+        return false;
+    });
+
+{% endblock %}
+
+{% block content %}
+
+    {{ block.super }}
+
+    <form action="" method="POST">
+
+    <div class="big_tag_group">
+
+        <h3>Who can apply?</h3>
+
+        <div class="big_tag" id="undergrad">
+            <div class="icon">
+                <img src="/media/icons/ug-old.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Undergraduates
+            </div>
+        </div>
+
+        <div class="big_tag" id="postgrad">
+            <div class="icon">
+                <img src="/media/icons/pg-old.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Postgraduates
+            </div>
+        </div>
+
+        <div class="big_tag" id="faculty">
+            <div class="icon">
+                <img src="/media/icons/staff-old.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Faculty & Staff
+            </div>
+        </div>
+
+        <div class="big_tag" id="nonacademic">
+            <div class="icon">
+                <img src="/media/icons/all-old.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Non-academics
+            </div>
+        </div>
+
+    </div>
+
+    <div class="big_tag_group">
+
+        <h3>From which institutions?</h3>
+
+        <div class="big_tag dropdown" id="institutions">
+            <div class="icon">
+                <img src="/media/icons/unis.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Certain universities
+            </div>
+
+            <div class="list hidden">
+                <div class="field">
+                    <input name="institution_0" />
+                    <input name="institution_1" />
+                    <input name="institution_2" />
+                    <input name="institution_2" />
+                </div>
+                <a href="javascript:void(0);" onclick="$(this).siblings('.field').append('<input name=\'institution_' + $(this).siblings('.field').children().length + '\' />')" >Add another field</a>
+            </div>
+        </div>
+
+        <div class="big_tag dropdown" id="locations">
+            <div class="icon">
+                <img src="/media/icons/countries.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Certain countries
+            </div>
+
+            <div class="list hidden">
+                <div class="field">
+                    <input name="location_0" />
+                    <input name="location_1" />
+                    <input name="location_2" />
+                    <input name="location_2" />
+                </div>
+                <a href="javascript:void(0);" onclick="$(this).siblings('.field').append('<input id=\'location_' + $(this).siblings('.field').children().length + '\' />')" >Add another field</a>
+            </div>
+
+        </div>
+
+        <div class="big_tag dropdown" id="other-requirements">
+            <div class="icon">
+                <img src="/media/icons/misc.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Other requirements
+            </div>
+
+            <div class="list hidden">
+                <div class="field">
+                    <input name="other-requirements_0" />
+                    <input name="other-requirements_1" />
+                    <input name="other-requirements_2" />
+                    <input name="other-requirements_2" />
+                </div>
+                <a href="javascript:void(0);" onclick="$(this).siblings('.field').append('<input id=\'other-requirements_' + $(this).siblings('.field').children().length + '\' />')" >Add another field</a>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="big_tag_group">
+
+        <h3>What type of ideas are encouraged?</h3>
+
+        <div class="big_tag" id="web">
+            <div class="icon">
+                <img src="/media/icons/tech.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Web & tech
+            </div>
+        </div>
+
+        <div class="big_tag" id="social">
+            <div class="icon">
+                <img src="/media/icons/social.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Social enterprise
+            </div>
+        </div>
+
+        <div class="big_tag" id="green">
+            <div class="icon">
+                <img src="/media/icons/green.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Green
+            </div>
+        </div>
+
+        <div class="big_tag" id="medical">
+            <div class="icon">
+                <img src="/media/icons/healthcare.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Medical & health
+            </div>
+        </div>
+
+        <div class="big_tag" id="services">
+            <div class="icon">
+                <img src="/media/icons/services.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Services
+            </div>
+        </div>
+
+        <div class="big_tag dropdown" id="other-ideas">
+            <div class="icon">
+                <img src="/media/icons/other.gif" />
+            </div>
+            <div class="title unselectable hidden">
+                Other
+            </div>
+
+            <div class="list hidden">
+                <div class="field">
+                    <input name="other-ideas_0" />
+                    <input name="other-ideas_1" />
+                    <input name="other-ideas_2" />
+                    <input name="other-ideas_2" />
+                </div>
+                <a href="javascript:void(0);" onclick="$(this).siblings('.field').append('<input id=\'other-ideas_' + $(this).siblings('.field').children().length + '\' />')" >Add another field</a>
+            </div>
+
+        </div>
+
+    </div>
+
+
+        <div class="hidden" style="position:absolute;left:0px;">
+            <input type="checkbox" id="undergrad" name="undergrad" />
+            <input type="checkbox" id="postgrad" name="postgrad" />
+            <input type="checkbox" id="faculty" name="faculty" />
+            <input type="checkbox" id="nonacademic" name="nonacademic" />
+
+            <input type="checkbox" id="web" name="web" />
+            <input type="checkbox" id="social" name="social" />
+            <input type="checkbox" id="green" name="green" />
+            <input type="checkbox" id="medical" name="medical" />
+            <input type="checkbox" id="services" name="services" />
+            <input type="checkbox" id="other-ideas" name="other-ideas" />
+        </div>
+
+        <div class="hr">&nbsp;</div>
+
+        <input style="float:left" type="submit" value="Save & continue" />
+
+    </form>
+
+    {% endblock %}

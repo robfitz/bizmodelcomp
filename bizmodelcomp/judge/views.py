@@ -15,9 +15,9 @@ import charts.util as chart_util
 
 
 @login_required
-def list(request):
+def list(request, comp_url):
     
-    competition = get_competition_for_user(request.user)
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
 
     redirect = get_permissions_redirect(request, competition)
     if redirect:
@@ -26,7 +26,7 @@ def list(request):
     judged = []
     unjudged = []
     
-    for pitch in competition.current_phase.pitches.all():
+    for pitch in competition.current_phase.pitches(-1):
 
         #figure if i've judged this one yet or not
         judgements = JudgedPitch.objects.filter(pitch=pitch).filter(judge__user=request.user)
@@ -102,13 +102,18 @@ def get_permissions_redirect(request, competition):
         return None
 
 @login_required
-def dashboard(request):
+def dashboard(request, comp_url=None):
 
     #if they got to the judging page from the email link,
     #we can verify their email right now
     got_ev_key(request.GET.get("ev", False))
     
-    competition = get_competition_for_user(request.user)
+    competition = None
+    if comp_url is not None:
+        competition = get_object_or_404(Competition, hosted_url=comp_url)
+    else:
+        competition = get_competition_for_user(request.user)
+
     is_organizer = competition is not None and competition.owner == request.user
     
     redirect = get_permissions_redirect(request, competition)
@@ -140,7 +145,19 @@ def dashboard(request):
 #basically the one-stop-shop for judging. You come here and either log in
 #or start having applications thrown at you to judge
 @login_required
-def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
+def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None):
+
+    competition = None
+    if comp_url:
+        competition = get_object_or_404(Competition, hosted_url=comp_url)
+    elif judgedpitch_id:
+        judgedpitch = get_object_or_404(JudgedPitch, id=judgedpitch_id)
+        competition = judgedpitch.pitch.phase.competition
+    elif unjudged_pitch_id is not None:
+        pitch = get_object_or_404(Pitch, id=unjudged_pitch_id)
+        competition = pitch.phase.competition
+    else:
+        competition = get_competition_for_user(request.user)
 
     try:
         request.user.get_profile()
@@ -179,7 +196,6 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
                 return HttpResponseRedirect('/judge/review/%s/' % earlier_pitches[0].id)
 
     
-    competition = get_competition_for_user(request.user)
     is_organizer = competition.owner == request.user
 
     redirect = get_permissions_redirect(request, competition)
@@ -259,17 +275,17 @@ def judging(request, judgedpitch_id=None, unjudged_pitch_id=None):
             if pitch.phase.pitch_type == "live pitch":
                 #judging live we always go back to the list so they can be sure
                 #to pick the correct next pitch
-                return HttpResponseRedirect('/judge/list/')
+                return HttpResponseRedirect('/judge/%s/list/' % competition.hosted_url)
 
             elif judgedpitch_id is not None or unjudged_pitch_id is not None:
                 #judging online phases, we go back to the list if they have
                 #already started choosing specific pitches
-                return HttpResponseRedirect('/judge/list/')
+                return HttpResponseRedirect('/judge/%s/list/' % competition.hosted_url)
 
             else:
                 #if they're judging online ptiches and going via the "go"
                 #option, we just keep feeding them more relevant pitches
-                return HttpResponseRedirect('/judge/go/')
+                return HttpResponseRedirect('/judge/%s/go/' % competition.hosted_url)
 
         #get a pitch to judge
         if judged_pitch is not None:

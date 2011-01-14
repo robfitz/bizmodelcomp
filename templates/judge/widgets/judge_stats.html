@@ -11,14 +11,14 @@ Your judging stats
     <div style="float:left;width:48%" >
         {% include 'judge/ranking.html' %}
         <div style="float:left;clear:both;padding-left:30px;">
-            <a href="/judge/list/">View all applications & scores</a>
+            <a href="/judge/{{competition.hosted_url}}/list/">View all applications & scores</a>
         </div>
     </div>
 
     <div style="float:left;width:48%;margin-left:10px;">
         <span class="">Click here to go straight to the next pitch that needs judging:</span>
         <br/>
-        <a class="button" href="/judge/go/">Begin judging pitches</a>
+        <a class="button" href="/judge/{{competition.hosted_url}}/go/">Begin judging pitches</a>
     </div>
 
     <div class="hr" style="height:10px;">&nbsp;</div>

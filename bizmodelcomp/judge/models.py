@@ -44,8 +44,8 @@ class JudgeInvitation(models.Model):
     #sort out an appropriate way to identify this judge to other judges
     def display_name(self):
         if self.user:
-            if self.user.name:
-                return self.user.name
+            if self.user.username:
+                return self.user.username.split('@')[0]
             else:
                 return self.user.email.split('@')[0]
 
@@ -135,7 +135,7 @@ Sincerely,
 
     def __unicode__(self):
 
-        return self.email
+        return self.display_name()
 
 
 
@@ -150,6 +150,13 @@ class JudgedPitch(models.Model):
 
     overall_score = models.IntegerField(default=0)
     max_overall_score = models.IntegerField(default=5)
+
+    timestamp = models.DateTimeField(auto_now_add=True)
+    
+
+    class Meta:
+        ordering = ['-timestamp']
+
 
     def score(self):
 

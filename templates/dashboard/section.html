@@ -1,11 +1,11 @@
 <div class="ui-dialog ui-widget ui-widget-content ui-corner-all dashboard_section {% block section_class %}{% endblock %}" style="{% block section_style %}{% endblock %}">
 
-	<div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+    <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix {% block section_titlebar_class %}{% endblock %}">
 
 		<span class="ui-dialog-title" id="ui-dialog-title-dialog">
 
 			<span class="ui-icon {% block icon_class %}{% endblock %}" style="float:left;margin-left:-8px;margin-right:4px;"></span>
-			<span class="section_title">
+            <span class="section_title" style="{% block section_title_style %}{% endblock %}">
 				{% block section_title %}
 				{% endblock %}
 			</span>
@@ -13,12 +13,15 @@
 
 	</div>
 
-	<div class="summary">
+
+    {% block section_outer_content %}
+    <div class="summary" style="{% block section_content_style %}{% endblock %}">
 
 		{% block section_content %}
 		{% endblock %}
 
 	</div>
+    {% endblock %}
 
 </div>
 

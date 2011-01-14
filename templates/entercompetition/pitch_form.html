@@ -39,6 +39,25 @@ Apply to {{ competition }}
 
 {% endblock %}
 
+{% block style %}
+
+.label {
+    width:110px;
+    font-size:16px;
+    font-weight:bold;
+    float:left;
+}
+
+select {
+    font-size:18px;
+}
+
+h2 {
+    margin-bottom:12px;
+}
+
+{% endblock %}
+
 {% block content %}
 
 	{{ block.super }}
@@ -56,21 +75,92 @@ Apply to {{ competition }}
 
 	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data" class="focus">
 
-		{% if founder %}
-		{% else %}
 
-			<div style="width:600px;float:left;">
-				<strong><span style="font-size:14px;width:150px;">Your email:</span></strong>
-				<input type="text" name="email" id="email" style="width:300px;border:3px solid #ccc;padding:5px;height:20px;" />
-				<p>
-                Already saved an application?
-				<a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to edit it</a>.
-				</p>
-			</div>
+        <div style="width:600px;float:left;margin-top:30px;">
 
-            <div class="hr" style="height:30px;">&nbsp;</div>
-            
-		{% endif %}
+            <h2>Your info</h2>
+
+            <span class="label">
+                <label for="name">Your name:</label>
+            </span>
+            <input name="name" id="name" class="large" />
+            <br/>
+
+            <span class="label">
+                <label for="email">Your email:</label>
+            </span>
+            <input name="email" id="email" class="large" />
+            <br/>
+
+            {% if competition.application_requirements.institutions.count > 0 %}
+                <span class="label">
+                    <label for="institution">Institution:</label>
+                </span>
+                <select name="institution">
+                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    {% for tag in competition.application_requirements.institutions.all %}
+                        <option value="{{tag}}">{{tag}}</option>
+                    {% endfor %}
+                    <option value="Other">Other</option>
+                </select>
+                <br/>
+            {% endif %}
+
+            {% if competition.application_requirements.applicant_types.count > 0 %}
+                <span class="label">
+                    <label for="applicant_types">Role:</label>
+                </span>
+                <select name="applicant_types">
+                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    {% for tag in competition.application_requirements.applicant_types.all %}
+                        <option value="{{tag}}">{{tag}}</option>
+                    {% endfor %}
+                    <option value="Other">Other</option>
+                </select>
+            {% endif %}
+
+            {% if competition.application_requirements.locations.count > 0 %}
+                <span class="label">
+                    <label for="locations">Location:</label>
+                </span>
+                <select name="locations">
+                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    {% for tag in competition.application_requirements.locations.all %}
+                        <option value="{{tag}}">{{tag}}</option>
+                    {% endfor %}
+                    <option value="Other">Other</option>
+                </select>
+            {% endif %}
+
+            <p>
+            Already saved an application?
+            <a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to edit it</a>.
+            </p>
+        </div>
+
+        <div class="hr" style="height:30px;">&nbsp;</div>
+        
+        <div style="float:left;width:100%;clear:both;padding-bottom:12px;">
+
+            <h2>Your business</h2>
+
+            {% if competition.application_requirements.business_types.count > 0 %}
+
+                <span class="label">
+                    <label for="business_types">Business Type:</label>
+                </span>
+
+                <select name="applicant_types">
+                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    {% for tag in competition.application_requirements.applicant_types.all %}
+                        <option value="{{tag}}">{{tag}}</option>
+                    {% endfor %}
+                    <option value="Other">Other</option>
+                </select>
+
+            {% endif %}
+
+        </div>
 
 		{% if phase.uploads %}
 

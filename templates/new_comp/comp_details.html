@@ -1,0 +1,85 @@
+{% extends 'new_comp/base.html' %}
+
+{% block style %}
+.big_row {
+    width:768px;
+}
+
+.big_row img {
+    width:80px;
+    height:80px;
+    float:left;
+    margin-right:8px;
+}
+.big_row .input_area {
+    width:600px;
+    float:left;
+    height:80px;
+    margin-bottom:40px;
+}
+.big_row .input_area h4 {
+    margin:0px;
+    padding:0px;
+    height:24px;
+}
+.big_row .input_area input {
+    font-size:24px;
+    height:50px;
+    width:600px;
+}
+.big_row .input_area textarea {
+    font-size:14px;
+    height:50px;
+    width:600px;
+}
+{% endblock %}
+
+{% block content %}
+
+    {{ block.super }}
+
+    <form action="" method="POST" class="focus">
+
+        <div class="big_row">
+            <img src="/media/icons/comp_name.png" />
+            <div class="input_area">
+                <h4>Competition name</h4>
+                <input name="name" value="" />
+            </div>
+        </div>
+
+        <div class="big_row">
+            <img src="/media/icons/comp_URL.gif" />
+            <div class="input_area">
+                <h4>Nvana competition url</h4>
+                <div style="position:relative;float:left;">
+                    <input style="position:absolute;float:left;padding-left:152px;width:448px;" name="hosted_url" value="" />
+                    <span onclick="$(this).siblings().select()" style="color:#aaa;position:absolute;float:left;left:6px;top:18px;font-size:24px">
+                        nvana.com/a/
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="big_row">
+            <img src="/media/icons/prize_money.png" />
+            <div class="input_area">
+                <h4>Prize money</h4>
+                <input name="prize_money" value="" />
+            </div>
+        </div>
+
+        <div class="big_row">
+            <img src="/media/icons/other_prizes.png" />
+            <div class="input_area">
+                <h4>Non-monetary prizes</h4>
+                <textarea name="other_prizes"></textarea>
+            </div>
+        </div>
+
+        <input type="submit" value="Save & continue" />
+
+    </form>
+
+
+{% endblock %}

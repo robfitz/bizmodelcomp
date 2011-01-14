@@ -1,0 +1,84 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_title %}
+Scores
+{% endblock %}
+
+{% block icon_class %}ui-icon-person{% endblock %}
+
+{% block section_content %}
+
+    {% if competition.is_judging_open %}
+
+        <div class="half_width">
+            <div class="stat_number">
+                Num Judges
+                <h1>{{competition.judge_invitations.count}}</h1>
+                <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_judges&phase_{{competition.current_phase.phase_num}}=on');">View all</a>
+            </div>
+
+            <a style="float:left;" class="button" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{phase.id}}/judges/');">View & invite more judges</a>
+
+            <div class="hr">&nbsp;</div>
+
+            <div class="stat_number">
+                Pitches judged
+                <h1>{{ phase.all_judgements|length }}</h1>
+                <a href="/dashboard/data/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on">View all</a></span></h3>
+            </div>
+
+            <div class="stat_number">
+                Pitches remain
+                <h1>{{phase.pitches_to_judge|length}}</h1>
+                <a href="/judge/">Judge now</a>
+            </div>
+
+            <div class="hr">&nbsp;</div>
+
+            <h3 style="float:left;">Score Distribution</h3>
+
+            {% include 'dashboard/charts/score_distribution.html' %}
+
+        </div>
+
+        <div style="half">
+
+            <h3>Last 10 scores
+                <span class="medium"><a href="/dashboard/data/{{competition.hosted_url}}/?view=all_judges&phase_{{competition.current_phase.phase_num}}=on">View all scores</a></span>
+            </h3>
+
+            <table>
+                <tr>
+                    <th>Team</th>
+                    <th>Score</th>
+                    <th>Judge</th>
+                    <th>Time</th>
+                </tr>
+
+                {% for judgement in competition.current_phase.judgements %}
+
+                    <tr>
+                        <td>{{judgement.pitch.team}}</td>
+                        <td class="number"><a href='javascript:void(0);' onclick="popup('/dashboard/judgement/{{judgement.id}}/');">{{judgement.score}}</a></td>
+                        <td><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=for_judge&judge={{judgement.judge.id}}');">{{judgement.judge}}</a></td>
+                        <td>{{judgement.timestamp|date}}</td>
+                    </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+    {% else %}
+
+        <p style="width:70%;float:left;">
+        Judging for this phase is not yet open. Once the application deadline has passed and you've invited your judges, click this button to alert the judges.
+        </p>
+
+        <p style="float:left;">
+            <a href="/dashboard/{{competition.hosted_url}}/begin_judging/" class="button">Begin judging</a>
+        </p>
+
+    {% endif %}
+
+{% endblock %}

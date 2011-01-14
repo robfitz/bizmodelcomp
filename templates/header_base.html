@@ -5,20 +5,15 @@
 
         <span class="medium">{% block breadcrumbs %}{% endblock %}</span>
         {% block logo %}
-            <a href="/"><img src="/media/logo.png" style="height:12px;"></a>
+            <a href="/"><img border=0 src="/media/logo.png" style="height:12px;"></a>
         {% endblock %}
 
         <div class="funk"></div>
 
-        <h1>
-        {% block header_title %}
-        {% endblock %}
-        </h1>
-
         <div id="account_controls" class="medium">
             {% block account_controls %}
                 {% if request.user.is_authenticated %}
-                    <a href="/judge/">Judge</a> or <a href="/dashboard/">dashboard</a> or <a href="/accounts/logout/">log out</a>
+                    {% include 'dashboard/header_auth_links.html' %}
                 {% else %}
                     <a href="/accounts/login">Log in</a> or <a href="/accounts/register">register</a>.
                 {% endif %}

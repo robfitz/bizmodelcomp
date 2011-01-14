@@ -1,0 +1,126 @@
+{% extends 'dashboard/base.html' %}
+
+{% block meta %}
+{{block.super}}
+<link rel="stylesheet" type="text/css" href="/media/competition/style/edit_application.css" />
+{% endblock %}
+
+{% block header_title %}
+Edit competition & phases
+{% endblock %}
+
+{% block ready_script %}
+
+	{% if request.GET.open %}
+		edit_initial_phase("{{request.GET.open}}");
+	{% endif %}
+
+    {% if request.GET.edit_comp %}
+        $("#view_comp_details").slideUp();
+        $("#edit_comp_details").slideDown();
+    {% endif %}
+
+    $("#tab_setup").addClass("ui-state-active");
+    $("#tab_setup").addClass("ui-tabs-selected");
+
+{% endblock %}
+
+{% block script %}
+
+	var open_phase;
+
+	function edit_initial_phase(phase_num) {
+
+		open_phase = phase_num;
+
+        $('#view_phase_' + phase_num).hide();
+        $('#edit_phase_' + phase_num).show();
+    }
+
+	function edit_phase(phase_num) {
+
+		cancel_edit();
+
+		open_phase = phase_num;
+
+        $('#view_phase_' + phase_num).slideUp();
+        $('#edit_phase_' + phase_num).slideDown();
+	}
+
+	function cancel_edit() {
+
+		$('#view_phase_' + open_phase).slideDown();
+		$('#edit_phase_' + open_phase).slideUp();
+	}
+
+	function new_phase() {
+
+		cancel_edit();
+
+		open_phase = 'new';
+
+		$('#view_phase_new').slideUp();
+		$('#edit_phase_new').slideDown();
+	}
+
+	function toggle_delete(phase_num, is_one) {
+
+		var checkbox_1 = $('#delete_1_' + phase_num);
+		var checkbox_2 = $('#delete_2_' + phase_num);
+
+		if (is_one) {
+			checkbox_2.attr('checked', checkbox_1.attr('checked'));
+
+		}
+		else {
+			checkbox_1.attr('checked', checkbox_2.attr('checked'));
+		}
+
+		if (checkbox_1.attr('checked')) {
+			$('#edit_phase_' + phase_num + ' .delete_warning').show();
+			checkbox_1.parent().hide();
+		}
+		else {
+			$('#edit_phase_' + phase_num + ' .delete_warning').slideUp();
+			checkbox_1.parent().show();
+		}
+	}
+
+{% endblock %}
+
+
+{% block content %}
+
+    {% include 'dashboard/widgets/comp_details.html' %}
+
+    {% for phase in phases %}
+
+        {% include 'dashboard/widgets/phase_details.html' %}
+
+    {% endfor %}
+
+    {% if not editing_phase %}
+        <div id="view_phase_new" class="view_phase">
+            <button id="add_new_phase_button">
+                Add another phase
+            </button>
+        </div>
+    {% endif %}
+
+    <script>
+        $(function() {
+            $('#add_new_phase_button').button("option", { icons: { primary: "ui-icon-circle-plus" } });
+            $('#add_new_phase_button').click(function() { new_phase(); return false; } );
+        });
+    </script>
+
+    {% if not editing_phase %}
+        <div id="edit_phase_new" class="edit_phase hidden">
+
+            {% include 'dashboard/widgets/phase_new.html' %}
+
+        </div>
+    {% endif %}
+
+{% endblock %}
+
