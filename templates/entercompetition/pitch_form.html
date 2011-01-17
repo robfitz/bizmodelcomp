@@ -48,6 +48,10 @@ Apply to {{ competition }}
     float:left;
 }
 
+input {
+width:400px;
+}
+
 select {
     font-size:18px;
 }
@@ -73,23 +77,49 @@ h2 {
         {% include 'dashboard/alerts/alert.html' %}
     {% endif %}
 
-	<form action="/apply/pitch_saved/{{competition.hosted_url}}/" method="POST" enctype="multipart/form-data" class="focus">
-
+	<form action="." method="POST" enctype="multipart/form-data" class="focus">
 
         <div style="width:600px;float:left;margin-top:30px;">
 
             <h2>Your info</h2>
 
-            <span class="label">
-                <label for="name">Your name:</label>
-            </span>
-            <input name="name" id="name" class="large" />
+            {% if founder %}
+
+                <span class="label">
+                    <label for="email">Your email:</label>
+                </span>
+                <input disabled name="email" id="email" class="large" value="{{founder.email}}" />
+                <br/>
+
+            {% else %}
+
+                <span class="label">
+                    <label for="email">Your email:</label>
+                </span>
+                <input name="email" id="email" class="large" value="{{founder.email}}" />
+                <br/>
+
+            {% endif %}
+
+            {% if founder %}
+            Currently logged in as {{founder}}. Not you? <a href="/accounts/logout/?next=/a/{{competition.hosted_url}}/">Click here to log out</a>.
+            {% else %}
+            Already saved an application?
+            <a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to retrieve & edit it</a>.
+            {% endif %}
+            <br/>
             <br/>
 
             <span class="label">
-                <label for="email">Your email:</label>
+                <label for="name">Your name:</label>
             </span>
-            <input name="email" id="email" class="large" />
+            <input name="name" id="name" class="large" value="{{name}}" />
+            <br/>
+
+            <span class="label">
+                <label for="team_name">Team name:</label>
+            </span>
+            <input name="team_name" id="team_name" class="large" value="{{team_name}}" />
             <br/>
 
             {% if competition.application_requirements.institutions.count > 0 %}
@@ -132,10 +162,6 @@ h2 {
                 </select>
             {% endif %}
 
-            <p>
-            Already saved an application?
-            <a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to edit it</a>.
-            </p>
         </div>
 
         <div class="hr" style="height:30px;">&nbsp;</div>
@@ -193,6 +219,7 @@ h2 {
 		{% endif %}
 
 		{% if phase.questions %}
+
 			{% block questions %}
 
 				{% for question in questions %}

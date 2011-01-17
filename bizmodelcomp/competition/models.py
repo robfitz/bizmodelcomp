@@ -23,7 +23,7 @@ class Founder(models.Model):
     user = models.OneToOneField(User, blank=True, null=True)
 
     name = models.CharField(max_length=500, blank=True, null=True) #don't use first/last/etc for multi-cultural reasons
-    email = models.CharField(max_length=255, unique=True)
+    email = models.CharField(max_length=255, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
 
     #isoformat yyyy-mm-dd
@@ -568,7 +568,7 @@ class Pitch(models.Model):
     #competition the pitch relates to
     #
     #TODO: DEPRECATED: will be replaced by self.team.owner
-    owner = models.ForeignKey(Founder) 
+    owner = models.ForeignKey(Founder, null=True) 
 
     team = models.ForeignKey(Team, null=True)
 

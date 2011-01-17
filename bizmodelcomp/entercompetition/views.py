@@ -1,10 +1,11 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import loader, Context
 from django.http import HttpResponse, HttpResponseRedirect
 
 #saving file uploads
 from utils.util import rand_key
 import os
+import sys
 
 from settings import MEDIA_ROOT
 
@@ -99,6 +100,7 @@ def get_founder(request):
     founder = None
 
     #figure out which user this is for
+
     if 'f' in request.GET:
         #using an anon link
         rand_key = request.GET.get("f")
@@ -114,13 +116,6 @@ def get_founder(request):
             #possibly merge accounts, possibly logout, possibly refuse permissions
             print "TODO: entercompetition.views.get_founder(): conflicting login & anon key"
 
-    elif request.session.get('founder_key', False):
-
-        #not logged in, but key is in session
-        rand_key = request.session.get('founder_key')
-        key = AnonymousFounderKey.objects.get(key=rand_key)
-        founder = key.founder
-                 
     elif request.user.is_authenticated():
         #already logged in, that's easy
         try:
@@ -128,6 +123,13 @@ def get_founder(request):
         except:
             print "TODO: entercompetition.views.get_founder(): unhandled bad login case"
 
+    elif request.session.get('founder_key', False):
+
+        #not logged in, but key is in session
+        rand_key = request.session.get('founder_key')
+        key = AnonymousFounderKey.objects.get(key=rand_key)
+        founder = key.founder
+                 
     return founder
 
 
@@ -155,18 +157,273 @@ The %s team""" % (competition.name, application_url, competition.name)
 
 
 
-def submit_pitch(request, competition_url, phase_id=None):
+
+def submit_pitch_get_founder(request, alerts):
+
+    #do we recognize that email?
+    mystery_founder = None
+    try:
+        mystery_founder = Founder.objects.get(email=email)
+        if mystery_founder.require_authentication:
+            #TODO: need to authenticate via email URL.
+            return HttpResponseRedirect('/apply/load/%s/?e=%s' % (competition_url, email))
+        else:
+            #no auth needed, so just save it as a pitch
+
+            #log in to session
+            request.session['founder_key'] = mystery_founder.anon_key()
+            
+            #now that there's a pitch, we want them to identify
+            #themselves from now on
+            mystery_founder.require_authentication = True
+            mystery_founder.save()
+            
+            founder = mystery_founder
+            is_new_founder = True
+        
+    except:
+        #we don't have a founder on record who matches that email
+
+        #TODO: create a skeleton Founder object & redirect them to
+        #application form to fill in the rest of the details
+
+        #create founder
+        founder = Founder(email=email)
+        founder.save()
+        is_new_founder = True
+
+        competition.applicants.add(founder)
+        competition.save()
+
+        print '*** saved founder & comp'
+
+        #log in
+        request.session['founder_key'] = founder.anon_key()
+
+        print '*** updated session'
+
+
+def save_pitch_answers_uploads(request, pitch):
+        #deal w/ saved answers
+        for key in request.POST:
+
+            if key.startswith("question_"):
+                question_pk = key[len("question_"):]
+                question = PitchQuestion.objects.get(pk=question_pk)
+
+                answer = None
+                try:
+                    #existing answer?
+                    answer = PitchAnswer.objects.get(pitch=pitch, question=question)
+                    answer.answer = request.POST[key]
+                except:                    
+                    #new answer
+                    answer = PitchAnswer(question=question,
+                                         pitch=pitch,
+                                         answer=request.POST[key])
+                #save changes
+                answer.save()
+
+        #deal w/uploads
+        for file in request.FILES:
+            upload_pk = file[len("upload_"):]
+            upload = PitchUpload.objects.get(pk=upload_pk)
+            handle_uploaded_file(request, request.FILES[file], upload, pitch)
+
+def submit_pitch_2(request, comp_url):
+    
+    print 'submit pitch 2'
+
+    alert = None
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+
+    #finds a founder under the following conditions:
+    #  -user is logged in and a founder matches their user account
+    #  -request.GET.get("f") is set to a valid founder key
+    #  -request.session["founder_key"] is set to a valid founder key
+    founder = get_founder(request)
+    name = ""
+    email = ""
+    team_name = ""
+
+    if founder is not None:
+        name = founder.name
+        email = founder.email
+        print 'got name=%s email=%s' % (name, email)
+
+    print 'got founder: %s' % founder
+
+    team = None
+    pitch = None
+    try:
+        pitch = Pitch.objects.get(owner=founder,
+                phase=competition.current_phase)
+        print 'got pitch: %s' % pitch
+        team = pitch.team #may be null, that's okay
+        print 'got team: %s' % team
+        if team:
+            team_name = team.name
+        print 'got pitch: %s' % pitch
+        print 'got team: %s' % team
+    except:
+        pass
+
+    try:
+        
+        if not founder and request.session["draft_pitch"] is not None:
+            draft_pitch_id = request.session["draft_pitch"]
+            draft_pitch = Pitch.objects.get(id=draft_pitch_id)
+            if draft_pitch.phase == competition.current_phase:
+
+                alert = "Your pitch has __not__ yet been saved, but we've found a recent draft for you to edit. Please re-enter your team information with a valid email to save this application. If this isn't your pitch, click here to <a href='/accounts/logout/?next=/a/%s/'>discard it</a>." % competition.hosted_url
+
+                print 'draft pitch phase match'
+                print 'draft pitch owner: %s, team: %s' % (draft_pitch.owner, draft_pitch.team)
+                if not draft_pitch.owner and not draft_pitch.team:
+                    pitch = draft_pitch
+    except:
+        pass
+
+    if request.method == "POST":
+
+        if not pitch:
+            #a blank dummy pitch used simply to hold answers and uploads until validation
+            pitch = Pitch(phase=competition.current_phase)
+            pitch.save()
+            if not founder:
+                request.session["draft_pitch"] = pitch.id
+            print 'created new pitch: %s' % pitch
+
+        is_validated = True
+
+        #creates or modifies answers and uploads for the pitch
+        save_pitch_answers_uploads(request, pitch)
+        print 'saved answers and uploads'
+
+        #if we've already got a founder, we don't let them change the email field
+        if not founder:
+            email = request.POST.get("email")
+            print 'no founder, email=%s' % email
+
+            if email and len(email.split("@")) == 2 and len(email.split(".")) >= 2:
+                is_validated = True
+                print 'email validated'
+            else:
+                is_validated = False
+                alert = "Your application has __not__ yet been saved. Please enter your team information with a valid email address and try again."
+                print 'email failed validation'
+
+        name = request.POST.get("name")
+
+        if competition.application_requirements().institutions.count() > 0:
+            institution = request.POST.get("institution")
+        if competition.application_requirements().applicant_types.count() > 0:
+            applicant_types = request.POST.get("applicant_types")
+
+        team_name = request.POST.get("team_name")
+
+        if competition.application_requirements().locations.count() > 0:
+            locations = request.POST.get("locations")
+
+        if not is_validated:
+            
+            #submission didn't validate, so display it again.
+            #we've now created and saved a pitch object so they're answers and
+            #uploads are secure, but there may not be a founder or team object.
+            pass
+
+        else: #is_validated == True
+
+            print 'is validated'
+
+            #having a founder implies also having a team, since they're made together.
+            #if there is no founder, create both.
+            if not founder:
+                print 'no founder, created with name=%s and email=%s' % (name, email)
+
+                #check that email is unique
+                if Founder.objects.filter(email=email).count() == 0:
+                    #unique email, go ahead and save founder
+                    founder = Founder(name=name,
+                            email=email)
+                    founder.save()
+                    request.session["founder_key"] = founder.anon_key().key
+                    print 'saved founder'
+                else:
+                    #not unique, alert user and don't overwrite old founder
+                    founder = None
+                    alert = "Your application has __not__ yet been saved. That email address has already been used. Please enter your team information again using a different email or <a href='/apply/load/%s/'>click here to log in to your old account</a>." % competition.hosted_url
+                    is_validated = False
+                    print 'failed to save founder: %s' % sys.exc_info()[0]
+
+            if founder is not None: 
+
+                #save malleable founder details
+                founder.name = name
+                founder.save()
+
+                print 'pitch.owner = %s' % pitch.owner
+                if not pitch.owner:
+                    pitch.owner = founder
+                    pitch.save()
+                    print 'set pitch.owner = %s' % pitch.owner
+
+                if not pitch.team:
+                    team = Team(owner=founder)
+                    team.save()
+                    pitch.team = team
+                    pitch.save()
+                    print 'no pitch.team, created: %s' % pitch.team
+
+                pitch.team.name = team_name
+                pitch.team.save()
+                print 'saved team name: %s' % pitch.team.name
+
+            if not alert:
+                alert = "Your application has been saved. You may continue to edit it until the deadline. If you switch computers, you'll need to re-verify your identity by clicking on the link we've emailed to you."
+                print 'application saved successfully'
+            
+    phase = competition.current_phase
+    questions = phase.questions()
+    uploads = phase.uploads()
+    
+    for question in questions:
+        #render existing answers
+        try:
+            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+            
+        except:
+            question.answer = ""
+            
+    for upload in uploads:
+        #render existing uploads
+        try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
+        except: upload.file = None
+
+    #return render_to_response(competition.template_pitch, locals())
+    return render_to_response('entercompetition/pitch_form.html', locals())
+
+
+            
+
+
+
+
+def submit_pitch(request, competition_url):
 
     competition = Competition.objects.get(hosted_url=competition_url)
-    phase = None
+    phase = competition.current_phase 
+    founder = get_founder(request)
+    team = None
+
     pitch = None
-    
     is_first_pitch = False
+
+    alerts = {}
+
     #if true, user registered via data import rather than through widget,
     #so we haven't yet sent them a recovery email
     is_new_founder = False 
-
-    founder = get_founder(request)
 
     if not founder:
         #we don't know who is applying, so we'll display an extra email field
@@ -180,11 +437,15 @@ def submit_pitch(request, competition_url, phase_id=None):
         #   submitted, we'll then show them the application widget to collect rest
         #   of their personal info.
         pass
-    
-    if phase_id: 
-        phase = Phase.objects.get(pk=phase_id) #requested specific phase
-    else: 
-        phase = competition.current_phase #use default (first) phase
+    else:
+        #we do have a founder, so may also have a team they belong to and a pitch
+        #they've submitted
+        try: 
+            pitch = Pitch.objects.get(team__owner=founder, phase=phase)
+            team = pitch.team
+        except: 
+            pass
+
 
     if phase.is_judging_enabled and not request.GET.get('ignorejudging'):
         #sorry, applications are closed :(((
@@ -192,85 +453,43 @@ def submit_pitch(request, competition_url, phase_id=None):
         
         return render_to_response('util/message.html', locals())
 
-    try: 
-        pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
-    except: 
-        pass
-
     if request.method == "POST" and len(request.POST) > 0:
 
+        validated = True
+
+        #this field should be present in the form whenever founder==None
+        email = request.POST.get("email")
         if not founder:
+            if not email:
+                alerts["email"] = "Please enter a valid email address."
+                validated = False
+            elif len(email.split("@")) < 2 or len(email.split(".")) < 2:
+                #extremely basic syntax checking for valid emails
+                alerts["email"] = "Please enter a valid email address."
+                validated = False
 
-            print '*** not founder'
-            
-            try:
-                #this field should be present in the form whenever founder==None
-                email = request.POST.get("email")
-                if not email:
-                    alert = "You need to enter a valid email address."
-                    return render_to_response('entercompetition/pitch_form.html', locals())
+        if competition.application_requirements().institutions.count() > 0:
+            institution = request.POST.get("institution")
+        if competition.application_requirements().applicant_types.count() > 0:
+            applicant_types = request.POST.get("applicant_types")
 
-                #do we recognize that email?
-                mystery_founder = None
-                try:
-                    mystery_founder = Founder.objects.get(email=email)
-                    if mystery_founder.require_authentication:
-                        #TODO: need to authenticate via email URL.
-                        return HttpResponseRedirect('/apply/load/%s/?e=%s' % (competition_url, email))
-                    else:
-                        #no auth needed, so just save it as a pitch
-                        print 'mystery founder with no auth needed'
+        team_name = request.POST.get("team_name")
+        if not team_name:
+            alerts["team_name"] = "You need to enter a team name."
 
-                        #log in to session
-                        request.session['founder_key'] = mystery_founder.anon_key()
-                        print 'set anon key'
-                        
-                        #now that there's a pitch, we want them to identify
-                        #themselves from now on
-                        mystery_founder.require_authentication = True
-                        mystery_founder.save()
-                        
-                        founder = mystery_founder
+        if competition.application_requirements().locations.count() > 0:
+            locations = request.POST.get("locations")
 
-                        is_new_founder = True
-                        print 'set external = true'
-                    
-                except:
-                    print '*** no matching founder on record'
-                    #we don't have a founder on record who matches that email
 
-                    #TODO: create a skeleton Founder object & redirect them to
-                    #application form to fill in the rest of the details
-
-                    #create founder
-                    founder = Founder(email=email)
-                    founder.save()
-                    is_new_founder = True
-
-                    competition.applicants.add(founder)
-                    competition.save()
-
-                    print '*** saved founder & comp'
-
-                    #log in
-                    request.session['founder_key'] = founder.anon_key()
-
-                    print '*** updated session'
-
-            except:
-                
-                print '### founder is none and no POST.email: %s' % sys.exc_info()[0]
-                #TODO: if founder is None and there's no POST.email we're
-                #in real trouble. do something with this.
-                return False
-            
 
         if not pitch:
             #don't create pitch until someone submits the form
             print 'pitch = NOne, creating new'
             pitch = Pitch(owner=founder,
                           phase=phase)
-            pitch.save()
+            if validated:
+                pitch.save()
+
             #can show different success message on first submission
             is_first_pitch = True
 
@@ -279,38 +498,34 @@ def submit_pitch(request, competition_url, phase_id=None):
                 #first submission from a founder we haven't contacted before, so email them
                 send_welcome_email(request, founder, competition)
 
-        if "is_draft" in request.POST:
-            #this key is not always present
-            pitch.is_draft = (request.POST["is_draft"] == "True")
+        save_pitch_answers_uploads(request, pitch)
+
+        if not validated:
+            #hasn't validated, so re-load page with same answers etc
+            return render_to_response("/a/%s/" % competition.hosted_url, locals())
+
+
+        else:
+
+            if not founder:
+                founder = Founder()
+                founder.save()
+
+            founder.name = founder_name
+            founder.email = founder_email
+            founder.phone = founder_phone
+            founder.save()
+
+            pitch.founder = founder
             pitch.save()
-            
 
-        #deal w/ saved answers
-        for key in request.POST:
+            if not team:
+                team = Team()
+                team.save()
 
-            if key.startswith("question_"):
-                try:
-                    question_pk = key[len("question_"):]
-                    question = PitchQuestion.objects.get(pk=question_pk)
-
-                    answer = None
-                    try:
-                        #existing answer?
-                        answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-                        answer.answer=request.POST[key]
-                    except:                    
-                        answer = PitchAnswer(question=question,
-                                             pitch=pitch,
-                                             answer=request.POST[key])
-                    answer.save()
-
-                except: pass
-
-        #deal w/uploads
-        for file in request.FILES:
-            upload_pk = file[len("upload_"):]
-            upload = PitchUpload.objects.get(pk=upload_pk)
-            handle_uploaded_file(request, request.FILES[file], upload, pitch)
+            team.owner = founder
+            team.name = team_name
+            team.save()
 
     if is_first_pitch:
         #show 1st time sweet success message
