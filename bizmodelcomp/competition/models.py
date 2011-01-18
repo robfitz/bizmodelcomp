@@ -41,20 +41,6 @@ class Founder(models.Model):
     require_authentication = models.BooleanField(default=True)
 
 
-    #get or create randomized anonymous login key
-    def anon_key(self):
-        key = None
-
-        try:
-            key = AnonymousFounderKey.objects.get(founder=self)
-        except:
-            random_key = rand_key()
-            key = AnonymousFounderKey(founder=self, key=random_key)
-            key.save()
-            
-        return key
-
-
     #returns the set of ExtraFounderInfos attached to this Founder as
     #a dictionary of question:answer pairs 
     def extra(self):
@@ -80,6 +66,20 @@ class Team(models.Model):
     name = models.CharField(max_length="140", default="", blank=True)
 
 
+    #get or create randomized anonymous login key
+    def anon_key(self):
+        key = None
+
+        try:
+            key = AnonymousTeamKey.objects.get(team=self)
+        except:
+            random_key = rand_key()
+            key = AnonymousTeamKey(team=self, key=random_key)
+            key.save()
+            
+        return key
+
+
     def members(self):
         members = [self.owner]
         members.extend(self.other_members.all())
@@ -100,11 +100,11 @@ class Team(models.Model):
 
 #a random key used in links to take an applicant
 #to their application without needing to create an account
-class AnonymousFounderKey(models.Model):
+class AnonymousTeamKey(models.Model):
 
     #random characters used as an identifier
     key = models.CharField(max_length=20, primary_key=True) 
-    founder = models.OneToOneField(Founder) #who i point to
+    founder = models.OneToOneField(Team) #who i point to
 
 
     def __unicode__(self):

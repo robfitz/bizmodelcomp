@@ -95,42 +95,35 @@ Jumping through these hoops helps ensure your pitch stays private -- sorry for t
 
 
 #helper
-def get_founder(request):
+def get_team(request):
 
     founder = None
 
     #figure out which user this is for
 
-    if 'f' in request.GET:
+    if 't' in request.GET:
+
+        #TODO: log out current user
+
         #using an anon link
-        rand_key = request.GET.get("f")
+        rand_key = request.GET.get("t")
         print rand_key
-        key = AnonymousFounderKey.objects.get(key=rand_key)
+        key = AnonymousTeamKey.objects.get(key=rand_key)
         print key
-        founder = key.founder
+        team = key.team
         
-        request.session ['founder_key'] = key.key
-        
-        if request.user.is_authenticated and founder.user != request.user:
-            #start freaking out, logged in user is using someone else's key
-            #possibly merge accounts, possibly logout, possibly refuse permissions
-            print "TODO: entercompetition.views.get_founder(): conflicting login & anon key"
+        request.session ['team_key'] = key.key
 
-    elif request.user.is_authenticated():
-        #already logged in, that's easy
-        try:
-            founder = Founder.objects.get(user=request.user)
-        except:
-            print "TODO: entercompetition.views.get_founder(): unhandled bad login case"
+    elif request.session.get('team_key', False):
 
-    elif request.session.get('founder_key', False):
+        #TODO: log out current user
 
         #not logged in, but key is in session
-        rand_key = request.session.get('founder_key')
-        key = AnonymousFounderKey.objects.get(key=rand_key)
-        founder = key.founder
-                 
-    return founder
+        rand_key = request.session.get('team_key')
+        key = AnonymousTeamKey.objects.get(key=rand_key)
+        team = key.team
+
+    return team
 
 
 
@@ -139,7 +132,7 @@ def send_welcome_email(request, founder, competition):
 
     to_email = founder.email
     subject = "Your application to %s" % competition.name
-    application_url = request.build_absolute_uri("/apply/pitch/%s/?f=%s" % (competition.hosted_url, founder.anon_key()))
+    application_url = request.build_absolute_uri("/a/%s/?t=%s" % (competition.hosted_url, founder.anon_key()))
     message = """Hello,
 
 Thanks for applying to %s!
@@ -230,45 +223,69 @@ def save_pitch_answers_uploads(request, pitch):
             upload = PitchUpload.objects.get(pk=upload_pk)
             handle_uploaded_file(request, request.FILES[file], upload, pitch)
 
-def submit_pitch_2(request, comp_url):
+def submit_team(request, comp_url):
     
-    print 'submit pitch 2'
+    print 'submit team' 
 
     alert = None
+
+    team = get_team(request)
+
     competition = get_object_or_404(Competition, hosted_url=comp_url)
 
-    #finds a founder under the following conditions:
-    #  -user is logged in and a founder matches their user account
-    #  -request.GET.get("f") is set to a valid founder key
-    #  -request.session["founder_key"] is set to a valid founder key
-    founder = get_founder(request)
     name = ""
     email = ""
     team_name = ""
 
-    if founder is not None:
-        name = founder.name
-        email = founder.email
-        print 'got name=%s email=%s' % (name, email)
+    founder = None
 
-    print 'got founder: %s' % founder
+    if request.method == "POST":
 
-    team = None
-    pitch = None
-    try:
-        pitch = Pitch.objects.get(owner=founder,
-                phase=competition.current_phase)
-        print 'got pitch: %s' % pitch
-        team = pitch.team #may be null, that's okay
-        print 'got team: %s' % team
-        if team:
-            team_name = team.name
-        print 'got pitch: %s' % pitch
-        print 'got team: %s' % team
-    except:
-        pass
+        email = request.POST.get("email")
 
-    try:
+        if not email or len(email) == 0:
+            #blank email address, display error
+            alert = "Please enter a valid email address to continue."
+
+        elif Founder.objects.filter(email=email).count() > 0:
+            #email address has already been claimed
+            existing_founder = Founder.objects.get(email=email)
+
+            #if this session has validated the email, then proceed
+            try:
+                founder_key = request.session["founder_key"]:
+                anon_key = AnonymousFounderKey(key=founder_key)
+                if anon_key.founder == existing_founder:
+                    #our session is linked to the founder who owns this
+                    #team, so we're good to proceed
+                    founder = existing_founder
+                else:
+                    #if isn't validated this session, offer login link
+                    alert = "You have already begun applying with that email. <a href=''>Click here to recover your old application</a>."
+
+            except:
+                alert = "You have already begun applying with that email. <a href=''>Click here to recover your old application</a>."
+
+        else: 
+            #not blank and not owned by someone else, proceed
+            founder = Founder(email=email)
+            founder.save()
+
+        #set other, less critical founder details
+        if founder is not None:
+            founder.name = request.GET.get("name", "")
+            founder.phone = request.GET.get("phone", "")
+            founder.save()
+
+        else:
+            #founder is none, so we'll just abort out and display the fields again
+            return render_to_response("entercompetition/team.html", locals())
+
+        #create a team if we don't yet have one
+        if not team:
+            team = Team(owner=founder,
+                    name=team_name)
+            team.save()
         
         if not founder and request.session["draft_pitch"] is not None:
             draft_pitch_id = request.session["draft_pitch"]
