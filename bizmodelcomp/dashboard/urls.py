@@ -62,7 +62,6 @@ urlpatterns = patterns('',
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/applicants/$',
          'dashboard.views.list_applicants'),
 
-
     #list pitches (per phase)
     (r'^phase/(?P<phase_id>[0-9]{1,100})/pitches/$',
          'dashboard.views.list_pitches'),

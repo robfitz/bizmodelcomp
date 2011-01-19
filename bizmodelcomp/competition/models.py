@@ -55,6 +55,19 @@ class Founder(models.Model):
         return self.email
 
 
+    #get or create randomized anonymous login key
+    def anon_key(self):
+        key = None
+
+        try:
+            key = AnonFounderKey.objects.get(founder=self)
+        except:
+            random_key = rand_key()
+            key = AnonFounderKey(founder=self, key=random_key)
+            key.save()
+            
+        return key
+
 
 #one lead founder, plus some info about the team and any additional founders
 class Team(models.Model):
@@ -71,10 +84,10 @@ class Team(models.Model):
         key = None
 
         try:
-            key = AnonymousTeamKey.objects.get(team=self)
+            key = AnonTeamKey.objects.get(team=self)
         except:
             random_key = rand_key()
-            key = AnonymousTeamKey(team=self, key=random_key)
+            key = AnonTeamKey(team=self, key=random_key)
             key.save()
             
         return key
@@ -100,11 +113,26 @@ class Team(models.Model):
 
 #a random key used in links to take an applicant
 #to their application without needing to create an account
-class AnonymousTeamKey(models.Model):
+class AnonFounderKey(models.Model):
 
     #random characters used as an identifier
     key = models.CharField(max_length=20, primary_key=True) 
-    founder = models.OneToOneField(Team) #who i point to
+    founder = models.OneToOneField(Founder, null=True) #who i point to
+
+
+    def __unicode__(self):
+
+        return self.key
+
+
+
+#a random key used in links to take an applicant
+#to their application without needing to create an account
+class AnonTeamKey(models.Model):
+
+    #random characters used as an identifier
+    key = models.CharField(max_length=20, primary_key=True) 
+    team = models.OneToOneField(Team, null=True) #who i point to
 
 
     def __unicode__(self):
