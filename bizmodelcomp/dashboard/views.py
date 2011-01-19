@@ -285,7 +285,7 @@ Sincerely,
 @login_required
 def announce_judging_open(request, comp_url):
 
-    TAG = "judging open"
+    TAG = "Judging open"
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
     if competition.owner != request.user:
@@ -366,7 +366,7 @@ def announce_applications_open(request, comp_url):
     if competition.owner != request.user:
         return HttpResponseRedirect('/no_permissions/')
 
-    TAG = "applications open"
+    TAG = "Applications open"
 
     email = None
     try:

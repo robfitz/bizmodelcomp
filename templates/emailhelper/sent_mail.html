@@ -1,0 +1,42 @@
+{% extends 'dashboard/section.html' %}
+
+{% block section_title %}
+Sent emails & drafts
+{% endblock %}
+
+{% block section_content %}
+
+{% if emails %}
+    <table>
+        <tr>
+            <th>Topic</th>
+            <th>Num recipients</th>
+            <th>Phase</th>
+            <th>Sent on</th>
+        </tr>
+
+        {% for email in emails %}
+
+            <tr>
+                <td>{{ email.tag }}</td>
+                <td>{{ email.recipients|length }}</td>
+                {% if email.phase %}
+                    <td>{{ email.phase }}</td>
+                {% else %}
+                    <td>N/A</td>
+                {% endif %}
+
+                {% if email.sent_on_date %}
+                    <td><a href="/dashboard/email/{{competition.hosted_url}}/archive/{{email.id}}/">{{ email.sent_on_date }}</a></td>
+                {% else %}
+                    <td><a href="/dashboard/email/{{competition.hosted_url}}/confirm/{{email.id}}/">Review & send</a></td>
+                {% endif %}
+
+        {% endfor %}
+
+    </table>
+    {% else %}
+    <br/>
+    {% include 'emailhelper/no_emails_alert.html' %}
+    {% endif %}
+{% endblock %}

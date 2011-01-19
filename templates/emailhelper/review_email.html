@@ -58,55 +58,5 @@ function preview_emails() {
 {% endblock %} 
 
 {% block content %}
-
-    {% load markup %}
-
-    <form action="" method="POST">
-
-        <p>
-            <strong>Subject</strong> {{ subject }}
-            <br/>
-            <strong>From</strong> {{ from_email }}
-        </p>
-
-        <p>
-            <strong>To:</strong>
-            {% for recipient in email.recipients %}
-                <span style="margin-right:12px;">{{recipient}}</span>
-            {% endfor %}
-        </p>
-
-        <p>
-            <strong>Message</strong>
-            <br/>
-            {{ email.message_markdown|markdown }}
-        </p>
-
-        <p>
-            {% if email.sent_on_date %}
-                <a href="javascript:void(0);" onclick="preview_emails()">Review emails</a>
-            {% else %}
-                <a href="javascript:void(0);" onclick="preview_emails()">Preview emails</a>
-            {% endif %}
-        </p>
-
-        {% if email.sent_on_date %}
-        {% else %}
-            <input type="checkbox" id="confirm" name="confirm" />
-            {% if confirm_warning %}
-                <label for="confirm">{{ confirm_warning|safe }}</label>
-            {% else %}
-                <label for="confirm">Click here to confirm you've <a href="javascript:void(0);" onclick="preview_emails()">previewed</a> the emails and are happy sending this message to <strong>{{email.recipients|length}}</strong> recipients.</label>
-
-            {% endif %}
-
-            <input id="submit" type="submit" disabled="disabled" class="button" value="Send emails now">
-
-        {% endif %}
-
-        <br/>
-
-
-    </form>
-
+{% include 'emailhelper/review_email_section.html' %}
 {% endblock %}
