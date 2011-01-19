@@ -1,0 +1,15 @@
+{% extends 'header_base.html' %}
+
+{% block logo %}
+<div style="width:100%">
+    {% if competition.logo %}
+        <a href="{{competition.website}}"><img src="{{competition.logo_url}}" style="border:0px solid black;"></a>
+    {% else %}
+        {{block.super}}
+    {% endif %}
+</div>
+
+{% endblock %}
+
+{% block account_controls %}
+{% endblock %}

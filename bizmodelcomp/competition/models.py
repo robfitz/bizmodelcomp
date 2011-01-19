@@ -23,7 +23,7 @@ class Founder(models.Model):
     user = models.OneToOneField(User, blank=True, null=True)
 
     name = models.CharField(max_length=500, blank=True, null=True) #don't use first/last/etc for multi-cultural reasons
-    email = models.CharField(max_length=255, unique=True)
+    email = models.CharField(max_length=255, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
 
     #isoformat yyyy-mm-dd
@@ -41,20 +41,6 @@ class Founder(models.Model):
     require_authentication = models.BooleanField(default=True)
 
 
-    #get or create randomized anonymous login key
-    def anon_key(self):
-        key = None
-
-        try:
-            key = AnonymousFounderKey.objects.get(founder=self)
-        except:
-            random_key = rand_key()
-            key = AnonymousFounderKey(founder=self, key=random_key)
-            key.save()
-            
-        return key
-
-
     #returns the set of ExtraFounderInfos attached to this Founder as
     #a dictionary of question:answer pairs 
     def extra(self):
@@ -69,6 +55,19 @@ class Founder(models.Model):
         return self.email
 
 
+    #get or create randomized anonymous login key
+    def anon_key(self):
+        key = None
+
+        try:
+            key = AnonFounderKey.objects.get(founder=self)
+        except:
+            random_key = rand_key()
+            key = AnonFounderKey(founder=self, key=random_key)
+            key.save()
+            
+        return key
+
 
 #one lead founder, plus some info about the team and any additional founders
 class Team(models.Model):
@@ -78,6 +77,20 @@ class Team(models.Model):
     other_members = models.ManyToManyField(Founder)
 
     name = models.CharField(max_length="140", default="", blank=True)
+
+
+    #get or create randomized anonymous login key
+    def anon_key(self):
+        key = None
+
+        try:
+            key = AnonTeamKey.objects.get(team=self)
+        except:
+            random_key = rand_key()
+            key = AnonTeamKey(team=self, key=random_key)
+            key.save()
+            
+        return key
 
 
     def members(self):
@@ -100,11 +113,26 @@ class Team(models.Model):
 
 #a random key used in links to take an applicant
 #to their application without needing to create an account
-class AnonymousFounderKey(models.Model):
+class AnonFounderKey(models.Model):
 
     #random characters used as an identifier
     key = models.CharField(max_length=20, primary_key=True) 
-    founder = models.OneToOneField(Founder) #who i point to
+    founder = models.OneToOneField(Founder, null=True) #who i point to
+
+
+    def __unicode__(self):
+
+        return self.key
+
+
+
+#a random key used in links to take an applicant
+#to their application without needing to create an account
+class AnonTeamKey(models.Model):
+
+    #random characters used as an identifier
+    key = models.CharField(max_length=20, primary_key=True) 
+    team = models.OneToOneField(Team, null=True) #who i point to
 
 
     def __unicode__(self):
@@ -568,7 +596,7 @@ class Pitch(models.Model):
     #competition the pitch relates to
     #
     #TODO: DEPRECATED: will be replaced by self.team.owner
-    owner = models.ForeignKey(Founder) 
+    owner = models.ForeignKey(Founder, null=True) 
 
     team = models.ForeignKey(Team, null=True)
 

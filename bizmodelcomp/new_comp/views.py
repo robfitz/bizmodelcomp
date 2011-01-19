@@ -17,6 +17,9 @@ from settings import ACCOUNT_EMAIL_CONFIRM_REQUIRED
 def new(request):
 
     owner = None
+    if request.user.is_authenticated():
+        owner = request.user
+
     if request.user.is_authenticated:
         competition = Competition(name="New competition",
                 hosted_url = rand_key(),
@@ -33,17 +36,21 @@ def new(request):
 
 
 
-APPLICANT_TYPES = ["undergrad", "postgrad", "faculty", "nonacademic"]
-BUSINESS_TYPES = ["web", "social", "green", "medical", "services", "other-ideas"]
+APPLICANT_TYPES = ["Undergrad", "Postgrad", "Faculty", "Non Academic"]
+BUSINESS_TYPES = ["Web", "Social", "Green", "Medical", "Services", "Other Ideas"]
 
 
 def get_tag(name):
 
+    print 'get_tag(%s)' % name
     try:
-        return Tag.objects.get(name=name)
+        tag = Tag.objects.get(name=name)
+        print 'got existing tag: %s' % tag
+        return tag
     except:
         tag = Tag(name=name)
         tag.save()
+        print 'created new tag: %s' % tag
         return tag
 
 

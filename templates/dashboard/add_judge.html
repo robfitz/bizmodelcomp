@@ -1,4 +1,4 @@
-	<form action="." method="POST" class="focus">
+    <form id="add_judge_form" action="/dashboard/phase/{{competition.current_phase.id}}/judges/" method="POST" class="focus">
 
 		<strong>Email of new judge to invite:</strong>
 
@@ -7,3 +7,17 @@
 		<input type="submit" value="Send invitation email" />
 
 	</form>
+
+    <script language="javascript" type="text/javascript">
+
+            $(function() {
+                $("#add_judge_form").submit( function() {
+                    $.post($(this).attr("action"),
+                        $("#add_judge_form").serialize(),
+                        reload_popup);
+                    return false;
+                });
+            });
+
+    </script>
+

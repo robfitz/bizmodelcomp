@@ -1,0 +1,164 @@
+{% extends 'entercompetition/base.html' %}
+
+{% block account_controls %}
+{% endblock %}
+
+{% block content %}
+
+	{{ block.super }}
+
+	<div>
+
+		{% block above_form %}
+		{% endblock %}
+
+	</div>
+
+    {% if alert %}
+        {% include 'dashboard/alerts/alert.html' %}
+    {% endif %}
+
+	<form action="." method="POST" enctype="multipart/form-data" class="focus">
+
+        <div style="width:600px;float:left;margin-top:30px;">
+
+            <h2>Your info</h2>
+
+            {% if founder %}
+
+                <span class="label">
+                    <label for="email">Your email:</label>
+                </span>
+                <input disabled name="email" id="email" class="large" value="{{founder.email}}" />
+                <br/>
+
+            {% else %}
+
+                <span class="label">
+                    <label for="email">Your email:</label>
+                </span>
+                <input name="email" id="email" class="large" value="{{founder.email}}" />
+                <br/>
+
+            {% endif %}
+
+            {% if founder %}
+            Currently logged in as {{founder}}. Not you? <a href="/accounts/logout/?next=/a/{{competition.hosted_url}}/">Click here to log out</a>.
+            {% else %}
+            Already saved an application?
+            <a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to retrieve & edit it</a>.
+            {% endif %}
+            <br/>
+            <br/>
+
+            <span class="label">
+                <label for="name">Your name:</label>
+            </span>
+            <input name="name" id="name" class="large" value="{{name}}" />
+            <br/>
+
+            <span class="label">
+                <label for="team_name">Team name:</label>
+            </span>
+            <input name="team_name" id="team_name" class="large" value="{{team_name}}" />
+            <br/>
+
+            {% if competition.application_requirements.institutions.count > 0 %}
+                <span class="label">
+                    <label for="institution">Institution:</label>
+                </span>
+                <select name="institution">
+                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    {% for tag in competition.application_requirements.institutions.all %}
+                        <option value="{{tag}}">{{tag}}</option>
+                    {% endfor %}
+                    <option value="Other">Other</option>
+                </select>
+                <br/>
+            {% endif %}
+
+            {% if competition.application_requirements.applicant_types.count > 0 %}
+                <span class="label">
+                    <label for="applicant_types">Role:</label>
+                </span>
+                <select name="applicant_types">
+                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    {% for tag in competition.application_requirements.applicant_types.all %}
+                        <option value="{{tag}}">{{tag}}</option>
+                    {% endfor %}
+                    <option value="Other">Other</option>
+                </select>
+                <br/>
+            {% endif %}
+
+            {% if competition.application_requirements.locations.count > 0 %}
+                <span class="label">
+                    <label for="locations">Location:</label>
+                </span>
+                <select name="locations">
+                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    {% for tag in competition.application_requirements.locations.all %}
+                        <option value="{{tag}}">{{tag}}</option>
+                    {% endfor %}
+                    <option value="Other">Other</option>
+                </select>
+                <br/>
+            {% endif %}
+
+        </div>
+
+        <div class="hr" style="height:30px;">&nbsp;</div>
+
+        <h2 style="float:left;">Other team members</h2>
+
+        <div style="float:left;width:100%;" id="teammates">
+
+            <a id="add_teammate_button" style="float:left;" href="javascript:void(0);" onclick="add_teammate()" class="button">Add teammate</a>
+
+        </div>
+
+        <div class="hidden teammate" id="teammate_template">
+
+            <span class="label">
+                Name:
+            </span>
+            <input id="teammate-name"></input>
+
+            <br/>
+
+            <span class="label">
+                Email:
+            </span>
+            <input id="teammate-email"></input>
+
+        </div>
+
+
+        <div class="hr" style="height:30px;">&nbsp;</div>
+
+        <div style="float:left;">
+            <input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
+            <p>
+            You can update your pitch until the application deadline.
+            </p>
+        </div>
+	</form>
+
+    <script language="javascript" type="text/javascript">
+
+        function add_teammate() {
+
+            var num = $("#teammates").children().length;
+            var teammate = $("#teammate_template").clone();
+
+            teammate.attr("id", "teammate_" + num);
+            teammate.removeClass("hidden");
+            teammate.children("#teammate-name").attr("name", "teammate-name_" + num);
+            teammate.children("#teammate-email").attr("name", "teammate-email" + num);
+
+            $("#add_teammate_button").before(teammate);
+        }
+
+    </script>
+
+{% endblock %}
