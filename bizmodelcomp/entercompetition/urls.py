@@ -24,11 +24,6 @@ urlpatterns = patterns('',
     (r'^pitch/(?P<competition_url>[-_a-zA-Z0-9]{1,50})/$',
          'entercompetition.views.edit_pitch'),
 
-    #/apply/pitch_saved/sc2010/
-    #redirect from form after saving a pitch
-    (r'^pitch_saved/(?P<comp_url>[-_a-zA-Z0-9]{1,50})/$',
-         'entercompetition.views.submit_pitch_2'),
-
     #/apply/load/
     #show info about getting back to an old version of an application,
     #and allow them to send an email reminder w/ the unique link
