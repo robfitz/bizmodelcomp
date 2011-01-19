@@ -1,65 +1,6 @@
-{% extends 'base.html' %}
-
-{% block breadcrumbs %}
-{% endblock %}
-
-{% block logo %}
-    {% if competition.logo %}
-        <a href="{{competition.website}}"><img src="{{competition.logo_url}}" style="border:0px solid black;"></a>
-    {% else %}
-        {{block.super}}
-    {% endif %}
-{% endblock %}
-
-{% block header_title %}
-Apply to {{ competition }}
-{% endblock %}
+{% extends 'entercompetition/base.html' %}
 
 {% block account_controls %}
-{% endblock %}
-
-{% block footer %}
-{% endblock %}
-
-{% block ready_script %}
-
-	$('.change_file').click(function() {
-		var upload_id = ($(this).attr('id')).substr("change_file_".length);
-		//alert('upload id: ' + upload_id);
-		//alert($('#blank_upload_' + upload_id).attr('id'));
-		$('#blank_upload_' + upload_id).show();
-		$('#done_upload_' + upload_id).hide();
-	});
-
-	$('#recovery').click(function() {
-		if ($('#email').val() && $('#email').val() != "") {
-			$('#recovery').attr('href','/apply/load/{{competition.hosted_url}}/?e=' + $('#email').val());
-		}
-	});
-
-{% endblock %}
-
-{% block style %}
-
-.label {
-    width:110px;
-    font-size:16px;
-    font-weight:bold;
-    float:left;
-}
-
-input {
-width:400px;
-}
-
-select {
-    font-size:18px;
-}
-
-h2 {
-    margin-bottom:12px;
-}
-
 {% endblock %}
 
 {% block content %}
