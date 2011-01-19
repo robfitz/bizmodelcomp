@@ -88,6 +88,7 @@
                     {% endfor %}
                     <option value="Other">Other</option>
                 </select>
+                <br/>
             {% endif %}
 
             {% if competition.application_requirements.locations.count > 0 %}
@@ -101,40 +102,63 @@
                     {% endfor %}
                     <option value="Other">Other</option>
                 </select>
+                <br/>
             {% endif %}
 
         </div>
 
         <div class="hr" style="height:30px;">&nbsp;</div>
-        
-        <div style="float:left;width:100%;clear:both;padding-bottom:12px;">
 
-            <h2>Your business</h2>
+        <h2 style="float:left;">Other team members</h2>
 
-            {% if competition.application_requirements.business_types.count > 0 %}
+        <div style="float:left;width:100%;" id="teammates">
 
-                <span class="label">
-                    <label for="business_types">Business Type:</label>
-                </span>
-
-                <select name="applicant_types">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
-                    {% for tag in competition.application_requirements.applicant_types.all %}
-                        <option value="{{tag}}">{{tag}}</option>
-                    {% endfor %}
-                    <option value="Other">Other</option>
-                </select>
-
-            {% endif %}
+            <a id="add_teammate_button" style="float:left;" href="javascript:void(0);" onclick="add_teammate()" class="button">Add teammate</a>
 
         </div>
 
+        <div class="hidden teammate" id="teammate_template">
+
+            <span class="label">
+                Name:
+            </span>
+            <input id="teammate-name"></input>
+
+            <br/>
+
+            <span class="label">
+                Email:
+            </span>
+            <input id="teammate-email"></input>
+
+        </div>
+
+
+        <div class="hr" style="height:30px;">&nbsp;</div>
+
         <div style="float:left;">
-            <input type="submit" style="font-size:18px;" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
+            <input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
             <p>
             You can update your pitch until the application deadline.
             </p>
         </div>
 	</form>
+
+    <script language="javascript" type="text/javascript">
+
+        function add_teammate() {
+
+            var num = $("#teammates").children().length;
+            var teammate = $("#teammate_template").clone();
+
+            teammate.attr("id", "teammate_" + num);
+            teammate.removeClass("hidden");
+            teammate.children("#teammate-name").attr("name", "teammate-name_" + num);
+            teammate.children("#teammate-email").attr("name", "teammate-email" + num);
+
+            $("#add_teammate_button").before(teammate);
+        }
+
+    </script>
 
 {% endblock %}
