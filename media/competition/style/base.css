@@ -47,6 +47,7 @@ body, #header, #footer {
     float:left;
 	padding:0px;
 	margin:0px;
+    width:100%;
 }
 #content_outer {
     width:780px;
