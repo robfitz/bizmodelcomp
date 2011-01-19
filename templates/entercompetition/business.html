@@ -81,8 +81,6 @@ h2 {
 
         <div style="width:600px;float:left;margin-top:30px;">
 
-            <h2>Your info</h2>
-
             {% if founder %}
 
                 <span class="label">
@@ -91,75 +89,7 @@ h2 {
                 <input disabled name="email" id="email" class="large" value="{{founder.email}}" />
                 <br/>
 
-            {% else %}
-
-                <span class="label">
-                    <label for="email">Your email:</label>
-                </span>
-                <input name="email" id="email" class="large" value="{{founder.email}}" />
-                <br/>
-
-            {% endif %}
-
-            {% if founder %}
             Currently logged in as {{founder}}. Not you? <a href="/accounts/logout/?next=/a/{{competition.hosted_url}}/">Click here to log out</a>.
-            {% else %}
-            Already saved an application?
-            <a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to retrieve & edit it</a>.
-            {% endif %}
-            <br/>
-            <br/>
-
-            <span class="label">
-                <label for="name">Your name:</label>
-            </span>
-            <input name="name" id="name" class="large" value="{{name}}" />
-            <br/>
-
-            <span class="label">
-                <label for="team_name">Team name:</label>
-            </span>
-            <input name="team_name" id="team_name" class="large" value="{{team_name}}" />
-            <br/>
-
-            {% if competition.application_requirements.institutions.count > 0 %}
-                <span class="label">
-                    <label for="institution">Institution:</label>
-                </span>
-                <select name="institution">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
-                    {% for tag in competition.application_requirements.institutions.all %}
-                        <option value="{{tag}}">{{tag}}</option>
-                    {% endfor %}
-                    <option value="Other">Other</option>
-                </select>
-                <br/>
-            {% endif %}
-
-            {% if competition.application_requirements.applicant_types.count > 0 %}
-                <span class="label">
-                    <label for="applicant_types">Role:</label>
-                </span>
-                <select name="applicant_types">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
-                    {% for tag in competition.application_requirements.applicant_types.all %}
-                        <option value="{{tag}}">{{tag}}</option>
-                    {% endfor %}
-                    <option value="Other">Other</option>
-                </select>
-            {% endif %}
-
-            {% if competition.application_requirements.locations.count > 0 %}
-                <span class="label">
-                    <label for="locations">Location:</label>
-                </span>
-                <select name="locations">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
-                    {% for tag in competition.application_requirements.locations.all %}
-                        <option value="{{tag}}">{{tag}}</option>
-                    {% endfor %}
-                    <option value="Other">Other</option>
-                </select>
             {% endif %}
 
         </div>
@@ -178,7 +108,7 @@ h2 {
 
                 <select name="applicant_types">
                     <option>&lt;&lt; select one &gt;&gt;</option>
-                    {% for tag in competition.application_requirements.applicant_types.all %}
+                    {% for tag in competition.application_requirements.business_types.all %}
                         <option value="{{tag}}">{{tag}}</option>
                     {% endfor %}
                     <option value="Other">Other</option>

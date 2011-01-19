@@ -895,7 +895,9 @@ def list_judges(request, phase_id):
 
         email = request.POST["invite_list"]
 
-        if len(JudgeInvitation.objects.filter(competition__id=competition_id).filter(email=email)) != 0:
+        print 'inviting judge email: %s' % email
+
+        if len(JudgeInvitation.objects.filter(competition__id=competition.id).filter(email=email)) != 0:
             #if we already have a judge for this competition with that email, alert
             #the organizer that nothing needs to happen
             error = "You've already invited that judge."
@@ -904,7 +906,9 @@ def list_judges(request, phase_id):
             #to the system and invite them
             invite = JudgeInvitation(competition=competition,
                                      email=email)
+            print 'created invitation: %s' % invite
             invite.save()
+            print 'saved'
             
             #tell them they're a winner
             judging_link = request.build_absolute_uri("/judge/")

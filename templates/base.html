@@ -44,7 +44,9 @@
 		{% block script %}
 		{% endblock %}
 
-		$(document).ready(function(){
+        var last_popup_url = "";
+
+		$(function(){
 
 			$('#dialog').jqm();
 			$('button').button();
@@ -65,6 +67,8 @@
          * can be nested once with a popup opening another popup */
         function popup(url) {
 
+            last_popup_url = url;
+
             var dialog = "dialog";
 
             if ( $("#dialog").css("display") != "none" ) {
@@ -81,6 +85,8 @@
          * and keep the JS & CSS separate */
         function popup_iframe(url) {
 
+            last_popup_url = url;
+
             var dialog = "dialog";
 
             if ( $("#dialog").css("display") != "none" ) {
@@ -90,6 +96,17 @@
             $("#" + dialog).jqm();
             $("#" + dialog).jqmShow();
             $("#" + dialog).append("<iframe src='" + url + "'>Loading...</iframe>");
+        }
+
+        /** reload the current top popup layer to pull the latest content */
+        function reload_popup() {
+            if ($("#dialog_2").is(":visible")) {
+                $("#dialog_2").jqmHide();
+            }
+            else {
+                $("#dialog").jqmHide();
+            }
+            popup(last_popup_url);
         }
 
     </script>

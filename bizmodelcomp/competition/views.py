@@ -28,26 +28,26 @@ def index(request):
 
 
 def create_new_comp_for_user(user):
-	key = None
-	while True: 
+    key = None
+    while True: 
 		#find a unique url for the competition
 		key = rand_key(6)
 		try: 	Competition.objects.get(hosted_url=key)
 		except:	break
 			
-	competition = Competition(owner=user, hosted_url=key)
-	competition.save()
-	competition.current_phase = Phase(competition=competition)
-	competition.current_phase.save()
-	competition.save()
+    competition = Competition(owner=user, hosted_url=key)
+    competition.save()
+    competition.current_phase = Phase(competition=competition)
+    competition.current_phase.save()
+    competition.save()
 
-       	if not user.get_profile():
+    if not user.get_profile():
 	    #ensure old accounts have a profile
 	    profile = UserProfile(user=request.user)
 	    profile.selected_competition = competition
 	    profile.save()
 
-	return competition
+    return competition
 
 
 

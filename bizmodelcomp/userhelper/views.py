@@ -237,7 +237,10 @@ def loginUser(request):
 
 def logoutUser(request):
     auth.logout(request)
-    return HttpResponseRedirect('/') #back to the index
+
+    next = request.GET.get("next", "/") 
+
+    return HttpResponseRedirect(next)
 
 
 
