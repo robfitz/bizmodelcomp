@@ -49,7 +49,7 @@ Apply to {{ competition }}
 }
 
 input {
-width:400px;
+    width:400px;
 }
 
 select {
@@ -58,6 +58,26 @@ select {
 
 h2 {
     margin-bottom:12px;
+}
+
+.h3 {
+    background-color:#eee;
+    width:616px;
+    float:left;
+    padding:0px 8px;
+    margin:0px 0px 8px 0px;
+    border-top:1px solid gray;
+}
+.h3 h3 {
+    padding:4px 0px;
+    margin:0px 0px;
+}
+
+.question_section {
+    background-color:#fff;
+    padding:0px 8px 20px 8px;
+    float:left;
+    clear:both;
 }
 
 {% endblock %}
@@ -82,29 +102,18 @@ h2 {
         <div style="width:600px;float:left;margin-top:30px;">
 
             {% if founder %}
-
-                <span class="label">
-                    <label for="email">Your email:</label>
-                </span>
-                <input disabled name="email" id="email" class="large" value="{{founder.email}}" />
-                <br/>
-
-            Currently logged in as {{founder}}. Not you? <a href="/accounts/logout/?next=/a/{{competition.hosted_url}}/">Click here to log out</a>.
+            Currently logged in as <strong>{{founder}}</strong>. Not you? <a href="/accounts/logout/?next=/a/{{competition.hosted_url}}/">Click here to log out</a>.
             {% endif %}
 
         </div>
 
         <div class="hr" style="height:30px;">&nbsp;</div>
         
-        <div style="float:left;width:100%;clear:both;padding-bottom:12px;">
-
-            <h2>Your business</h2>
+        <div style="float:left;width:100%;clear:both;padding-left:8px;padding-bottom:12px;">
 
             {% if competition.application_requirements.business_types.count > 0 %}
 
-                <span class="label">
-                    <label for="business_types">Business Type:</label>
-                </span>
+                <strong>Business Type:</strong>
 
                 <select name="applicant_types">
                     <option>&lt;&lt; select one &gt;&gt;</option>
@@ -122,7 +131,7 @@ h2 {
 
 			{% for upload in uploads %}
 
-            <div style="float:left;width:100%;clear:both;">
+            <div style="float:left;width:100%;clear:both;padding-left:8px;">
 				<p>
 
                     <strong>{{upload.prompt}}</strong>
@@ -143,6 +152,7 @@ h2 {
             </div>
 
 			{% endfor %}
+            </div>
 
             <div class="hr" style="height:30px;">&nbsp;</div>
 
@@ -152,44 +162,61 @@ h2 {
 
 			{% block questions %}
 
+                <div class="question_section"> <!-- begin initial question section, which may be empty -->
 				{% for question in questions %}
 
 					{% if question.is_hidden_from_applicants %}
 					{% else %}
-						<div style="float:left;clear:both;">
-						{% if question.choices %}
-							<strong class="prompt">{{ question.prompt }}</strong>
-							<div class="hr">&nbsp;</div>
-							<select name="question_{{question.pk}}">
-							{% for choice in question.choices %}
-								{{question.answer.answer}} {{choice}}
-								<option {% ifequal question.answer.answer choice %}selected="selected"{% endifequal%}>{{choice}}</option>
-							{% endfor %}
-							</select>
-							<p>
-							</p>
-							<p>
-							</p>
-						{% else %}
+                        {% if question.is_divider %}
 
-							{% ifequal question.field_rows 1 %}
+                            
+                            </div> <!-- end previous question_section -->
+                            <div class="h3">
+                                <h3 style="float:left;clear:both;">{{question.prompt}}</h3>
+                            </div>
+                            <div class="question_section" style=""> <!-- begin next question_section -->
 
-							<strong class="prompt">{{ question.prompt }}</strong>
-							<div class="hr">&nbsp;</div>
-							<input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+                        {% else %}
+                            <div style="float:left;clear:both;">
 
-							{% else %}
-							<strong class="prompt">{{ question.prompt }}</strong>
-							<div class="hr">&nbsp;</div>
-							<textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
-							{% endifequal %}
+                                {% if question.choices %}
 
-						{% endif %}
-						</div>
+                                    <strong class="prompt">{{ question.prompt }}</strong>
+                                    <div class="hr">&nbsp;</div>
+                                    <select name="question_{{question.pk}}">
+                                    {% for choice in question.choices %}
+                                        {{question.answer.answer}} {{choice}}
+                                        <option {% ifequal question.answer.answer choice %}selected="selected"{% endifequal%}>{{choice}}</option>
+                                    {% endfor %}
+                                    </select>
+                                    <p>
+                                    </p>
+                                    <p>
+                                    </p>
 
-					{% endif %}
+                                {% else %}
 
-				{% endfor %}
+                                    {% ifequal question.field_rows 1 %}
+
+                                    <strong class="prompt">{{ question.prompt }}</strong>
+                                    <div class="hr">&nbsp;</div>
+                                    <input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+
+                                    {% else %}
+                                    <strong class="prompt">{{ question.prompt }}</strong>
+                                    <div class="hr">&nbsp;</div>
+                                    <textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+                                    {% endifequal %}
+
+                                {% endif %} <!-- if question.choices -->
+                            </div>
+                        {% endif %} <!-- if question.is_divider -->
+
+                    {% endif %} <!-- if question.is_hidden_from_applicants -->
+
+                {% endfor %} <!-- for question in questions -->
+
+                    </div>
 
 				<div class="hr" style="height:30px">&nbsp;</div>
 

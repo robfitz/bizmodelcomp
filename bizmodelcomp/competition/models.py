@@ -693,6 +693,9 @@ class PitchQuestion(models.Model):
     #if set to a non-blank string, judge is asked to write freeform text as feedback
     judge_feedback_prompt = models.CharField(default="", max_length=140)
 
+    #if set to true, ignores everything except the prompt and uses it as a visual divider
+    is_divider = models.BooleanField(default=False)
+
 
     class Meta:
         ordering = ['order']
