@@ -327,6 +327,7 @@ def submit_business(request, comp_url):
     alert = None
     pitch = None
     team = None
+    business_types = None
 
     if not founder:
         return HttpResponseRedirect("/a/%s/" % comp_url)
@@ -353,30 +354,15 @@ def submit_business(request, comp_url):
         save_pitch_answers_uploads(request, pitch)
         print 'saved answers and uploads'
 
-        #if we've already got a founder, we don't let them change the email field
-        if not founder:
-            email = request.POST.get("email")
-            print 'no founder, email=%s' % email
-
-            if email and len(email.split("@")) == 2 and len(email.split(".")) >= 2:
-                is_validated = True
-                print 'email validated'
-            else:
-                is_validated = False
-                alert = "Your application has __not__ yet been saved. Please enter your team information with a valid email address and try again."
-                print 'email failed validation'
-
-        name = request.POST.get("name")
-
-        if competition.application_requirements().institutions.count() > 0:
-            institution = request.POST.get("institution")
         if competition.application_requirements().applicant_types.count() > 0:
-            applicant_types = request.POST.get("applicant_types")
-
-        team_name = request.POST.get("team_name")
-
-        if competition.application_requirements().locations.count() > 0:
-            locations = request.POST.get("locations")
+            business_type = request.POST.get("business_types")
+            try:
+                tag = Tag.objects.get(name=business_type)
+            except:
+                tag = Tag(name = business_type)
+            for t in team.business_types.all():
+                team.business_types.remove(t)
+            team.business_types.add(tag)
 
         if not alert:
             alert = "Your application has been saved. You may continue to edit it until the deadline. If you switch computers, you'll need to re-verify your identity by clicking on the link we've emailed to you."

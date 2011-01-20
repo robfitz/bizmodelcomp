@@ -118,7 +118,7 @@ h2 {
                 <select name="business_types">
                     <option>&lt;&lt; select one &gt;&gt;</option>
                     {% for tag in competition.application_requirements.business_types.all %}
-                        <option value="{{tag}}">{{tag}}</option>
+                    <option value="{{tag}}" {% for t in team.business_types.all %}{% if t == tag %}selected{% endif %}{% endfor %}>{{tag|capfirst}}</option>
                     {% endfor %}
                     <option value="Other">Other</option>
                 </select>

@@ -78,6 +78,8 @@ class Team(models.Model):
 
     name = models.CharField(max_length="140", default="", blank=True)
 
+    business_types = models.ManyToManyField(Tag, related_name="team_business_types")
+
 
     #get or create randomized anonymous login key
     def anon_key(self):
