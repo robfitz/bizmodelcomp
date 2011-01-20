@@ -535,63 +535,6 @@ def submit_pitch(request, competition_url):
 
 
 
-def edit_pitch(request, competition_url, phase_id=None):
-
-    competition = Competition.objects.get(hosted_url=competition_url)
-    phase = None
-    pitch = None
-
-    founder = get_founder(request)
-
-    if not founder:
-        #we don't know who is applying, so we'll display an extra email field
-        #on the application form. This covers two cases:
-        #
-        #1) we've imported applicants from an external source (like a csv) so
-        #   we have their data stored as ExternalFounder objects. If they enter
-        #   an email that is in an ExternalFounder, we merge the data.
-        #
-        #2) they've snuck directly to this URL. if we have no record of the email
-        #   submitted, we'll then show them the application widget to collect rest
-        #   of the personal info.
-        pass
-
-    if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
-    else: phase = competition.current_phase 
-
-    if phase.is_judging_enabled and not request.GET.get('ignorejudging', False):
-        #sorry, applications are closed :(((
-        message = """Sorry, applications for this phase of the competition are closed and judging has begun."""
-
-        return render_to_response('util/message.html', locals())
-
-
-    try: 
-        pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
-    except: 
-        pitch = None
-        
-    questions = phase.questions()
-    uploads = phase.uploads()
-    
-    for question in questions:
-        #render existing answers
-        try:
-            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-            
-        except:
-            question.answer = ""
-            
-    for upload in uploads:
-        #render existing uploads
-        try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
-        except: upload.file = None
-
-    #return render_to_response(competition.template_pitch, locals())
-    return render_to_response('entercompetition/pitch_form.html', locals())
-
-
-
 def handle_uploaded_file(request, f, upload, pitch):
 
     upload_path = '%suploads/' % MEDIA_ROOT
@@ -677,15 +620,6 @@ def handle_uploaded_file(request, f, upload, pitch):
             scribd_file_data.delete()
         except:
             pass
-
-#a hosted microsite to accept contest applications
-def applicationMicrosite(request, competition_url):
-
-    base_url = "http://%s" % request.get_host()
-    
-    competition = Competition.objects.get(hosted_url=competition_url)
-
-    return render_to_response('entercompetition/application_microsite.html', locals())
 
 
 

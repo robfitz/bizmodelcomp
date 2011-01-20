@@ -115,7 +115,7 @@ h2 {
 
                 <strong>Business Type:</strong>
 
-                <select name="applicant_types">
+                <select name="business_types">
                     <option>&lt;&lt; select one &gt;&gt;</option>
                     {% for tag in competition.application_requirements.business_types.all %}
                         <option value="{{tag}}">{{tag}}</option>
