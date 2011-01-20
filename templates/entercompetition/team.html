@@ -43,7 +43,7 @@
             {% endif %}
 
             {% if founder %}
-            Currently logged in as {{founder}}. Not you? <a href="/accounts/logout/?next=/a/{{competition.hosted_url}}/">Click here to log out</a>.
+            Currently logged in as <strong>{{founder}}</strong>. Not you? <a href="/accounts/logout/?next=/a/{{competition.hosted_url}}/">Click here to log out</a>.
             {% else %}
             Already saved an application?
             <a id="recovery" href="/apply/load/{{competition.hosted_url}}/">Click here to retrieve & edit it</a>.
@@ -70,7 +70,7 @@
                 <select name="institution">
                     <option>&lt;&lt; select one &gt;&gt;</option>
                     {% for tag in competition.application_requirements.institutions.all %}
-                        <option value="{{tag}}">{{tag}}</option>
+                        <option value="{{tag}}">{{tag|capfirst}}</option>
                     {% endfor %}
                     <option value="Other">Other</option>
                 </select>
@@ -84,7 +84,7 @@
                 <select name="applicant_types">
                     <option>&lt;&lt; select one &gt;&gt;</option>
                     {% for tag in competition.application_requirements.applicant_types.all %}
-                        <option value="{{tag}}">{{tag}}</option>
+                        <option value="{{tag}}">{{tag|capfirst}}</option>
                     {% endfor %}
                     <option value="Other">Other</option>
                 </select>
@@ -98,7 +98,7 @@
                 <select name="locations">
                     <option>&lt;&lt; select one &gt;&gt;</option>
                     {% for tag in competition.application_requirements.locations.all %}
-                        <option value="{{tag}}">{{tag}}</option>
+                        <option value="{{tag}}">{{tag|capfirst}}</option>
                     {% endfor %}
                     <option value="Other">Other</option>
                 </select>

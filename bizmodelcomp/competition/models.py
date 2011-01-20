@@ -78,6 +78,8 @@ class Team(models.Model):
 
     name = models.CharField(max_length="140", default="", blank=True)
 
+    business_types = models.ManyToManyField(Tag, related_name="team_business_types")
+
 
     #get or create randomized anonymous login key
     def anon_key(self):
@@ -692,6 +694,9 @@ class PitchQuestion(models.Model):
 
     #if set to a non-blank string, judge is asked to write freeform text as feedback
     judge_feedback_prompt = models.CharField(default="", max_length=140)
+
+    #if set to true, ignores everything except the prompt and uses it as a visual divider
+    is_divider = models.BooleanField(default=False)
 
 
     class Meta:
