@@ -366,8 +366,6 @@ def submit_business(request, comp_url):
                     tag = Tag(name=business_type)
                     tag.save()
                 team.business_types.add(tag)
-            except:
-                pass
 
         if not alert:
             alert = "Your application has been saved. You may continue to edit it until the deadline. If you switch computers, you'll need to re-verify your identity by clicking on the link we've emailed to you."
