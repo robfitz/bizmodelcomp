@@ -356,6 +356,7 @@ def submit_business(request, comp_url):
 
         if competition.application_requirements().applicant_types.count() > 0:
             business_type = request.POST.get("business_types")
+            tag = None
             try:
                 tag = Tag.objects.get(name=business_type)
             except:
