@@ -203,11 +203,19 @@ h2 {
                                     {% ifequal question.field_rows 1 %}
 
                                     <strong class="prompt">{{ question.prompt }}</strong>
+                                    {% if question.extra_info %}
+                                    <br/>
+                                    {{ question.extra_info }}
+                                    {% endif %}
                                     <div class="hr">&nbsp;</div>
                                     <input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 
                                     {% else %}
                                     <strong class="prompt">{{ question.prompt }}</strong>
+                                    {% if question.extra_info %}
+                                    <br/>
+                                    <div style="float:left;">{{ question.extra_info }}</div>
+                                    {% endif %}
                                     <div class="hr">&nbsp;</div>
                                     <textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
                                     {% endifequal %}
