@@ -327,6 +327,7 @@ def submit_business(request, comp_url):
     alert = None
     pitch = None
     team = None
+    business_types = None
 
     if not founder:
         return HttpResponseRedirect("/a/%s/" % comp_url)
@@ -353,30 +354,15 @@ def submit_business(request, comp_url):
         save_pitch_answers_uploads(request, pitch)
         print 'saved answers and uploads'
 
-        #if we've already got a founder, we don't let them change the email field
-        if not founder:
-            email = request.POST.get("email")
-            print 'no founder, email=%s' % email
-
-            if email and len(email.split("@")) == 2 and len(email.split(".")) >= 2:
-                is_validated = True
-                print 'email validated'
-            else:
-                is_validated = False
-                alert = "Your application has __not__ yet been saved. Please enter your team information with a valid email address and try again."
-                print 'email failed validation'
-
-        name = request.POST.get("name")
-
-        if competition.application_requirements().institutions.count() > 0:
-            institution = request.POST.get("institution")
         if competition.application_requirements().applicant_types.count() > 0:
-            applicant_types = request.POST.get("applicant_types")
-
-        team_name = request.POST.get("team_name")
-
-        if competition.application_requirements().locations.count() > 0:
-            locations = request.POST.get("locations")
+            business_type = request.POST.get("business_types")
+            try:
+                tag = Tag.objects.get(name=business_type)
+            except:
+                tag = Tag(name = business_type)
+            for t in team.business_types.all():
+                team.business_types.remove(t)
+            team.business_types.add(tag)
 
         if not alert:
             alert = "Your application has been saved. You may continue to edit it until the deadline. If you switch computers, you'll need to re-verify your identity by clicking on the link we've emailed to you."
@@ -535,63 +521,6 @@ def submit_pitch(request, competition_url):
 
 
 
-def edit_pitch(request, competition_url, phase_id=None):
-
-    competition = Competition.objects.get(hosted_url=competition_url)
-    phase = None
-    pitch = None
-
-    founder = get_founder(request)
-
-    if not founder:
-        #we don't know who is applying, so we'll display an extra email field
-        #on the application form. This covers two cases:
-        #
-        #1) we've imported applicants from an external source (like a csv) so
-        #   we have their data stored as ExternalFounder objects. If they enter
-        #   an email that is in an ExternalFounder, we merge the data.
-        #
-        #2) they've snuck directly to this URL. if we have no record of the email
-        #   submitted, we'll then show them the application widget to collect rest
-        #   of the personal info.
-        pass
-
-    if phase_id: phase = Phase.objects.get(pk=phase_id) #requested specific phase
-    else: phase = competition.current_phase 
-
-    if phase.is_judging_enabled and not request.GET.get('ignorejudging', False):
-        #sorry, applications are closed :(((
-        message = """Sorry, applications for this phase of the competition are closed and judging has begun."""
-
-        return render_to_response('util/message.html', locals())
-
-
-    try: 
-        pitch = Pitch.objects.filter(owner=founder).get(phase=phase)
-    except: 
-        pitch = None
-        
-    questions = phase.questions()
-    uploads = phase.uploads()
-    
-    for question in questions:
-        #render existing answers
-        try:
-            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
-            
-        except:
-            question.answer = ""
-            
-    for upload in uploads:
-        #render existing uploads
-        try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)
-        except: upload.file = None
-
-    #return render_to_response(competition.template_pitch, locals())
-    return render_to_response('entercompetition/pitch_form.html', locals())
-
-
-
 def handle_uploaded_file(request, f, upload, pitch):
 
     upload_path = '%suploads/' % MEDIA_ROOT
@@ -677,15 +606,6 @@ def handle_uploaded_file(request, f, upload, pitch):
             scribd_file_data.delete()
         except:
             pass
-
-#a hosted microsite to accept contest applications
-def applicationMicrosite(request, competition_url):
-
-    base_url = "http://%s" % request.get_host()
-    
-    competition = Competition.objects.get(hosted_url=competition_url)
-
-    return render_to_response('entercompetition/application_microsite.html', locals())
 
 
 

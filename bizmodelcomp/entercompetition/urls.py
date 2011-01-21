@@ -14,16 +14,6 @@ urlpatterns = patterns('',
     (r'^enter_competition/(?P<competition_url>[-_a-zA-Z0-9]{1,50})/$',
          'entercompetition.views.applyToCompetition'),    
 
-    #/apply/sc2010.html
-    #a hosted entry form for collecting applicant personal details
-    (r'^(?P<competition_url>[-_a-zA-Z0-9]{1,50}).html$',
-         'entercompetition.views.applicationMicrosite'),
-
-    #/apply/pitch/sc2010
-    #form where applicant uploads files & fills in answers
-    (r'^pitch/(?P<competition_url>[-_a-zA-Z0-9]{1,50})/$',
-         'entercompetition.views.edit_pitch'),
-
     #/apply/load/
     #show info about getting back to an old version of an application,
     #and allow them to send an email reminder w/ the unique link
