@@ -182,6 +182,10 @@ h2 {
                                 {% if question.choices %}
 
                                     <strong class="prompt">{{ question.prompt }}</strong>
+                                    {% if question.extra_info %}
+                                    <br/>
+                                    {{ question.extra_info }}
+                                    {% endif %}
                                     <div class="hr">&nbsp;</div>
                                     <select name="question_{{question.pk}}">
                                     {% for choice in question.choices %}

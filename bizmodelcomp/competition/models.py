@@ -677,6 +677,9 @@ class PitchQuestion(models.Model):
     #instructions for the user
     prompt = models.CharField(max_length=1000, default="", blank=True)
 
+    #optional extra instructions for user
+    extra_info = models.CharField(max_length=1000, default="", blank=True, null=True)
+
     #string of choices delimited with newlines. no choices means it's a
     #free answer text field. 1 choice is invalid. 2 choices of "True\nFalse"
     #is a boolean checkbox. 2-4 choices are radio buttons. 5 or more is a dropdown.
