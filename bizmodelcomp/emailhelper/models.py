@@ -101,19 +101,13 @@ class Bulk_email(models.Model):
 
             #TODO: use string.parse(format_string) instead of this manual replacing
             for sub_val in Sub_val.objects.filter(email=self):
-                print 'looking @ sub_val: %s' % sub_val.key
                 try:
                     val = Val.objects.get(order=i, sub_val=sub_val).val
-                    print '    found val: %s' % val
                 except: val = ""
 
                 subs[sub_val.key].append(val)
 
                 message["body"] = string.replace(message["body"], sub_val.key, val)
-                print '    replaced in body'
-                print message["body"]
-                print ''
-                print ''
         
 
             messages.append(message) 
@@ -128,9 +122,6 @@ class Bulk_email(models.Model):
 
         for address in self.recipient_addresses.all():
             recipient_emails.append(address.address)
-            print 'recipient: %s' % address.address
-
-        print 'all recips: %s' % recipient_emails
 
         return recipient_emails
 
