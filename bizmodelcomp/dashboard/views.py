@@ -311,14 +311,14 @@ Hello,
 
 Judging for %s has begun. We have %s applications to judge, which you can view here:
 
-%s
+http://www.nvana.com/judge/%s/
 
 When you press the 'start judging' button you'll be automatically provided with the next unjudged plan. Alternately, you can view the full list of pitches to select a particular one.
 
 Thanks very much for the help.
 
 %s team
-""" % (competition.name, Pitch.objects.filter(phase=competition.current_phase).count(), 'http://www.nvana.com/judge/', competition.name)
+""" % (competition.name, Pitch.objects.filter(phase=competition.current_phase).count(), competition.hosted_url, competition.name)
     
         recipients = []
         #send to all judges from this phase
@@ -390,7 +390,7 @@ def announce_applications_open(request, comp_url):
 
 Applications to __%s__ are now open. You may apply at the following link:
 
-http://www.nvana.com/%s/
+http://www.nvana.com/a/%s/
 
 You'll be able to submit and revise your application until __%s__. Only one person per team needs to submit an application. 
 
