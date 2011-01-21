@@ -29,6 +29,15 @@ class Founder(models.Model):
     #isoformat yyyy-mm-dd
     birth = models.CharField(max_length=10, blank=True, null=True) #representation of a datetime
 
+    #undergard, postgrad, etc
+    applicant_type = models.ForeignKey(Tag, null=True, blank=True, related_name="founder_applicant_type")
+
+    #london, UK, etc
+    location = models.ForeignKey(Tag, null=True, blank=True, related_name="founder_location")
+
+    #UCL, LBS, GT, etc
+    institution = models.ForeignKey(Tag, null=True, blank=True, related_name="founder_institution")
+
     #If False, anyone can create or edit a pitch for this founder
     #by simply knowing and entering the matching email address.
     #This is generally undesired, so the default (and standard) value is
