@@ -2,18 +2,6 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
 
-
-    #/apply/sc2010/widget.js
-    #partially customized javascript that you can embed on a site
-    #to accept contest registrations
-    (r'^(?P<competition_url>[-_a-zA-Z0-9]{1,50})/widget.js$',
-         'entercompetition.views.applicationWidget'),
-
-    #/apply/enter_competition/sc2010/
-    #ajax call from the widget which creates an entry & returns a message
-    (r'^enter_competition/(?P<competition_url>[-_a-zA-Z0-9]{1,50})/$',
-         'entercompetition.views.applyToCompetition'),    
-
     #/apply/load/
     #show info about getting back to an old version of an application,
     #and allow them to send an email reminder w/ the unique link
