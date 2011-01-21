@@ -229,10 +229,39 @@ def submit_team(request, comp_url):
         phone = request.POST.get("phone", "")
         team_name = request.POST.get("team_name", "")
 
+        applicant_type = request.POST.get("applicant_types", "")
+        location = request.POST.get("locations", "")
+        institution = request.POST.get("institution", "")
+
         #set other, less critical founder details
         if founder is not None:
             founder.name = request.GET.get("name", "")
             founder.phone = request.GET.get("phone", "")
+
+            if applicant_type:
+                try:
+                    tag = Tag.objects.get(name=applicant_type)
+                except:
+                    tag = Tag(name=applicant_type)
+                    tag.save()
+                founder.applicant_type = tag
+
+            if location:
+                try:
+                    tag = Tag.objects.get(name=location)
+                except:
+                    tag = Tag(name=location)
+                    tag.save()
+                founder.location = tag
+
+            if institution:
+                try:
+                    tag = Tag.objects.get(name=institution)
+                except:
+                    tag = Tag(name=institution)
+                    tag.save()
+                founder.institution = tag
+
             founder.save()
 
         else:
@@ -264,6 +293,27 @@ def submit_team(request, comp_url):
         #set team info
         team.name = team_name
         team.save()
+
+        #reset additional teammates
+        for teammate in team.other_members.all():
+            team.other_members.remove(teammate)
+
+        #init additional teammates
+        for key in request.POST:
+            if key.startswith("teammate-email_"):
+                num = key[len("teammate-email_"):]
+                teammate_email = request.POST.get(key)
+                teammate_name = request.POST.get("teammate-name_%s" % num, email.split('@')[0])
+                teammate = None
+                try:
+                    teammate = Founder.objects.get(email=teammate_email)
+                except:
+                    teammate = Founder(email=teammate_email,
+                            name=teammate_name)
+                    teammate.save()
+                team.other_members.add(teammate)
+        team.save()
+
 
         return HttpResponseRedirect("/a/%s/pitch/" % competition.hosted_url)
 

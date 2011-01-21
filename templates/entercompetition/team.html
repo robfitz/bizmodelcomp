@@ -22,7 +22,7 @@
 
         <div style="width:600px;float:left;margin-top:30px;">
 
-            <h2>Your info</h2>
+            <h2>Your details:</h2>
 
             {% if founder %}
 
@@ -58,9 +58,9 @@
             <br/>
 
             <span class="label">
-                <label for="team_name">Team name:</label>
+                <label for="phone">Phone #:</label>
             </span>
-            <input name="team_name" id="team_name" class="large" value="{{team_name}}" />
+            <input name="phone" id="phone" class="large" value="{{phone}}" />
             <br/>
 
             {% if competition.application_requirements.institutions.count > 0 %}
@@ -105,11 +105,19 @@
                 <br/>
             {% endif %}
 
+            <div class="hr" style="height:30px;">&nbsp;</div>
+
+            <span class="label">
+                <label for="team_name">Team name:</label>
+            </span>
+            <input name="team_name" id="team_name" class="large" value="{{team_name}}" />
+            <br/>
+
         </div>
 
         <div class="hr" style="height:30px;">&nbsp;</div>
 
-        <h2 style="float:left;">Other team members</h2>
+        <h2 style="float:left;">Additional team members:</h2>
 
         <div style="float:left;width:100%;" id="teammates">
 
@@ -154,7 +162,7 @@
             teammate.attr("id", "teammate_" + num);
             teammate.removeClass("hidden");
             teammate.children("#teammate-name").attr("name", "teammate-name_" + num);
-            teammate.children("#teammate-email").attr("name", "teammate-email" + num);
+            teammate.children("#teammate-email").attr("name", "teammate-email_" + num);
 
             $("#add_teammate_button").before(teammate);
         }
