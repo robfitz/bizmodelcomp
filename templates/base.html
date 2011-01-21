@@ -98,6 +98,17 @@
             $("#" + dialog).append("<iframe src='" + url + "'>Loading...</iframe>");
         }
 
+        /** swap the contents of the current top level popup for the new url */
+        function swap_popup(url) {
+            if ($("#dialog_2").is(":visible")) {
+                $("#dialog_2").jqmHide();
+            }
+            else {
+                $("#dialog").jqmHide();
+            }
+            popup(url);
+        }
+
         /** reload the current top popup layer to pull the latest content */
         function reload_popup() {
             if ($("#dialog_2").is(":visible")) {

@@ -9,8 +9,6 @@
 
     <br/>
 
-    {% if phase.pitch_type == "online" %}
-
         <input {% if phase.setup_steps.application_setup %}checked="checked"{% endif %} type="checkbox" id="id_application_setup" name="application_setup" />
         <label for="id_application_setup" {% if phase.setup_steps.application_setup %}class="strikethrough"{% endif %}>
             Add pitch questions and judging criteria
@@ -27,8 +25,7 @@
 
         <br/>
 
-    {% else %}
-
+<!--
         <input {% if phase.setup_steps.application_setup %}checked="checked"{% endif %} type="checkbox" id="id_application_setup" name="application_setup" />
         <label for="id_application_setup" {% if phase.setup_steps.application_setup %}class="strikethrough"{% endif %}>
             Send reminder & info for live pitch
@@ -36,8 +33,7 @@
         <span class="do_now">(<a href="">Do this now</a>)</span>
 
         <br/>
-
-    {% endif %}
+        -->
 
     <input {% if phase.setup_steps.invited_judges %}checked="checked"{% endif %} type="checkbox" id="id_invited_judges" name="invited_judges" />
     <label for="id_invited_judges" {% if phase.setup_steps.invited_judges %}class="strikethrough"{% endif %}>
@@ -48,8 +44,6 @@
 
     <br/>
 
-    {% if phase.pitch_type == "online" %}
-
         <input {% if phase.setup_steps.announced_judging_open %}checked="checked"{% endif %} type="checkbox" id="id_announced_judging_open" name="announced_judging_open" />
         <label for="id_announced_judging_open" {% if phase.setup_steps.announced_judging_open %}class="strikethrough"{% endif %}>
             Announce that judging is now open
@@ -58,8 +52,7 @@
 
         <br/>
 
-    {% else %}
-
+        <!--
         <input {% if phase.setup_steps.announced_judging_open %}checked="checked"{% endif %} type="checkbox" id="id_announced_judging_open" name="announced_judging_open" />
         <label for="id_announced_judging_open" {% if phase.setup_steps.announced_judging_open %}class="strikethrough"{% endif %}>
             Send event reminder to judges & collect scores
@@ -67,8 +60,7 @@
         <span class="do_now">(<a href="">Do this now</a>)</span>
 
         <br/>
-
-    {% endif %}
+        -->
 
     <input {% if phase.setup_steps.selected_winners %}checked="checked"{% endif %} type="checkbox" id="id_selected_winners" name="selected_winners" />
     <label for="id_selected_winners" {% if phase.setup_steps.selected_winners %}class="strikethrough"{% endif %}>

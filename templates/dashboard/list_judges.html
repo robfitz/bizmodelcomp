@@ -35,7 +35,7 @@ Manage Judges
                 {% for invite in judge_invitations %}
                     <tr>
                         <td><input name="is_selected_{{invite.pk}}" type="checkbox" />
-                        <td></td>
+                        <td>{{ invite }}</td>
                         <td>{{ invite.email }}</td>
                         <td>
                         {% if invite.user %}
@@ -46,7 +46,7 @@ Manage Judges
                         </td>
                         <td>
                         {% if invite.judgements.count > 0 %}
-                            <a href="/dashboard/{{competition.id}}/phase/{{phase.id}}/judgements/{{invite.id}}/">{{ invite.judgements.count }}</a>
+                        <a href="javascript:void(0);" onclick="swap_popup('/dashboard/data/table/6EiZlR/?view=for_judge&judge={{invite.id}}');">{{ invite.judgements.count }}</a>
                         {% else %}
                             {{ invite.judgements.count }}
                         {% endif %}
