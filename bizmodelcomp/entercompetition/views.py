@@ -356,14 +356,18 @@ def submit_business(request, comp_url):
 
         if competition.application_requirements().applicant_types.count() > 0:
             business_type = request.POST.get("business_types")
-            tag = None
-            try:
-                tag = Tag.objects.get(name=business_type)
-            except:
-                tag = Tag(name = business_type)
             for t in team.business_types.all():
                 team.business_types.remove(t)
-            team.business_types.add(tag)
+            if business_type is not None:
+                tag = None
+                try:
+                    tag = Tag.objects.get(name=business_type)
+                except:
+                    tag = Tag(name=business_type)
+                    tag.save()
+                team.business_types.add(tag)
+            except:
+                pass
 
         if not alert:
             alert = "Your application has been saved. You may continue to edit it until the deadline. If you switch computers, you'll need to re-verify your identity by clicking on the link we've emailed to you."
