@@ -1,44 +1,56 @@
-{% extends 'dashboard/popup_section.html' %}
+{% extends 'dashboard/view_pitch.html' %}
 
 {% block section_title %}
 Judged pitch
 {% endblock %}
 
-{% block section_content %}
+    {% block question_display %}
 
-	{% load markup %}
-
-    {% for upload in uploads %}
-        {% include 'entercompetition/review_upload.html' %}
-    {% endfor %}
-
-	{% for question in questions %}
-            {{ question.id }}|{{question.answer.id}}
         <div class="judge_question">
 
             {% if question.is_hidden_from_applicants %}
+
                 <div class="judge_application">
+
                 </div>
+
             {% else %}
-                <div class="judge_application">
 
-                    <strong class="prompt">{{ question.prompt }}</strong>
-                    <br/>
-                    <div style="border:1px solid #ccc;padding:8px;background-color:#eee;">
+                {% if question.is_divider %}
 
-                        {% if question.answer.answer %}
+                    
+                    </div> <!-- end previous question_section -->
+                    <div class="h3">
+                        <h3 style="float:left;clear:both;">{{question.prompt}}</h3>
+                    </div>
+                    <div class="question_section" style=""> <!-- begin next question_section -->
 
-                            {{question.answer.answer|markdown}}
+                {% else %}
 
-                        {% else %} {% if question.is_required %}
+                    <div class="judge_application">
 
-                            (no answer)
+                        <strong class="prompt">{{ question.prompt }}</strong>
+                        <div class="hr">&nbsp;</div>
+                        <div style="border:1px solid #eee;padding:8px;background-color:#fafafa;">
 
-                        {% endif %}{% endif %}
+                            {% if question.answer.answer %}
+
+                                {{question.answer.answer|markdown}}
+
+                            {% else %} {% if question.is_required %}
+
+                                <p>
+                                (no answer)
+                                </p>
+
+                            {% endif %}{% endif %}
+
+                        </div>
 
                     </div>
 
-                </div>
+                {% endif %}
+
             {% endif %}
 
             <div class="judging">
