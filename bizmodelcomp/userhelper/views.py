@@ -65,12 +65,8 @@ def loginRegister(request):
         return HttpResponseRedirect('/dashboard/')
 
     alert = None
-    alert = "Sorry, registration is currently disabled. We'll be opening to the public soon!"
 
     if request.method == "POST" and len(request.POST) > 0:
-        pass
-
-    if False == True:
         
         login_or_register = request.POST.get("login_or_register", "login")
 
@@ -115,6 +111,9 @@ def loginRegister(request):
 
 
         elif login_or_register == "register":
+
+            alert = "Sorry, registration is currently disabled. We'll be opening to the public soon!"
+            return render_to_response('userhelper/login_register.html', locals())
 
             email = request.POST["email"]
             pass1 = request.POST["password1"]
