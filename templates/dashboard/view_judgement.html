@@ -24,15 +24,20 @@ Judged pitch
             {% if question.is_hidden_from_applicants %}
 
                 <div class="judge_application">
-
+                    &nbsp;
                 </div>
 
             {% else %}
 
-
                 <div class="judge_application">
 
-                    <strong class="prompt">{{ question.prompt }}</strong>
+                    <strong class="prompt">
+                        {% if question.prompt %}
+                        {{ question.prompt }}
+                        {% else %}
+                        Question:
+                        {% endif %}
+                    </strong>
                     <div class="hr">&nbsp;</div>
                     <div style="border:1px solid #eee;padding:8px;">
 
@@ -57,12 +62,6 @@ Judged pitch
             <div class="judging" style="float:left;width:150px;margin-left:25px;margin-top:0px;">
 
                 {% if question.max_points > 0 %}
-                        {% if question.judge_points_prompt %}
-                            <strong>
-                                {{ question.judge_points_prompt }}
-                                <br/>
-                            </strong>
-                        {% endif %}
 
                     <strong>Score: </strong>
                     {{question.score}} / {{question.max_points}}

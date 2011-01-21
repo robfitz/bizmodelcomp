@@ -80,10 +80,12 @@ def loginRegister(request):
                 email_user = User.objects.get(email=email)
                 username = email_user.username
             except:
-                alert = "We couldn't find a user with that email. Typo? Please try again or create a new account if you don't yet have one."
-
-                return render_to_response('userhelper/login_register.html', locals())
-
+                try:
+                    username_user = User.objects.get(username=email)
+                    username = username_user.username
+                except:
+                    alert = "We couldn't find a user with that username or email. Typo? Please try again or create a new account if you don't yet have one."
+                    return render_to_response('userhelper/login_register.html', locals())
 
             user = auth.authenticate(username=username, password=password)
 
