@@ -160,12 +160,12 @@ def save_pitch_answers_uploads(request, pitch):
                 try:
                     #existing answer?
                     answer = PitchAnswer.objects.get(pitch=pitch, question=question)
-                    answer.answer = request.POST[key]
+                    answer.answer = unicode(request.POST.get(key, ""))
                 except:                    
                     #new answer
                     answer = PitchAnswer(question=question,
                                          pitch=pitch,
-                                         answer=request.POST[key])
+                                         answer=unicode(request.POST.get(key, ""))
                 #save changes
                 answer.save()
 
