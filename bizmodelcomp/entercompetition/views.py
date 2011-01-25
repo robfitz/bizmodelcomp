@@ -238,8 +238,8 @@ def submit_team(request, comp_url):
 
         #set other, less critical founder details
         if founder is not None:
-            founder.name = request.GET.get("name", "")
-            founder.phone = request.GET.get("phone", "")
+            founder.name = unicode(request.GET.get("name", ""))
+            founder.phone = unicode(request.GET.get("phone", ""))
 
             if applicant_type:
                 try:
@@ -283,7 +283,7 @@ def submit_team(request, comp_url):
         if not team:
             #create a team if we don't yet have one
             team = Team(owner=founder,
-                    name=team_name)
+                    name=unicode(team_name))
             team.save()
 
         if not pitch:
@@ -294,7 +294,7 @@ def submit_team(request, comp_url):
             pitch.save()
 
         #set team info
-        team.name = team_name
+        team.name = unicode(team_name)
         team.save()
 
         #reset additional teammates
@@ -306,7 +306,7 @@ def submit_team(request, comp_url):
             if key.startswith("teammate-email_"):
                 num = key[len("teammate-email_"):]
                 teammate_email = request.POST.get(key)
-                teammate_name = request.POST.get("teammate-name_%s" % num, email.split('@')[0])
+                teammate_name = unicode(request.POST.get("teammate-name_%s" % num, email.split('@')[0], ""))
                 teammate = None
                 try:
                     teammate = Founder.objects.get(email=teammate_email)
@@ -385,7 +385,7 @@ def submit_business(request, comp_url):
     for question in questions:
         #render existing answers
         try:
-            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+            question.answer = unicode(PitchAnswer.objects.filter(pitch=pitch).get(question=question))
             
         except:
             question.answer = ""
