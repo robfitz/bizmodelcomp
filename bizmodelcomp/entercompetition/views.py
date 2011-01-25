@@ -160,12 +160,12 @@ def save_pitch_answers_uploads(request, pitch):
                 try:
                     #existing answer?
                     answer = PitchAnswer.objects.get(pitch=pitch, question=question)
-                    answer.answer = unicode(request.POST.get(key, ""))
+                    answer.answer = unicode(request.POST.get(key, "").encode('unicode_escape'))
                 except:                    
                     #new answer
                     answer = PitchAnswer(question=question,
                                          pitch=pitch,
-                                         answer=unicode(request.POST.get(key, ""))
+                                         answer=unicode(request.POST.get(key, "")).encode('unicode_escape'))
                 #save changes
                 answer.save()
 
@@ -238,8 +238,8 @@ def submit_team(request, comp_url):
 
         #set other, less critical founder details
         if founder is not None:
-            founder.name = unicode(request.GET.get("name", ""))
-            founder.phone = unicode(request.GET.get("phone", ""))
+            founder.name = unicode(request.GET.get("name", "")).encode('unicode_escape')
+            founder.phone = unicode(request.GET.get("phone", "")).encode('unicode_escape')
 
             if applicant_type:
                 try:
@@ -283,7 +283,7 @@ def submit_team(request, comp_url):
         if not team:
             #create a team if we don't yet have one
             team = Team(owner=founder,
-                    name=unicode(team_name))
+                    name=unicode(team_name).encode('unicode_escape'))
             team.save()
 
         if not pitch:
@@ -294,7 +294,7 @@ def submit_team(request, comp_url):
             pitch.save()
 
         #set team info
-        team.name = unicode(team_name)
+        team.name = unicode(team_name).encode('unicode_escape')
         team.save()
 
         #reset additional teammates
@@ -306,7 +306,7 @@ def submit_team(request, comp_url):
             if key.startswith("teammate-email_"):
                 num = key[len("teammate-email_"):]
                 teammate_email = request.POST.get(key)
-                teammate_name = unicode(request.POST.get("teammate-name_%s" % num, email.split('@')[0], ""))
+                teammate_name = unicode(request.POST.get("teammate-name_%s" % num, email.split('@')[0], "")).encode('unicode_escape')
                 teammate = None
                 try:
                     teammate = Founder.objects.get(email=teammate_email)
@@ -385,7 +385,7 @@ def submit_business(request, comp_url):
     for question in questions:
         #render existing answers
         try:
-            question.answer = unicode(PitchAnswer.objects.filter(pitch=pitch).get(question=question))
+            question.answer = unicode(PitchAnswer.objects.filter(pitch=pitch).get(question=question)).decode('unicode-escape')
             
         except:
             question.answer = ""
