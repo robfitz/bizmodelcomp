@@ -182,9 +182,6 @@ def submit_team(request, comp_url):
     alert = None
 
     founder = get_founder(request)
-    if founder is not None:
-        return HttpResponseRedirect('/a/%s/' % comp_url)
-
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
 
