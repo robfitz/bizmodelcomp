@@ -33,7 +33,7 @@ def recover_application(request, competition_url):
     intro = SiteCopy.objects.get(id='recover_application_intro')
     security = SiteCopy.objects.get(id='recover_application_security')
 
-    application_url = "/apply/pitch/%s/" % competition.hosted_url
+    application_url = "/a/%s/" % competition.hosted_url
     cancel = "<a href='%s'>Cancel and apply with a different email</a>" % application_url
 
     get_email = ""
@@ -51,7 +51,7 @@ def recover_application(request, competition_url):
 
             subject = "Your application to %s" % competition.name
 
-            application_url = request.build_absolute_uri("/apply/pitch/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key()))
+            application_url = request.build_absolute_uri("/a/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key()))
     
             message = """Hello,
 
@@ -76,7 +76,7 @@ The %s team""" % (competition.name, application_url, competition.name)
             
         except:
             #couldn't find a matching founder. tell person to apply now or re-type
-            application_url = "/apply/pitch/%s/" % competition.hosted_url
+            application_url = "/a/%s/" % competition.hosted_url
             alert = """We couldn't find a matching email on file. If you might have registered with a different email, you can try that here.
 
 Otherwise, <a href="%s">click here to go back to your new application</a>.""" % application_url
@@ -183,7 +183,7 @@ def submit_team(request, comp_url):
 
     founder = get_founder(request)
     if founder is not None:
-        return HttpResponseRedirect('/a/%s/pitch/' % comp_url)
+        return HttpResponseRedirect('/a/%s/' % comp_url)
 
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
@@ -318,7 +318,7 @@ def submit_team(request, comp_url):
         team.save()
 
 
-        return HttpResponseRedirect("/a/%s/pitch/" % competition.hosted_url)
+        return HttpResponseRedirect("/a/%s/" % competition.hosted_url)
 
     return render_to_response("entercompetition/team.html", locals())
 
