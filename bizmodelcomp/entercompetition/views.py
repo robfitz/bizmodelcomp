@@ -130,7 +130,7 @@ def send_welcome_email(request, founder, competition):
 
     to_email = founder.email
     subject = "Your application to %s" % competition.name
-    application_url = request.build_absolute_uri("/a/%s/?t=%s" % (competition.hosted_url, founder.anon_key()))
+    application_url = request.build_absolute_uri("/a/%s/?f=%s" % (competition.hosted_url, founder.anon_key()))
     message = """Hello,
 
 Thanks for applying to %s!
