@@ -315,7 +315,7 @@ def submit_team(request, comp_url):
         team.save()
 
 
-        return HttpResponseRedirect("/a/%s/" % competition.hosted_url)
+        return HttpResponseRedirect("/a/%s/pitch/" % competition.hosted_url)
 
     return render_to_response("entercompetition/team.html", locals())
 
