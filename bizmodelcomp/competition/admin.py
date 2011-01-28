@@ -65,10 +65,15 @@ from bizmodelcomp.utils.models import *
 ##    form = CanvasBlockForm
 
 
+class CompetitionForm(forms.ModelForm):
+
+    terms_of_service = forms.CharField(widget=forms.Textarea, required=False)
+
 
 class CompetitionAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'owner', 'website')
+    form = CompetitionForm
 
 
 class PitchQuestionForm(forms.ModelForm):

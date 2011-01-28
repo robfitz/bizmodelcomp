@@ -23,6 +23,14 @@ from xml.dom import minidom
 
 
 
+def terms_of_service(request, comp_url):
+
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+
+    return render_to_response('entercompetition/terms_of_service.html', locals())
+
+
+
 #user has claimed to have already submitted an application, so we're
 #going to give them some extra info about how to get back to their old
 #version and send them a reminder email if needed
@@ -289,6 +297,11 @@ def submit_team(request, comp_url):
                     owner=founder,
                     phase=competition.current_phase)
             pitch.save()
+
+            #if a pitch has just been created, that suggests this is the first time
+            #the founder has applied to this particular competition, so we're gonna
+            #email them
+            send_welcome_email(request, founder, competition)
 
         #set team info
         team.name = unicode(team_name).encode('unicode_escape')

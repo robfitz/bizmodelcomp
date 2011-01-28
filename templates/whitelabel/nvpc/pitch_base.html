@@ -1,0 +1,37 @@
+{% extends 'entercompetition/base.html' %}
+
+{% block style %}
+
+    {{ block.super }}
+
+    #content_inner {
+        width:600px;
+    }
+
+    .sidebar_link:link {
+        text-decoration:none;
+        color:#{{competition.hex_color}};
+        font-size:18px;
+        font-weight:bold;
+    }
+
+    .sidebar_link:hover {
+        text-decoration:underline;
+    }
+
+{% endblock %}
+
+{% block content_outer_top %}
+
+<div style="color:#{{competition.hex_color}};padding:12px;float:left;width:84px;margin-top:30px;margin-right:20px;background-color:#{{competition.hex_header_color}};min-height:300px;">
+        
+
+    <span class="medium">Extra info</span>
+
+    <a class="sidebar_link" href="javascript:void(0);" onclick="popup('/flatpopup/nvpc_home/');">Overview</a>
+    <a class="sidebar_link" href="javascript:void(0);" onclick="popup('/flatpopup/nvpc_about/');">Details</a>
+    <a class="sidebar_link" href="javascript:void(0);" onclick="popup('/flatpopup/nvpc_faqs/');">FAQs</a>
+
+    </div>
+
+{% endblock %}

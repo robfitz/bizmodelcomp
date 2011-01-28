@@ -4,11 +4,16 @@
     {% include 'entercompetition/header.html' %}
 {% endblock %}
 
+{% block title %}
+    Apply to {{ competition }}
+{% endblock %}
+
 {% block header_title %}
     Apply to {{ competition }}
 {% endblock %}
 
 {% block style %}
+
     .label {
         width:110px;
         font-size:16px;
@@ -42,6 +47,32 @@
 
     .teammate input {
         width:170px;
+    }
+
+    .h3 {
+
+        {% if competition.hex_color %}
+            background-color:#{{ competition.hex_color }};
+        {% else %}
+            background-color:#eee;
+        {% endif %}
+
+        width:616px;
+        float:left;
+        padding:0px 8px;
+        margin:0px 0px 8px 0px;
+        border-top:1px solid gray;
+    }
+    .h3 h3 {
+        padding:4px 0px;
+        margin:0px 0px;
+    }
+
+    .question_section {
+        background-color:#fff;
+        padding:0px 8px 20px 8px;
+        float:left;
+        clear:both;
     }
 
 {% endblock %}
