@@ -54,13 +54,31 @@
             <input name="name" id="name" class="large" value="{{name}}" />
             <br/>
 
-            <!--
-            <span class="label">
-                <label for="phone">Phone #:</label>
-            </span>
-            <input name="phone" id="phone" class="large" value="{{phone}}" />
-            <br/>
-            -->
+            {% if competition.is_phone_required %}
+                <span class="label">
+                    <label for="phone">Phone #:</label>
+                </span>
+                <input name="phone" id="phone" class="large" value="{{phone}}" />
+                <br/>
+            {% endif %}
+
+            {% if competition.is_birthday_required %}
+                <span class="label">
+                    <label for="birthday">Birthday:</label>
+                </span>
+                <input name="birthday" id="birthday" class="large" value="{{birthday}}" />
+                <br/>
+            {% endif %}
+
+            {% if competition.is_address_required %}
+                <span class="label">
+                    <label for="address">Mailing address:</label>
+                </span>
+                <textarea rows=3 name="address" id="address">{{address}}</textarea>
+                <br/>
+            {% endif %}
+
+
 
             {% if competition.application_requirements.institutions.count > 0 %}
                 <span class="label">
@@ -74,7 +92,12 @@
                     <option value="Other">Other</option>
                 </select>
                 <br/>
-            {% endif %}
+            {% else %}{% if competition.is_institution_required %}
+                <span class="label">
+                    <label for="institution">Institution:</label>
+                </span>
+                <input name="institution" id="institution" class="large" value="{{institution}}" />
+            {% endif %}{% endif %}
 
             {% if competition.application_requirements.applicant_types.count > 0 %}
                 <span class="label">
@@ -88,6 +111,20 @@
                     <option value="Other">Other</option>
                 </select>
                 <br/>
+            {% endif %}
+
+            {% if competition.is_course_of_study_required %}
+                <span class="label">
+                    <label for="course_of_study">Course of study:</label>
+                </span>
+                <input name="course_of_study" id="course_of_study" class="large" value="{{course_of_study}}" />
+            {% endif %}
+
+            {% if competition.is_year_of_study_required %}
+                <span class="label">
+                    <label for="year_of_study">Year of study:</label>
+                </span>
+                <input name="year_of_study" id="year_of_study" class="large" value="{{year_of_study}}" />
             {% endif %}
 
             {% if competition.application_requirements.locations.count > 0 %}
