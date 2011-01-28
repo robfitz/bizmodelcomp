@@ -168,10 +168,17 @@ class Competition(models.Model):
     logo = models.FileField(null=True, blank=True, upload_to="uploads/logos/")
 
     #more branding, only used for totally custom whitelabelling
-    template_base = models.CharField(max_length=200, default="base.html")
-    template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
+    template_base = models.CharField(max_length=200, default="", blank=True)
+    template_pitch = models.CharField(max_length=201, default="", blank=True)
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
+    #optional branding color as 3 or 6 digit hex (don't start with 0x or #)
+    hex_color = models.CharField(max_length=6, blank=True, null=True, default="")
+    hex_header_color = models.CharField(max_length=6, blank=True, null=True, default="")
+
+    #optional. displayed with markdown formatting before applicants submit if
+    #it's non-blank
+    terms_of_service = models.CharField(max_length=10000, blank=True, default="")
 
     def application_requirements(self):
         try:

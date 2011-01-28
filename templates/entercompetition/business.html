@@ -1,51 +1,5 @@
 {% extends 'entercompetition/base.html' %}
 
-{% block account_controls %}
-{% endblock %}
-
-{% block style %}
-
-.label {
-    width:110px;
-    font-size:16px;
-    font-weight:bold;
-    float:left;
-}
-
-input {
-    width:400px;
-}
-
-select {
-    font-size:18px;
-}
-
-h2 {
-    margin-bottom:12px;
-}
-
-.h3 {
-    background-color:#eee;
-    width:616px;
-    float:left;
-    padding:0px 8px;
-    margin:0px 0px 8px 0px;
-    border-top:1px solid gray;
-}
-.h3 h3 {
-    padding:4px 0px;
-    margin:0px 0px;
-}
-
-.question_section {
-    background-color:#fff;
-    padding:0px 8px 20px 8px;
-    float:left;
-    clear:both;
-}
-
-{% endblock %}
-
 {% block content %}
 
 	{{ block.super }}
@@ -145,12 +99,16 @@ h2 {
 
                                 {% if question.choices %}
 
-                                    <strong class="prompt">{{ question.prompt }}</strong>
-                                    {% if question.extra_info %}
-                                    <br/>
-                                    {{ question.extra_info }}
-                                    {% endif %}
+                                    <div style="float:left;clear:both;width:100%;">
+                                        <strong class="prompt">{{ question.prompt }}</strong>
+                                        {% if question.extra_info %}
+                                        <br/>
+                                        {{ question.extra_info }}
+                                        {% endif %}
+                                    </div>
+
                                     <div class="hr">&nbsp;</div>
+
                                     <select name="question_{{question.pk}}">
                                     {% for choice in question.choices %}
                                         {{question.answer.answer}} {{choice}}
@@ -166,26 +124,40 @@ h2 {
 
                                     {% ifequal question.field_rows 1 %}
 
-                                    <strong class="prompt">{{ question.prompt }}</strong>
-                                    {% if question.extra_info %}
-                                    <br/>
-                                    {{ question.extra_info }}
-                                    {% endif %}
-                                    <div class="hr">&nbsp;</div>
-                                    <input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+                                        <div style="float:left;clear:both;width:100%;">
+                                            <strong class="prompt">{{ question.prompt }}</strong>
+                                            {% if question.extra_info %}
+
+                                                <br/>
+                                                {{ question.extra_info }}
+
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="hr">&nbsp;</div>
+                                        <input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 
                                     {% else %}
-                                    <strong class="prompt">{{ question.prompt }}</strong>
-                                    {% if question.extra_info %}
-                                    <br/>
-                                    <div style="float:left;">{{ question.extra_info }}</div>
-                                    {% endif %}
-                                    <div class="hr">&nbsp;</div>
-                                    <textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+                                        <div style="float:left;clear:both;width:100%;">
+                                            <strong class="prompt">{{ question.prompt }}</strong>
+
+                                            {% if question.extra_info %}
+
+                                                <br/>
+                                                <div style="float:left;">{{ question.extra_info }}</div>
+                                            {% endif %}
+
+                                        </div>
+
+                                        <div class="hr">&nbsp;</div>
+                                        <textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+
                                     {% endifequal %}
 
                                 {% endif %} <!-- if question.choices -->
+
                             </div>
+
                         {% endif %} <!-- if question.is_divider -->
 
                     {% endif %} <!-- if question.is_hidden_from_applicants -->
@@ -202,12 +174,24 @@ h2 {
 
 		<input id="is_draft" type="hidden" name="is_draft" value="False" />
                 
-                <div style="float:left;">
-		<input type="submit" style="font-size:18px;" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
-		<p>
-		You can update your pitch until the application deadline.
-		</p>
-                </div>
+        <div style="float:left;">
+
+            {% if competition.terms_of_service %}
+                <p>
+
+                <strong>Please note:</strong> by submitting this form, you are agreeing to the <a href="javascript:void(0);" onclick="popup('/a/{{competition.hosted_url}}/tos/');">terms and conditions</a> of this competition. Please take a moment to <a href="javascript:void(0);" onclick="popup('/a/{{competition.hosted_url}}/tos/');">review them</a> before proceeding.
+
+                </p>
+            {% endif %}
+
+            <input type="submit" style="font-size:18px;" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
+
+            <p>
+            You can update your pitch until the application deadline.
+            </p>
+
+        </div>
+
 	</form>
 
 {% endblock %}

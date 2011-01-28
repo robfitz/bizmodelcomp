@@ -23,6 +23,14 @@ from xml.dom import minidom
 
 
 
+def terms_of_service(request, comp_url):
+
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+
+    return render_to_response('entercompetition/terms_of_service.html', locals())
+
+
+
 #user has claimed to have already submitted an application, so we're
 #going to give them some extra info about how to get back to their old
 #version and send them a reminder email if needed
