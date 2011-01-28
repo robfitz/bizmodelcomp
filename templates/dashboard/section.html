@@ -2,17 +2,20 @@
 
     <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix {% block section_titlebar_class %}{% endblock %}">
 
-		<span class="ui-dialog-title" id="ui-dialog-title-dialog">
+        <span {% block title_style %}{% endblock %} class="ui-dialog-title" id="ui-dialog-title-dialog">
+
+            {% block title_content %}
 
 			<span class="ui-icon {% block icon_class %}{% endblock %}" style="float:left;margin-left:-8px;margin-right:4px;"></span>
             <span class="section_title" style="{% block section_title_style %}{% endblock %}">
 				{% block section_title %}
 				{% endblock %}
 			</span>
+
+            {% endblock %}
 		</span>
 
 	</div>
-
 
     {% block section_outer_content %}
     <div class="summary" style="{% block section_content_style %}{% endblock %}">

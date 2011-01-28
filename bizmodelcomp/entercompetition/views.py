@@ -229,10 +229,10 @@ def submit_team(request, comp_url):
                     founder = existing_founder
                 else:
                     #if isn't validated this session, offer login link
-                    alert = "You have already begun applying with that email. <a href=''>Click here to recover your old application</a>."
+                    alert = "You have already begun applying with that email. <a href='/apply/load/%s/'>Click here to recover your old application</a>." % competition.hosted_url
 
             except:
-                alert = "You have already begun applying with that email. <a href=''>Click here to recover your old application</a>."
+                alert = "You have already begun applying with that email. <a href='/apply/load/%s/'>Click here to recover your old application</a>." % competition.hosted_url
 
         else: 
             #not blank and not owned by someone else, proceed
