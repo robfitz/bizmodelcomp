@@ -193,10 +193,17 @@ def submit_team(request, comp_url):
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
 
+    #standard team info
     name = ""
     email = ""
-    phone = ""
     team_name = ""
+
+    #less common, optional team info
+    phone = ""
+    address = ""
+    birthday = ""
+    course_of_study = ""
+    year_of_study = ""
 
     founder = None
 
@@ -241,32 +248,43 @@ def submit_team(request, comp_url):
         location = request.POST.get("locations", "")
         institution = request.POST.get("institution", "")
 
+        birthday = request.POST.get("birthday", "")
+        address = request.POST.get("address", "")
+        course_of_study = request.POST.get("course_of_study", "")
+        year_of_study = request.POST.get("year_of_study", "")
+
         #set other, less critical founder details
         if founder is not None:
-            founder.name = unicode(request.GET.get("name", "")).encode('unicode_escape')
-            founder.phone = unicode(request.GET.get("phone", "")).encode('unicode_escape')
+
+            founder.name = name.encode('unicode_escape')
+            founder.phone = phone.encode('unicode_escape')
+
+            founder.birth = birthday.encode('unicode_escape')
+            founder.address = address.encode('unicode_escape')
+            founder.course_of_study = course_of_study.encode('unicode_escape')
+            founder.year_of_study = year_of_study.encode('unicode_escape')
 
             if applicant_type:
                 try:
-                    tag = Tag.objects.get(name=applicant_type)
+                    tag = Tag.objects.get(name=applicant_type.encode('unicode_escape'))
                 except:
-                    tag = Tag(name=applicant_type)
+                    tag = Tag(name=applicant_type.encode('unicode_escape'))
                     tag.save()
                 founder.applicant_type = tag
 
             if location:
                 try:
-                    tag = Tag.objects.get(name=location)
+                    tag = Tag.objects.get(name=location.encode('unicode_escape'))
                 except:
-                    tag = Tag(name=location)
+                    tag = Tag(name=location.encode('unicode_escape'))
                     tag.save()
                 founder.location = tag
 
             if institution:
                 try:
-                    tag = Tag.objects.get(name=institution)
+                    tag = Tag.objects.get(name=institution.encode('unicode_escape'))
                 except:
-                    tag = Tag(name=institution)
+                    tag = Tag(name=institution.encode('unicode_escape'))
                     tag.save()
                 founder.institution = tag
 

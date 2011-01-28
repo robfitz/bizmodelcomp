@@ -23,11 +23,11 @@ class Founder(models.Model):
     user = models.OneToOneField(User, blank=True, null=True)
 
     name = models.CharField(max_length=500, blank=True, null=True) #don't use first/last/etc for multi-cultural reasons
-    email = models.CharField(max_length=255, null=True)
-    phone = models.CharField(max_length=20, blank=True, null=True)
+    email = models.CharField(max_length=255, null=True, default="")
+    phone = models.CharField(max_length=20, blank=True, null=True, default="")
 
     #isoformat yyyy-mm-dd
-    birth = models.CharField(max_length=10, blank=True, null=True) #representation of a datetime
+    birth = models.CharField(max_length=50, blank=True, null=True) #representation of a datetime
 
     #undergard, postgrad, etc
     applicant_type = models.ForeignKey(Tag, null=True, blank=True, related_name="founder_applicant_type")
@@ -37,6 +37,11 @@ class Founder(models.Model):
 
     #UCL, LBS, GT, etc
     institution = models.ForeignKey(Tag, null=True, blank=True, related_name="founder_institution")
+
+    address = models.CharField(max_length=500, blank=True, null=True, default="")
+    course_of_study = models.CharField(max_length=500, blank=True, null=True, default="")
+    year_of_study = models.CharField(max_length=100, blank=True, null=True, default="")
+
 
     #If False, anyone can create or edit a pitch for this founder
     #by simply knowing and entering the matching email address.
@@ -239,6 +244,14 @@ class ApplicationRequirements(models.Model):
     #extra stuff, like must be a practicing entrepreneur or under 25
     other_requirements = models.ManyToManyField(Tag, related_name="comp_other_requirements")
 
+    is_address_required = models.BooleanField(default=False)
+    is_birthday_required = models.BooleanField(default=False)
+    is_phone_required = models.BooleanField(default=False)
+    #ignored if specific institution Tags are set. if no tags are set, and this is true then an
+    #input field is used to capture their institution
+    is_institution_required = models.BooleanField(default=False)
+    is_course_of_study_required = models.BooleanField(default=False)
+    is_year_of_study_required = models.BooleanField(default=False)
 
     def all_tag_sets(self):
 
