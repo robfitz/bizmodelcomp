@@ -74,9 +74,6 @@ Sincerely,
 
 The %s team""" % (competition.name, application_url, competition.name)
             
-            message = """Click here to load & edit your application to %s:
-
-%s""" % (competition.name, application_url)
             
             send_email(subject, message, email)
 
