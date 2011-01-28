@@ -97,6 +97,7 @@ class PitchAdmin(admin.ModelAdmin):
 
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Phase)
+admin.site.register(ApplicationRequirements)
 
 admin.site.register(Founder)
 admin.site.register(Team)

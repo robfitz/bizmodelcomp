@@ -229,19 +229,19 @@ class ApplicationRequirements(models.Model):
     competition = models.OneToOneField(Competition, null=True, blank=True)
 
     #web, greentech, medical, social enterprise, etc
-    business_types = models.ManyToManyField(Tag, related_name="comp_business_types")
+    business_types = models.ManyToManyField(Tag, related_name="comp_business_types", null=True, blank=True)
 
     #undergrad, postgrad, etc
-    applicant_types = models.ManyToManyField(Tag, related_name="comp_applicant_types")
+    applicant_types = models.ManyToManyField(Tag, related_name="comp_applicant_types", null=True, blank=True)
 
     #ucl, georgia tech, sony pictures, etc
-    institutions = models.ManyToManyField(Tag, related_name="comp_institutions")
+    institutions = models.ManyToManyField(Tag, related_name="comp_institutions", null=True, blank=True)
 
     #europe..
-    locations = models.ManyToManyField(Tag, related_name="comp_locations")
+    locations = models.ManyToManyField(Tag, related_name="comp_locations", null=True, blank=True)
 
     #extra stuff, like must be a practicing entrepreneur or under 25
-    other_requirements = models.ManyToManyField(Tag, related_name="comp_other_requirements")
+    other_requirements = models.ManyToManyField(Tag, related_name="comp_other_requirements", null=True, blank=True)
 
     is_address_required = models.BooleanField(default=False)
     is_birthday_required = models.BooleanField(default=False)
@@ -251,6 +251,7 @@ class ApplicationRequirements(models.Model):
     is_institution_required = models.BooleanField(default=False)
     is_course_of_study_required = models.BooleanField(default=False)
     is_year_of_study_required = models.BooleanField(default=False)
+
 
     def all_tag_sets(self):
 

@@ -74,7 +74,7 @@
                 <span class="label">
                     <label for="address">Mailing address:</label>
                 </span>
-                <textarea rows=3 name="address" id="address">{{address}}</textarea>
+                <textarea rows=4 style="margin-bottom:24px;width:400px;" name="address" id="address">{{address}}</textarea>
                 <br/>
             {% endif %}
 
@@ -103,7 +103,7 @@
                 <span class="label">
                     <label for="applicant_types">Role:</label>
                 </span>
-                <select name="applicant_types">
+                <select name="applicant_types" style="margin-bottom:8px;">
                     <option>&lt;&lt; select one &gt;&gt;</option>
                     {% for tag in competition.application_requirements.applicant_types.all %}
                         <option value="{{tag}}">{{tag|capfirst}}</option>
@@ -114,17 +114,29 @@
             {% endif %}
 
             {% if competition.application_requirements.is_course_of_study_required %}
+<div style="width:600px;float:left;">
                 <span class="label">
                     <label for="course_of_study">Course of study:</label>
                 </span>
                 <input name="course_of_study" id="course_of_study" class="large" value="{{course_of_study}}" />
+</div>
             {% endif %}
 
             {% if competition.application_requirements.is_year_of_study_required %}
                 <span class="label">
                     <label for="year_of_study">Year of study:</label>
                 </span>
-                <input name="year_of_study" id="year_of_study" class="large" value="{{year_of_study}}" />
+                <select name="year_of_study" id="year_of_study">
+			<option>&lt;&lt; select one &gt;&gt;</option>
+			<option value="1">First</option>
+			<option value="2">Second</option>
+			<option value="3">Third</option>
+			<option value="4">Fourth</option>
+			<option value="5">Fifth</option>
+			<option value="6">Sixth</option>
+			<option value="7">Seventh</option>
+			<option value="8">Eigth</option>
+		</select>
             {% endif %}
 
             {% if competition.application_requirements.locations.count > 0 %}
