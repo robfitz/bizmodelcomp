@@ -42,7 +42,6 @@ class Founder(models.Model):
     course_of_study = models.CharField(max_length=500, blank=True, null=True, default="")
     year_of_study = models.CharField(max_length=100, blank=True, null=True, default="")
 
-
     #If False, anyone can create or edit a pitch for this founder
     #by simply knowing and entering the matching email address.
     #This is generally undesired, so the default (and standard) value is

@@ -113,7 +113,7 @@
                                     <select name="question_{{question.pk}}">
                                     {% for choice in question.choices %}
                                         {{question.answer.answer}} {{choice}}
-                                        <option {% ifequal question.answer.answer choice %}selected="selected"{% endifequal%}>{{choice}}</option>
+                                        <option value="{{choice}}" {% if question.answer == choice %}selected="selected"{% endif %}>{{choice}}</option>
                                     {% endfor %}
                                     </select>
                                     <p>
