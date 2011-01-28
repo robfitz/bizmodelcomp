@@ -46,37 +46,6 @@
 
         </div>
 
-		{% if phase.uploads %}
-
-			{% for upload in uploads %}
-
-            <div style="float:left;width:100%;clear:both;padding-left:8px;">
-				<p>
-
-                    <strong>{{upload.prompt}}</strong>
-
-					<div id="done_upload_{{upload.pk}}" {% if upload.file %}{% else %}class="hidden"{% endif %}>
-						<a href="{{upload.file.url}}">{{ upload.file }}</a>
-						<a href="javascript:void(0)" id="change_file_{{upload.pk}}" class="silver medium change_file">Change file</a>
-
-					</div>
-
-					<div id="blank_upload_{{upload.pk}}" {% if upload.file %}class="hidden"{% endif %}>
-
-						<input type="file" name="upload_{{upload.pk}}" />
-
-					</div>
-
-				</p>
-            </div>
-
-			{% endfor %}
-            </div>
-
-            <div class="hr" style="height:30px;">&nbsp;</div>
-
-		{% endif %}
-
 		{% if phase.questions %}
 
 			{% block questions %}
@@ -167,9 +136,37 @@
 
                     </div>
 
-				<div class="hr" style="height:30px">&nbsp;</div>
+				<div class="hr" style="height:0px">&nbsp;</div>
 
 			{% endblock %}
+
+		{% endif %}
+
+		{% if phase.uploads %}
+
+			{% for upload in uploads %}
+
+            <div style="float:left;width:100%;clear:both;padding-left:8px;">
+
+                    <strong>{{upload.prompt}}</strong>
+
+					<div id="done_upload_{{upload.pk}}" {% if upload.file %}{% else %}class="hidden"{% endif %}>
+						<a href="{{upload.file.url}}">{{ upload.file }}</a>
+						<a href="javascript:void(0)" id="change_file_{{upload.pk}}" class="silver medium change_file">Change file</a>
+
+					</div>
+
+					<div id="blank_upload_{{upload.pk}}" {% if upload.file %}class="hidden"{% endif %}>
+
+						<input type="file" name="upload_{{upload.pk}}" />
+
+					</div>
+
+            </div>
+
+			{% endfor %}
+
+            <div class="hr" style="height:30px;">&nbsp;</div>
 
 		{% endif %}
 
@@ -194,6 +191,5 @@
         </div>
 
 	</form>
-</div>
 
 {% endblock %}

@@ -19,18 +19,27 @@
         text-decoration:underline;
     }
 
+    .h3 {
+        color:#fff;
+    }
+
+    body {
+
+        font-family:"Arial";
+        color:#212226;
+    }
+
 {% endblock %}
 
 {% block content_outer_top %}
 
-<div style="color:#{{competition.hex_color}};padding:12px;float:left;width:84px;margin-top:30px;margin-right:20px;background-color:#{{competition.hex_header_color}};min-height:300px;">
-        
+    <div style="color:#{{competition.hex_color}};padding:12px;float:left;width:84px;margin-top:30px;margin-right:20px;background-color:#{{competition.hex_header_color}};min-height:300px;">
 
-    <span class="medium">Extra info</span>
+        <span class="medium">Extra info</span>
 
-    <a class="sidebar_link" href="javascript:void(0);" onclick="popup('/flatpopup/nvpc_home/');">Overview</a>
-    <a class="sidebar_link" href="javascript:void(0);" onclick="popup('/flatpopup/nvpc_about/');">Details</a>
-    <a class="sidebar_link" href="javascript:void(0);" onclick="popup('/flatpopup/nvpc_faqs/');">FAQs</a>
+        <a class="sidebar_link" href="javascript:void(0);" onclick="popup('/flatpopup/nvpc_home/');">Overview</a>
+        <a class="sidebar_link" href="javascript:void(0);" onclick="popup('/flatpopup/nvpc_about/');">Details</a>
+        <a class="sidebar_link" href="javascript:void(0);" onclick="popup('/flatpopup/nvpc_faqs/');">FAQs</a>
 
     </div>
 
