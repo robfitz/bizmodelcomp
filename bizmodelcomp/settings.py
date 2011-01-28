@@ -56,7 +56,7 @@ if is_local:
 #sendgrid credentials required for emailhelper.send_email
 EMAIL_USER = "robftz+nvana@gmail.com"
 EMAIL_PASSWORD = "It's spam time!"
-EMAIL_DEFAULT_FROM = "london.e.challenge@gmail.com"
+EMAIL_DEFAULT_FROM = "competitions@nvana.com"
 EMAIL_LOG = '/var/www/bizmodelcomp/logs/email.log'
 if filesystem == "WINDOWS":
     EMAIL_LOG = 'c:/www/bizmodelcomp/logs/email.log'

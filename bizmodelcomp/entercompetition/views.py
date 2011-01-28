@@ -298,6 +298,11 @@ def submit_team(request, comp_url):
                     phase=competition.current_phase)
             pitch.save()
 
+            #if a pitch has just been created, that suggests this is the first time
+            #the founder has applied to this particular competition, so we're gonna
+            #email them
+            send_welcome_email(request, founder, competition)
+
         #set team info
         team.name = unicode(team_name).encode('unicode_escape')
         team.save()
