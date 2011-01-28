@@ -1,4 +1,4 @@
-{% extends 'entercompetition/base.html' %}
+{% extends competition.template_base %}
 
 {% block content %}
 
@@ -17,6 +17,7 @@
 
 	<form action="." method="POST" enctype="multipart/form-data" class="focus">
 
+        <div style="width:600px;float:left;">
         <div style="width:600px;float:left;margin-top:30px;">
 
             {% if founder %}
@@ -193,5 +194,6 @@
         </div>
 
 	</form>
+</div>
 
 {% endblock %}
