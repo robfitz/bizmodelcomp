@@ -193,6 +193,22 @@ def submit_team(request, comp_url):
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
 
+    
+    if 'f' in request.GET:
+
+        #TODO: log out current user
+
+        #using an anon link
+        try:
+            rand_key = request.GET.get("f")
+            key = AnonFounderKey.objects.get(key=rand_key)
+            founder = key.founder
+        
+            request.session['founder_key'] = key.key
+            return HttpResponseRedirect("/a/%s/pitch" % comp_url)
+        except:
+            pass
+
     #standard team info
     name = ""
     email = ""
@@ -357,13 +373,13 @@ def submit_business(request, comp_url):
     print 'submit business'
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
-    founder = get_founder(request)
-
     alert = None
     pitch = None
     team = None
     business_types = None
 
+    founder = get_founder(request)
+    
     if not founder:
         return HttpResponseRedirect("/a/%s/" % comp_url)
 
