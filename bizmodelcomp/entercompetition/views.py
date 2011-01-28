@@ -316,7 +316,7 @@ def submit_team(request, comp_url):
             if key.startswith("teammate-email_"):
                 num = key[len("teammate-email_"):]
                 teammate_email = request.POST.get(key)
-                teammate_name = unicode(request.POST.get("teammate-name_%s" % num, email.split('@')[0], "")).encode('unicode_escape')
+                teammate_name = unicode(request.POST.get("teammate-name_%s" % num, teammate_email.split('@')[0])).encode('unicode_escape')
                 teammate = None
                 try:
                     teammate = Founder.objects.get(email=teammate_email)
