@@ -35,7 +35,7 @@
                 <strong>Business Type:</strong>
 
                 <select name="business_types">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    <option>&lt;&lt; please select &gt;&gt;</option>
                     {% for tag in competition.application_requirements.business_types.all %}
                     <option value="{{tag}}" {% for t in team.business_types.all %}{% if t == tag %}selected{% endif %}{% endfor %}>{{tag|capfirst}}</option>
                     {% endfor %}
@@ -80,6 +80,7 @@
                                     <div class="hr">&nbsp;</div>
 
                                     <select name="question_{{question.pk}}">
+                                        <option>&lt;&lt; please select &gt;&gt;</option>
                                     {% for choice in question.choices %}
                                         {{question.answer.answer}} {{choice}}
                                         <option value="{{choice}}" {% if question.answer == choice %}selected="selected"{% endif %}>{{choice}}</option>

@@ -27,7 +27,10 @@ def terms_of_service(request, comp_url):
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
 
-    return render_to_response('entercompetition/terms_of_service.html', locals())
+    copy = competition.terms_of_service
+
+    return render_to_response('sitecopy/static_copy_popup_nowidget.html', locals())
+    #return render_to_response('entercompetition/terms_of_service.html', locals())
 
 
 

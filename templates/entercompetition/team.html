@@ -1,5 +1,15 @@
 {% extends competition.template_base %}
 
+{% block style %}
+
+    {{ block.super }}
+
+    input, select, textarea {
+        margin:8px;0px;
+    }
+
+{% endblock %}
+
 {% block content %}
 
 	{{ block.super }}
@@ -19,12 +29,12 @@
 
         <div style="width:600px;float:left;margin-top:30px;">
 
-            <h2>Your details:</h2>
+            <h2>Personal details</h2>
 
             {% if founder %}
 
                 <span class="label">
-                    <label for="email">Your email:</label>
+                    <label for="email">Email</label>
                 </span>
                 <input disabled name="email" id="email" class="large" value="{{founder.email}}" />
                 <br/>
@@ -32,7 +42,7 @@
             {% else %}
 
                 <span class="label">
-                    <label for="email">Your email:</label>
+                    <label for="email">Email</label>
                 </span>
                 <input name="email" id="email" class="large" value="{{founder.email}}" />
                 <br/>
@@ -49,14 +59,14 @@
             <br/>
 
             <span class="label">
-                <label for="name">Your name:</label>
+                <label for="name">Name</label>
             </span>
             <input name="name" id="name" class="large" value="{{name}}" />
             <br/>
 
             {% if competition.application_requirements.is_phone_required %}
                 <span class="label">
-                    <label for="phone">Phone #:</label>
+                    <label for="phone">Phone #</label>
                 </span>
                 <input name="phone" id="phone" class="large" value="{{phone}}" />
                 <br/>
@@ -64,7 +74,7 @@
 
             {% if competition.application_requirements.is_birthday_required %}
                 <span class="label">
-                    <label for="birthday">Birthday:</label>
+                    <label for="birthday">Date of birth</label>
                 </span>
                 <input name="birthday" id="birthday" class="large" value="{{birthday}}" />
                 <br/>
@@ -72,9 +82,9 @@
 
             {% if competition.application_requirements.is_address_required %}
                 <span class="label">
-                    <label for="address">Mailing address:</label>
+                    <label for="address">Mailing address</label>
                 </span>
-                <textarea rows=4 style="margin-bottom:24px;width:400px;" name="address" id="address">{{address}}</textarea>
+                <textarea rows=4 style="width:400px;" name="address" id="address">{{address}}</textarea>
                 <br/>
             {% endif %}
 
@@ -82,10 +92,10 @@
 
             {% if competition.application_requirements.institutions.count > 0 %}
                 <span class="label">
-                    <label for="institution">Institution:</label>
+                    <label for="institution">University</label>
                 </span>
                 <select name="institution">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    <option>&lt;&lt; please select &gt;&gt;</option>
                     {% for tag in competition.application_requirements.institutions.all %}
                         <option value="{{tag}}">{{tag|capfirst}}</option>
                     {% endfor %}
@@ -94,17 +104,17 @@
                 <br/>
             {% else %}{% if competition.application_requirements.is_institution_required %}
                 <span class="label">
-                    <label for="institution">Institution:</label>
+                    <label for="institution">Institution</label>
                 </span>
                 <input name="institution" id="institution" class="large" value="{{institution}}" />
             {% endif %}{% endif %}
 
             {% if competition.application_requirements.applicant_types.count > 0 %}
                 <span class="label">
-                    <label for="applicant_types">Role:</label>
+                    <label for="applicant_types">Role</label>
                 </span>
                 <select name="applicant_types" style="margin-bottom:8px;">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    <option>&lt;&lt; please select &gt;&gt;</option>
                     {% for tag in competition.application_requirements.applicant_types.all %}
                         <option value="{{tag}}">{{tag|capfirst}}</option>
                     {% endfor %}
@@ -127,7 +137,7 @@
                     <label for="year_of_study">Year of study:</label>
                 </span>
                 <select name="year_of_study" id="year_of_study">
-			<option>&lt;&lt; select one &gt;&gt;</option>
+			<option>&lt;&lt; please select &gt;&gt;</option>
 			<option value="1">First</option>
 			<option value="2">Second</option>
 			<option value="3">Third</option>
@@ -141,10 +151,10 @@
 
             {% if competition.application_requirements.locations.count > 0 %}
                 <span class="label">
-                    <label for="locations">Location:</label>
+                    <label for="locations">Location</label>
                 </span>
                 <select name="locations">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    <option>&lt;&lt; please select &gt;&gt;</option>
                     {% for tag in competition.application_requirements.locations.all %}
                         <option value="{{tag}}">{{tag|capfirst}}</option>
                     {% endfor %}
@@ -153,39 +163,43 @@
                 <br/>
             {% endif %}
 
-            <div class="hr" style="height:30px;">&nbsp;</div>
-
-            <span class="label">
-                <label for="team_name">Team name:</label>
-            </span>
-            <input name="team_name" id="team_name" class="large" value="{{team_name}}" />
-            <br/>
 
         </div>
 
         <div class="hr" style="height:30px;">&nbsp;</div>
 
-        <h2 style="float:left;">Additional team members:</h2>
+        <h2 style="float:left;">Team details</h2>
+
+            <div class="hr" style="">&nbsp;</div>
+
+            <div style="float:left;">
+                <span class="label">
+                    <label for="team_name">Team name</label>
+                </span>
+                <input name="team_name" id="team_name" class="large" value="{{team_name}}" />
+            </div>
+
+            <br/>
 
         <div style="float:left;width:100%;" id="teammates">
 
-        <input type="submit" id="add_teammate_button" style="float:left;width:160px;" href="javascript:void(0);" onclick="return add_teammate()" value="Add teammate" />
+        <input type="submit" id="add_teammate_button" style="float:left;width:160px;" href="javascript:void(0);" onclick="return add_teammate()" value="Add team member" />
 
     </div>
 
     <div class="hidden teammate" id="teammate_template">
 
         <span class="label">
-            Name:
+            Team member name
         </span>
-        <input id="teammate-name"></input>
+        <input style="margin:0px 0px 4px 0px;" id="teammate-name"></input>
 
         <br/>
 
         <span class="label">
-            Email:
+            Team member email
         </span>
-        <input id="teammate-email"></input>
+        <input style="margin:0px 0px 4px 0px;" id="teammate-email"></input>
 
     </div>
 
