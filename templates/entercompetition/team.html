@@ -54,7 +54,7 @@
             <input name="name" id="name" class="large" value="{{name}}" />
             <br/>
 
-            {% if competition.is_phone_required %}
+            {% if competition.application_requirements.is_phone_required %}
                 <span class="label">
                     <label for="phone">Phone #:</label>
                 </span>
@@ -62,7 +62,7 @@
                 <br/>
             {% endif %}
 
-            {% if competition.is_birthday_required %}
+            {% if competition.application_requirements.is_birthday_required %}
                 <span class="label">
                     <label for="birthday">Birthday:</label>
                 </span>
@@ -70,7 +70,7 @@
                 <br/>
             {% endif %}
 
-            {% if competition.is_address_required %}
+            {% if competition.application_requirements.is_address_required %}
                 <span class="label">
                     <label for="address">Mailing address:</label>
                 </span>
@@ -92,7 +92,7 @@
                     <option value="Other">Other</option>
                 </select>
                 <br/>
-            {% else %}{% if competition.is_institution_required %}
+            {% else %}{% if competition.application_requirements.is_institution_required %}
                 <span class="label">
                     <label for="institution">Institution:</label>
                 </span>
@@ -113,14 +113,14 @@
                 <br/>
             {% endif %}
 
-            {% if competition.is_course_of_study_required %}
+            {% if competition.application_requirements.is_course_of_study_required %}
                 <span class="label">
                     <label for="course_of_study">Course of study:</label>
                 </span>
                 <input name="course_of_study" id="course_of_study" class="large" value="{{course_of_study}}" />
             {% endif %}
 
-            {% if competition.is_year_of_study_required %}
+            {% if competition.application_requirements.is_year_of_study_required %}
                 <span class="label">
                     <label for="year_of_study">Year of study:</label>
                 </span>
