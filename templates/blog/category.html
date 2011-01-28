@@ -1,0 +1,22 @@
+{% extends 'base.html' %} 
+
+{% block header_title %}
+{{name}}
+{% endblock %}
+
+    {% block content %}
+    
+    {% load markup %}
+    <small><a href=/blog>Back to the blog...</a></small>
+    
+        {% if posts %}
+            <ul>
+            {% for post in posts %}
+                <li><a href="{{post.url}}">{{post.title}}</a> <small>{{ post.created|date }}</small></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>There are no posts.</p>
+        {% endif %}   
+        
+    {% endblock %}
