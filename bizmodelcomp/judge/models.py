@@ -129,13 +129,36 @@ Sincerely,
               judging_link,
               self.competition.name)
         
-            
             send_email(subject, message_markdown, to_email)
 
 
     def __unicode__(self):
 
         return self.display_name()
+
+
+
+#specified by the organizer, these are the grading criteria 
+#and possible points & feedback judges can assign
+class JudgingCriteria(models.Model):
+
+    phase = models.ForeignKey("competition.Phase", null=True)
+
+    order = models.DecimalField(default=1, max_digits=4, decimal_places=2)
+
+    #instructions for the judge
+    prompt = models.CharField(default="", blank=True, max_length=500)
+
+    #ignored if is_text_feedback==True
+    max_points = models.IntegerField(default=10)
+
+    #if true, shows a text field instead of a score slider
+    is_text_feedback = models.BooleanField(default=False)
+
+
+    def __unicode__(self):
+
+        return self.prompt
 
 
 

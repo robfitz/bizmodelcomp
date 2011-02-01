@@ -1,0 +1,113 @@
+{% extends 'dashboard/popup_section.html' %}
+
+{% block section_content %}
+
+    <form action="/dashboard/phase/{{phase.id}}/judgingcriteria/" method="POST" class="focus">
+
+        <div id="judging_criteria">
+
+            {% for jc in judging_criteria %}
+
+                {{ jc }} <br/>
+
+            {% endfor %}
+
+
+
+        </div>
+        
+		<p>
+			<input type="submit" value="Save judging criteria" />
+		</p>
+
+	</form>
+
+    <input class="button" type="button" onclick="add_score()" value="Add score" />
+    <input class="button" type="button" onclick="add_feedback()" value="Add text" />
+
+    <div class="hidden" id="new_score">
+
+        Instructions for judge:
+        <br/>
+        <textarea name="prompt_" class="prompt"></textarea>
+
+        Max score: <input name="max_points_"class="max_score_selector" type="number" min=1 stepsize=1 value=5 max=100 />
+
+    </div>
+
+    <div class="hidden" id="new_feedback">
+
+        Instructions for judge:
+        <br/>
+        <textarea name="prompt_" class="prompt"></textarea>
+
+    </div>
+
+    <script language="javascript" type="text/javascript">
+        
+        $(function () {
+
+            var new_criteria;
+
+            {% for criteria in judging_criteria %}
+
+                {% if criteria.is_text_feedback %}
+                    new_criteria = $("#new_feedback").clone();
+                {% else %}
+                    new_criteria = $("#new_score").clone();
+                    new_criteria.children(".max_score_selector").val("{{criteria.max_points}}");
+                {% endif %}
+
+                new_criteria.removeClass("hidden");
+                new_criteria.children(".prompt").val("{{criteria.prompt}}");
+                $("#judging_criteria").append(new_criteria);
+
+            {% endfor %}
+
+            //for each child(-r) in new_q of type "input" or "textarea", append Num to its name
+            $("#judging_criteria input, #judging_criteria textarea").each(function () {
+                $(this).attr('name', $(this).attr('name') + "{{criteria.id}}");
+            });
+
+        });
+
+        function add_score() {
+
+            var new_criteria = $("#new_score").clone();
+            var num = $("#judging_criteria").children().length + 1;
+
+            new_criteria.removeClass("hidden");
+            new_criteria.attr("id", "criteria_" + num);
+            var new_id = "#" + new_criteria.attr("id");
+
+            $("#judging_criteria").append(new_criteria)
+
+            $(new_id + " .max_score_selector").attr("name", "max_points_" + num);
+            $(new_id + " .prompt").attr("name", "newprompt_" + num);
+        }
+
+        function add_feedback() {
+
+            var new_criteria = $("#new_feedback").clone();
+            var num = $("#judging_criteria").children().length + 1;
+
+            new_criteria.removeClass("hidden");
+            new_criteria.attr("id", "criteria_" + num);
+            var new_id = "#" + new_criteria.attr("id");
+
+            $("#judging_criteria").append(new_criteria)
+
+            $(new_id + " .prompt").attr("name", "newprompt_" + num);
+        }
+
+        function get_id(obj) {
+
+            var toks = obj.attr("id").split("_");
+            var id = toks[toks.length - 1];
+            return id;
+        }
+
+    </script>
+
+{% endblock %}
+

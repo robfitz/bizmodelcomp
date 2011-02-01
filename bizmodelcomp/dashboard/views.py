@@ -650,6 +650,64 @@ def should_delete(question):
         return False
 
 
+
+@login_required
+def edit_judging_criteria(request, phase_id):
+
+    phase = get_object_or_404(Phase, id=phase_id)
+    competition = phase.competition
+
+    judging_criteria = JudgingCriteria.objects.filter(phase=phase).all()
+
+    if not has_dash_perms(request, phase.competition.id):
+        return HttpResponseRedirect("/no_permissions/")
+
+    if request.method == "POST":
+
+        for key in request.POST:
+
+            criteria = None
+
+            #create new judging criteria
+            if key.startswith("newprompt_"):
+
+                num = key[len("newprompt_"):]
+
+                prompt = request.POST.get(key)
+                max_points = request.POST.get("max_points_%s" % num)
+
+                if max_points:
+                    criteria = JudgingCriteria(phase=phase,
+                        prompt=prompt,
+                        max_points=max_points)
+                else:
+                    print 'no max points'
+                    criteria = JudgingCriteria(phase=phase,
+                        prompt=prompt,
+                        is_text_feedback=True)
+
+                criteria.save()
+
+            elif key.startswith("prompt_"):
+
+                try:
+                    id = key[len("prompt_"):]
+                    critera = JudgingCriteria.objects.get(id=int(id))
+                    
+                    prompt = request.POST.get(key)
+                    max_points = request.POST.get("max_points_%s" % id)
+
+                    if max_points:
+                        criteria.max_points = max_points
+
+                    criteria.prompt = prompt
+
+                    criteria.save()
+
+    return render_to_response('dashboard/edit_judging_criteria.html', locals())
+
+
+
 @login_required
 def edit_application(request, phase_id):
 

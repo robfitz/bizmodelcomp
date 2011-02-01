@@ -5,7 +5,7 @@ import os
 is_local = False
 
 local_windows = ['robfitz-PC', 'tugboat']
-local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local']
+local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local', 'rob-fitzpatricks-macbook-air.local']
 test_server_hostnames = ['ip-10-122-193-156', 'ip-10-245-129-64']
 
 filesystem = "UNIX"

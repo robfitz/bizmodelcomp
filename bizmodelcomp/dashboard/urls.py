@@ -9,6 +9,9 @@ urlpatterns = patterns('',
     #edit application (per phase)
     (r'^phase/(?P<phase_id>[0-9]{1,100})/application/$',
          'dashboard.views.edit_application'),
+    #edit judging criteria (per phase)
+    (r'^phase/(?P<phase_id>[0-9]{1,100})/judgingcriteria/$',
+         'dashboard.views.edit_judging_criteria'),
 
     #advance to next phase
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/next_phase/$', 'dashboard.views.next_phase'),
