@@ -172,7 +172,7 @@ class Competition(models.Model):
     logo = models.FileField(null=True, blank=True, upload_to="uploads/logos/")
 
     #more branding, only used for totally custom whitelabelling
-    template_base = models.CharField(max_length=200, default="", blank=True)
+    template_base = models.CharField(max_length=200, default="entercompetition/base.html")
     template_pitch = models.CharField(max_length=201, default="", blank=True)
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 

@@ -4,7 +4,6 @@ from django import forms
 
 from bizmodelcomp.emailhelper.models import *
 from bizmodelcomp.userhelper.models import *
-from bizmodelcomp.blog.models import *
 from bizmodelcomp.utils.models import *
 
 ##class QuestionInline(admin.TabularInline):
@@ -116,6 +115,3 @@ admin.site.register(Val)
 admin.site.register(VerificationKey)
 admin.site.register(UserProfile)
 ##admin.site.register(Worksheet, WorksheetAdmin)
-
-admin.site.register(BlogPost)
-admin.site.register(Tag)
