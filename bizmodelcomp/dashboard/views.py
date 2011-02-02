@@ -703,6 +703,8 @@ def edit_judging_criteria(request, phase_id):
                     criteria.prompt = prompt
 
                     criteria.save()
+                except:
+                    pass
 
     return render_to_response('dashboard/edit_judging_criteria.html', locals())
 

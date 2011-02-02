@@ -204,7 +204,7 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
     
     try:
         #if a judge thing exists for this user, grab it
-        judge = JudgeInvitation.objects.filter(user=request.user)[0]
+        judge = JudgeInvitation.objects.get(user=request.user, competition=competition)
     except:
         fail = None
         fail.no_judge_invite()
@@ -219,19 +219,13 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
             
             try:
                 #look for existing judgement
-                judgement = JudgedPitch.objects.filter(pitch=pitch).get(judge=judge)
+                judgement = JudgedPitch.objects.filter(pitch=pitch, judge=judge)
             
             except:
                 #create new judgement
                 judgement = JudgedPitch(judge=judge,
                                         pitch=pitch)
                 judgement.save()
-
-            if "overall_score" in request.POST:
-
-                judgement.overall_score = request.POST["overall_score"]
-                judgement.save()
-            
             
             for key in request.POST:
 
@@ -243,6 +237,7 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
                     except:
                         answer_id = None
 
+                    #TODO: BOOBIES
                     if key.startswith("answer_q_") or key.startswith("feedback_q_"):
                         question_id = int(toks[len(toks) - 1]) #last token is ID
                         question = PitchQuestion.objects.get(id=question_id)

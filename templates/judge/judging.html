@@ -14,32 +14,30 @@
 Now judging {{competition}}
 {% endblock %}
 
-{% block ready_script %}
-
-	$('.slider').slider({
-		animate: true,
-		max: {{max_score}},
-		range: 'min',
-	});
-
-	{% for question in questions %}
-		{% if question.max_points %}
-			$('#slider_{{question.id}}').slider('option', 'max', {{question.max_points}});
-			max_points[{{question.id}}] = {{question.max_points}};
-			{% if question.score %}
-			$('#slider_{{question.id}}').slider('option', 'value', {{question.score}});
-			{% else %}
-			$('#slider_{{question.id}}').slider('option', 'value', 0);
-			{% endif %}
-		{% endif %}
-	{% endfor %}
-
-	$('.slider').bind('slidechange', slider_changed);
-	$('.slider').bind('slide', slider_changed);
-
-{% endblock %}
-
 {% block script %}
+
+    $(function() {
+        $('.slider').slider({
+            animate: true,
+            max: {{max_score}},
+            range: 'min',
+        });
+
+        {% for criteria in competition.current_phase.judgingcriteria_set.all %}
+            {% if criteria.max_points %}
+                $('#slider_{{criteria.id}}').slider('option', 'max', {{criteria.max_points}});
+                max_points[{{criteria.id}}] = {{criteria.max_points}};
+                {% if question.score %}
+                    $('#slider_{{criteria.id}}').slider('option', 'value', {{question.score}});
+                {% else %}
+                    $('#slider_{{criteria.id}}').slider('option', 'value', 0);
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+
+        $('.slider').bind('slidechange', slider_changed);
+        $('.slider').bind('slide', slider_changed);
+    });
 
 	var max_points = [];
 
@@ -52,122 +50,49 @@ Now judging {{competition}}
 
 {% endblock %}
 
+{% block style %}
+
+#body {
+    width:1024px;
+}
+#header, #footer, #content, #content_outer {
+    width:1008px;
+}
+
+    
+
+{% endblock %}
+
 {% block content %}
 
-    <div class="hr" style="height:30px;">&nbsp;</div>
-	{% load markup %}
+    <div style="width:760px;float:left;">
+        {% include 'dashboard/display_pitch.html' %}
+    </div>
 
-	{{ block.super }}
+    <div style="width:230px;float:left;">
 
-	<form action="." method="POST">
+        judging section
 
-		<input type="hidden" name="pitch" value="{{pitch.pk}}" />
+        {% for criteria in competition.current_phase.judgingcriteria_set.all %}
 
-        <div style="padding:0px 8px 20px 8px;float:left;clear:both;width:96%;"> <!-- begin next question_section -->
+            {% if criteria.is_text_feedback %}
 
-        {% for upload in uploads %}
-            {% include 'entercompetition/review_upload.html' %}
-        {% endfor %}
-
-		{% for question in questions %}
-
-            {% if question.is_divider %}
-                
-                </div> <!-- end previous question_section -->
-                <div style="width:96%;float:left;padding:0px 8px;margin:0px 0px 8px 0px;background-color:#ccc;border-top:1px solid gray;">
-                    <h3 style="float:left;clear:both;padding:4px 0px;margin:0px;">{{question.prompt}}</h3>
-                </div>
-
-                <div style="padding:0px 8px 20px 8px;float:left;clear:both;width:96%;"> <!-- begin next question_section -->
+                <textarea name="feedback_{{criteria.id}}" ></textarea>
 
             {% else %}
 
-                <div class="judge_question">
-
-                    {% if question.is_hidden_from_applicants %}
-                        <div class="judge_application">
-                        </div>
-                    {% else %}
-                        <div class="judge_application">
-
-                            <strong class="prompt">{{ question.prompt }}</strong>
-                            <br/>
-                            <div style="border:1px solid #ccc;padding:0px 8px;background-color:#eee;">
-
-                                {% if question.answer.answer %}
-
-                                    {{question.answer.answer|markdown}}
-
-                                {% else %} {% if question.is_required %}
-                                    
-                                    <p> 
-                                    (No answer)
-                                    </p>
-
-                                {% endif %}{% endif %}
-
-                            </div>
-
-                        </div>
-                    {% endif %}
-
-                    <div class="judging">
-
-                        {% if question.max_points > 0 %}
-
-                            <strong>
-                                {% if question.judge_points_prompt %}
-                                    {{ question.judge_points_prompt }}
-                                {% else %}
-                                    Score:
-                                {% endif %}
-                            </strong>
-
-                            <br/>
-
-                            <div class="slider" id="slider_{{question.id}}"></div>
-                            <div class="score_input">
-    {% if question.answer %}
-                                <input type="number" min="0" max="{{question.max_points}}" id="score_label_{{question.id}}" value="{{question.score}}" class="score_field" name="answer_{{question.answer.id}}" />
-    {% else %}
-                                <input type="number" min="0" max="{{question.max_points}}" id="score_label_{{question.id}}" value="{{question.score}}" class="score_field" name="answer_q_{{question.id}}" />
-    {% endif %}
-                            </div>
-
-                            <br/>
-
-                        {% endif %}
-
-                        {% if question.judge_feedback_prompt %}
-
-                            <strong>{{ question.judge_feedback_prompt }}</strong>
-                            <br/>
-    {% if question.answer %}
-                            <textarea rows="6" name="feedback_{{question.answer.id}}">{{question.feedback}}</textarea>
-    {% else %}
-                            <textarea rows="6" name="feedback_q_{{question.id}}">{{question.feedback}}</textarea>
-    {% endif %}
-
-                        {% endif %}
-
-                    </div>
-
+                <div class="slider" id="slider_{{criteria.id}}"></div>
+                <div class="score_input">
+                    <input type="number" min="0" max="{{criteria.max_points}}" id="score_label_{{criteria.id}}" value="{{question.score}}" class="score_field" name="answer_{{criteria.id}}" />
                 </div>
 
             {% endif %}
 
-		{% endfor %}
+        {% endfor %}
 
-		<div class="hr">&nbsp;</div>
-
-		<div style="float:left;">
-		<p>
-		<input type="submit" value="Submit scores & feedback" style="font-size:18px;" />
-		</p>
-		</div>
+    </div>
 
 
 
-	</form>
 
 {% endblock %}
