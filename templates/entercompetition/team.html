@@ -1,6 +1,13 @@
-{% extends 'entercompetition/base.html' %}
+{% extends competition.template_base %}
 
-{% block account_controls %}
+{% block style %}
+
+    {{ block.super }}
+
+    input, select, textarea {
+        margin:8px;0px;
+    }
+
 {% endblock %}
 
 {% block content %}
@@ -22,12 +29,12 @@
 
         <div style="width:600px;float:left;margin-top:30px;">
 
-            <h2>Your details:</h2>
+            <h2>Personal details</h2>
 
             {% if founder %}
 
                 <span class="label">
-                    <label for="email">Your email:</label>
+                    <label for="email">Email</label>
                 </span>
                 <input disabled name="email" id="email" class="large" value="{{founder.email}}" />
                 <br/>
@@ -35,7 +42,7 @@
             {% else %}
 
                 <span class="label">
-                    <label for="email">Your email:</label>
+                    <label for="email">Email</label>
                 </span>
                 <input name="email" id="email" class="large" value="{{founder.email}}" />
                 <br/>
@@ -52,37 +59,62 @@
             <br/>
 
             <span class="label">
-                <label for="name">Your name:</label>
+                <label for="name">Name</label>
             </span>
             <input name="name" id="name" class="large" value="{{name}}" />
             <br/>
 
-            <span class="label">
-                <label for="phone">Phone #:</label>
-            </span>
-            <input name="phone" id="phone" class="large" value="{{phone}}" />
-            <br/>
+            {% if competition.application_requirements.is_phone_required %}
+                <span class="label">
+                    <label for="phone">Phone #</label>
+                </span>
+                <input name="phone" id="phone" class="large" value="{{phone}}" />
+                <br/>
+            {% endif %}
+
+            {% if competition.application_requirements.is_birthday_required %}
+                <span class="label">
+                    <label for="birthday">Date of birth</label>
+                </span>
+                <input name="birthday" id="birthday" class="large" value="{{birthday}}" />
+                <br/>
+            {% endif %}
+
+            {% if competition.application_requirements.is_address_required %}
+                <span class="label">
+                    <label for="address">Mailing address</label>
+                </span>
+                <textarea rows=4 style="width:400px;" name="address" id="address">{{address}}</textarea>
+                <br/>
+            {% endif %}
+
+
 
             {% if competition.application_requirements.institutions.count > 0 %}
                 <span class="label">
-                    <label for="institution">Institution:</label>
+                    <label for="institution">University</label>
                 </span>
                 <select name="institution">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    <option>&lt;&lt; please select &gt;&gt;</option>
                     {% for tag in competition.application_requirements.institutions.all %}
                         <option value="{{tag}}">{{tag|capfirst}}</option>
                     {% endfor %}
                     <option value="Other">Other</option>
                 </select>
                 <br/>
-            {% endif %}
+            {% else %}{% if competition.application_requirements.is_institution_required %}
+                <span class="label">
+                    <label for="institution">Institution</label>
+                </span>
+                <input name="institution" id="institution" class="large" value="{{institution}}" />
+            {% endif %}{% endif %}
 
             {% if competition.application_requirements.applicant_types.count > 0 %}
                 <span class="label">
-                    <label for="applicant_types">Role:</label>
+                    <label for="applicant_types">Role</label>
                 </span>
-                <select name="applicant_types">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
+                <select name="applicant_types" style="margin-bottom:8px;">
+                    <option>&lt;&lt; please select &gt;&gt;</option>
                     {% for tag in competition.application_requirements.applicant_types.all %}
                         <option value="{{tag}}">{{tag|capfirst}}</option>
                     {% endfor %}
@@ -91,12 +123,38 @@
                 <br/>
             {% endif %}
 
+            {% if competition.application_requirements.is_course_of_study_required %}
+<div style="width:600px;float:left;">
+                <span class="label">
+                    <label for="course_of_study">Course of study:</label>
+                </span>
+                <input name="course_of_study" id="course_of_study" class="large" value="{{course_of_study}}" />
+</div>
+            {% endif %}
+
+            {% if competition.application_requirements.is_year_of_study_required %}
+                <span class="label">
+                    <label for="year_of_study">Year of study:</label>
+                </span>
+                <select name="year_of_study" id="year_of_study">
+			<option>&lt;&lt; please select &gt;&gt;</option>
+			<option value="1">First</option>
+			<option value="2">Second</option>
+			<option value="3">Third</option>
+			<option value="4">Fourth</option>
+			<option value="5">Fifth</option>
+			<option value="6">Sixth</option>
+			<option value="7">Seventh</option>
+			<option value="8">Eigth</option>
+		</select>
+            {% endif %}
+
             {% if competition.application_requirements.locations.count > 0 %}
                 <span class="label">
-                    <label for="locations">Location:</label>
+                    <label for="locations">Location</label>
                 </span>
                 <select name="locations">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    <option>&lt;&lt; please select &gt;&gt;</option>
                     {% for tag in competition.application_requirements.locations.all %}
                         <option value="{{tag}}">{{tag|capfirst}}</option>
                     {% endfor %}
@@ -105,66 +163,72 @@
                 <br/>
             {% endif %}
 
-            <div class="hr" style="height:30px;">&nbsp;</div>
-
-            <span class="label">
-                <label for="team_name">Team name:</label>
-            </span>
-            <input name="team_name" id="team_name" class="large" value="{{team_name}}" />
-            <br/>
 
         </div>
 
         <div class="hr" style="height:30px;">&nbsp;</div>
 
-        <h2 style="float:left;">Additional team members:</h2>
+        <h2 style="float:left;">Team details</h2>
+
+            <div class="hr" style="">&nbsp;</div>
+
+            <div style="float:left;">
+                <span class="label">
+                    <label for="team_name">Team name</label>
+                </span>
+                <input name="team_name" id="team_name" class="large" value="{{team_name}}" />
+            </div>
+
+            <br/>
 
         <div style="float:left;width:100%;" id="teammates">
 
-            <a id="add_teammate_button" style="float:left;" href="javascript:void(0);" onclick="add_teammate()" class="button">Add teammate</a>
+        <input type="submit" id="add_teammate_button" style="float:left;width:160px;" href="javascript:void(0);" onclick="return add_teammate()" value="Add team member" />
 
-        </div>
+    </div>
 
-        <div class="hidden teammate" id="teammate_template">
+    <div class="hidden teammate" id="teammate_template">
 
-            <span class="label">
-                Name:
-            </span>
-            <input id="teammate-name"></input>
+        <span class="label">
+            Team member name
+        </span>
+        <input style="margin:0px 0px 4px 0px;" id="teammate-name"></input>
 
-            <br/>
+        <br/>
 
-            <span class="label">
-                Email:
-            </span>
-            <input id="teammate-email"></input>
+        <span class="label">
+            Team member email
+        </span>
+        <input style="margin:0px 0px 4px 0px;" id="teammate-email"></input>
 
-        </div>
+    </div>
 
 
-        <div class="hr" style="height:30px;">&nbsp;</div>
+    <div class="hr" style="height:30px;">&nbsp;</div>
 
-        <div style="float:left;">
-            <input type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
-            <p>
-            You can update your pitch until the application deadline.
-            </p>
-        </div>
-	</form>
+    <div style="float:left;">
+        <input class="button" style="font-size:18px;" type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
+        <p>
+        You can update your pitch until the application deadline.
+        </p>
+    </div>
+</form>
 
-    <script language="javascript" type="text/javascript">
+<script language="javascript" type="text/javascript">
 
-        function add_teammate() {
+    function add_teammate() {
 
-            var num = $("#teammates").children().length;
-            var teammate = $("#teammate_template").clone();
+        var num = $("#teammates").children().length;
+        var teammate = $("#teammate_template").clone();
 
-            teammate.attr("id", "teammate_" + num);
-            teammate.removeClass("hidden");
-            teammate.children("#teammate-name").attr("name", "teammate-name_" + num);
-            teammate.children("#teammate-email").attr("name", "teammate-email_" + num);
+        teammate.attr("id", "teammate_" + num);
+        teammate.removeClass("hidden");
+        teammate.children("#teammate-name").attr("name", "teammate-name_" + num);
+        teammate.children("#teammate-email").attr("name", "teammate-email_" + num);
 
-            $("#add_teammate_button").before(teammate);
+        $("#add_teammate_button").before(teammate);
+
+            return false;
         }
 
     </script>

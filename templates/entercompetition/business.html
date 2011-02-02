@@ -1,86 +1,4 @@
-{% extends 'base.html' %}
-
-{% block breadcrumbs %}
-{% endblock %}
-
-{% block logo %}
-    {% if competition.logo %}
-        <a href="{{competition.website}}"><img src="{{competition.logo_url}}" style="border:0px solid black;"></a>
-    {% else %}
-        {{block.super}}
-    {% endif %}
-{% endblock %}
-
-{% block header_title %}
-Apply to {{ competition }}
-{% endblock %}
-
-{% block account_controls %}
-{% endblock %}
-
-{% block footer %}
-{% endblock %}
-
-{% block ready_script %}
-
-	$('.change_file').click(function() {
-		var upload_id = ($(this).attr('id')).substr("change_file_".length);
-		//alert('upload id: ' + upload_id);
-		//alert($('#blank_upload_' + upload_id).attr('id'));
-		$('#blank_upload_' + upload_id).show();
-		$('#done_upload_' + upload_id).hide();
-	});
-
-	$('#recovery').click(function() {
-		if ($('#email').val() && $('#email').val() != "") {
-			$('#recovery').attr('href','/apply/load/{{competition.hosted_url}}/?e=' + $('#email').val());
-		}
-	});
-
-{% endblock %}
-
-{% block style %}
-
-.label {
-    width:110px;
-    font-size:16px;
-    font-weight:bold;
-    float:left;
-}
-
-input {
-    width:400px;
-}
-
-select {
-    font-size:18px;
-}
-
-h2 {
-    margin-bottom:12px;
-}
-
-.h3 {
-    background-color:#eee;
-    width:616px;
-    float:left;
-    padding:0px 8px;
-    margin:0px 0px 8px 0px;
-    border-top:1px solid gray;
-}
-.h3 h3 {
-    padding:4px 0px;
-    margin:0px 0px;
-}
-
-.question_section {
-    background-color:#fff;
-    padding:0px 8px 20px 8px;
-    float:left;
-    clear:both;
-}
-
-{% endblock %}
+{% extends competition.template_base %}
 
 {% block content %}
 
@@ -99,6 +17,7 @@ h2 {
 
 	<form action="." method="POST" enctype="multipart/form-data" class="focus">
 
+        <div style="width:600px;float:left;">
         <div style="width:600px;float:left;margin-top:30px;">
 
             {% if founder %}
@@ -116,7 +35,7 @@ h2 {
                 <strong>Business Type:</strong>
 
                 <select name="business_types">
-                    <option>&lt;&lt; select one &gt;&gt;</option>
+                    <option>&lt;&lt; please select &gt;&gt;</option>
                     {% for tag in competition.application_requirements.business_types.all %}
                     <option value="{{tag}}" {% for t in team.business_types.all %}{% if t == tag %}selected{% endif %}{% endfor %}>{{tag|capfirst}}</option>
                     {% endfor %}
@@ -126,37 +45,6 @@ h2 {
             {% endif %}
 
         </div>
-
-		{% if phase.uploads %}
-
-			{% for upload in uploads %}
-
-            <div style="float:left;width:100%;clear:both;padding-left:8px;">
-				<p>
-
-                    <strong>{{upload.prompt}}</strong>
-
-					<div id="done_upload_{{upload.pk}}" {% if upload.file %}{% else %}class="hidden"{% endif %}>
-						<a href="{{upload.file.url}}">{{ upload.file }}</a>
-						<a href="javascript:void(0)" id="change_file_{{upload.pk}}" class="silver medium change_file">Change file</a>
-
-					</div>
-
-					<div id="blank_upload_{{upload.pk}}" {% if upload.file %}class="hidden"{% endif %}>
-
-						<input type="file" name="upload_{{upload.pk}}" />
-
-					</div>
-
-				</p>
-            </div>
-
-			{% endfor %}
-            </div>
-
-            <div class="hr" style="height:30px;">&nbsp;</div>
-
-		{% endif %}
 
 		{% if phase.questions %}
 
@@ -181,12 +69,21 @@ h2 {
 
                                 {% if question.choices %}
 
-                                    <strong class="prompt">{{ question.prompt }}</strong>
+                                    <div style="float:left;clear:both;width:100%;">
+                                        <strong class="prompt">{{ question.prompt }}</strong>
+                                        {% if question.extra_info %}
+                                        <br/>
+                                        {{ question.extra_info }}
+                                        {% endif %}
+                                    </div>
+
                                     <div class="hr">&nbsp;</div>
+
                                     <select name="question_{{question.pk}}">
+                                        <option>&lt;&lt; please select &gt;&gt;</option>
                                     {% for choice in question.choices %}
                                         {{question.answer.answer}} {{choice}}
-                                        <option {% ifequal question.answer.answer choice %}selected="selected"{% endifequal%}>{{choice}}</option>
+                                        <option value="{{choice}}" {% if question.answer == choice %}selected="selected"{% endif %}>{{choice}}</option>
                                     {% endfor %}
                                     </select>
                                     <p>
@@ -198,18 +95,40 @@ h2 {
 
                                     {% ifequal question.field_rows 1 %}
 
-                                    <strong class="prompt">{{ question.prompt }}</strong>
-                                    <div class="hr">&nbsp;</div>
-                                    <input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+                                        <div style="float:left;clear:both;width:100%;">
+                                            <strong class="prompt">{{ question.prompt }}</strong>
+                                            {% if question.extra_info %}
+
+                                                <br/>
+                                                {{ question.extra_info }}
+
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="hr">&nbsp;</div>
+                                        <input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 
                                     {% else %}
-                                    <strong class="prompt">{{ question.prompt }}</strong>
-                                    <div class="hr">&nbsp;</div>
-                                    <textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+                                        <div style="float:left;clear:both;width:100%;">
+                                            <strong class="prompt">{{ question.prompt }}</strong>
+
+                                            {% if question.extra_info %}
+
+                                                <br/>
+                                                <div style="float:left;">{{ question.extra_info }}</div>
+                                            {% endif %}
+
+                                        </div>
+
+                                        <div class="hr">&nbsp;</div>
+                                        <textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+
                                     {% endifequal %}
 
                                 {% endif %} <!-- if question.choices -->
+
                             </div>
+
                         {% endif %} <!-- if question.is_divider -->
 
                     {% endif %} <!-- if question.is_hidden_from_applicants -->
@@ -218,20 +137,60 @@ h2 {
 
                     </div>
 
-				<div class="hr" style="height:30px">&nbsp;</div>
+				<div class="hr" style="height:0px">&nbsp;</div>
 
 			{% endblock %}
 
 		{% endif %}
 
+		{% if phase.uploads %}
+
+			{% for upload in uploads %}
+
+            <div style="float:left;width:100%;clear:both;padding-left:8px;">
+
+                    <strong>{{upload.prompt}}</strong>
+
+					<div id="done_upload_{{upload.pk}}" {% if upload.file %}{% else %}class="hidden"{% endif %}>
+						<a href="{{upload.file.url}}">{{ upload.file }}</a>
+						<a href="javascript:void(0)" id="change_file_{{upload.pk}}" class="silver medium change_file">Change file</a>
+
+					</div>
+
+					<div id="blank_upload_{{upload.pk}}" {% if upload.file %}class="hidden"{% endif %}>
+
+						<input type="file" name="upload_{{upload.pk}}" />
+
+					</div>
+
+            </div>
+
+			{% endfor %}
+
+            <div class="hr" style="height:30px;">&nbsp;</div>
+
+		{% endif %}
+
 		<input id="is_draft" type="hidden" name="is_draft" value="False" />
                 
-                <div style="float:left;">
-		<input type="submit" style="font-size:18px;" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
-		<p>
-		You can update your pitch until the application deadline.
-		</p>
-                </div>
+        <div style="float:left;">
+
+            {% if competition.terms_of_service %}
+                <p>
+
+                <strong>Please note:</strong> by submitting this form, you are agreeing to the <a href="javascript:void(0);" onclick="popup('/a/{{competition.hosted_url}}/tos/');">terms and conditions</a> of this competition. Please take a moment to <a href="javascript:void(0);" onclick="popup('/a/{{competition.hosted_url}}/tos/');">review them</a> before proceeding.
+
+                </p>
+            {% endif %}
+
+            <input class="button" type="submit" style="font-size:18px;" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
+
+            <p>
+            You can update your pitch until the application deadline.
+            </p>
+
+        </div>
+
 	</form>
 
 {% endblock %}

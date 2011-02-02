@@ -1,0 +1,12 @@
+{% extends 'dashboard/popup_section.html' %}
+
+{% block section_title %}
+{% endblock %}
+
+{% block section_content %}
+
+    {% load markup %}
+
+    {{ copy|markdown }}
+
+{% endblock %}
