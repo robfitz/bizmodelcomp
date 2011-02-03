@@ -37,6 +37,9 @@ def list(request, comp_url):
             pitch.judgement = judgements[0]
             judged.append(pitch)
 
+    num_judged = len(judged)
+    num_to_judge = len(unjudged)
+
     #cleanup of local vars so header displays properly
     pitch = None
 
@@ -127,9 +130,11 @@ def dashboard(request, comp_url=None):
         fail = None
         fail.no_judge_invite()
 
-    judged_pitches = competition.current_phase.judgements(judge)
+    judged_pitches = competition.current_phase.judgements(judge, -1)
     num_judged = len(judged_pitches)
-    num_to_judge = len(competition.current_phase.pitches_to_judge())
+    num_to_judge = len(competition.current_phase.pitches_to_judge(judge, -1))
+
+    print 'dashboard, judged=%s, to judge=%s' % (num_judged, num_to_judge)
     judge_rank = competition.current_phase.judge_rank(judge)
 
     max_score = competition.current_phase.max_score()
@@ -323,8 +328,8 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
             max_score = competition.current_phase.max_score()
             print 'maxscore: %s' % max_score
     
-            num_judged = len(competition.current_phase.judgements(judge))
-            num_to_judge = len(competition.current_phase.pitches_to_judge(judge))
+            num_judged = len(competition.current_phase.judgements(judge, -1))
+            num_to_judge = len(competition.current_phase.pitches_to_judge(judge, -1))
             judge_rank = competition.current_phase.judge_rank(judge)
             
             #yeah! start showing shit!
