@@ -155,6 +155,9 @@ class JudgingCriteria(models.Model):
     #if true, shows a text field instead of a score slider
     is_text_feedback = models.BooleanField(default=False)
 
+    #override the default scoring tooltip for this phase
+    scoring_tooltip = models.CharField(max_length=500, blank=True, default="")
+
 
     def __unicode__(self):
 
