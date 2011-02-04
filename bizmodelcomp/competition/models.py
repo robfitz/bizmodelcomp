@@ -304,7 +304,7 @@ class Phase(models.Model):
 
     min_judgements_per_pitch = models.IntegerField(default=2)
 
-
+    #extra guidance for judges
     scoring_tooltip = models.CharField(max_length=500, blank=True, default="0 points means a completely missing or invalid answer. 1 point is an attempted but very bad answer. Maximum points means you would be pleased to see this answer in a professional pitch.")
 
 

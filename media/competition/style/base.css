@@ -113,10 +113,10 @@ h1 sup {
 }
 
 .judging_criteria {
-    width:230px;
+    width:238px;
     float:left;
     border-bottom:1px solid gray;
-    padding:8px;
+    padding:8px 0px 8px 8px;
     margin-bottom:0px;
 }
 .judging_criteria_container {
@@ -125,19 +125,21 @@ h1 sup {
 }
 
 div.slider {
-    width:160px;
+    width:150px;
     float:left;
-    margin-right:10px;
+    margin-right:5px;
     margin-top:6px;
 }
 
 .score_input {
-    width:50px;
+    width:78px;
     height:0px;
-    display:inline;
+    float:right;
 }
 .score_input input {
     width:50px;
+    float:left;
+    padding: 0px 4px;
 }
 .judging textarea {
     width:240px;

@@ -92,9 +92,11 @@
         </div>
 
         <div class="judging_criteria_container">
+
         {% for criteria in competition.current_phase.judgingcriteria_set.all %}
 
             <div class="judging_criteria">
+
 
                 {{criteria.prompt}}
 
@@ -109,7 +111,9 @@
                     <div class="slider" id="slider_{{criteria.id}}"></div>
                     <div class="score_input">
                         <input type="number" min="0" max="{{criteria.max_points}}" id="score_label_{{criteria.id}}" value="{{question.score}}" class="score_field" name="answer_{{criteria.id}}" />
+                        <img style="float:left" src="/media/icons/help.png" title="{% if criteria.scoring_tooltip %}{{criteria.scoring_tooltip}}{% else %}{{phase.scoring_tooltip}}{% endif %}">
                     </div>
+
                     <br/>
 
                 {% endif %}
