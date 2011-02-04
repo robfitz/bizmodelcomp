@@ -42,10 +42,21 @@
         $('.score_field').bind('change', score_field_changed);
         //$('.score_field').bind('select', score_field_changed);
         //$('.score_field').bind('keydown', score_field_changed);
+
+        $(window).resize(window_resize);
+        window_resize(null);
     });
 
     var total_points = 0;
 	var max_points = [];
+
+    function window_resize(event) {
+
+        var height = $(window).height() - $("#header").height() - $("#footer").height() - 10*6;
+
+        $("#pitch_container").css("height", height + "px");
+
+    }
 
     function score_field_changed(event, ui) {
 		var tokens = $(this).attr("id").split('_');
@@ -79,15 +90,24 @@
     width:1008px;
 }
 
+.judging_criteria_container {
+float:right;
+}
+
+#pitch_container {
+    background-color:#fafafa;
+    border:1px solid gray;
+}
+
     
 
 {% endblock %}
 
 {% block content %}
 
-    <form action="." method="POST">
+    <form class="focus" action="." method="POST">
 
-        <div style="width:760px;float:left;">
+        <div id="pitch_container" style="overflow-y:auto;width:760px;float:left;">
             {% include 'dashboard/display_pitch.html' %}
         </div>
 
@@ -96,7 +116,6 @@
         {% for criteria in competition.current_phase.judgingcriteria_set.all %}
 
             <div class="judging_criteria">
-
 
                 {{criteria.prompt}}
 

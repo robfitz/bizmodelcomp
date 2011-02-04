@@ -113,19 +113,19 @@ h1 sup {
 }
 
 .judging_criteria {
-    width:238px;
+    width:232px;
     float:left;
     border-bottom:1px solid gray;
     padding:8px 0px 8px 8px;
     margin-bottom:0px;
 }
 .judging_criteria_container {
-    width:246px;
+    width:240px;
     float:left;
 }
 
 div.slider {
-    width:150px;
+    width:144px;
     float:left;
     margin-right:5px;
     margin-top:6px;
