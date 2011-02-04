@@ -117,5 +117,4 @@ admin.site.register(VerificationKey)
 admin.site.register(UserProfile)
 ##admin.site.register(Worksheet, WorksheetAdmin)
 
-admin.site.register(BlogPost)
 admin.site.register(Tag)
