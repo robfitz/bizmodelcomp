@@ -17,15 +17,17 @@
             range: 'min',
         });
 
-        {% for criteria in competition.current_phase.judgingcriteria_set.all %}
+        {% for criteria in judging_criteria %}
             {% if criteria.max_points %}
                 $('#slider_{{criteria.id}}').slider('option', 'max', {{criteria.max_points}});
                 max_points[{{criteria.id}}] = {{criteria.max_points}};
                 total_points += {{criteria.max_points}};
-                {% if question.score %}
-                    $('#slider_{{criteria.id}}').slider('option', 'value', {{question.score}});
+                {% if criteria.answer.score %}
+                    $('#slider_{{criteria.id}}').slider('option', 'value', {{criteria.answer.score}});
+                    $('#score_label_{{criteria.id}}').val({{criteria.answer.score}});
                 {% else %}
                     $('#slider_{{criteria.id}}').slider('option', 'value', 0);
+                    $('#score_label_{{criteria.id}}').val(0);
                 {% endif %}
             {% endif %}
         {% endfor %}
@@ -99,13 +101,13 @@ float:right;
     border:1px solid gray;
 }
 
-    
-
 {% endblock %}
 
 {% block content %}
 
     <form class="focus" action="." method="POST">
+
+        <input type="hidden" name="pitch" value="{{pitch.id}}" />
 
         <div id="pitch_container" style="overflow-y:auto;width:760px;float:left;">
             {% include 'dashboard/display_pitch.html' %}
@@ -113,7 +115,7 @@ float:right;
 
         <div class="judging_criteria_container">
 
-        {% for criteria in competition.current_phase.judgingcriteria_set.all %}
+        {% for criteria in judging_criteria %}
 
             <div class="judging_criteria">
 
@@ -123,13 +125,13 @@ float:right;
 
                 {% if criteria.is_text_feedback %}
 
-                    <textarea class="judge_feedback" rows=6 name="feedback_{{criteria.id}}" ></textarea>
+                    <textarea class="judge_feedback" rows=6 name="feedback_{{criteria.id}}" >{{criteria.answer.feedback}}</textarea>
 
                 {% else %}
 
                     <div class="slider" id="slider_{{criteria.id}}"></div>
                     <div class="score_input">
-                        <input type="number" min="0" max="{{criteria.max_points}}" id="score_label_{{criteria.id}}" value="{{question.score}}" class="score_field" name="answer_{{criteria.id}}" />
+                        <input type="number" min="0" max="{{criteria.max_points}}" id="score_label_{{criteria.id}}" value="{{question.score}}" class="score_field" name="score_{{criteria.id}}" />
                         <img style="float:left" src="/media/icons/help.png" title="{% if criteria.scoring_tooltip %}{{criteria.scoring_tooltip}}{% else %}{{competition.current_phase.scoring_tooltip}}{% endif %}">
                     </div>
 
@@ -151,7 +153,5 @@ float:right;
         </div>
 
     </form>
-
-
 
 {% endblock %}

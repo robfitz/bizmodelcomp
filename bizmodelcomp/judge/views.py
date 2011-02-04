@@ -1,3 +1,5 @@
+import sys
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -164,6 +166,8 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
     else:
         competition = get_competition_for_user(request.user)
 
+    judging_criteria = competition.current_phase.judgingcriteria_set.all()
+
     try:
         request.user.get_profile()
     except:
@@ -224,51 +228,58 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
             
             try:
                 #look for existing judgement
-                judgement = JudgedPitch.objects.filter(pitch=pitch, judge=judge)
+                judgement = JudgedPitch.objects.filter(pitch=pitch, judge=judge)[0]
+                print 'saving score, found judgement: %s' % judgement
             
             except:
                 #create new judgement
                 judgement = JudgedPitch(judge=judge,
                                         pitch=pitch)
                 judgement.save()
+                print 'saving score, created new judgement: %s' % judgement
             
             for key in request.POST:
 
-                if key.startswith("answer_") or key.startswith("feedback_"):
+                print 'saving score: key=%s, val=%s' % (key, request.POST.get(key))
 
-                    toks = key.split('_')
+                if key.startswith("score_") or key.startswith("feedback_"):
+
+                    criteria = None
+
                     try:
-                        answer_id = int(toks[len(toks) - 1]) #last token is ID
+                        toks = key.split('_')
+                        criteria_id = int(toks[len(toks) - 1]) #last token is ID
+                        print '  criteria id: %s' % criteria_id
+                        criteria = JudgingCriteria.objects.get(id=criteria_id)
+                        print '  criteria: %s' % criteria
                     except:
-                        answer_id = None
-
-                    #TODO: BOOBIES
-                    if key.startswith("answer_q_") or key.startswith("feedback_q_"):
-                        question_id = int(toks[len(toks) - 1]) #last token is ID
-                        question = PitchQuestion.objects.get(id=question_id)
-                        answer = PitchAnswer(question=question, pitch=pitch)
-                        answer.save()
-
-                    else:
-                        answer = PitchAnswer.objects.get(id=answer_id)
+                        print '  except: %s' % sys.exc_info()[0]
+                        #can't save the score if we don't find a valid criteria id
+                        continue
 
                     try:
-                        judged_answer = JudgedAnswer.objects.filter(judged_pitch=judgement).get(answer=answer)
+                        #judged_answer = JudgedAnswer.objects.filter(judged_pitch=judgement).get(answer=answer)
+                        judged_answer = JudgedAnswer.objects.filter(judged_pitch=judgement).get(criteria=criteria)
+                        print '  found judged answer: %s' % judged_answer
                     except:
                         judged_answer = JudgedAnswer(judged_pitch=judgement,
-                                                     answer=answer)
+                                                     criteria=criteria)
+                        judged_answer.save()
 
-                    if key.startswith("answer_"):
+                        print '  created new judged answer: %s' % judged_answer
+
+                    if key.startswith("score_"):
+
                         try:
-                            judged_answer.score = int(request.POST[key])
+                            judged_answer.score = int(request.POST.get(key, 0))
+
                         except:
                             #this happens when there was no submitted answer, so
                             #they loooose.
                             judged_answer.score = 0
 
                     elif key.startswith("feedback_"):
-
-                        judged_answer.feedback = request.POST[key]
+                        judged_answer.feedback = request.POST.get(key)
 
                     judged_answer.save()
 
@@ -303,21 +314,18 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
                     question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
                 except:
                     question.answer = None
+
+            for criteria in judging_criteria:
                 try:
-                    if judged_pitch is not None:
-                        try:
-                            question.score = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).score
-                        except:
-                            question.score = 0
-                        try:
-                            question.feedback = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).feedback
-                        except:
-                            question.feedback = ""
-                    else:
-                        question.score = 0
-                        question.feedback = ""
-                except: pass
-                            
+                    print 'trying to get judged_answer for criteria: %s' % criteria
+                    judged_answer = JudgedAnswer.objects.get(criteria=criteria,
+                            judged_pitch=judged_pitch)
+                    print '  got answer: %s' % judged_answer
+                    criteria.answer = judged_answer
+                    print '  set as criteria.answer'
+                except:
+                    print '  exception: %s' % sys.exc_info()[0]
+                    criteria.answer = None
 
             for upload in uploads:
                 try: upload.file = PitchFile.objects.filter(pitch=pitch).get(upload=upload)

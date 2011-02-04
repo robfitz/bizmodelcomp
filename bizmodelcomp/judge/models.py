@@ -204,7 +204,12 @@ class JudgedAnswer(models.Model):
 
     #answer can be null if applicant didn't fill anything in or when it's a
     #judge-feedback-only question
+    #
+    #DEPRECATED
     answer = models.ForeignKey("competition.PitchAnswer", blank=True, null=True)
+
+    #criteria they're being graded on
+    criteria = models.ForeignKey(JudgingCriteria, blank=True, null=True)
 
     score = models.IntegerField(blank=True, null=True)
 
