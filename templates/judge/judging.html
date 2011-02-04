@@ -5,13 +5,7 @@
 {% endblock %}
 
 {% block header %}
-
 	{% include 'judge/judging_header.html' %}
-
-{% endblock %}
-
-{% block header_title %}
-Now judging {{competition}}
 {% endblock %}
 
 {% block script %}
@@ -27,6 +21,7 @@ Now judging {{competition}}
             {% if criteria.max_points %}
                 $('#slider_{{criteria.id}}').slider('option', 'max', {{criteria.max_points}});
                 max_points[{{criteria.id}}] = {{criteria.max_points}};
+                total_points += {{criteria.max_points}};
                 {% if question.score %}
                     $('#slider_{{criteria.id}}').slider('option', 'value', {{question.score}});
                 {% else %}
@@ -35,17 +30,42 @@ Now judging {{competition}}
             {% endif %}
         {% endfor %}
 
+        var current_score = 0;
+        $('.score_field').each(function() {
+            current_score += Number($(this).val());
+        });
+        $("#current_score").text(current_score + "/" + total_points);
+
         $('.slider').bind('slidechange', slider_changed);
         $('.slider').bind('slide', slider_changed);
+
+        $('.score_field').bind('change', score_field_changed);
+        //$('.score_field').bind('select', score_field_changed);
+        //$('.score_field').bind('keydown', score_field_changed);
     });
 
+    var total_points = 0;
 	var max_points = [];
+
+    function score_field_changed(event, ui) {
+		var tokens = $(this).attr("id").split('_');
+		var id = tokens[tokens.length - 1];
+
+		var val = $('#score_label_' + id).val();
+        $("#slider_" + id).slider("option", "value", val);
+    }
 
 	function slider_changed(event, ui) {
 		var tokens = $(this).attr("id").split('_');
 		var id = tokens[tokens.length - 1];
 
 		$('#score_label_' + id).val($(this).slider("option", "value"));
+
+        var current_score = 0;
+        $('.score_field').each(function() {
+            current_score += Number($(this).val());
+        });
+        $("#current_score").text(current_score + "/" + total_points);
 	}
 
 {% endblock %}
@@ -65,33 +85,49 @@ Now judging {{competition}}
 
 {% block content %}
 
-    <div style="width:760px;float:left;">
-        {% include 'dashboard/display_pitch.html' %}
-    </div>
+    <form action="." method="POST">
 
-    <div style="width:230px;float:left;">
+        <div style="width:760px;float:left;">
+            {% include 'dashboard/display_pitch.html' %}
+        </div>
 
-        judging section
-
+        <div class="judging_criteria_container">
         {% for criteria in competition.current_phase.judgingcriteria_set.all %}
 
-            {% if criteria.is_text_feedback %}
+            <div class="judging_criteria">
 
-                <textarea name="feedback_{{criteria.id}}" ></textarea>
+                {{criteria.prompt}}
 
-            {% else %}
+                <br/>
 
-                <div class="slider" id="slider_{{criteria.id}}"></div>
-                <div class="score_input">
-                    <input type="number" min="0" max="{{criteria.max_points}}" id="score_label_{{criteria.id}}" value="{{question.score}}" class="score_field" name="answer_{{criteria.id}}" />
-                </div>
+                {% if criteria.is_text_feedback %}
 
-            {% endif %}
+                    <textarea class="judge_feedback" rows=6 name="feedback_{{criteria.id}}" ></textarea>
+
+                {% else %}
+
+                    <div class="slider" id="slider_{{criteria.id}}"></div>
+                    <div class="score_input">
+                        <input type="number" min="0" max="{{criteria.max_points}}" id="score_label_{{criteria.id}}" value="{{question.score}}" class="score_field" name="answer_{{criteria.id}}" />
+                    </div>
+                    <br/>
+
+                {% endif %}
+
+            </div>
 
         {% endfor %}
 
-    </div>
+        <div class="stat_number">
+            Total score
+            <h1 id="current_score"></h1>
+        </div>
 
+        <input style="float:right;margin-top:8px;height:40px;" type="submit" value="Save score" class="large button" />
+
+        </div>
+
+    </form>
 
 
 

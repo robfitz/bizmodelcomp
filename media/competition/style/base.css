@@ -107,8 +107,25 @@ h1 sup {
 
 /***** judge stuff *****/
 
+
+.judge_feedback {
+    width:100%;
+}
+
+.judging_criteria {
+    width:230px;
+    float:left;
+    border-bottom:1px solid gray;
+    padding:8px;
+    margin-bottom:0px;
+}
+.judging_criteria_container {
+    width:246px;
+    float:left;
+}
+
 div.slider {
-    width:180px;
+    width:160px;
     float:left;
     margin-right:10px;
     margin-top:6px;
