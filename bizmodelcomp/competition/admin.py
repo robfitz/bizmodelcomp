@@ -72,7 +72,8 @@ class CompetitionForm(forms.ModelForm):
 
 class CompetitionAdmin(admin.ModelAdmin):
 
-    list_display = ('name', 'owner', 'website')
+    list_display = ('name', 'owner', 'hosted_url', 'current_phase', 'website')
+    list_filter = ('owner',)
     form = CompetitionForm
 
 
@@ -86,27 +87,39 @@ class PitchQuestionAdmin(admin.ModelAdmin):
     list_filter = ('phase',)
     form = PitchQuestionForm
 
-
-
 class PitchAdmin(admin.ModelAdmin):
-    list_display = ('id', 'team_name', 'phase', 'order')
+    list_display = ('id', 'owner', 'team_name', 'team', 'phase', 'order', 'last_modified')
     list_editable = ('order',)
     list_filter = ('phase',)
+    search_fields = ['team__name',]
 
+class FounderAdmin (admin.ModelAdmin):
+    list_display = ('id', 'user', 'name', 'email', 'applicant_type', 'location', 'institution',)
+    list_display_links = ('name',)
+    list_filter = ('institution',)
+
+class PitchAnswerAdmin (admin.ModelAdmin):
+    list_display = ('id', 'question', 'pitch', 'answer',)
+    list_filter = ('pitch',)
+
+class PhaseAdmin (admin.ModelAdmin):
+    list_display = ('id', 'name', 'competition', 'pitch_type', 'deadline', 'is_judging_enabled',)
+    list_display_links = ('name',)
+    list_filter = ('competition',)
 
 
 admin.site.register(Competition, CompetitionAdmin)
-admin.site.register(Phase)
+admin.site.register(Phase, PhaseAdmin)
 admin.site.register(ApplicationRequirements)
 
-admin.site.register(Founder)
+admin.site.register(Founder, FounderAdmin)
 admin.site.register(Team)
 admin.site.register(ExtraFounderInfo)
 
 admin.site.register(Pitch, PitchAdmin)
 admin.site.register(PitchQuestion, PitchQuestionAdmin)
 admin.site.register(PitchUpload)
-admin.site.register(PitchAnswer)
+admin.site.register(PitchAnswer, PitchAnswerAdmin)
 admin.site.register(PitchFile)
 
 admin.site.register(Bulk_email)
@@ -116,7 +129,5 @@ admin.site.register(Val)
 admin.site.register(VerificationKey)
 admin.site.register(UserProfile)
 ##admin.site.register(Worksheet, WorksheetAdmin)
-
-admin.site.register(BlogPost)
 
 admin.site.register(Tag)

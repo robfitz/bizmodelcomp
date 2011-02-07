@@ -1,13 +1,23 @@
 {% extends 'base.html' %}
 
 {% block header_title %}
-nvana Blog
+
 {% endblock %}
 
 {% block content %}
 
     {% load markup %}
+	<small><a href=/blog>Back to the blog...</a></small>
+    <h1>{{ post.title }} <span class="medium" style="font-weight:normal">{{ post.created|date }}</span></h1>
 
-    <h3>{{ post.title }} <span class="medium" style="font-weight:normal">{{ post.created }}</span></h3>
+	<small>Filed under <strong>{% for category in post.categories.all %}{{ category }}{% if forloop.counter != 1 %},{% endif %}{% endfor %}</strong> </small>
+
+	{{ post.text|markdown }}
+	
+	<!-- Facebook and Twitter buttons -->
+		<div>
+		<p><script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like layout="button_count" show_faces="true" width="100"></fb:like></p>
+		<p><a href="http://twitter.com/share" class="twitter-share-button" data-text="Check out this blog post from Nvana.com..." data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></p>
+       	</div>
 
 {% endblock %}

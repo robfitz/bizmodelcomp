@@ -5,6 +5,8 @@ urlpatterns = patterns('',
 
     (r'^(?P<post_url>[-_0-9a-zA-Z]{1,200})/$', 
         'blog.views.post'),
+        
+    (r'^category/(?P<name>[-_0-9a-zA-Z]{1,200})/$', 
+        'blog.views.category'),
 
 )
-
