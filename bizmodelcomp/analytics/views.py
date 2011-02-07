@@ -170,7 +170,8 @@ def all_pitches_table(phases):
 
     for i, team in enumerate(teams):
         total_score = 0
-        new_row = [ "<input type='checkbox' id='checkbox_%s' class='checkbox' />" % i, team.name]
+        #add selection checkbox and team name
+        new_row = [ "<input type='checkbox' id='checkbox_%s' class='checkbox' />" % i, unicode(team)]
         #then add the phases as columns
         for phase in phases:
             try:

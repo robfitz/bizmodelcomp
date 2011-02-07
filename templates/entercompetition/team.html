@@ -208,8 +208,12 @@
 
     <div style="float:left;">
         <input class="button" style="font-size:18px;" type="submit" value="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Save & submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" onclick="$('#is_draft').val('False');" />
-        <p>
+        <p class="medium">
+        {% if competition.hosted_url == 'nvpc' %}
+        You can update your pitch until the application deadline. However, by submitting your application early you will have a higher chance of being shortlisted for the semi-finals, since assessment of the applications may begin ahead of the deadline.
+        {% else %}
         You can update your pitch until the application deadline.
+        {% endif %}
         </p>
     </div>
 </form>
