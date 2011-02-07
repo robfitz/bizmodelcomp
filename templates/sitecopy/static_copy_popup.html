@@ -1,11 +1,12 @@
 {% extends 'dashboard/popup_section.html' %}
 
 {% block section_title %}
-View pitch
 {% endblock %}
 
 {% block section_content %}
 
-    {% include 'dashboard/display_pitch.html' %}
+    {% load markup %}
+
+    {{ copy|markdown }}
 
 {% endblock %}

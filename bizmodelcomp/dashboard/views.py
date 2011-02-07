@@ -311,14 +311,14 @@ Hello,
 
 Judging for %s has begun. We have %s applications to judge, which you can view here:
 
-%s
+http://www.nvana.com/judge/%s/
 
 When you press the 'start judging' button you'll be automatically provided with the next unjudged plan. Alternately, you can view the full list of pitches to select a particular one.
 
 Thanks very much for the help.
 
 %s team
-""" % (competition.name, Pitch.objects.filter(phase=competition.current_phase).count(), 'http://www.nvana.com/judge/', competition.name)
+""" % (competition.name, Pitch.objects.filter(phase=competition.current_phase).count(), competition.hosted_url, competition.name)
     
         recipients = []
         #send to all judges from this phase
@@ -390,7 +390,7 @@ def announce_applications_open(request, comp_url):
 
 Applications to __%s__ are now open. You may apply at the following link:
 
-http://www.nvana.com/%s/
+http://www.nvana.com/a/%s/
 
 You'll be able to submit and revise your application until __%s__. Only one person per team needs to submit an application. 
 
@@ -597,7 +597,8 @@ def set_question_options(request, question, is_new=False, id=None):
     points_prompt = request.POST.get("points_prompt_%s" % id, "")
     has_feedback = request.POST.get("has_feedback_%s" % id, False)
     feedback_prompt = request.POST.get("feedback_prompt_%s" % id, "")
-    show_choices = request.POST.get("show_choices_%s" % id, False)
+
+    show_choices = request.POST.get("answer_type_%s" % id, False) == "dropdown"
     choices = request.POST.get("choices_%s" % id, "")
 
     is_hidden_from_applicants = request.POST.get("is_judge_only_%s" % id, False)
@@ -648,6 +649,69 @@ def should_delete(question):
 
     else:
         return False
+
+
+
+@login_required
+def edit_judging_criteria(request, phase_id):
+
+    phase = get_object_or_404(Phase, id=phase_id)
+    competition = phase.competition
+
+    judging_criteria = JudgingCriteria.objects.filter(phase=phase).all()
+
+    if not has_dash_perms(request, phase.competition.id):
+        return HttpResponseRedirect("/no_permissions/")
+
+    if request.method == "POST":
+
+        for key in request.POST:
+
+            criteria = None
+
+            #create new judging criteria
+            if key.startswith("newprompt_"):
+
+                num = key[len("newprompt_"):]
+
+                prompt = request.POST.get(key)
+                max_points = request.POST.get("newmax_points_%s" % num)
+
+                if max_points:
+                    criteria = JudgingCriteria(phase=phase,
+                        prompt=prompt,
+                        max_points=max_points)
+                else:
+                    print 'no max points'
+                    criteria = JudgingCriteria(phase=phase,
+                        prompt=prompt,
+                        is_text_feedback=True)
+
+                criteria.save()
+
+            elif key.startswith("prompt_"):
+
+                try:
+                    id = key[len("prompt_"):]
+                    criteria = JudgingCriteria.objects.get(id=id)
+                    
+                    prompt = request.POST.get(key)
+                    max_points = request.POST.get("max_points_%s" % id, None)
+
+                    print 'found max points as: %s' % max_points
+
+                    if max_points is not None:
+                        criteria.max_points = max_points
+
+                    criteria.prompt = prompt
+
+                    criteria.save()
+                except:
+                    print 'exception looking for criteria for prompt: %s' % key
+                    pass
+
+    return render_to_response('dashboard/edit_judging_criteria.html', locals())
+
 
 
 @login_required

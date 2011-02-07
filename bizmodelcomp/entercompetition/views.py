@@ -23,6 +23,17 @@ from xml.dom import minidom
 
 
 
+def terms_of_service(request, comp_url):
+
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+
+    copy = competition.terms_of_service
+
+    return render_to_response('sitecopy/static_copy_popup_nowidget.html', locals())
+    #return render_to_response('entercompetition/terms_of_service.html', locals())
+
+
+
 #user has claimed to have already submitted an application, so we're
 #going to give them some extra info about how to get back to their old
 #version and send them a reminder email if needed
@@ -33,7 +44,7 @@ def recover_application(request, competition_url):
     intro = SiteCopy.objects.get(id='recover_application_intro')
     security = SiteCopy.objects.get(id='recover_application_security')
 
-    application_url = "/apply/pitch/%s/" % competition.hosted_url
+    application_url = "/a/%s/" % competition.hosted_url
     cancel = "<a href='%s'>Cancel and apply with a different email</a>" % application_url
 
     get_email = ""
@@ -51,7 +62,7 @@ def recover_application(request, competition_url):
 
             subject = "Your application to %s" % competition.name
 
-            application_url = request.build_absolute_uri("/apply/pitch/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key()))
+            application_url = request.build_absolute_uri("/a/%s/?f=%s" % (competition.hosted_url, matching_founder.anon_key()))
     
             message = """Hello,
 
@@ -66,9 +77,6 @@ Sincerely,
 
 The %s team""" % (competition.name, application_url, competition.name)
             
-            message = """Click here to load & edit your application to %s:
-
-%s""" % (competition.name, application_url)
             
             send_email(subject, message, email)
 
@@ -76,7 +84,7 @@ The %s team""" % (competition.name, application_url, competition.name)
             
         except:
             #couldn't find a matching founder. tell person to apply now or re-type
-            application_url = "/apply/pitch/%s/" % competition.hosted_url
+            application_url = "/a/%s/" % competition.hosted_url
             alert = """We couldn't find a matching email on file. If you might have registered with a different email, you can try that here.
 
 Otherwise, <a href="%s">click here to go back to your new application</a>.""" % application_url
@@ -130,7 +138,7 @@ def send_welcome_email(request, founder, competition):
 
     to_email = founder.email
     subject = "Your application to %s" % competition.name
-    application_url = request.build_absolute_uri("/a/%s/?t=%s" % (competition.hosted_url, founder.anon_key()))
+    application_url = request.build_absolute_uri("/a/%s/?f=%s" % (competition.hosted_url, founder.anon_key()))
     message = """Hello,
 
 Thanks for applying to %s!
@@ -160,12 +168,12 @@ def save_pitch_answers_uploads(request, pitch):
                 try:
                     #existing answer?
                     answer = PitchAnswer.objects.get(pitch=pitch, question=question)
-                    answer.answer = request.POST[key]
+                    answer.answer = unicode(request.POST.get(key, "").encode('unicode_escape'))
                 except:                    
                     #new answer
                     answer = PitchAnswer(question=question,
                                          pitch=pitch,
-                                         answer=request.POST[key])
+                                         answer=unicode(request.POST.get(key, "")).encode('unicode_escape'))
                 #save changes
                 answer.save()
 
@@ -182,16 +190,36 @@ def submit_team(request, comp_url):
     alert = None
 
     founder = get_founder(request)
-    if founder is not None:
-        return HttpResponseRedirect('/a/%s/pitch/' % comp_url)
-
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
 
+    
+    if 'f' in request.GET:
+
+        #TODO: log out current user
+
+        #using an anon link
+        try:
+            rand_key = request.GET.get("f")
+            key = AnonFounderKey.objects.get(key=rand_key)
+            founder = key.founder
+        
+            request.session['founder_key'] = key.key
+            return HttpResponseRedirect("/a/%s/pitch" % comp_url)
+        except:
+            pass
+
+    #standard team info
     name = ""
     email = ""
-    phone = ""
     team_name = ""
+
+    #less common, optional team info
+    phone = ""
+    address = ""
+    birthday = ""
+    course_of_study = ""
+    year_of_study = ""
 
     founder = None
 
@@ -217,10 +245,10 @@ def submit_team(request, comp_url):
                     founder = existing_founder
                 else:
                     #if isn't validated this session, offer login link
-                    alert = "You have already begun applying with that email. <a href=''>Click here to recover your old application</a>."
+                    alert = "You have already begun applying with that email. <a href='/apply/load/%s/'>Click here to recover your old application</a>." % competition.hosted_url
 
             except:
-                alert = "You have already begun applying with that email. <a href=''>Click here to recover your old application</a>."
+                alert = "You have already begun applying with that email. <a href='/apply/load/%s/'>Click here to recover your old application</a>." % competition.hosted_url
 
         else: 
             #not blank and not owned by someone else, proceed
@@ -236,32 +264,43 @@ def submit_team(request, comp_url):
         location = request.POST.get("locations", "")
         institution = request.POST.get("institution", "")
 
+        birthday = request.POST.get("birthday", "")
+        address = request.POST.get("address", "")
+        course_of_study = request.POST.get("course_of_study", "")
+        year_of_study = request.POST.get("year_of_study", "")
+
         #set other, less critical founder details
         if founder is not None:
-            founder.name = request.GET.get("name", "")
-            founder.phone = request.GET.get("phone", "")
+
+            founder.name = name.encode('unicode_escape')
+            founder.phone = phone.encode('unicode_escape')
+
+            founder.birth = birthday.encode('unicode_escape')
+            founder.address = address.encode('unicode_escape')
+            founder.course_of_study = course_of_study.encode('unicode_escape')
+            founder.year_of_study = year_of_study.encode('unicode_escape')
 
             if applicant_type:
                 try:
-                    tag = Tag.objects.get(name=applicant_type)
+                    tag = Tag.objects.get(name=applicant_type.encode('unicode_escape'))
                 except:
-                    tag = Tag(name=applicant_type)
+                    tag = Tag(name=applicant_type.encode('unicode_escape'))
                     tag.save()
                 founder.applicant_type = tag
 
             if location:
                 try:
-                    tag = Tag.objects.get(name=location)
+                    tag = Tag.objects.get(name=location.encode('unicode_escape'))
                 except:
-                    tag = Tag(name=location)
+                    tag = Tag(name=location.encode('unicode_escape'))
                     tag.save()
                 founder.location = tag
 
             if institution:
                 try:
-                    tag = Tag.objects.get(name=institution)
+                    tag = Tag.objects.get(name=institution.encode('unicode_escape'))
                 except:
-                    tag = Tag(name=institution)
+                    tag = Tag(name=institution.encode('unicode_escape'))
                     tag.save()
                 founder.institution = tag
 
@@ -283,7 +322,7 @@ def submit_team(request, comp_url):
         if not team:
             #create a team if we don't yet have one
             team = Team(owner=founder,
-                    name=team_name)
+                    name=unicode(team_name).encode('unicode_escape'))
             team.save()
 
         if not pitch:
@@ -293,8 +332,13 @@ def submit_team(request, comp_url):
                     phase=competition.current_phase)
             pitch.save()
 
+            #if a pitch has just been created, that suggests this is the first time
+            #the founder has applied to this particular competition, so we're gonna
+            #email them
+            send_welcome_email(request, founder, competition)
+
         #set team info
-        team.name = team_name
+        team.name = unicode(team_name).encode('unicode_escape')
         team.save()
 
         #reset additional teammates
@@ -306,7 +350,7 @@ def submit_team(request, comp_url):
             if key.startswith("teammate-email_"):
                 num = key[len("teammate-email_"):]
                 teammate_email = request.POST.get(key)
-                teammate_name = request.POST.get("teammate-name_%s" % num, email.split('@')[0])
+                teammate_name = unicode(request.POST.get("teammate-name_%s" % num, teammate_email.split('@')[0])).encode('unicode_escape')
                 teammate = None
                 try:
                     teammate = Founder.objects.get(email=teammate_email)
@@ -329,13 +373,13 @@ def submit_business(request, comp_url):
     print 'submit business'
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
-    founder = get_founder(request)
-
     alert = None
     pitch = None
     team = None
     business_types = None
 
+    founder = get_founder(request)
+    
     if not founder:
         return HttpResponseRedirect("/a/%s/" % comp_url)
 
@@ -385,7 +429,7 @@ def submit_business(request, comp_url):
     for question in questions:
         #render existing answers
         try:
-            question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+            question.answer = unicode(PitchAnswer.objects.filter(pitch=pitch).get(question=question)).decode('unicode-escape')
             
         except:
             question.answer = ""

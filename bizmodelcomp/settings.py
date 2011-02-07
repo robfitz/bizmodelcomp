@@ -5,7 +5,7 @@ import os
 is_local = False
 
 local_windows = ['robfitz-PC', 'tugboat']
-local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local']
+local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local', 'rob-fitzpatricks-macbook-air.local']
 test_server_hostnames = ['ip-10-122-193-156', 'ip-10-245-129-64']
 
 filesystem = "UNIX"
@@ -20,7 +20,8 @@ else:
     is_test_server = socket.gethostname() in test_server_hostnames
     print 'Unrecognized hostname in settings.py: %s' % socket.gethostname()
 
-DEBUG = True#is_local or is_test_server
+DEBUG = is_local or is_test_server
+#DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 #kill switch for emailhelper
@@ -56,7 +57,7 @@ if is_local:
 #sendgrid credentials required for emailhelper.send_email
 EMAIL_USER = "robftz+nvana@gmail.com"
 EMAIL_PASSWORD = "It's spam time!"
-EMAIL_DEFAULT_FROM = "london.e.challenge@gmail.com"
+EMAIL_DEFAULT_FROM = "competitions@nvana.com"
 EMAIL_LOG = '/var/www/bizmodelcomp/logs/email.log'
 if filesystem == "WINDOWS":
     EMAIL_LOG = 'c:/www/bizmodelcomp/logs/email.log'

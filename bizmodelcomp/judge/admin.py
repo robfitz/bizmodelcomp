@@ -48,3 +48,4 @@ from django import forms
 admin.site.register(JudgeInvitation)
 admin.site.register(JudgedPitch)
 admin.site.register(JudgedAnswer)
+admin.site.register(JudgingCriteria)

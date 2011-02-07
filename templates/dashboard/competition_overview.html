@@ -32,9 +32,7 @@
                {% endifequal %}
            </div>
 
-
             <div class="hr">&nbsp;</div>
-
 
         </div>
 
@@ -62,14 +60,14 @@
             
             <div class="stat_number">
                 Num applications
-                <h1>{{competition.current_phase.pitches.count}}</h1>
+                <h1>{{competition.current_phase.all_pitches.count}}</h1>
                 <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a>
             </div>
 
             <div class="stat_number">
                 Application status
                 <h1>
-                {% if phase.is_applications_open %}
+                {% if competition.current_phase.is_applications_open %}
                 OPEN
                 {% else %}
                 CLOSED
@@ -91,6 +89,7 @@
                     <tr>
                         <th>Team</th>
                         <th>Pitch</th>
+                        <th>Completion</th>
                         <th>Time</th>
                     </tr>
 
@@ -101,6 +100,7 @@
                             <tr>
                                 <td>{{pitch.team}}</td>
                                 <td><a href="javascript:void(0);" onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a></td>
+                                <td>{{pitch.percent_complete}}%</td>
                                 <td>{{pitch.created|date}}</td>
                             </tr>
 
@@ -117,15 +117,14 @@
     </div>
 
     <div id="judging">
-
         
         <div class="half_width">
+
             <div class="stat_number">
                 Num Judges
                 <h1>{{competition.judge_invitations.count}}</h1>
                 <a style="float:left;" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{competition.current_phase.id}}/judges/');">Edit judges</a>
             </div>
-
 
             <div class="hr">&nbsp;</div>
 
@@ -134,7 +133,7 @@
                         <h1>{{ competition.current_phase.all_judgements|length }}</h1>
                         <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span></h3>
 
-                    </div>
+            </div>
 
             <div class="stat_number">
                 Pitches remain

@@ -170,12 +170,13 @@ def all_pitches_table(phases):
 
     for i, team in enumerate(teams):
         total_score = 0
-        new_row = [ "<input type='checkbox' id='checkbox_%s' class='checkbox' />" % i, team.name]
+        #add selection checkbox and team name
+        new_row = [ "<input type='checkbox' id='checkbox_%s' class='checkbox' />" % i, unicode(team)]
         #then add the phases as columns
         for phase in phases:
             try:
                 pitch = Pitch.objects.get(team=team, phase=phase)
-                new_row.append("<a href='javascript:void(0);' onclick=\"popup('/dashboard/pitch/%s/');\">View</a>" % pitch.id)
+                new_row.append("<a href='javascript:void(0);' onclick=\"popup('/dashboard/pitch/%s/');\">View</a> (%s&#37;)" % (pitch.id, pitch.percent_complete()))
                 judgement_list = ""
                 for i, judgement in enumerate(JudgedPitch.objects.filter(pitch=pitch)):
                     if i > 0:

@@ -51,7 +51,8 @@ urlpatterns = patterns('',
     (r'^judge/', include('bizmodelcomp.judge.urls')),
 
     #flat pages
-    (r'flat/(?P<site_copy_id>[a-zA-Z ]{1,30})/$', 'sitecopy.views.static_copy'),
+    (r'flat/(?P<site_copy_id>[-_a-zA-Z ]{1,30})/$', 'sitecopy.views.static_copy'),
+    (r'flatpopup/(?P<site_copy_id>[-_a-zA-Z ]{1,30})/$', 'sitecopy.views.static_copy_popup'),
 
     (r'^blog/', include('bizmodelcomp.blog.urls')),
 )

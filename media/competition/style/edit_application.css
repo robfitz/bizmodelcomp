@@ -1,20 +1,4 @@
-.ea_question {
-    float:left;
-    width:780px;
-    margin-bottom:16px;
+.upload_prompt_field, .question_prompt_field {
+    width:90%;
 }
 
-.ea_question .applicant {
-    float:left;
-    width:360px;
-}
-
-.ea_question .judge {
-    float:left;
-    width:360px;
-
-}
-
-.ea_question .question_prompt_field {
-    width:340px;
-}

@@ -1,62 +1,4 @@
 function set_click_handlers() {
-	
-	$('.show_choices').click( function() {
-
-		var id = get_id($(this));
-
-		if ( $( this ).attr( "checked" ) ) {
-			$( "#choices_div_" + id ).slideDown();
-		}
-		else {
-			$( "#choices_div_" + id ).slideUp();
-			//$( "#choices_div_" + id + " textarea" ).text("");
-		}
-	});
-
-	$('.has_score').click( function() {
-
-		var id = get_id( $(this) );
-
-		if ( $( this ).attr( "checked" ) ) {
-			$( "#score_div_" + id ).slideDown();
-			var curr_score = $( "#score_div_" + id + " .max_points").val();
-			if (parseInt(curr_score) == 0) {
-				$( "#score_div_" + id + " .max_points").val(10);
-			}
-		}
-		else {
-			$( "#score_div_" + id ).slideUp();
-			//$( "#score_div_" + id + " .max_points").val(0);
-			//$( "#score_div_" + id + " .points_prompt").text("");
-
-		}
-	});
-
-	$('.has_feedback').click( function() {
-
-		var id = get_id( $(this) );
-
-		if ( $( this ).attr( "checked" ) ) {
-			$( "#feedback_div_" + id ).slideDown();
-		}
-		else {
-			$( "#feedback_div_" + id ).slideUp();
-			//$( "#feedback_div_" + id + " textarea").text("");
-		}
-	});
-	
-	$('.is_judge_only').click( function() {
-	
-		var id = get_id( $(this) );
-		
-		if ( $(this).attr( "checked" ) ) {
-			$("#applicant_prompt_" + id).slideUp();
-		}
-		else {
-			$("#applicant_prompt_" + id).slideDown();
-		}
-	
-	});
 }
 
 function addUpload() {
@@ -85,7 +27,7 @@ function addQuestion() {
 	$("#questions").append(new_q);
 
 	//set title
-	$(new_id + " .section_title").html("Question #" + num);
+	$(new_id + " h4").html("Question #" + num);
 	
 	//unique IDs to support hiding & showing sections
 	$(new_id + " .interactive, " + new_id + " :checkbox").each(function() {		
@@ -100,8 +42,20 @@ function addQuestion() {
 	//for each child(-r) in new_q of type "input" or "textarea", append Num to its name
 	$(new_id + " input, " + new_id + " textarea").each(function () {
 		$(this).attr('name', $(this).attr('name') + num);
+		$(this).attr('id', $(this).attr('id') + num);
 	});
+
+    $("#answer_choices_new" + num).click(function() { 
+            $('#choices_div_new' + num).slideDown();
+            $('#choices_new' + num).focus(); 
+         });
+    $("#answer_choices_new" + num).attr("onclick", "");
 		
+    $("#answer_text_new" + num).click(function() { 
+            $('#choices_div_new' + num).slideUp();
+         });
+    $("#answer_text_new" + num).attr("onclick", "");
+
 	//focus new_q
 	$('#question_prompt_new' + num).focus();
 

@@ -1,0 +1,128 @@
+{% extends 'dashboard/popup_section.html' %}
+
+{% block section_content %}
+
+    <form action="/dashboard/phase/{{phase.id}}/judgingcriteria/" method="POST" class="focus">
+
+        <div id="judging_criteria">
+
+        </div>
+
+        <div style="float:left;">
+            <input class="button" type="button" onclick="add_score()" value="Add score" />
+            <input class="button" type="button" onclick="add_feedback()" value="Add text" />
+            <p>
+                <input type="submit" value="Save judging criteria" />
+            </p>
+        </div>
+
+	</form>
+
+    <div class="hidden edit_judge_criteria" id="new_score">
+
+        <h4>Score</h4>
+
+        <div style="width:90%;float:left;">
+            <div style="width:200px;float:left;">Instructions for judge:</div>
+            <input style="float:left;" name="prompt_" class="judge_prompt"/>
+        </div>
+
+        <div style="width:90%;float:left;">
+            <div style="width:200px;float:left;">Max score:</div> 
+            <input style="float:left;width:70px;margin-left:2px;" name="max_points_"class="max_score_selector" type="number" min=1 stepsize=1 value=5 max=100 />
+        </div>
+
+    </div>
+
+    <div class="hidden edit_judge_criteria" id="new_feedback">
+
+        <h4>Text feedback</h4>
+
+        <div style="width:90%;float:left;">
+            <div style="width:200px;float:left;">Instructions for judge:</div>
+            <input style="float:left;" name="prompt_" class="judge_prompt"/>
+        </div>
+
+    </div>
+
+    <script language="javascript" type="text/javascript">
+        
+        $(function () {
+
+            var new_criteria;
+            var num = 0;
+
+            {% for criteria in judging_criteria %}
+                
+                num = $("#judging_criteria").children().length + 1;
+
+                {% if criteria.is_text_feedback %}
+                    new_criteria = $("#new_feedback").clone();
+                {% else %}
+                    new_criteria = $("#new_score").clone();
+                    new_criteria.children(".max_score_selector").val("{{criteria.max_points}}");
+                {% endif %}
+
+                new_criteria.removeClass("hidden");
+                new_criteria.attr("id", "criteria_" + num);
+                var new_id = "#" + new_criteria.attr("id");
+
+                $("#judging_criteria").append(new_criteria);
+
+                $(new_id + " .judge_prompt").val("{{criteria.prompt}}");
+                $(new_id + " .judge_prompt").attr("name", "prompt_{{criteria.id}}");
+                
+                {% if criteria.is_text_feedback %}
+                {% else %}
+                    $(new_id + " .max_score_selector").val("{{criteria.max_points}}");
+                    $(new_id + " .max_score_selector").attr("name", "max_points_{{criteria.id}}");
+                {% endif %}
+
+            {% endfor %}
+
+        });
+
+        function add_score() {
+
+            var new_criteria = $("#new_score").clone();
+            var num = $("#judging_criteria").children().length + 1;
+
+            new_criteria.removeClass("hidden");
+            new_criteria.attr("id", "criteria_" + num);
+            var new_id = "#" + new_criteria.attr("id");
+
+            $("#judging_criteria").append(new_criteria)
+
+            $(new_id + " .max_score_selector").attr("name", "newmax_points_" + num);
+            $(new_id + " .judge_prompt").attr("name", "newprompt_" + num);
+
+            $(new_id + " .judge_prompt").focus();
+        }
+
+        function add_feedback() {
+
+            var new_criteria = $("#new_feedback").clone();
+            var num = $("#judging_criteria").children().length + 1;
+
+            new_criteria.removeClass("hidden");
+            new_criteria.attr("id", "criteria_" + num);
+            var new_id = "#" + new_criteria.attr("id");
+
+            $("#judging_criteria").append(new_criteria)
+
+            $(new_id + " .judge_prompt").attr("name", "newprompt_" + num);
+
+            $(new_id + " .judge_prompt").focus();
+        }
+
+        function get_id(obj) {
+
+            var toks = obj.attr("id").split("_");
+            var id = toks[toks.length - 1];
+            return id;
+        }
+
+    </script>
+
+{% endblock %}
+

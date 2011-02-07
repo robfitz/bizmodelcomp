@@ -15,4 +15,6 @@ urlpatterns = patterns('',
 
     (r'^(?P<comp_url>[-_a-zA-Z0-9]{1,50})/$', 'entercompetition.views.submit_team'),
     (r'^(?P<comp_url>[-_a-zA-Z0-9]{1,50})/pitch/$', 'entercompetition.views.submit_business'),
+
+    (r'^(?P<comp_url>[-_a-zA-Z0-9]{1,50})/tos/$', 'entercompetition.views.terms_of_service'),
 )

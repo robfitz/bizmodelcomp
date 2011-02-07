@@ -1,7 +1,7 @@
 {% extends 'header_base.html' %}
 
 {% block logo %}
-<div style="width:100%">
+<div style="width:100%;{% if competition.hex_header_color %}background-color:#{{competition.hex_header_color}};{% endif %}">
     {% if competition.logo %}
         <a href="{{competition.website}}"><img src="{{competition.logo_url}}" style="border:0px solid black;"></a>
     {% else %}
@@ -10,6 +10,14 @@
 </div>
 
 {% endblock %}
+
+{% block funk %}
+    {% if competition.hex_header_color %}
+    {% else %}
+        {{block.super}}
+    {% endif %}
+{% endblock %}
+
 
 {% block account_controls %}
 {% endblock %}

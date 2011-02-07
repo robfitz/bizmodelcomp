@@ -5,6 +5,7 @@ from django import forms
 from bizmodelcomp.emailhelper.models import *
 from bizmodelcomp.userhelper.models import *
 from bizmodelcomp.blog.models import *
+from bizmodelcomp.utils.models import *
 
 ##class QuestionInline(admin.TabularInline):
 ##    model = Question
@@ -64,10 +65,15 @@ from bizmodelcomp.blog.models import *
 ##    form = CanvasBlockForm
 
 
+class CompetitionForm(forms.ModelForm):
+
+    terms_of_service = forms.CharField(widget=forms.Textarea, required=False)
+
 
 class CompetitionAdmin(admin.ModelAdmin):
 
     list_display = ('name', 'owner', 'website')
+    form = CompetitionForm
 
 
 class PitchQuestionForm(forms.ModelForm):
@@ -91,6 +97,7 @@ class PitchAdmin(admin.ModelAdmin):
 
 admin.site.register(Competition, CompetitionAdmin)
 admin.site.register(Phase)
+admin.site.register(ApplicationRequirements)
 
 admin.site.register(Founder)
 admin.site.register(Team)
@@ -111,3 +118,5 @@ admin.site.register(UserProfile)
 ##admin.site.register(Worksheet, WorksheetAdmin)
 
 admin.site.register(BlogPost)
+
+admin.site.register(Tag)

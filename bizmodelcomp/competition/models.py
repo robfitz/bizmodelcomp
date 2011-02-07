@@ -23,11 +23,11 @@ class Founder(models.Model):
     user = models.OneToOneField(User, blank=True, null=True)
 
     name = models.CharField(max_length=500, blank=True, null=True) #don't use first/last/etc for multi-cultural reasons
-    email = models.CharField(max_length=255, null=True)
-    phone = models.CharField(max_length=20, blank=True, null=True)
+    email = models.CharField(max_length=255, null=True, default="")
+    phone = models.CharField(max_length=20, blank=True, null=True, default="")
 
     #isoformat yyyy-mm-dd
-    birth = models.CharField(max_length=10, blank=True, null=True) #representation of a datetime
+    birth = models.CharField(max_length=50, blank=True, null=True) #representation of a datetime
 
     #undergard, postgrad, etc
     applicant_type = models.ForeignKey(Tag, null=True, blank=True, related_name="founder_applicant_type")
@@ -37,6 +37,10 @@ class Founder(models.Model):
 
     #UCL, LBS, GT, etc
     institution = models.ForeignKey(Tag, null=True, blank=True, related_name="founder_institution")
+
+    address = models.CharField(max_length=500, blank=True, null=True, default="")
+    course_of_study = models.CharField(max_length=500, blank=True, null=True, default="")
+    year_of_study = models.CharField(max_length=100, blank=True, null=True, default="")
 
     #If False, anyone can create or edit a pitch for this founder
     #by simply knowing and entering the matching email address.
@@ -168,10 +172,17 @@ class Competition(models.Model):
     logo = models.FileField(null=True, blank=True, upload_to="uploads/logos/")
 
     #more branding, only used for totally custom whitelabelling
-    template_base = models.CharField(max_length=200, default="base.html")
-    template_pitch = models.CharField(max_length=201, default="entercompetition/pitch_form.html")
+    template_base = models.CharField(max_length=200, default="", blank=True)
+    template_pitch = models.CharField(max_length=201, default="", blank=True)
     template_stylesheet = models.CharField(max_length=200, blank=True, default="")
 
+    #optional branding color as 3 or 6 digit hex (don't start with 0x or #)
+    hex_color = models.CharField(max_length=6, blank=True, null=True, default="")
+    hex_header_color = models.CharField(max_length=6, blank=True, null=True, default="")
+
+    #optional. displayed with markdown formatting before applicants submit if
+    #it's non-blank
+    terms_of_service = models.CharField(max_length=10000, blank=True, default="")
 
     def application_requirements(self):
         try:
@@ -218,19 +229,28 @@ class ApplicationRequirements(models.Model):
     competition = models.OneToOneField(Competition, null=True, blank=True)
 
     #web, greentech, medical, social enterprise, etc
-    business_types = models.ManyToManyField(Tag, related_name="comp_business_types")
+    business_types = models.ManyToManyField(Tag, related_name="comp_business_types", null=True, blank=True)
 
     #undergrad, postgrad, etc
-    applicant_types = models.ManyToManyField(Tag, related_name="comp_applicant_types")
+    applicant_types = models.ManyToManyField(Tag, related_name="comp_applicant_types", null=True, blank=True)
 
     #ucl, georgia tech, sony pictures, etc
-    institutions = models.ManyToManyField(Tag, related_name="comp_institutions")
+    institutions = models.ManyToManyField(Tag, related_name="comp_institutions", null=True, blank=True)
 
     #europe..
-    locations = models.ManyToManyField(Tag, related_name="comp_locations")
+    locations = models.ManyToManyField(Tag, related_name="comp_locations", null=True, blank=True)
 
     #extra stuff, like must be a practicing entrepreneur or under 25
-    other_requirements = models.ManyToManyField(Tag, related_name="comp_other_requirements")
+    other_requirements = models.ManyToManyField(Tag, related_name="comp_other_requirements", null=True, blank=True)
+
+    is_address_required = models.BooleanField(default=False)
+    is_birthday_required = models.BooleanField(default=False)
+    is_phone_required = models.BooleanField(default=False)
+    #ignored if specific institution Tags are set. if no tags are set, and this is true then an
+    #input field is used to capture their institution
+    is_institution_required = models.BooleanField(default=False)
+    is_course_of_study_required = models.BooleanField(default=False)
+    is_year_of_study_required = models.BooleanField(default=False)
 
 
     def all_tag_sets(self):
@@ -283,6 +303,10 @@ class Phase(models.Model):
     #                                  default='pending')
 
     min_judgements_per_pitch = models.IntegerField(default=2)
+
+    #extra guidance for judges
+    scoring_tooltip = models.CharField(max_length=500, blank=True, default="0 points means a completely missing or invalid answer. 1 point is an attempted but very bad answer. Maximum points means you would be pleased to see this answer in a professional pitch.")
+
 
     #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
 
@@ -653,6 +677,14 @@ class Pitch(models.Model):
         except: return 0
 
 
+    def percent_complete(self):
+
+        num_questions = len(self.phase.questions())
+        num_answers = PitchAnswer.objects.filter(pitch=self).count()
+
+        return "%s" % int(100 * num_answers / num_questions)
+
+
     #who is pitching this idea?
     def team_name(self):
         return "%s" % self.team
@@ -676,6 +708,9 @@ class PitchQuestion(models.Model):
 
     #instructions for the user
     prompt = models.CharField(max_length=1000, default="", blank=True)
+
+    #optional extra instructions for user
+    extra_info = models.CharField(max_length=1000, default="", blank=True, null=True)
 
     #string of choices delimited with newlines. no choices means it's a
     #free answer text field. 1 choice is invalid. 2 choices of "True\nFalse"
