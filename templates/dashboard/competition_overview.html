@@ -32,9 +32,7 @@
                {% endifequal %}
            </div>
 
-
             <div class="hr">&nbsp;</div>
-
 
         </div>
 
@@ -91,6 +89,7 @@
                     <tr>
                         <th>Team</th>
                         <th>Pitch</th>
+                        <th>Completion</th>
                         <th>Time</th>
                     </tr>
 
@@ -101,6 +100,7 @@
                             <tr>
                                 <td>{{pitch.team}}</td>
                                 <td><a href="javascript:void(0);" onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a></td>
+                                <td>{{pitch.percent_complete}}%</td>
                                 <td>{{pitch.created|date}}</td>
                             </tr>
 

@@ -677,6 +677,14 @@ class Pitch(models.Model):
         except: return 0
 
 
+    def percent_complete(self):
+
+        num_questions = len(self.phase.questions())
+        num_answers = PitchAnswer.objects.filter(pitch=self).count()
+
+        return "%s" % int(100 * num_answers / num_questions)
+
+
     #who is pitching this idea?
     def team_name(self):
         return "%s" % self.team
