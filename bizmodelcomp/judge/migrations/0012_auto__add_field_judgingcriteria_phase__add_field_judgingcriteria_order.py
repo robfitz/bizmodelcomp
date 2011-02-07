@@ -9,7 +9,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         
         # Adding field 'JudgingCriteria.phase'
-        db.add_column('judge_judgingcriteria', 'phase', self.gf('django.db.models.fields.related.ForeignKey')(default=None, to=orm['competition.Phase']), keep_default=False)
+        db.add_column('judge_judgingcriteria', 'phase', self.gf('django.db.models.fields.related.ForeignKey')(default="", to=orm['competition.Phase']), keep_default=False)
 
         # Adding field 'JudgingCriteria.order'
         db.add_column('judge_judgingcriteria', 'order', self.gf('django.db.models.fields.DecimalField')(default=1, max_digits=4, decimal_places=2), keep_default=False)
