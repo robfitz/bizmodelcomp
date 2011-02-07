@@ -6,40 +6,42 @@
 
         <div id="judging_criteria">
 
-            {% for jc in judging_criteria %}
-
-                {{ jc }} <br/>
-
-            {% endfor %}
-
-
-
         </div>
-        
-		<p>
-			<input type="submit" value="Save judging criteria" />
-		</p>
+
+        <div style="float:left;">
+            <input class="button" type="button" onclick="add_score()" value="Add score" />
+            <input class="button" type="button" onclick="add_feedback()" value="Add text" />
+            <p>
+                <input type="submit" value="Save judging criteria" />
+            </p>
+        </div>
 
 	</form>
 
-    <input class="button" type="button" onclick="add_score()" value="Add score" />
-    <input class="button" type="button" onclick="add_feedback()" value="Add text" />
+    <div class="hidden edit_judge_criteria" id="new_score">
 
-    <div class="hidden" id="new_score">
+        <h4>Score</h4>
 
-        Instructions for judge:
-        <br/>
-        <textarea name="prompt_" class="prompt"></textarea>
+        <div style="width:90%;float:left;">
+            <div style="width:200px;float:left;">Instructions for judge:</div>
+            <input style="float:left;" name="prompt_" class="judge_prompt"/>
+        </div>
 
-        Max score: <input name="max_points_"class="max_score_selector" type="number" min=1 stepsize=1 value=5 max=100 />
+        <div style="width:90%;float:left;">
+            <div style="width:200px;float:left;">Max score:</div> 
+            <input style="float:left;width:70px;margin-left:2px;" name="max_points_"class="max_score_selector" type="number" min=1 stepsize=1 value=5 max=100 />
+        </div>
 
     </div>
 
-    <div class="hidden" id="new_feedback">
+    <div class="hidden edit_judge_criteria" id="new_feedback">
 
-        Instructions for judge:
-        <br/>
-        <textarea name="prompt_" class="prompt"></textarea>
+        <h4>Text feedback</h4>
+
+        <div style="width:90%;float:left;">
+            <div style="width:200px;float:left;">Instructions for judge:</div>
+            <input style="float:left;" name="prompt_" class="judge_prompt"/>
+        </div>
 
     </div>
 
@@ -48,8 +50,11 @@
         $(function () {
 
             var new_criteria;
+            var num = 0;
 
             {% for criteria in judging_criteria %}
+                
+                num = $("#judging_criteria").children().length + 1;
 
                 {% if criteria.is_text_feedback %}
                     new_criteria = $("#new_feedback").clone();
@@ -59,15 +64,21 @@
                 {% endif %}
 
                 new_criteria.removeClass("hidden");
-                new_criteria.children(".prompt").val("{{criteria.prompt}}");
+                new_criteria.attr("id", "criteria_" + num);
+                var new_id = "#" + new_criteria.attr("id");
+
                 $("#judging_criteria").append(new_criteria);
 
-            {% endfor %}
+                $(new_id + " .judge_prompt").val("{{criteria.prompt}}");
+                $(new_id + " .judge_prompt").attr("name", "prompt_{{criteria.id}}");
+                
+                {% if criteria.is_text_feedback %}
+                {% else %}
+                    $(new_id + " .max_score_selector").val("{{criteria.max_points}}");
+                    $(new_id + " .max_score_selector").attr("name", "max_points_{{criteria.id}}");
+                {% endif %}
 
-            //for each child(-r) in new_q of type "input" or "textarea", append Num to its name
-            $("#judging_criteria input, #judging_criteria textarea").each(function () {
-                $(this).attr('name', $(this).attr('name') + "{{criteria.id}}");
-            });
+            {% endfor %}
 
         });
 
@@ -82,8 +93,10 @@
 
             $("#judging_criteria").append(new_criteria)
 
-            $(new_id + " .max_score_selector").attr("name", "max_points_" + num);
-            $(new_id + " .prompt").attr("name", "newprompt_" + num);
+            $(new_id + " .max_score_selector").attr("name", "newmax_points_" + num);
+            $(new_id + " .judge_prompt").attr("name", "newprompt_" + num);
+
+            $(new_id + " .judge_prompt").focus();
         }
 
         function add_feedback() {
@@ -97,7 +110,9 @@
 
             $("#judging_criteria").append(new_criteria)
 
-            $(new_id + " .prompt").attr("name", "newprompt_" + num);
+            $(new_id + " .judge_prompt").attr("name", "newprompt_" + num);
+
+            $(new_id + " .judge_prompt").focus();
         }
 
         function get_id(obj) {

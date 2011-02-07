@@ -597,7 +597,8 @@ def set_question_options(request, question, is_new=False, id=None):
     points_prompt = request.POST.get("points_prompt_%s" % id, "")
     has_feedback = request.POST.get("has_feedback_%s" % id, False)
     feedback_prompt = request.POST.get("feedback_prompt_%s" % id, "")
-    show_choices = request.POST.get("show_choices_%s" % id, False)
+
+    show_choices = request.POST.get("answer_type_%s" % id, False) == "dropdown"
     choices = request.POST.get("choices_%s" % id, "")
 
     is_hidden_from_applicants = request.POST.get("is_judge_only_%s" % id, False)
@@ -674,7 +675,7 @@ def edit_judging_criteria(request, phase_id):
                 num = key[len("newprompt_"):]
 
                 prompt = request.POST.get(key)
-                max_points = request.POST.get("max_points_%s" % num)
+                max_points = request.POST.get("newmax_points_%s" % num)
 
                 if max_points:
                     criteria = JudgingCriteria(phase=phase,
@@ -692,18 +693,21 @@ def edit_judging_criteria(request, phase_id):
 
                 try:
                     id = key[len("prompt_"):]
-                    critera = JudgingCriteria.objects.get(id=int(id))
+                    criteria = JudgingCriteria.objects.get(id=id)
                     
                     prompt = request.POST.get(key)
-                    max_points = request.POST.get("max_points_%s" % id)
+                    max_points = request.POST.get("max_points_%s" % id, None)
 
-                    if max_points:
+                    print 'found max points as: %s' % max_points
+
+                    if max_points is not None:
                         criteria.max_points = max_points
 
                     criteria.prompt = prompt
 
                     criteria.save()
                 except:
+                    print 'exception looking for criteria for prompt: %s' % key
                     pass
 
     return render_to_response('dashboard/edit_judging_criteria.html', locals())

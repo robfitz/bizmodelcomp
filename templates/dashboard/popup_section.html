@@ -1,11 +1,18 @@
 {% extends 'dashboard/section.html' %}
 
 {% block section_style %}
-height:100%; width:100%;padding-bottom:52px;
+width:98%;
+height:96%;
+{% endblock %}
+
+{% block section_content_class %}
+popup_summary
 {% endblock %}
 
 {% block section_content_style %}
-overflow-x:auto;overflow-y:auto;height:100%;
+overflow-x:auto;
+overflow-y:auto;
+height:400px;
 {% endblock %}
 
 {% block title_style %}

@@ -13,12 +13,13 @@
 			</span>
 
             {% endblock %}
+
 		</span>
 
 	</div>
 
     {% block section_outer_content %}
-    <div class="summary" style="{% block section_content_style %}{% endblock %}">
+    <div class="summary {% block section_content_class %}{% endblock %}" style="{% block section_content_style %}{% endblock %}">
 
 		{% block section_content %}
 		{% endblock %}

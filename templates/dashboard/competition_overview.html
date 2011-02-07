@@ -117,15 +117,14 @@
     </div>
 
     <div id="judging">
-
         
         <div class="half_width">
+
             <div class="stat_number">
                 Num Judges
                 <h1>{{competition.judge_invitations.count}}</h1>
                 <a style="float:left;" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{competition.current_phase.id}}/judges/');">Edit judges</a>
             </div>
-
 
             <div class="hr">&nbsp;</div>
 
@@ -134,7 +133,7 @@
                         <h1>{{ competition.current_phase.all_judgements|length }}</h1>
                         <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span></h3>
 
-                    </div>
+            </div>
 
             <div class="stat_number">
                 Pitches remain

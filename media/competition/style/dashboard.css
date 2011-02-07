@@ -1,3 +1,15 @@
+/*** editing application ***/
+
+.edit_judge_criteria, .edit_application_question {
+    float:left;
+    clear:both;
+    padding:8px;
+    border-bottom:1px solid gray;
+    width:90%;
+}
+
+/*** main ***/
+
 .dashboard_section {
     float:left;
     position:relative;

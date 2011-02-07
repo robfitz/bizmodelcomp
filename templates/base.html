@@ -61,7 +61,31 @@
                 popup("{{request.GET.show}}");
             {% endif %}
 
+            //handler for resizing popups to screen
+            $(window).resize(window_resize);
+            window_resize(null);
 		});
+
+        function window_resize(event) {
+            window_resize(event, null);
+        }
+
+        function window_resize(event, dialog) {
+
+            if (dialog == null) {
+                if ( $("#dialog_2").css("display") != "none" ) {
+                    dialog = "dialog_2";
+                }
+                else if ( $("#dialog").css("display") != "none" ) {
+                    dialog = "dialog";
+                }
+            }
+
+            if (dialog) {
+                var height = $("#" + dialog).height() - 70;
+                $("#" + dialog + " .popup_summary").css("height", height + "px");
+            }
+        }
 
         /* open a modal dialog box, ajaxing in the url param.
          * can be nested once with a popup opening another popup */
@@ -78,6 +102,7 @@
             $("#" + dialog).jqm({ajax:url, ajaxText: 'Loading' });
             $("#" + dialog).jqmShow();
 
+            setTimeout("window_resize(dialog)", 300);
         }
 
         /* loads the url param into an iframe in the jql window. use

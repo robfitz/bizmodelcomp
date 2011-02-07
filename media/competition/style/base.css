@@ -59,10 +59,6 @@ body, #header, #footer {
 	right:0px;
 }
 
-.upload_prompt_field, .question_prompt_field {
-	width:744px;
-}
-
 #header {
     position:relative;
 
@@ -119,6 +115,7 @@ h1 sup {
     padding:8px 0px 8px 8px;
     margin-bottom:0px;
 }
+
 .judging_criteria_container {
     width:240px;
     float:left;
@@ -201,6 +198,8 @@ h1, h2 {
 
 h4 {
     font-size:14px;
+    margin:0px 0px 0px 0px;
+    padding:0px;
 }
 
 .blue {
