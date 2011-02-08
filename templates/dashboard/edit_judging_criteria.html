@@ -2,7 +2,23 @@
 
 {% block section_content %}
 
-    <form action="/dashboard/phase/{{phase.id}}/judgingcriteria/" method="POST" class="focus">
+    <script language="javascript" type="text/javascript">
+
+        $( function() {
+
+            $("#judging_criteria_form").submit( function () {
+                $.post($("#judging_criteria_form").attr("action"),
+                    $("#judging_criteria_form").serialize(),
+                    function(data) {
+                        $("#dialog").jqmHide();
+                    });
+                return false;
+            });
+        });
+    </script>
+
+
+    <form id="judging_criteria_form" action="/dashboard/phase/{{phase.id}}/judgingcriteria/" method="POST" class="focus">
 
         <div id="judging_criteria">
 
