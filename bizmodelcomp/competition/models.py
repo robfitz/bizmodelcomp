@@ -14,6 +14,7 @@ from utils.models import Tag
 from judge.models import *
 
 from django.forms import ModelForm
+from django.db.models import Q
 
 
 #guy with a business model who is developing it, applying
@@ -679,10 +680,10 @@ class Pitch(models.Model):
 
     def percent_complete(self):
 
-        num_questions = len(self.phase.questions())
-        num_answers = PitchAnswer.objects.filter(pitch=self).count()
+        num_questions = len(self.phase.questions().filter(is_divider=False))
+        num_answers = len(PitchAnswer.objects.filter(pitch=self).exclude(answer="").exclude(answer="<< select one >>"))
 
-        return "(%s/%s)=%s" % (num_answers, num_questions, int(100 * num_answers / num_questions))
+        return "%s" % int(100 * num_answers / num_questions)
 
 
     #who is pitching this idea?
