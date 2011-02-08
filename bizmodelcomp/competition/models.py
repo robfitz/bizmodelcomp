@@ -682,7 +682,7 @@ class Pitch(models.Model):
         num_questions = len(self.phase.questions())
         num_answers = PitchAnswer.objects.filter(pitch=self).count()
 
-        return "%s" % int(100 * num_answers / num_questions)
+        return "(%s/%s)=%s" % (num_answers, num_questions, int(100 * num_answers / num_questions))
 
 
     #who is pitching this idea?
