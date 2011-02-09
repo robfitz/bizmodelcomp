@@ -388,7 +388,10 @@ def submit_business(request, comp_url):
                 team__owner=founder)
         team = pitch.team
     except:
-        pass
+        pitches = Pitch.objects.filter(phase=competition.current_phase,
+                team__owner=founder)
+        if pitches is not None and len(pitches) > 0:
+            pitch = pitches[0]
 
     if not team:
         team = Team(owner=founder)
