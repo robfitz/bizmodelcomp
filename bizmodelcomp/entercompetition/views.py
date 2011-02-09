@@ -185,15 +185,12 @@ def save_pitch_answers_uploads(request, pitch):
 
 def submit_team(request, comp_url):
     
-    print 'submit team' 
-
     alert = None
 
     founder = get_founder(request)
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
 
-    
     if 'f' in request.GET:
 
         #TODO: log out current user
@@ -205,9 +202,19 @@ def submit_team(request, comp_url):
             founder = key.founder
         
             request.session['founder_key'] = key.key
-            return HttpResponseRedirect("/a/%s/pitch" % comp_url)
+            return HttpResponseRedirect("/a/%s/pitch/" % comp_url)
         except:
             pass
+
+    if founder is not None:
+        pitches_1 = Pitch.objects.filter(phase=competition.current_phase,
+                owner=founder)
+        pitches_2 = Pitch.objects.filter(phase=competition.current_phase,
+                team__owner=founder)
+
+        if len(pitches_1) > 0 or len(pitches_2) > 0:
+            return HttpResponseRedirect("/a/%s/pitch/" % comp_url)
+
 
     #standard team info
     name = ""
