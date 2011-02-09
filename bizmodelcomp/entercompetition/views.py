@@ -391,8 +391,7 @@ def submit_business(request, comp_url):
         try:
             pitches = Pitch.objects.filter(phase=competition.current_phase,
                     team__owner=founder)
-            if pitches is not None and len(pitches) > 0:
-                pitch = pitches[-1]
+            pitch = pitches[-1]
         except:
             try:
                 pitch = Pitch.objects.get(phase=competition.current_phase,
