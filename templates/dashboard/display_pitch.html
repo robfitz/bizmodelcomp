@@ -1,10 +1,6 @@
 
 	{% load markup %}
 
-	{% for upload in uploads %}
-        {% include 'entercompetition/review_upload.html' %}
-	{% endfor %}
-
     <div style="padding:0px 8px 20px 8px;float:left;clear:both;width:96%;"> <!-- begin next question_section -->
 
 	{% for question in questions %}
@@ -49,6 +45,10 @@
 
         {% endblock question_display %}
 
+	{% endfor %}
+
+	{% for upload in uploads %}
+        {% include 'entercompetition/review_upload.html' %}
 	{% endfor %}
 
     </div>
