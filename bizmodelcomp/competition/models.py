@@ -350,8 +350,8 @@ class Phase(models.Model):
     def max_score(self):
         
         max_score = 0
-        for question in PitchQuestion.objects.filter(phase=self):    
-            max_score += question.max_points
+        for criteria in JudgingCriteria.objects.filter(phase=self):    
+            max_score += criteria.max_points
 
         return max_score
 
