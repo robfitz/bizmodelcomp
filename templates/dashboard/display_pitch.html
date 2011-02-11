@@ -1,6 +1,49 @@
 
 	{% load markup %}
 
+    <div style="margin:8px;float:left;background-color:#fff;border:1px solid gray;padding:8px;width:96%;">
+
+        <div style="float:left;width:100%;">
+            <strong class="prompt" style="margin-right:6px;">Team:</strong> {{pitch.team}}
+            <span class="medium" style="margin-left:12px;"><a id="show_team_link" href="javascript:void(0);" onclick="$('.team_deets').slideDown();$(this).hide();$('#hide_team_link').show();">Show team details</a></span>
+            <span class="medium"><a id="hide_team_link" class="hidden" href="javascript:void(0);" onclick="$('.team_deets').slideUp();$(this).hide();$('#show_team_link').show();">Hide team details</a></span>
+        </div>
+
+        <div style="float:left;width:45%;padding-right:8px;border-right:1px solid gray;" class="team_deets hidden">
+
+            {% if pitch.team.business_types.count > 0 %}
+            Business type: {% for type in pitch.team.business_types.all %}{{ type }} {% endfor %}
+            <br/>
+            {% endif %}
+
+            Team members:
+             <ul style="margin-top:0px;padding-top:0px;">
+            <li>{{pitch.team.owner}} <i>(primary)</i>
+            {% for member in pitch.team.other_members.all %}
+                <li>{{member}}
+            {% endfor %}
+
+        </div>
+
+        <div style="float:left;width:45%;padding-left:8px;" class="team_deets hidden">
+            {% if pitch.team.owner.applicant_type %}
+            Applicant type: {{pitch.team.owner.applicant_type}}
+            <br/>
+            {% endif %}
+
+            {% if pitch.team.owner.location %}
+            Location: {{pitch.team.owner.location}}
+            <br/>
+            {% endif %}
+
+            {% if pitch.team.owner.institution %}
+            Institution: {{pitch.team.owner.institution}}
+            <br/>
+            {% endif %}
+        </div>
+
+    </div>
+
     <div style="padding:0px 8px 20px 8px;float:left;clear:both;width:96%;"> <!-- begin next question_section -->
 
 	{% for question in questions %}
