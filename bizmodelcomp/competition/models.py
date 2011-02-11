@@ -683,7 +683,11 @@ class Pitch(models.Model):
         num_questions = len(self.phase.questions().filter(is_divider=False))
         num_answers = len(PitchAnswer.objects.filter(pitch=self).exclude(answer="").exclude(answer="<< select one >>"))
 
-        return "%s" % int(100 * num_answers / num_questions)
+        if num_questions <= 0:
+            return 0
+
+        else:
+            return "%s" % int(100 * num_answers / num_questions)
 
 
     #who is pitching this idea?
