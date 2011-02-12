@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block style %}
+
+.wide_stat {
+    width:100%;
+    float:left;
+}
+
+td, th {
+width:100px;
+height:40px;
+}
+
+.chart {
+    width:400px;
+    height:200px;
+    border:1px solid gray;
+    float:left;
+}
+
+.big_number {
+    float:left;
+}
+
+.big_number h1 {
+    font-size:164px;
+}
+
+.fail {
+    background-color: #fdd;
+}
+
+.pass {
+    background-color: #dfd;
+}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="wide_stat">
+
+        <h2>Paid Competitions</h2>
+
+        <div class="chart">
+        </div>
+
+        <div class="big_number">
+            <h1>{{paid_competitions}}</h1>
+        </div>
+
+    </div>
+
+    <div class="wide_stat">
+
+        <h2>Students in Active Competitions</h2>
+
+        <div class="chart">
+        </div>
+
+        <div class="big_number">
+            <h1>{{active_students}}</h1>
+        </div>
+
+    </div>
+
+    <div class="wide_stat">
+
+        <h2>Self Serviness</h2>
+
+        <table>
+            <tr>
+                <th>Competition</th>
+                <th>Sale</th>
+                <th>Signup</th>
+                <th>Setup</th>
+                <th>Launch</th>
+                <th>Judging</th>
+                <th>Winners</th>
+            </tr>
+            <tr>
+                <td>Example 1</td>
+                <td class="pass"></td>
+                <td class="fail"></td>
+                <td class="fail"></td>
+                <td class="pass"></td>
+                <td class="fail"></td>
+                <td class="pass"></td>
+            </tr>
+            <tr>
+                <td>Example 1</td>
+                <td class="pass"></td>
+                <td class="pass"></td>
+                <td class="pass"></td>
+                <td class="fail"></td>
+                <td class="fail"></td>
+                <td class="fail"></td>
+            </tr>
+
+
+        </table>
+
+    </div>
+
+    <div class="wide_stat">
+
+        <h2>Marketing subscribers</h2>
+
+        <div class="chart">
+        </div>
+
+        <div class="big_number">
+            <h1>{{marketing_subscribers}}</h1>
+        </div>
+
+    </div>
+
+
+{% endblock %}

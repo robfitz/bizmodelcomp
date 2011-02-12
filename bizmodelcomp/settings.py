@@ -155,6 +155,7 @@ INSTALLED_APPS = (
     'bizmodelcomp.utils',
     'bizmodelcomp.blog',
     'south',
+    'bizmodelcomp.kpi',
 )
 
 LOGIN_URL = "/accounts/login/"
