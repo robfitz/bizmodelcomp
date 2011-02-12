@@ -43,6 +43,9 @@ urlpatterns = patterns('',
     #email
     (r'email/', include('bizmodelcomp.emailhelper.urls')),
 
+    #kpi dashboard
+    (r'kpi/', include('bizmodelcomp.kpi.urls')),
+
     #data slicing & dicing, spreadsheets, etc
     (r'data/', include('bizmodelcomp.analytics.urls')),
 
