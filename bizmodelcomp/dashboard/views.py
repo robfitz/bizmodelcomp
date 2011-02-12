@@ -62,7 +62,7 @@ def next_phase(request, comp_url):
 def overall_dashboard(request):
 
     #grab all the competitions they own
-    competitions = Competition.objects.filter(owner=request.user)
+    competitions = list(Competition.objects.filter(owner=request.user))
     inactive_competition = []
 
     #make sure the organizer is assigned as a judge for all his competitions

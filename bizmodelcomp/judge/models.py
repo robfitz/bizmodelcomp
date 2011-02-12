@@ -159,6 +159,10 @@ class JudgingCriteria(models.Model):
     scoring_tooltip = models.CharField(max_length=500, blank=True, default="")
 
 
+    class Meta:
+        ordering = ['order']
+
+
     def __unicode__(self):
 
         return self.prompt

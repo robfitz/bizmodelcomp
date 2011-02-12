@@ -185,15 +185,12 @@ def save_pitch_answers_uploads(request, pitch):
 
 def submit_team(request, comp_url):
     
-    print 'submit team' 
-
     alert = None
 
     founder = get_founder(request)
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
 
-    
     if 'f' in request.GET:
 
         #TODO: log out current user
@@ -205,9 +202,19 @@ def submit_team(request, comp_url):
             founder = key.founder
         
             request.session['founder_key'] = key.key
-            return HttpResponseRedirect("/a/%s/pitch" % comp_url)
+            return HttpResponseRedirect("/a/%s/pitch/" % comp_url)
         except:
             pass
+
+    if founder is not None:
+        pitches_1 = Pitch.objects.filter(phase=competition.current_phase,
+                owner=founder)
+        pitches_2 = Pitch.objects.filter(phase=competition.current_phase,
+                team__owner=founder)
+
+        if len(pitches_1) > 0 or len(pitches_2) > 0:
+            return HttpResponseRedirect("/a/%s/pitch/" % comp_url)
+
 
     #standard team info
     name = ""
@@ -361,6 +368,16 @@ def submit_team(request, comp_url):
                 team.other_members.add(teammate)
         team.save()
 
+        print 'saving team, looking to add founder to applicants'
+        if founder not in competition.applicants.all():
+            competition.applicants.add(founder)
+            print 'added founder(%s) to competition applicants, len=%s' % (founder, competition.applicants.count())
+        else:
+            print 'didnt add founder to comp applicants'
+
+        for teammate in team.other_members.all():
+            if teammate not in competition.applicants.all():
+                competition.applicants.add(teammate)
 
         return HttpResponseRedirect("/a/%s/pitch/" % competition.hosted_url)
 
@@ -388,7 +405,21 @@ def submit_business(request, comp_url):
                 team__owner=founder)
         team = pitch.team
     except:
-        pass
+        try:
+            pitches = Pitch.objects.filter(phase=competition.current_phase,
+                    team__owner=founder)
+            pitch = pitches[len(pitches)-1]
+        except:
+            try:
+                pitch = Pitch.objects.get(phase=competition.current_phase,
+                        owner=founder)
+                team=None
+            except:
+                pitches = Pitch.objects.filter(phase=competition.current_phase,
+                        owner=founder)
+                team=None
+                if pitches is not None and len(pitches) > 0:
+                    pitch = pitches[len(pitches)-1]
 
     if not team:
         team = Team(owner=founder)
