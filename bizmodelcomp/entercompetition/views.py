@@ -368,6 +368,16 @@ def submit_team(request, comp_url):
                 team.other_members.add(teammate)
         team.save()
 
+        print 'saving team, looking to add founder to applicants'
+        if founder not in competition.applicants.all():
+            competition.applicants.add(founder)
+            print 'added founder(%s) to competition applicants, len=%s' % (founder, competition.applicants.count())
+        else:
+            print 'didnt add founder to comp applicants'
+
+        for teammate in team.other_members.all():
+            if teammate not in competition.applicants.all():
+                competition.applicants.add(teammate)
 
         return HttpResponseRedirect("/a/%s/pitch/" % competition.hosted_url)
 
