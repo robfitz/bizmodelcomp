@@ -10,6 +10,13 @@ Your competitions
 
 {% block content %}
 
+    {% load markup %}
+
+    <div style="float:left;width:100%;padding:0px 8px;margin-top:-8px;" class="medium">
+        <img style="float:left;padding-top:14px;margin-right:4px;" src="/media/icons/help.png">
+        {{intro|markdown}}
+    </div>
+
     {% for competition in competitions %}
 
         <div style="float:left;width:100%;">

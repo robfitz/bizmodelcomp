@@ -10,6 +10,7 @@ from dashboard.util import *
 from userhelper.models import UserProfile
 from emailhelper.models import *
 from emailhelper.util import send_bulk_email
+from sitecopy.models import SiteCopy
 
 import charts.util as chart_util
 from datetime import datetime
@@ -64,6 +65,12 @@ def overall_dashboard(request):
     #grab all the competitions they own
     competitions = list(Competition.objects.filter(owner=request.user))
     inactive_competition = []
+
+    intro = ""
+    try:
+        intro = SiteCopy.objects.get(id="intro_overview")
+    except:
+        pass
 
     #make sure the organizer is assigned as a judge for all his competitions
     for competition in competitions:
@@ -816,6 +823,12 @@ def edit_comp(request, comp_url):
     competition = get_object_or_404(Competition, hosted_url=comp_url)
     alert = ""
 
+    intro = ""
+    try:
+        intro = SiteCopy.objects.get(id="intro_dashboard_setup")
+    except:
+        pass
+
     if not has_dash_perms(request, competition.id):
        return HttpResponseRedirect("/no_permissions/")
 
@@ -1167,6 +1180,8 @@ def dashboard(request, comp_url=None):
     phase = competition.current_phase
     max_score = phase.max_score()
     score_groups = chart_util.score_distribution(phase.all_judgements(), max(phase.max_score() / 20, 1))
+
+    intro = SiteCopy.objects.get(id="intro_dashboard_manage")
 
     if competition.owner != request.user:
         return HttpResponseRedirect('/no_permissions/')
