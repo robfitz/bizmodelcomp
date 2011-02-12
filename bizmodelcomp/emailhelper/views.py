@@ -11,7 +11,7 @@ from emailhelper.models import Bulk_email, Email_address
 from emailhelper.util import send_bulk_email
 from emailhelper.forms import BulkEmailForm
 from competition.models import Competition
-
+from sitecopy.models import SiteCopy
 
 
 def newsletter_subscribe(request):
@@ -83,6 +83,12 @@ def manage_email(request, comp_url):
     competition = get_object_or_404(Competition, hosted_url=comp_url)
     if competition.owner != request.user:
         return HttpResponseRedirect("/no_permissions/")
+
+    intro = ""
+    try:
+        intro = SiteCopy.objects.get(id="intro_dashboard_email")
+    except:
+        pass
 
     #a blank new message, to edit and save as a draft
     new_email_form = BulkEmailForm(instance = Bulk_email(competition=competition))

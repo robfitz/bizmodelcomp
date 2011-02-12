@@ -25,11 +25,18 @@
 
 {% block content_outer_top %}
 
+    {% load markup %}
+
 	<div id="navbar">
 
 		{% include 'dashboard/navbar.html' %}
 
 	</div>
+
+    <div style="float:left;width:100%;padding:0px 8px;margin-top:-8px;" class="medium">
+        <img style="float:left;padding-top:14px;margin-right:4px;" src="/media/icons/help.png">
+        {{intro|markdown}}
+    </div>
 
 {% endblock %}
 
