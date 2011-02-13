@@ -1,6 +1,8 @@
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
 
+from kpi.models import *
+
 @login_required
 def index(request):
 
@@ -19,26 +21,11 @@ def get_paid_competitions():
     return 0
 
 
-def get_ative_students():
-
-    active_competitions = []
-
-    for comp in Competition.objects.all():
-        if len(comp.phases()) > 0: 
-            last_phase = comp.phases()[-1]
-
-    return 0
-
-
 def get_active_students():
 
-    return 0 
-
-
-def get_paid_competitions():
-
-    return 0
-
+    snapshots = ActiveStudents.objects.all()
+    latest_snapshot = snapshots[0]
+    return latest_snapshot.total
 
 def get_marketing_subscribers():
 
