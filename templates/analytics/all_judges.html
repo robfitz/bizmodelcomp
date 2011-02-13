@@ -50,6 +50,8 @@ All pitches
 
     <script language="javascript" type="text/javascript">
         $( function () {
+            setTimeout("window_resize(dialog)", 1000);
+
             $("#phase_filter").submit( function() {
                 $("#dialog").load("/dashboard/data/table/{{competition.hosted_url}}/?" + $("form").serialize());
                 return false;
