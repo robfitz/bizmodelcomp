@@ -1,6 +1,26 @@
 function set_click_handlers() {
 }
 
+function update_order() {
+
+    $(".order").each(function() {
+            $(this).remove();
+            });
+
+    $("#questions .edit_application_question").each( function() {
+
+        var prompt = $(this).children(".question_prompt_field");
+        var full_name = prompt.attr("name");
+        var toks = full_name.split("_");
+        var id = toks[toks.length-1];
+
+        $(this).append("<input class='order' type='hidden' name='order_" + id + "' value='" + $(this).index() + "' />");
+        //alert("index is: " + $(this).index());
+        //alert ('found id=' + id + ' for prompt=' + prompt);
+
+    });
+}
+
 function addUpload() {
 
 	var num = 'nu' + $("#uploads").children().length;
@@ -60,5 +80,7 @@ function addQuestion() {
 	$('#question_prompt_new' + num).focus();
 
 	set_click_handlers();
+
+    update_order();
 	
 }

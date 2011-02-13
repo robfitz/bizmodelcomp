@@ -2,7 +2,7 @@
 
 {% block section_content %}
 
-    <form action="/dashboard/phase/{{phase.id}}/application/" method="POST" class="focus">
+    <form id="application_form" action="/dashboard/phase/{{phase.id}}/application/" method="POST" class="focus">
 
 		{% include 'dashboard/edit_application_form.html' %}
 
@@ -14,7 +14,9 @@
     <script language="javascript" type="text/javascript">
         
         $(function () {
-                set_click_handlers();
+            set_click_handlers();
+
+            update_order();
         });
 
         {% include 'dashboard/edit_application.js' %}
@@ -25,6 +27,7 @@
             var id = toks[toks.length - 1];
             return id;
         }
+
 
     </script>
 

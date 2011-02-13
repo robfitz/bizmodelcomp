@@ -92,10 +92,12 @@ def overall_dashboard(request):
             if not invite.this_phase_only:
                 #invite is for whole competition
                 competitions.append(invite.competition)
+                invite.competition.my_num_judged = len(invite.competition.current_phase.judgements(num=-1, for_judge=invite))
 
-            elif invite.this_phase_only == competition.current_phase:
+            elif invite.this_phase_only == invite.competition.current_phase:
                 #invite is for a particular phase, and that phase is active
                 competitions.append(invite.competition)
+                invite.competition.my_num_judged = len(invite.competition.current_phase.judgements(num=-1, for_judge=invite))
 
             else:
                 #we are judging a non-active part of the competition
@@ -610,7 +612,8 @@ def set_question_options(request, question, is_new=False, id=None):
 
     is_hidden_from_applicants = request.POST.get("is_judge_only_%s" % id, False)
 
-    print 'is hidden from applicants? %s' % is_hidden_from_applicants
+    order = request.POST.get("order_%s" % id, 0)
+    print 'looking for order_%s and got: %s' % (id, order)
 
     question.is_hidden_from_applicants = is_hidden_from_applicants
     if is_hidden_from_applicants:
@@ -642,6 +645,8 @@ def set_question_options(request, question, is_new=False, id=None):
     else:
         print 'no feedback'
         question.judge_feedback_prompt = ""
+
+    question.order = order
 
     return question
 
