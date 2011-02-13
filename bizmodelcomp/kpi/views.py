@@ -24,12 +24,8 @@ def get_paid_competitions():
 def get_active_students():
 
     snapshots = ActiveStudents.objects.all()
-    print 'got snapshots: %s' % snapshots
     latest_snapshot = snapshots[0]
-    print 'latest: %s' % latest_snapshot
     return latest_snapshot.total
-
-
 
 def get_marketing_subscribers():
 
