@@ -3,7 +3,8 @@
 {% block section_style %}margin-bottom:16px;width:70%;{% endblock %}
 
 {% block section_title %}
-{{ competition.name }}
+    {% load max_chars %}
+    {{ competition.name|max_chars:23 }}
 {% endblock %}
 
 {% block tab_list %}
