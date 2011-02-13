@@ -66,7 +66,11 @@ class Founder(models.Model):
 
     def __unicode__(self):
 
-        return self.email
+        if self.name and self.name != "":
+            print 'founder name = (%s)' % self.name
+            return self.name
+        else:
+            return self.email
 
 
     #get or create randomized anonymous login key
@@ -350,8 +354,8 @@ class Phase(models.Model):
     def max_score(self):
         
         max_score = 0
-        for question in PitchQuestion.objects.filter(phase=self):    
-            max_score += question.max_points
+        for criteria in JudgingCriteria.objects.filter(phase=self):    
+            max_score += criteria.max_points
 
         return max_score
 
