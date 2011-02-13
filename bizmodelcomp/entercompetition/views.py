@@ -388,6 +388,7 @@ def submit_team(request, comp_url):
 def submit_business(request, comp_url):
 
     print 'submit business'
+    log = ""
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
     alert = None
@@ -401,35 +402,52 @@ def submit_business(request, comp_url):
         return HttpResponseRedirect("/a/%s/" % comp_url)
 
     try:
+        log += "trying!"
         pitch = Pitch.objects.get(phase=competition.current_phase,
                 team__owner=founder)
         team = pitch.team
+        log += "1"
     except:
         try:
+             
             pitches = Pitch.objects.filter(phase=competition.current_phase,
                     team__owner=founder)
             pitch = pitches[len(pitches)-1]
+            log += "2"
         except:
             try:
                 pitch = Pitch.objects.get(phase=competition.current_phase,
                         owner=founder)
                 team=None
+                log += "3" 
             except:
                 pitches = Pitch.objects.filter(phase=competition.current_phase,
                         owner=founder)
                 team=None
                 if pitches is not None and len(pitches) > 0:
                     pitch = pitches[len(pitches)-1]
+                log += "4"
+
+
 
     if not team:
+
+        log += "no team"
         team = Team(owner=founder)
         team.save
+        log += ", made team=(%s)" % team
 
     if not pitch:
+        log += ", no pitch"
         pitch = Pitch(team=team,
                 owner=founder,
                 phase=competition.current_phase)
         pitch.save()
+        log += ", made pitch=(%s)" % pitch
+
+    team.save()
+    pitch.team = team
+    pitch.save()
 
     if request.method == "POST":
         #creates or modifies answers and uploads for the pitch
