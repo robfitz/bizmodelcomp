@@ -154,7 +154,7 @@ def pitches_for_judge_table(phases, judge):
 def all_pitches_table(phases):
 
     teams = []
-    header = ["<a href='javascript:void(0);' onclick=\"$(\'.checkbox\').attr(\'checked\', \'on\');\">Select<br/>all</a>", "Team"]
+    header = ["<input id='check_select_all' type='checkbox' href='javascript:void(0);' onclick=\"$(\'.checkbox\').attr(\'checked\', $(\'#check_select_all\').attr(\'checked\'));\"></a>", "Team"]
     rows = []
 
     for phase in phases:
