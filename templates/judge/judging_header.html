@@ -1,2 +1,6 @@
 {% extends 'judge/header.html' %}
 
+{% block account_controls %}
+<a href="/judge/{{competition.hosted_url}}/">Judging</a> or 
+{% include 'dashboard/header_auth_links.html' %}
+{% endblock %}

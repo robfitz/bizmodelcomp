@@ -1,6 +1,6 @@
 <div id="header">
 
-    <span class="medium">
+    <!--<span class="medium">
     {% block breadcrumbs %}
 
         <a href="/dashboard/">Dashboard</a> &gt; <a href="/judge/{{competition.hosted_url}}/">{{competition}}</a> 
@@ -11,7 +11,7 @@
 
     {% endblock %}
     </span>
-    <br/>
+    <br/>-->
 
     {% if competition.logo %}
         <img src="{{ competition.logo_url }}" /> 
@@ -22,6 +22,12 @@
     <div id="account_controls" class="medium">
 
         <div style="float:right;text-align:right;margin-left:50px;">
+            
+            {% block account_controls %}
+            {% include 'dashboard/header_auth_links.html' %}
+            {% endblock %}
+            
+            <!--
             {% if request.user.is_authenticated %}
 
             <a href="/judge/{{competition.hosted_url}}/">Back to judging</a>
@@ -37,10 +43,7 @@
                 <a href="/accounts/login/?next=/judge/">Log in</a>
 
             {% endif %}
-        </div>
-
-        <div style="float:right;"> 
-            {% include 'judge/ranking.html' %}
+            -->
         </div>
 
     </div>
