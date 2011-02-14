@@ -12,6 +12,12 @@ Phase {{forloop.counter}}  {{phase.name}}
 
 {% block section_content %}
 
+    {% if phase == phase.competition.current_phase %}
+    <div style="width:100%;float:left;">
+        {% include 'dashboard/alerts/current_phase.html' %}
+    </div>
+    {% endif %}
+
     <div id="view_phase_{{phase.id}}" class="view_phase">
         
         <div style="float:left;width:48%;">
