@@ -10,7 +10,7 @@ import time
 
 from settings import MEDIA_URL
 from utils.util import *
-from utils.models import Tag
+from utils.models import Tag, PitchTag
 from judge.models import *
 
 from django.forms import ModelForm
@@ -652,6 +652,8 @@ class Pitch(models.Model):
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now)
 
     order = models.IntegerField(default=0)
+
+    tags = models.ManyToManyField(PitchTag, related_name="pitches")
 
 
     class Meta:
