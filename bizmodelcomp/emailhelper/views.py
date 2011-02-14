@@ -149,6 +149,12 @@ def manage_email(request, comp_url):
 @login_required
 def confirm_send_email(request, comp_url, bulk_email_id):
 
+    intro = ""
+    try:
+        intro = SiteCopy.objects.get(id="intro_dashboard_email")
+    except:
+        pass
+
     competition = get_object_or_404(Competition, hosted_url=comp_url)
     if competition.owner != request.user:
         return HttpResponseRedirect("/no_permissions/")
@@ -166,6 +172,12 @@ def confirm_send_email(request, comp_url, bulk_email_id):
 
 @login_required
 def already_sent(request, comp_url, bulk_email_id):
+
+    intro = ""
+    try:
+        intro = SiteCopy.objects.get(id="intro_dashboard_email")
+    except:
+        pass
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
     if competition.owner != request.user:
