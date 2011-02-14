@@ -19,6 +19,12 @@
 
         <div class="half_width">
 
+            <div style="float:left;width:100%;">
+                {% if competition.logo %}
+                    <img style="max-width:200px;" src="{{ competition.logo_url }}" /> 
+                {% endif %}
+            </div>
+
             <div class="stat_number">
                 Current phase
                 <h1>{{ competition.current_phase.phase_num }} of {{ competition.phases.count }}</h1> 
@@ -58,6 +64,12 @@
     <div id="applications">
 
         <div class="half_width">
+
+            <div style="float:left;width:100%;">
+                {% if competition.logo %}
+                    <img style="max-width:200px;" src="{{ competition.logo_url }}" /> 
+                {% endif %}
+            </div>
             
             <div class="stat_number">
                 Num applications
@@ -120,6 +132,12 @@
     <div id="judging">
         
         <div class="half_width">
+
+            <div style="float:left;width:100%;">
+                {% if competition.logo %}
+                    <img style="max-width:200px;" src="{{ competition.logo_url }}" /> 
+                {% endif %}
+            </div>
 
             <div class="stat_number">
                 Num Judges

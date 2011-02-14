@@ -10,6 +10,12 @@
 
 <div style="float:left;">
 
+    <div style="float:left;width:100%;">
+        {% if competition.logo %}
+            <img style="max-width:200px;" src="{{ competition.logo_url }}" /> 
+        {% endif %}
+    </div>
+
     <div class="stat_number">
         You've judged
         <h1>{{ competition.my_num_judged }}</h1>
