@@ -443,7 +443,6 @@ class Phase(models.Model):
 
         return self.judgements(num=-1)
 
-
     
     def judgements(self, for_judge=None, num=10):
         

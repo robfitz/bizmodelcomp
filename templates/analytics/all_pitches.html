@@ -28,25 +28,32 @@ All pitches
     <h3>All pitches</h3>
     <a href="/dashboard/{{competition.hosted_url}}/next_phase/" class="button">Advance checked pitches to next phase</a>
 
-    <table>
-        <tr>
-            {% for th in header %}
-            <th>{{th|safe}}</th>
-            {% endfor %}
-        </tr>
-
-        {% for tr in rows %}
+    <table class="spreadsheet" cellspacing="0">
+        <thead>
             <tr>
-                {% for td in tr %}
-                    <td>{{td|safe}}</td>
+                {% for th in header %}
+                <th>{{th|safe}}</th>
                 {% endfor %}
             </tr>
-        {% endfor %}
+        </thead>
+
+        <tbody>
+
+            {% for tr in rows %}
+                <tr class="{% cycle 'odd' 'even' %}">
+                    {% for td in tr %}
+                        <td>{{td|safe}}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
 
     </table>
 
     <script language="javascript" type="text/javascript">
         $( function () {
+            setTimeout("window_resize(dialog)", 1000);
+
             $("#phase_filter").submit( function() {
                 $("#dialog").load("/dashboard/data/table/{{competition.hosted_url}}/?" + $("form").serialize());
                 return false;

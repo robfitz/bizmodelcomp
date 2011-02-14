@@ -4,67 +4,27 @@
 {{competition}}
 {% endblock %}
 
+{% block section_style %}margin-bottom:16px;width:70%;{% endblock %}
 
-{% block section_contents %}
+{% block section_content %}
 
 <div style="float:left;">
 
     <div class="stat_number">
-        Num Judged
-        <h1>{{num_judged}}</h1>
+        You've judged
+        <h1>{{ competition.my_num_judged }}</h1>
     </div>
-
-    <div class="hr">&nbsp;</div>
 
     <div class="stat_number">
-        Remaining
-        <h1>{{num_to_judge}}</h1>
+        Everyone's judged
+        <h1>{{ competition.current_phase.all_judgements|length }}</h1>
+    </div>
+
+    <div class="stat_number">
+        Pitches remaining
+        <h1>{{ competition.current_phase.all_pitches_to_judge|length}}</h1>
     </div>
 
 </div>
-
-<div style="float:left;">
-
-    <table>
-        <tr>
-            <td>Company</td>
-            <td>Score</td>
-        </tr>
-
-        {% for judgement in competition.judged_pitches %}
-
-            <tr>
-                <td><a href="/judge/review/{{judgement.id}}">{{ pitch.team.name }}</a></td>
-                <td>{{ judgement.score }}</td>
-            </tr>
-
-        {% endfor %}
-
-    </table>
-
-</div>
-
-<div style="float:left;">
-
-    <table>
-        <tr>
-            <td>Company</td>
-            <td>Score</td>
-        </tr>
-
-        {% for pitch in competition.unjudged_pitches %}
-
-            <tr>
-                <td><a href="/judge/go/{{pitch.id}}">{{ pitch.team.name }}</a></td>
-                <td>{{ pitch.judgement.score }}</td>
-            </tr>
-
-        {% endfor %}
-
-    </table>
-
-</div>
-
-
 
 {% endblock %}
