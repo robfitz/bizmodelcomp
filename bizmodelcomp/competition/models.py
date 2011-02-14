@@ -67,8 +67,7 @@ class Founder(models.Model):
     def __unicode__(self):
 
         if self.name and self.name != "":
-            print 'founder name = (%s)' % self.name
-            return self.name
+            return u'%s' % self.name
         else:
             return self.email
 
