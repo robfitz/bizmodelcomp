@@ -128,6 +128,13 @@ body, #header, #footer {
     padding:0px;
 }
 
+.stat_number_judge h1 {
+    color: #fff;
+    font-size:48px;
+    margin:-12px 0px -12px 0px;
+    padding:0px;
+}
+
 h1 sup {
     font-size:24px;
     margin: 0px;
