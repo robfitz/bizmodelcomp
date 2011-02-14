@@ -13,6 +13,7 @@ from competition.models import *
 from competition.util import get_competition_for_user
 from utils.util import ordinal
 import charts.util as chart_util
+from sitecopy.models import SiteCopy
 
 
 
@@ -112,6 +113,13 @@ def dashboard(request, comp_url=None):
     #if they got to the judging page from the email link,
     #we can verify their email right now
     got_ev_key(request.GET.get("ev", False))
+    
+    #intro text to help judge know what to do
+    intro = ""
+    try:
+        intro = SiteCopy.objects.get(id="intro_judge")
+    except:
+        pass
     
     competition = None
     if comp_url is not None:

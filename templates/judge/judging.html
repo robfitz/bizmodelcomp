@@ -2,6 +2,7 @@
 
 {% block meta %}
 <script language="javascript" type="text/javascript" src="http://www.scribd.com/javascripts/view.js"></script>
+<link rel="stylesheet" type="text/css" href="/media/competition/style/dashboard.css" />
 {% endblock %}
 
 {% block header %}
@@ -94,11 +95,14 @@
 
 .judging_criteria_container {
 float:right;
+padding-right: 10px;
 }
 
 #pitch_container {
     background-color:#fafafa;
-    border:1px solid gray;
+    border-right:1px solid gray;
+    padding: 2px;
+    margin-top: 5px;
 }
 
 {% endblock %}
@@ -109,7 +113,25 @@ float:right;
 
         <input type="hidden" name="pitch" value="{{pitch.id}}" />
 
-        <div id="pitch_container" style="overflow-y:auto;width:760px;float:left;">
+        <div class="ui-dialog ui-widget ui-widget-content ui-corner-all dashboard_section">
+        <div class="ui-dialog-titlebar ui-widget-header ui-corner-all ui-helper-clearfix">
+
+        <span class="ui-dialog-title" id="ui-dialog-title-dialog">
+        
+			<span class="ui-icon ui-icon-person" style="float:left;margin-left:-8px;margin-right:4px;"></span>
+            <span class="section_title" style="float:left;">
+				Now judging <big>{{pitch.team}}</big> for {{competition}}
+			</span>
+
+		</span>
+
+        <span class="stat_number_judge" style="float:right;">
+            {% include 'judge/ranking.html' %}
+        </span>
+
+        </div>
+        
+        <div id="pitch_container" style="overflow-y:auto;width:750px;float:left;">
             {% include 'dashboard/display_pitch.html' %}
         </div>
 
@@ -139,7 +161,9 @@ float:right;
 
                 {% endif %}
 
+            
             </div>
+            
 
         {% endfor %}
 
@@ -150,6 +174,7 @@ float:right;
 
         <input style="float:right;margin-top:8px;height:40px;" type="submit" value="Save score" class="large button" />
 
+        </div>
         </div>
 
     </form>
