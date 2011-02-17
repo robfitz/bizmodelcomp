@@ -189,6 +189,10 @@ class Competition(models.Model):
     #it's non-blank
     terms_of_service = models.CharField(max_length=10000, blank=True, default="")
 
+    #if true, then organizer chooses who advances into next stage.
+    #if false, they choose who to kick out.
+    elimate_applicants_by_default = models.BooleanField(default=True)
+
     def application_requirements(self):
         try:
             return ApplicationRequirements.objects.get(competition=self)
@@ -318,15 +322,28 @@ class Phase(models.Model):
 
     def phase_num(self):
 
-        phases = self.competition.phases()
+        #add 1 to the index to make it more human readable (first phase is 1 instead of 0)
+        return list(self.competition.phases()).index(self) + 1
 
-        i = 1
-        for p in self.competition.phases():
-            if p == self:
-                return i
-            i += 1
 
-        return -1
+    def previous_phase(self):
+
+        phases = enumerate(self.competition.phases())
+        i = self.phase_num() - 1
+        if i-1 >= 0:
+            return phases[i-1]
+        else:
+            return None
+
+
+    def next_phase(self):
+
+        phases = enumerate(self.competition.phases())
+        i = self.phase_num() - 1
+        if i+1 < len(phases):
+            return phases[i-1]
+        else:
+            return None
     
     
     def is_applications_open(self):
@@ -576,10 +593,34 @@ class Phase(models.Model):
             return Pitch.objects.filter(phase=self)
 
     
-    #TODO: make this better (currently everyone is in every phase)
     def applicants(self):
 
-        return self.competition.applicants.all()
+        #if first phase, return all competition applicants
+        if self.phase_num() <= 1:
+            return self.competition.applicants.all()
+
+        prev = self.previous_phase()
+        if prev is not None:
+            #return pitches from previous phase who have been approved 
+            if self.competition.elimate_applicants_by_default:
+                #eliminated by default, so must be explicitly advancing
+                pitches = Pitch.objects.filter(phase=prev, result="Advancing")
+            else:
+                #advance by default, so either "Advancing" or "Default" is okay
+                pitches = Pitch.objects.filter(phase=prev).exclude(result="Eliminated")
+
+            #grab the people associated with the advancing pitches
+            teams = []
+            founders = []
+            for p in pitches:
+                teams.append(p.team)
+                founders.append(p.team.owner)
+
+            return teams
+                        
+        #shouldn't ever get to this case since it's either the first phase or 
+        #phase has a previous one
+        return None
 
 
     def __unicode__(self):
@@ -654,6 +695,8 @@ class Pitch(models.Model):
     order = models.IntegerField(default=0)
 
     tags = models.ManyToManyField(PitchTag, related_name="pitches")
+
+    result = models.CharField(default="Default", choices=[("Default", "Default"), ("Advancing", "Advancing"), ("Eliminated", "Eliminated")], max_length=50)
 
 
     class Meta:
@@ -898,5 +941,25 @@ class ExtraFounderInfo(models.Model):
     def __unicode__(self):
         return self.answer
     
+
+CURRENCIES = [('$', '$')]
+
+#monetary or non-monetary prize given to a team for a particular
+#competition. teams can win multiple prizes in one competition for
+#involvement in several phases or categories.
+class Prize(models.Model):
+
+    team = models.ForeignKey(Team)
+    competition = models.ForeignKey(Competition)
+
+    description = models.CharField(max_length=200, blank=True, null=True)
+    money = models.IntegerField(default=0, null=True, blank=True)
+    currency = models.CharField(default="$", choices=CURRENCIES, max_length=10)
+
+    def __unicode__(self):
+        if self.money > 0:
+            return u"%s - %s%s" % (self.description, self.currency, self.money)
+        return u"%s" % self.description
+
 
 
