@@ -17,7 +17,8 @@
                 {% if request.user.is_authenticated %}
                     {% include 'dashboard/header_auth_links.html' %}
                 {% else %}
-                    <a href="/accounts/login">Log in</a> or <a href="/accounts/register">register</a>.
+<!--                    <a href="/accounts/login">Log in</a> or <a href="/accounts/register">register</a>.
+-->
                 {% endif %}
             {% endblock %}
         </div>

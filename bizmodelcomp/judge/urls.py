@@ -3,6 +3,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
     
     #judge dashboard
+    (r'^$', 'judge.views.dashboard'),
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/$', 'judge.views.dashboard'),
                        
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/go/$', 'judge.views.judging'),
