@@ -2,6 +2,10 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
 
+    #declare winners
+    (r'^ajax/advance/(?P<pitch_id>[0-9]{1,100})/$', 'competition.ajax.advance_pitch'),
+    (r'^ajax/eliminate/(?P<pitch_id>[0-9]{1,100})/$', 'competition.ajax.eliminate_pitch'),
+
     #begin judging
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/begin_judging/$', 'dashboard.views.begin_judging'),
 

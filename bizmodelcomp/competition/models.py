@@ -705,6 +705,14 @@ class Pitch(models.Model):
         ordering = ['order', '-created']
 
 
+    def is_eliminated(self):
+
+        if self.result == "Default":
+            return self.phase.competition.elimate_applicants_by_default
+        else:
+            return self.result == "Eliminated"
+
+
     def created_ms(self):
 
         return int(time.mktime(self.created.timetuple())*1000)

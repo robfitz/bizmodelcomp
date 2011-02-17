@@ -107,8 +107,17 @@ All pitches
 
                         <td>
                             {% if pitch %}
-                                <img src='/media/icons/no_cross.gif'/>
-                                <img src='/media/icons/tick.gif' />
+                                <div class="result_controls" id="{{pitch.id}}">
+                                    <a href="javascript:void(0);" class="eliminate {% if pitch.is_eliminated %}hidden{% endif %}">
+                                        <img src='/media/icons/no_cross.gif'/>
+                                    </a>
+                                    <img class="eliminated {% if pitch.is_eliminated %}{% else %}hidden{% endif %}" src='/media/icons/cross.gif' />
+                                    <a href="javascript:void(0);" class="advance {% if pitch.is_eliminated %}{% else %}hidden{% endif %}">
+                                        <img src='/media/icons/no_tick.gif'/>
+                                    </a>
+                                    <img class="advancing {% if pitch.is_eliminated %}hidden{% endif %}" src='/media/icons/tick.gif' />
+                                </div>
+                                <img class="waiting hidden" src="/media/icons/ajax-loader.gif" />
                             {% else %}
                                 -
                             {% endif %}
@@ -142,6 +151,41 @@ All pitches
             $("button").button();
             $(".button").button();
             $(".buttonset").buttonset();
+
+            $(".advance").click( function () {
+                $(this).parent().siblings(".waiting").show();
+                $(this).parent().hide();
+                var pitch_id = $(this).parent().attr("id");
+                $.ajax({
+                    url: "/dashboard/ajax/advance/" + pitch_id + "/",
+                    context: $(this),
+                    success: function() {
+                        $(this).parent().show();
+                        $(this).parent().siblings(".waiting").hide();
+                        $(this).siblings(".eliminated").hide();
+                        $(this).siblings(".eliminate").show();
+                        $(this).siblings(".advancing").show();
+                        $(this).hide();
+                    }
+                });
+            });
+            $(".eliminate").click( function () {
+                $(this).parent().siblings(".waiting").show();
+                $(this).parent().hide();
+                var pitch_id = $(this).parent().attr("id");
+                $.ajax({
+                    url: "/dashboard/ajax/eliminate/" + pitch_id + "/",
+                    context: $(this),
+                    success: function() {
+                        $(this).parent().show();
+                        $(this).parent().siblings(".waiting").hide();
+                        $(this).siblings(".advancing").hide();
+                        $(this).siblings(".advance").show();
+                        $(this).siblings(".eliminated").show();
+                        $(this).hide();
+                    }
+                });
+            });
 
             $(".mouseover_highlight").mouseenter( function () {
                 $(this).addClass("highlighted");
