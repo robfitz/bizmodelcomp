@@ -40,6 +40,7 @@ def table(request, comp_url):
 
     header = []
     rows = []
+    teams = []
     view = None
 
     html = "analytics/all_pitches.html"
@@ -59,7 +60,8 @@ def table(request, comp_url):
             selected_phases = competition.phases()
 
         if view == "all_pitches":
-            header, rows = all_pitches_table(selected_phases)
+            teams = all_pitches_table(selected_phases)
+            #header, rows = all_pitches_table(selected_phases)
 
         elif view == "all_judges":
             header, rows = all_judges_table(competition)
@@ -154,14 +156,9 @@ def pitches_for_judge_table(phases, judge):
 def all_pitches_table(phases):
 
     teams = []
-    header = ["<input id='check_select_all' type='checkbox' href='javascript:void(0);' onclick=\"$(\'.checkbox\').attr(\'checked\', $(\'#check_select_all\').attr(\'checked\'));\"></a>", "Team"]
-    rows = []
 
     for phase in phases:
-        header.extend( [ "Phase %s<br/>pitches" % phase.phase_num(), "Phase %s<br/>scores" % phase.phase_num(), "Phase %s<br/>average" % phase.phase_num() ] )
-    header.append("Total score")
 
-    for phase in phases:
         #first collect all the teams
         pitches = phase.all_pitches().all()
         for pitch in pitches:
@@ -169,36 +166,28 @@ def all_pitches_table(phases):
                 teams.append(pitch.team)
 
     for i, team in enumerate(teams):
-        total_score = 0
-        #add selection checkbox and team name
+        #for display in template
+        team.pitches = []
 
-        team_name = unicode(team)
-        #for tag in 
-        
-        new_row = []
-        new_row.append("<input type='checkbox' id='checkbox_%s' class='checkbox' />" % i)
-        new_row.append(team_name)
+        total_score = 0
 
         #then add the phases as columns
         for phase in phases:
+
             try:
                 pitch = Pitch.objects.get(team=team, phase=phase)
-                new_row.append("<a href='javascript:void(0);' onclick=\"popup('/dashboard/pitch/%s/');\">View</a> (%s&#37;)" % (pitch.id, pitch.percent_complete()))
-                judgement_list = ""
-                for i, judgement in enumerate(JudgedPitch.objects.filter(pitch=pitch)):
-                    if i > 0:
-                        judgement_list += ", "
-                    judgement_list += "<a href='javascript:void(0);' onclick=\"popup('/dashboard/judgement/%s/');\">%s</a>" % (judgement.id, judgement.score())
-                new_row.append(judgement_list)
-                new_row.append("%s" % pitch.average_score())
+
+                #team has participated in this phase, so show pitch info in template
+                team.pitches.append(pitch)
+
                 total_score += pitch.average_score()
 
             except:
-                #three blank table cells
-                new_row.extend( [ "-", "-", "-" ] )
+                #team not involved in this phase, render nothing in template
+                team.pitches.append(None)
 
-        new_row.append("%s" % total_score)
-        rows.append(new_row)
+        team.total_score = total_score
 
-    return header, rows
+    #return header, rows
+    return teams
 

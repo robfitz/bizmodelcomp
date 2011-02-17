@@ -56,20 +56,72 @@ All pitches
     <table class="spreadsheet" cellspacing="0">
         <thead>
             <tr>
-                {% for th in header %}
-                <th>{{th|safe}}</th>
+                <th><input id='check_select_all' type='checkbox' onclick="$('.checkbox').attr('checked', $('#check_select_all').attr('checked'));"></th>
+                <th>Team</th>       
+                {% for phase in selected_phases %}
+                    <th>P{{phase.phase_num}} Pitch</th>
+                    <th>P{{phase.phase_num}} Scores</th>
+                    <th>P{{phase.phase_num}} Average</th>
+                    <th>P{{phase.phase_num}} Results</th>
                 {% endfor %}
-            </tr>
+                <th>Total Score</th>
+                <th>Prizes</th>
         </thead>
 
         <tbody>
 
-            {% for tr in rows %}
+            {% for team in teams %}
+
                 <tr class="{% cycle 'odd' 'even' %}">
-                    {% for td in tr %}
-                        <td>{{td|safe}}</td>
+
+                    <td><input type='checkbox' id='checkbox_{{forloop.counter}}' class='checkbox' /></td>
+                    <td>{{team}}</td>
+
+                    {% for pitch in team.pitches %}
+
+                        <td>
+                            {% if pitch %}
+                                <a href='javascript:void(0);' onclick=\"popup('/dashboard/pitch/{{pitch.id}}/');\">View</a> ({{pitch.percent_complete}}%) 
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if pitch %}
+                                {% for judgement in pitch.judgements.all %}
+                                    <a href='javascript:void(0);' onclick="popup('/dashboard/judgement/{{judgement.id}}/');">{{judgement.score}}</a> 
+                                {% endfor %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if pitch %}
+                                {{pitch.average_score}}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if pitch %}
+                                <img src='/media/icons/no_cross.gif'/>
+                                <img src='/media/icons/tick.gif' />
+                            {% else %}
+                                -
+                            {% endif %}
+
+                        </td>
+
                     {% endfor %}
+
+                    <td>{{team.total_score}}</td>
+                    <td>(prizes)</td>
+            
                 </tr>
+
             {% endfor %}
 
         </tbody>
