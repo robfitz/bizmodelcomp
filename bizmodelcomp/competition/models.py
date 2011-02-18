@@ -10,7 +10,7 @@ import time
 
 from settings import MEDIA_URL
 from utils.util import *
-from utils.models import Tag, PitchTag
+from utils.models import Tag
 from judge.models import *
 
 from django.forms import ModelForm
@@ -653,7 +653,7 @@ class Pitch(models.Model):
 
     order = models.IntegerField(default=0)
 
-    tags = models.ManyToManyField(PitchTag, related_name="pitches")
+    #tags = models.ManyToManyField(PitchTag, related_name="pitches")
 
 
     class Meta:
