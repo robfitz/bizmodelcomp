@@ -91,11 +91,11 @@ class Team(models.Model):
 
     owner = models.ForeignKey(Founder, related_name="owner_set")
 
-    other_members = models.ManyToManyField(Founder)
+    other_members = models.ManyToManyField(Founder, blank=True)
 
     name = models.CharField(max_length="140", default="", blank=True)
 
-    business_types = models.ManyToManyField(Tag, related_name="team_business_types")
+    business_types = models.ManyToManyField(Tag, related_name="team_business_types", blank=True)
 
 
     #get or create randomized anonymous login key
