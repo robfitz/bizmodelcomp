@@ -752,7 +752,7 @@ class Pitch(models.Model):
 
     def __unicode__(self):
 
-        return 'pitch (id=%s) for (owner=%s)' % (self.pk, self.owner)
+        return u'pitch (id=%s) for (owner=%s)' % (self.pk, self.owner)
 
 
 
@@ -824,7 +824,7 @@ class PitchQuestion(models.Model):
 
     def __unicode__(self):
 
-        return self.prompt
+        return unicode(self.prompt.decode('unicode-escape'))
 
 
 

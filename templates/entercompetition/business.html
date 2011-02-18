@@ -60,7 +60,7 @@
                             
                             </div> <!-- end previous question_section -->
                             <div class="h3">
-                                <h3 style="float:left;clear:both;">{{question.prompt}}</h3>
+                                <h3 style="float:left;clear:both;">{{question}}</h3>
                             </div>
                             <div class="question_section" style=""> <!-- begin next question_section -->
 
@@ -70,7 +70,7 @@
                                 {% if question.choices %}
 
                                     <div style="float:left;clear:both;width:100%;">
-                                        <strong class="prompt">{{ question.prompt }}</strong>
+                                        <strong class="prompt">{{ question}}</strong>
                                         {% if question.extra_info %}
                                         <br/>
                                         {{ question.extra_info }}
@@ -96,7 +96,7 @@
                                     {% ifequal question.field_rows 1 %}
 
                                         <div style="float:left;clear:both;width:100%;">
-                                            <strong class="prompt">{{ question.prompt }}</strong>
+                                            <strong class="prompt">{{ question}}</strong>
                                             {% if question.extra_info %}
 
                                                 <br/>
@@ -110,7 +110,7 @@
 
                                     {% else %}
                                         <div style="float:left;clear:both;width:100%;">
-                                            <strong class="prompt">{{ question.prompt }}</strong>
+                                            <strong class="prompt">{{ question}}</strong>
 
                                             {% if question.extra_info %}
 
