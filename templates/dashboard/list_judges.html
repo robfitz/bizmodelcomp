@@ -11,7 +11,18 @@ Manage Judges
 
     <h3>Review existing judges</h3>
 
-        <form method="POST" action="/dashboard/{{competition.id}}/phase/{{phase.id}}/delete_judge_invites/">
+        <script language="javascript" type="text/javascript">
+            $(function() {
+                $("#judge_form").submit( function() {
+                    $.post("/dashboard/ajax/delete_judge_invites/", 
+                        $(this).serialize(),
+                        reload_popup); 
+                    return false;
+                });
+            });
+        </script>
+
+        <form id="judge_form" method="POST">
 
             <p>
             Action:

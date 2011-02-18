@@ -56,20 +56,81 @@ All pitches
     <table class="spreadsheet" cellspacing="0">
         <thead>
             <tr>
-                {% for th in header %}
-                <th>{{th|safe}}</th>
+                <th><input id='check_select_all' type='checkbox' onclick="$('.checkbox').attr('checked', $('#check_select_all').attr('checked'));"></th>
+                <th>Team</th>       
+                {% for phase in selected_phases %}
+                    <th>P{{phase.phase_num}} Pitch</th>
+                    <th>P{{phase.phase_num}} Scores</th>
+                    <th>P{{phase.phase_num}} Average</th>
+                    <th>P{{phase.phase_num}} Results</th>
                 {% endfor %}
-            </tr>
+                <th>Total Score</th>
+                <th>Prizes</th>
         </thead>
 
         <tbody>
 
-            {% for tr in rows %}
+            {% for team in teams %}
+
                 <tr class="{% cycle 'odd' 'even' %}">
-                    {% for td in tr %}
-                        <td>{{td|safe}}</td>
+
+                    <td><input type='checkbox' id='checkbox_{{forloop.counter}}' class='checkbox' /></td>
+                    <td>{{team}}</td>
+
+                    {% for pitch in team.pitches %}
+
+                        <td>
+                            {% if pitch %}
+                                <a href='javascript:void(0);' onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a> ({{pitch.percent_complete}}%) 
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if pitch %}
+                                {% for judgement in pitch.judgements.all %}
+                                    <a href='javascript:void(0);' onclick="popup('/dashboard/judgement/{{judgement.id}}/');">{{judgement.score}}</a> 
+                                {% endfor %}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if pitch %}
+                                {{pitch.average_score}}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if pitch %}
+                                <div class="result_controls" id="{{pitch.id}}">
+                                    <a href="javascript:void(0);" class="eliminate {% if pitch.is_eliminated %}hidden{% endif %}">
+                                        <img src='/media/icons/no_cross.gif'/>
+                                    </a>
+                                    <img class="eliminated {% if pitch.is_eliminated %}{% else %}hidden{% endif %}" src='/media/icons/cross.gif' />
+                                    <a href="javascript:void(0);" class="advance {% if pitch.is_eliminated %}{% else %}hidden{% endif %}">
+                                        <img src='/media/icons/no_tick.gif'/>
+                                    </a>
+                                    <img class="advancing {% if pitch.is_eliminated %}hidden{% endif %}" src='/media/icons/tick.gif' />
+                                </div>
+                                <img class="waiting hidden" src="/media/icons/ajax-loader.gif" />
+                            {% else %}
+                                -
+                            {% endif %}
+
+                        </td>
+
                     {% endfor %}
+
+                    <td>{{team.total_score}}</td>
+                    <td>(prizes)</td>
+            
                 </tr>
+
             {% endfor %}
 
         </tbody>
@@ -90,6 +151,41 @@ All pitches
             $("button").button();
             $(".button").button();
             $(".buttonset").buttonset();
+
+            $(".advance").click( function () {
+                $(this).parent().siblings(".waiting").show();
+                $(this).parent().hide();
+                var pitch_id = $(this).parent().attr("id");
+                $.ajax({
+                    url: "/dashboard/ajax/advance/" + pitch_id + "/",
+                    context: $(this),
+                    success: function() {
+                        $(this).parent().show();
+                        $(this).parent().siblings(".waiting").hide();
+                        $(this).siblings(".eliminated").hide();
+                        $(this).siblings(".eliminate").show();
+                        $(this).siblings(".advancing").show();
+                        $(this).hide();
+                    }
+                });
+            });
+            $(".eliminate").click( function () {
+                $(this).parent().siblings(".waiting").show();
+                $(this).parent().hide();
+                var pitch_id = $(this).parent().attr("id");
+                $.ajax({
+                    url: "/dashboard/ajax/eliminate/" + pitch_id + "/",
+                    context: $(this),
+                    success: function() {
+                        $(this).parent().show();
+                        $(this).parent().siblings(".waiting").hide();
+                        $(this).siblings(".advancing").hide();
+                        $(this).siblings(".advance").show();
+                        $(this).siblings(".eliminated").show();
+                        $(this).hide();
+                    }
+                });
+            });
 
             $(".mouseover_highlight").mouseenter( function () {
                 $(this).addClass("highlighted");

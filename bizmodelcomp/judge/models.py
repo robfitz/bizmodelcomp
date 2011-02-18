@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 from emailhelper.util import send_email
 from utils.util import rand_key
 
+from userhelper.models import *
+
+import sys
+
 
 
 #created by a contest organizer, at which point an email with a signup
@@ -55,9 +59,36 @@ class JudgeInvitation(models.Model):
 
     #tell them they're a winner
     def send_invitation_email(self, judging_link):
+
+        print' send_invitation_email, %s' % judging_link
+
         if not self.has_received_invite_email:
+
+            print 'has not yet received email'
+
             self.has_received_invite_email = True
             self.save()
+
+            print 'saved that has received'
+
+            verification_key = None
+            try:
+                #key already exists?
+                verification_key = VerificationKey.objects.filter(email=self.email)[0]
+                print 'found existing verif key'
+            except:
+                #doesn't exist, make a new one pointing to the email that's pre-approved
+                print 'trying to create new verif key'
+                try:
+                    key = rand_key()
+                    print 'rand key: %s' % key
+                    verification_key = VerificationKey(key=key,
+                                                   user=None,
+                                                   email=self.email)
+                    print 'created, not saved'
+                    verification_key.save()
+                except: print 'except: %s' % sys.exc_info()[0]
+                print 'created new verif key'
 
             subject = "Judging the %s" % self.competition.name
             message_markdown = """Hello,
@@ -66,7 +97,7 @@ You've been invited to help judge the %s. Judging will run from shortly after th
 
 You can start judging at:
 
-%s?e=%s
+%s?ev=%s
 
 Thanks very much for the help!
 
@@ -74,12 +105,16 @@ Sincerely,
 %s team""" % (self.competition.name,
               self.competition.current_phase.deadline,
               judging_link,
-              self.email,
+              verification_key.key,
               self.competition.name)
+
+            print 'composed message'
         
             to_email = self.email
 
+            print 'sending'
             send_email(subject, message_markdown, to_email)
+            print 'sent'
         
         else:
             print "already sent judge invitation"

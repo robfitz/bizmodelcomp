@@ -2,6 +2,14 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
 
+    #delete judges (per phase)
+    (r'^ajax/delete_judge_invites/$',
+         'dashboard.ajax.delete_judge_invites'),
+
+    #declare winners
+    (r'^ajax/advance/(?P<pitch_id>[0-9]{1,100})/$', 'competition.ajax.advance_pitch'),
+    (r'^ajax/eliminate/(?P<pitch_id>[0-9]{1,100})/$', 'competition.ajax.eliminate_pitch'),
+
     #begin judging
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/begin_judging/$', 'dashboard.views.begin_judging'),
 
@@ -85,8 +93,5 @@ urlpatterns = patterns('',
     (r'^phase/(?P<phase_id>[0-9]{1,100})/judges/$',
          'dashboard.views.list_judges'),
 
-    #delete judges (per phase)
-    (r'^delete_judge_invites/$',
-         'dashboard.views.delete_judge_invites'),
 
 )
