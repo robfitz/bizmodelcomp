@@ -56,7 +56,7 @@ def get_permissions_redirect(request, competition):
     if not request.user.is_authenticated():
         print 'not logged in'
 
-        e = request.GET.get("e", "")
+        e = request.GET.get("ev", "")
 
         account_page = "register"
         if e != "":
@@ -112,7 +112,7 @@ def dashboard(request, comp_url=None):
 
     #if they got to the judging page from the email link,
     #we can verify their email right now
-    got_ev_key(request.GET.get("ev", False))
+    got_ev_key(request.GET.get("e", False))
     
     #intro text to help judge know what to do
     intro = ""
@@ -125,7 +125,8 @@ def dashboard(request, comp_url=None):
     if comp_url is not None:
         competition = get_object_or_404(Competition, hosted_url=comp_url)
     else:
-        competition = get_competition_for_user(request.user)
+        return HttpResponseRedirect("/dashboard/")
+        #competition = get_competition_for_user(request.user)
 
     is_organizer = competition is not None and competition.owner == request.user
     

@@ -930,35 +930,6 @@ def edit_comp(request, comp_url):
 
 
 #organizer has chosen to remove the jduging permissions from
-#some number of judges for this phase via the dashboard.
-@login_required
-def delete_judge_invites(request):
-
-    if not has_dash_perms(request, competition_id):
-        return HttpResponseRedirect("/no_permissions/")
-
-    if request.method == "POST" and len(request.POST) > 0:
-
-        if "action" in request.POST:
-            action = request.POST["action"]
-            if action == "delete_selected":
-
-                for key in request.POST:
-
-                    if key.startswith("is_selected_") and request.POST[key] == "on":
-
-                        id = int(key[len("is_selected_"):])
-
-                        try:
-                            invite = JudgeInvitation.objects.get(id=id)
-                            if invite.judge.competition.owner == request.user:
-                                i.delete()
-                        except:
-                            pass
-
-    return HttpResponseRedirect('/dashboard/')
-
-
 
 #organizer is looking at a list of all the current judges and their performance thus far,
 #with options to modify their role
@@ -994,9 +965,12 @@ def list_judges(request, phase_id):
             
             #tell them they're a winner
             judging_link = request.build_absolute_uri("/judge/")
+            print 'build uri'
             invite.send_invitation_email(judging_link)
+            print 'sent invite'
 
     judge_invitations = JudgeInvitation.objects.filter(competition=competition)
+    print 'filterd invitation'
     return render_to_response("dashboard/list_judges.html", locals())
     
     
