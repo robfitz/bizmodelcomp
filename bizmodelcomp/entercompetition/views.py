@@ -233,10 +233,14 @@ def submit_team(request, comp_url):
     if request.method == "POST":
 
         email = request.POST.get("email")
+        team_name = request.POST.get("team_name", "")
 
         if not email or len(email) == 0:
             #blank email address, display error
             alert = "Please enter a valid email address to continue."
+
+        elif not team_name or len(team_name) == 0:
+            alert = "Please enter your team name to continue."
 
         elif Founder.objects.filter(email=email).count() > 0:
             #email address has already been claimed
@@ -265,7 +269,6 @@ def submit_team(request, comp_url):
 
         name = request.POST.get("name", "")
         phone = request.POST.get("phone", "")
-        team_name = request.POST.get("team_name", "")
 
         applicant_type = request.POST.get("applicant_types", "")
         location = request.POST.get("locations", "")
