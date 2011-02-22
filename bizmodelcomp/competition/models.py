@@ -371,7 +371,8 @@ class Phase(models.Model):
         
         max_score = 0
         for criteria in JudgingCriteria.objects.filter(phase=self):    
-            max_score += criteria.max_points
+            if not criteria.is_text_feedback:
+                max_score += criteria.max_points
 
         return max_score
 
