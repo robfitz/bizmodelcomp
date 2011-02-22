@@ -1,45 +1,58 @@
+import sys
 try:
 	import simplejson
 except ImportError:
 	import json as simplejson
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response, get_object_or_404
 
-from emailhelper.models import Bulk_email, Email_address
+from emailhelper.models import *
 from emailhelper.util import send_bulk_email
 from emailhelper.forms import BulkEmailForm
 from competition.models import Competition
 from sitecopy.models import SiteCopy
+from utils.util import rand_key
 
 
 def newsletter_subscribe(request):
 
+    print 'newsletter subscript'
+
     email = request.POST.get("email")
-    default_alert = "We ran into some unexpected difficulties signing you up. Perhaps try again later?"
+    default_alert = "We ran into some unexpected difficulties signing you up. Please try again with another email address or at another time."
     result = "failure"
     alert = None
 
+    print 'got email: %s' % email
+
     if NewsletterSubscription.objects.filter(email=email).count() == 0:
+        print "doesn't already exist"
         #add subscriber if it's a new one
 
         if email.find('@') != -1 and email.find('.') != -1:
+            print 'looks valid!'
 
             for i in range(1,10):
                 try:
                     subscription = NewsletterSubscription(email=email)
+                    subscription.unsubscribe_key = rand_key(length=10)
+                    print 'rand? %s' % subscription.unsubscribe_key
                     subscription.save()
                     alert = "Thanks so much for joining the newsletter. We'll keep you in the loop about noteworthy developments."
                     result = "success"
                     break
                 except:
+                    print sys.exc_info()[0]
                     pass
         else:
+            print 'invalid :('
             #doesn't look like a legit email address
             alert = "That doesn't look like an email address, so we weren't able to put you on the list. Please try again?"
 
     else:
+        print 'already got emial'
         alert = "That email is already on the list, so you should receive the newsletters as we send them. Maybe check your spam box if they're not arriving?"
 
     if not alert:
@@ -48,8 +61,10 @@ def newsletter_subscribe(request):
         failed_subscription = FailedNewsletterSubscription(email=email)
         failed_subscription.save()
 
+    print 'returning result: %s' % alert
     obj = { "result": result, "alert": alert }
     json = simplejson.dumps(obj)
+
 
     return HttpResponse(json, mimetype="application/json")
 

@@ -3,7 +3,6 @@ from competition.models import *
 import string
 
 from datetime import datetime
-from utils.util import rand_key
 
 
 
@@ -27,7 +26,7 @@ class FailedNewsletterSubscription(models.Model):
 
 class NewsletterSubscription(models.Model):
 
-    unsubscribe_key = models.CharField(max_length=10, default=rand_key(length=10), unique=True)
+    unsubscribe_key = models.CharField(max_length=10, unique=True)
 
     email = models.CharField(max_length=100)
 

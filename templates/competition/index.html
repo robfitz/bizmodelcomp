@@ -30,15 +30,16 @@
         &nbsp;
     </div> 
 
+
+    {% include 'emailhelper/newsletter.html' %}
+
 	<div id="testimonials">
     <div id="testimonial_text">
     <p>NVANA is currently used by...</p>
-    {% for testimonial in testimonials %}
-  	<!--<img style="padding:10px;" border=0 align=right src="{{testimonial.thumb_url}}">-->
     <img style="padding:10px;" border=0 align=right src="/media/competition/style/images/nvpc.jpg">
     <img style="padding:10px;" border=0 align=right src="/media/competition/style/images/chinauk.jpg">
     <img style="padding:10px;" border=0 align=right src="/media/competition/style/images/lec.jpg">
- 	{% endfor %}
+
  	</div>
     
         <!--

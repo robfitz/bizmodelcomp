@@ -1,0 +1,35 @@
+<div style="float:left;" id="newsletter">
+    Mailing list cha cha cha:
+    <form id="newsletter_form" action="" method="POST">
+        <div id="newsletter_failure" class="hidden">
+            fail :(
+        </div>
+        <input name="email" style="font-size:18px" id="newsletter_signup" />
+        <input type="submit" value="Giterdun" />
+    </form>
+    <div id="newsletter_success" class="hidden">
+        success
+    </div>
+    <script language="javascript" type="text/javascript">
+        $(function() {
+            $("#newsletter_form").submit( function() {
+                $.post("/email/subscribe/",
+                    $("#newsletter_form").serialize(),
+                    function(data) {
+                        if (data.result == "success") { 
+                            $("#newsletter_form").hide();
+                            $("#newsletter_success").show();
+                            $("#newsletter_success").html(data.alert);
+                        }
+                        else {
+                            $("#newsletter_failure").show();
+                            $("#newsletter_failure").text(data.alert);
+                        }
+
+                    }           
+                );
+                return false;
+            });
+        });
+    </script>
+</div>
