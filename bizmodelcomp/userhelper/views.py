@@ -249,12 +249,13 @@ def is_new_user_judge(user):
     print 'is new user judge? user=%s, email=%s' % (user, user.email)
     try:
         #is new acct meant to be a judgeman?
-        judge = JudgeInvitation.objects.get(email=user.email)
-        print 'judge = %s' % judge
-        judge.user = user
-        judge.save()
-        print 'saved judge, returning true'
-        return judge
+        invites = JudgeInvitation.objects.filter(email=user.email)
+        for judge in invites:
+            print 'judge = %s' % judge
+            judge.user = user
+            judge.save()
+            print 'saved judge, returning true'
+        return invites and len(invites) > 0
     except:
         #not a judge
         return False

@@ -72,6 +72,16 @@ def overall_dashboard(request):
     except:
         pass
 
+    #activate any pending judge invitations for this user
+    try:
+        #is new acct meant to be a judgeman?
+        invites = JudgeInvitation.objects.filter(email=request.user.email)
+        for judge in invites:
+            judge.user = request.user
+            judge.save()
+    except:
+        pass
+
     #make sure the organizer is assigned as a judge for all his competitions
     for competition in competitions:
         try:

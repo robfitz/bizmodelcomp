@@ -112,7 +112,7 @@ def dashboard(request, comp_url=None):
 
     #if they got to the judging page from the email link,
     #we can verify their email right now
-    got_ev_key(request.GET.get("e", False))
+    got_ev_key(request.GET.get("ev", False))
     
     #intro text to help judge know what to do
     intro = ""
