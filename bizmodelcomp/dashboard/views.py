@@ -1006,18 +1006,20 @@ def view_judgement(request, judgement_id):
         try:
             #question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
             answers = PitchAnswer.objects.filter(pitch=pitch).filter(question=question)
-            question.answer = answers[0]#len(answers) - 1]
+            answer_obj = answers[0]
+            question.answer = answer_obj
+            print 'decoding answer (%s) to: %s' % (answer_obj, question.answer)
 
         except:
             question.answer = None
 
         try:
-            question.score = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).score
+            question.score = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=answer_obj).score
         except:
             question.score = 0
 
         try:
-            question.feedback = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=question.answer).feedback
+            question.feedback = JudgedAnswer.objects.filter(judged_pitch=judged_pitch).get(answer=answer_obj).feedback
         except:
             question.feedback = ""
 

@@ -840,7 +840,7 @@ class PitchAnswer(models.Model):
     
     def __unicode__(self):
 
-        return self.answer
+        return unicode(self.answer).decode('unicode-escape')
 
 
 

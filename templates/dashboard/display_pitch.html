@@ -68,9 +68,9 @@
                     <strong class="prompt">{{ question.prompt }}</strong>
                     <br/>
                     <div style="">
-                        {% if question.answer.answer %}
+                        {% if question.answer %}
 
-                            {{question.answer.answer|markdown}}
+                            {{question.answer|markdown}}
 
                         {% else %}{% if question.is_required %}
 
