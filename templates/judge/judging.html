@@ -18,11 +18,12 @@
             range: 'min',
         });
 
+        total_points = {{competition.current_phase.max_score}};
+
         {% for criteria in judging_criteria %}
             {% if criteria.max_points %}
                 $('#slider_{{criteria.id}}').slider('option', 'max', {{criteria.max_points}});
                 max_points[{{criteria.id}}] = {{criteria.max_points}};
-                total_points += {{criteria.max_points}};
                 {% if criteria.answer.score %}
                     $('#slider_{{criteria.id}}').slider('option', 'value', {{criteria.answer.score}});
                     $('#score_label_{{criteria.id}}').val({{criteria.answer.score}});
