@@ -40,7 +40,7 @@ def newsletter_subscribe(request):
                     subscription.unsubscribe_key = rand_key(length=10)
                     print 'rand? %s' % subscription.unsubscribe_key
                     subscription.save()
-                    alert = "Thanks so much for joining the newsletter. We'll keep you in the loop about noteworthy developments."
+                    alert = "Thanks so much for joining the newsletter. We'll keep you updated about noteworthy developments."
                     result = "success"
                     break
                 except:
@@ -53,11 +53,12 @@ def newsletter_subscribe(request):
 
     else:
         print 'already got emial'
-        alert = "That email is already on the list, so you should receive the newsletters as we send them. Maybe check your spam box if they're not arriving?"
+        alert = "That email is already on the list, so you should receive newsletters as we send them. Maybe check your spam folder if they're not arriving?"
 
     if not alert:
         alert = default_alert
 
+    if result != "success":
         failed_subscription = FailedNewsletterSubscription(email=email)
         failed_subscription.save()
 
