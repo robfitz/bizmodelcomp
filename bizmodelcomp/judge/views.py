@@ -288,7 +288,8 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
                             judged_answer.score = 0
 
                     elif key.startswith("feedback_"):
-                        judged_answer.feedback = request.POST.get(key)
+                        feedback = unicode(request.POST.get(key, "").encode('unicode_escape'))
+                        judged_answer.feedback = feedback
 
                     judged_answer.save()
 

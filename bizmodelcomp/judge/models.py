@@ -255,4 +255,12 @@ class JudgedAnswer(models.Model):
     feedback = models.CharField(max_length=1000, blank=True, null=True)
 
 
+    def __unicode__(self):
+
+        if self.feedback:
+            return unicode(self.feedback).decode('unicode-escape')
+
+        else:
+            return unicode(self.score)
+
 
