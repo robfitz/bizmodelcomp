@@ -639,6 +639,7 @@ class PhaseSetupSteps(models.Model):
     invited_judges = models.BooleanField(default=False)
     announced_judging_open = models.BooleanField(default=False)
     selected_winners = models.BooleanField(default=False)
+    sent_feedback = models.BooleanField(default=False)
 
     def steps(self):
 
@@ -647,7 +648,8 @@ class PhaseSetupSteps(models.Model):
                 self.announced_applications,
                 self.invited_judged,
                 self.announced_judging_open,
-                self.selected_winners]
+                self.selected_winners,
+                self.sent_feedback]
 
     def next_step_num(self):
         i = 0

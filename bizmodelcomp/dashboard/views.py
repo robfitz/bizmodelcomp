@@ -1,3 +1,5 @@
+import sys
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
@@ -139,163 +141,127 @@ def overall_dashboard(request):
     return render_to_response("dashboard/overall_dashboard.html", locals())
 
 
+def get_feedback_for_pitch(pitch):
+
+    print 'get feedback for pitch: %s' % pitch.id
+
+    judgements = JudgedPitch.objects.filter(pitch=pitch) 
+
+    feedback = ""
+
+    for judged_pitch in judgements:
+
+        feedback_answers = None
+        try:
+            feedback_answers = JudgedAnswer.objects.filter(judged_pitch=judged_pitch, criteria__is_text_feedback=True)#, criteria__is_feedback_sent_to_applicants=True)
+            print 'num answers: %s' % len(feedback_answers)
+        except:
+            print sys.exc_info()[0]
+
+
+
+        for feedback_answer in feedback_answers:
+
+            if feedback_answer.feedback:
+
+                feedback += u"%s\n\n" % feedback_answer
+
+    if not feedback:
+
+        feedback = "(No feedback)"
+
+    return feedback
 
 
 
 @login_required
-def send_competition_feedback(request):
+def send_competition_feedback(request, comp_url):
     
-    competition = request.user.get_profile().competition()
+    TAG = "Judge feedback"
 
-    subject = "E Challenge feedback"
-    from_email = "london.e.challenge@gmail.com"
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+    phase = competition.current_phase
+    bulk_email = None
 
-    message_template = """\
+    if competition.owner != request.user:
+        return HttpResponseRedirect('/no_permissions/')
+
+    try:
+        #if we've already crafted an email for this phase, load it up
+        bulk_email = Bulk_email.objects.filter(competition=competition, phase=competition.current_phase, tag=TAG)[0]
+        #bulk_email.save()
+        
+        if bulk_email.sent_on_date is not None:
+            return HttpResponseRedirect("/dashboard/email/%s/" % competition.hosted_url)
+        else:
+            #clear old info in case we're updating this email (instead of creating a new one)
+            for sub in bulk_email.sub_val_set.all():
+                sub.delete()
+                #return HttpResponseRedirect("/dashboard/email/%s/confirm/%s/?next=/dashboard/%s/manage/" % (competition.hosted_url, email.id, competition.hosted_url))
+
+    except:
+        subject = "%s feedback" % competition
+        from_email = "competitions@nvana.com"
+
+        message_template = """\
 Hello ++team name++,
 
-Thanks for being a part of the %s. Everyone did great work and we look forward to seeing these ideas grow into successful companies.
+Thanks for being a part of %s. Everyone did great work and we look forward to seeing these ideas grow into successful companies.
 
-Below you'll find the feedback from judges -- it's only sent to one person per team, so please share it with your teammates. It's un-edited and was written on the fly, so apologies in advance if you receive something that's overly obscure. And remember that you are more than welcome to follow up with the judges if you'd like additional info.
+Below you'll find the feedback from judges -- it's only sent to one person per team, so please share it with your teammates. It's un-edited and was written on the fly, so remember that you are more than welcome to follow up with the judges if you'd like additional info.
 
-Your business plan was scored in the __++online rank++ third__ of the scores and your live pitch was in the __++live rank++ third__.
+__Feedback__
 
-__Business plan: Positive__
-
-++online positive++
-
-__Business plan: To Improve__
-
-++online negative++
-
-__Live pitch: Positive__
-
-++live positive++
-
-__Live pitch: To Improve__
-
-++live negative++
+++judge feedback++
 
 Sincerely,
 
 %s team
 """ % (competition.name, competition.name)
 
-    #make the email
-    bulk_email = Bulk_email(competition=competition,
-            tag="feedback",
-            subject=subject,
-            message_markdown=message_template)
-    bulk_email.save()
+        #make the email
+        if not bulk_email:
+            bulk_email = Bulk_email(competition=competition,
+                    tag=TAG,
+                    subject=subject,
+                    message_markdown=message_template)
+            bulk_email.save()
 
-    email = bulk_email
+        email = bulk_email
 
-    #TODO: un-hardcode plz
-    pitches = Pitch.objects.filter(phase=7)
+        pitches = Pitch.objects.filter(phase=phase)
 
-    live_scores = [] 
-    online_scores = []
 
-    for pitch in pitches:
-        live_scores.append(pitch.average_score())
-    for pitch in Pitch.objects.filter(phase=3):
-        online_scores.append(pitch.average_score())
+        live_scores = [] 
+        online_scores = []
 
-    live_scores.sort()
-    online_scores.sort()
+        team_name = Sub_val(email=bulk_email,
+               key="++team name++")
+        team_name.save()
 
-    i = 0
+        judge_feedback = Sub_val(email=bulk_email,
+                key="++judge feedback++")
+        judge_feedback.save()
 
-    team_name = Sub_val(email=bulk_email,
-           key="++team name++")
-    team_name.save()
+        for i, pitch in enumerate(pitches):
 
-    online_negative = Sub_val(email=bulk_email,
-            key="++online negative++")
-    online_negative.save()
+            #who we're shipping it to
+            recipient = Email_address(order=i,
+                    bulk_email=bulk_email,
+                    address=pitch.team.owner.email)
+            recipient.save()
 
-    online_positive = Sub_val(email=bulk_email,
-            key="++online positive++")
-    online_positive.save()
+            #team name
+            val = Val(order = i,
+                    val=pitch.team.name,
+                    sub_val=team_name)
+            val.save() 
 
-    live_negative = Sub_val(email=bulk_email,
-            key="++live negative++")
-    live_negative.save()
-
-    live_positive = Sub_val(email=bulk_email,
-            key="++live positive++")
-    live_positive.save()
-
-    online_rank = Sub_val(email=bulk_email,
-            key="++online rank++")
-    online_rank.save()
-
-    live_rank = Sub_val(email=bulk_email,
-            key="++live rank++")
-    live_rank.save()
-
-    for pitch in pitches:
-        online_pitch = Pitch.objects.filter(phase__id=3).get(team__owner__email=pitch.owner.email)
-
-        online_position = online_scores.index(online_pitch.average_score())
-        live_position = live_scores.index(pitch.average_score())
-
-        rank = "top"
-        if online_position < len(online_scores) / 3:
-            rank = "bottom"
-        elif online_position < len(online_scores) * 2 / 3:
-            rank = "middle"
-
-        val = Val(order=i, val=rank, sub_val=online_rank)
-        val.save()
-
-        rank = "top"
-        if live_position < len(live_scores) / 3:
-            rank = "bottom"
-        elif live_position < len(live_scores) * 2 / 3:
-            rank = "middle"
-
-        val = Val(order=i, val=rank, sub_val=live_rank)
-        val.save()
-
-        #who we're shipping it to
-        recipient = Email_address(order=i,
-                bulk_email=bulk_email,
-                address=pitch.team.owner.email)
-        recipient.save()
-
-        #team name
-        val = Val(order = i,
-                val=pitch.team.name,
-                sub_val=team_name)
-        val.save() 
-
-        #online negative: 74
-        feedback = get_feedback_for_question(74, pitch)
-        val = Val(order = i,
-                val=feedback,
-                sub_val=online_negative)
-        val.save() 
-
-        #online positive: 75
-        feedback = get_feedback_for_question(75, pitch)
-        val = Val(order = i,
-                val=get_feedback_for_question(75, pitch),
-                sub_val=online_positive)
-        val.save() 
-
-        #live negative: 77
-        val = Val(order = i,
-                val=get_feedback_for_question(77, pitch),
-                sub_val=live_negative)
-        val.save() 
-
-        #live positive: 76
-        val = Val(order = i,
-                val=get_feedback_for_question(76, pitch),
-                sub_val=live_positive)
-        val.save() 
-
-        i += 1
+            feedback = get_feedback_for_pitch(pitch)
+            val = Val(order = i,
+                    val=feedback,
+                    sub_val=judge_feedback)
+            val.save() 
         
     return render_to_response('emailhelper/review_email.html', locals())
     

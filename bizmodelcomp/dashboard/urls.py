@@ -52,7 +52,7 @@ urlpatterns = patterns('',
     #email judges that judging is open and set it to open
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/announce_judging_open/$', 'dashboard.views.announce_judging_open'),
     #email contestants their feedback from phases 2 & 3
-    (r'^send_competition_feedback/$', 'dashboard.views.send_competition_feedback'),
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/send_competition_feedback/$', 'dashboard.views.send_competition_feedback'),
 
     #edit basic details of existing comp
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/edit_comp/$', 'dashboard.views.edit_comp'),

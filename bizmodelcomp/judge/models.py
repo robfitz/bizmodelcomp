@@ -190,6 +190,11 @@ class JudgingCriteria(models.Model):
     #if true, shows a text field instead of a score slider
     is_text_feedback = models.BooleanField(default=False)
 
+    #whether or not applicants get to see this text feedback when
+    #you send them the automatic feedback emails. 
+    #ignored when is_text_feedback==False
+    is_feedback_sent_to_applicants = models.BooleanField(default=True)
+
     #override the default scoring tooltip for this phase
     scoring_tooltip = models.CharField(max_length=500, blank=True, default="")
 

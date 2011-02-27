@@ -64,9 +64,17 @@
 
     <input {% if phase.setup_steps.selected_winners %}checked="checked"{% endif %} type="checkbox" id="id_selected_winners" name="selected_winners" />
     <label for="id_selected_winners" {% if phase.setup_steps.selected_winners %}class="strikethrough"{% endif %}>
-        Select winners and send feedback
+        Select winners
     </label>
     <span class="do_now">(<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">Do this now</a>)</span>
+
+    <br/>
+
+    <input {% if phase.setup_steps.sent_feedback %}checked="checked"{% endif %} type="checkbox" id="id_sent_feedback" name="sent_feedback" />
+    <label for="id_sent_feedback" {% if phase.setup_steps.sent_feedback %}class="strikethrough"{% endif %}>
+        Send feedback
+    </label>
+    <span class="do_now">(<a href="/dashboard/{{competition.hosted_url}}/send_competition_feedback/">Do this now</a>)</span>
 
     <br/>
 
