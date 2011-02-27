@@ -153,12 +153,10 @@ def get_feedback_for_pitch(pitch):
 
         feedback_answers = None
         try:
-            feedback_answers = JudgedAnswer.objects.filter(judged_pitch=judged_pitch, criteria__is_text_feedback=True)#, criteria__is_feedback_sent_to_applicants=True)
+            feedback_answers = JudgedAnswer.objects.filter(judged_pitch=judged_pitch, criteria__is_text_feedback=True, criteria__is_feedback_sent_to_applicants=True)
             print 'num answers: %s' % len(feedback_answers)
         except:
             print sys.exc_info()[0]
-
-
 
         for feedback_answer in feedback_answers:
 
@@ -253,7 +251,7 @@ Sincerely,
 
             #team name
             val = Val(order = i,
-                    val=pitch.team.name,
+                    val=unicode(pitch.team),
                     sub_val=team_name)
             val.save() 
 
