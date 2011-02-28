@@ -168,12 +168,16 @@ padding-right: 10px;
 
         {% endfor %}
 
+        {% if competition.current_phase.max_score > 0 %}
         <div class="stat_number">
             Total score
             <h1 id="current_score"></h1>
         </div>
 
         <input style="float:right;margin-top:8px;height:40px;" type="submit" value="Save score" class="large button" />
+        {% else %}
+        <input style="float:right;margin-top:8px;height:40px;" type="submit" value="Save feedback" class="large button" />
+        {% endif %}
 
         </div>
         </div>
