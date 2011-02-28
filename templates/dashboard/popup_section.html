@@ -16,7 +16,11 @@ height:400px;
 {% endblock %}
 
 {% block title_style %}
-float:right;
+width:100%;
+{% endblock %}
+
+{% block section_title_style %}
+float:left;
 {% endblock %}
 
 {% block icon_class %}
@@ -26,3 +30,21 @@ ui-icon-close
 {% block section_title %}
 Click here to close window
 {% endblock %}
+
+{% block title_content %}
+
+    {{ block.super }}
+
+    <div style="float:right;margin-right:-8px;">
+        <a href="javascript:void(0);" onclick="$('#dialog').jqmHide();" style="height:24px;width:24px;" class="closeButton medium button">Close popup</a>
+    </div>
+
+    <script language="javascript" type="text/javascript">
+        $(function() {
+                $(".closeButton").button({icons: { primary: 'ui-icon-close' },
+                    text:false});
+        });
+    </script>
+
+{% endblock %}
+

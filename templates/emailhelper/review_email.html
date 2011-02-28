@@ -1,15 +1,5 @@
 {% extends 'dashboard/base.html' %}
 
-{% block script %}
-
-function preview_emails() {
-
-    $("#dialog").jqmShow();
-
-}
-
-{% endblock %}
-
 {% block ready_script %}
 
     $("#tab_email").addClass("ui-state-active");
@@ -27,35 +17,6 @@ function preview_emails() {
         }
     });
 {% endblock %}
-
-{% block jqmWindow %}
-
-    {% load markup %}
-
-    <div id="dialogHeader">
-        <div style="float:left">
-            {% if email.sent_on_date %}
-            <h3>Review sent mail</h3>
-            {% else %}
-            <h3>Review emails before sending them</h3>
-            {% endif %}
-        </div>
-        <div style="float:right;margin-right:16px;">
-            <a href="javascript:void(0);" onclick="$('#dialog').jqmHide();" class="button">Close popup</a>
-        </div>
-    </div>
-    <div id="jqmContent" style="overflow-x:hidden;overflow-y:auto;">
-        {% for message in email.preview_messages %}
-
-            <strong>To:</strong> {{ message.to_email }}
-            <br/>
-            {{ message.body|markdown }}
-
-            <hr>
-
-        {% endfor %}
-    </div>
-{% endblock %} 
 
 {% block content %}
 {% include 'emailhelper/review_email_section.html' %}

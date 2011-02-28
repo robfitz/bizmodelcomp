@@ -1,0 +1,24 @@
+{% extends 'dashboard/popup_section.html' %}
+
+{% load markup %}
+
+{% block section_title %}
+        {% if email.sent_on_date %}
+        Review sent mail
+        {% else %}
+        Review emails before sending them
+        {% endif %}
+{% endblock %}
+
+{% block section_content %}
+
+    {% for message in email.preview_messages %}
+
+        <strong>To:</strong> {{ message.to_email }}
+        <br/>
+        {{ message.body|markdown }}
+
+        <hr>
+
+    {% endfor %}
+{% endblock %}

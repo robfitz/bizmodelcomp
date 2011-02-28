@@ -27,9 +27,9 @@
 
         <p>
             {% if email.sent_on_date %}
-                <a href="javascript:void(0);" onclick="preview_emails()">Review emails</a>
+                <a href="javascript:void(0);" onclick="popup('/dashboard/email/popup/{{email.id}}/');">Review emails</a>
             {% else %}
-                <a href="javascript:void(0);" onclick="preview_emails()">Preview emails</a>
+            <a href="javascript:void(0);" onclick="popup('/dashboard/email/popup/{{email.id}}/');">Preview emails</a>
             {% endif %}
         </p>
 
@@ -39,7 +39,7 @@
             {% if confirm_warning %}
                 <label for="confirm">{{ confirm_warning|safe }}</label>
             {% else %}
-                <label for="confirm">Click here to confirm you've <a href="javascript:void(0);" onclick="preview_emails()">previewed</a> the emails and are happy sending this message to <strong>{{email.recipients|length}}</strong> recipients.</label>
+            <label for="confirm">Click here to confirm you've <a href="javascript:void(0);" onclick="popup('/dashboard/email/popup/{{email.id}}/');">previewed</a> the emails and are happy sending this message to <strong>{{email.recipients|length}}</strong> recipients.</label>
 
             {% endif %}
 

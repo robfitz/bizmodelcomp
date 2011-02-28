@@ -16,6 +16,10 @@ from sitecopy.models import SiteCopy
 from utils.util import rand_key
 
 
+
+
+
+
 def newsletter_subscribe(request):
 
     print 'newsletter subscript'
@@ -182,6 +186,25 @@ def confirm_send_email(request, comp_url, bulk_email_id):
         return HttpResponseRedirect("/dashboard/email/%s/" % comp_url)
 
     return render_to_response('emailhelper/review_email.html', locals())
+
+
+
+@login_required
+def review_email_popup(request, bulk_email_id):
+
+    intro = ""
+    try:
+        intro = SiteCopy.objects.get(id="intro_dashboard_email")
+    except:
+        pass
+
+    email = get_object_or_404(Bulk_email, id=bulk_email_id)
+
+    competition = email.competition
+    if competition.owner != request.user:
+        return HttpResponseRedirect("/no_permissions/")
+
+    return render_to_response("emailhelper/review_email_popup.html", locals())
 
 
 
