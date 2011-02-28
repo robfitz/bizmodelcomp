@@ -10,9 +10,8 @@ Blog
     {% load markup %}
 
 <p><small>Our blog about news, updates and competitions...</small></p>
-<div style='float:right; width:25%;'>
 
-    {% include 'emailhelper/newsletter.html' %}    
+<div style='float:right; width:25%;'>
 
 <h3>Recent posts</h3>
     {% if posts %}
@@ -35,6 +34,11 @@ Blog
         {% else %}
             <p>There are no posts.</p>
        {% endif %}
+
+<div style="margin-top: 20%;">
+    {% include 'emailhelper/newsletter.html' %}    
+</div>
+
 </div>
 
 

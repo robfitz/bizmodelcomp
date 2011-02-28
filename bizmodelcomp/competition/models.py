@@ -577,7 +577,7 @@ class Phase(models.Model):
 
     def judging_criteria(self): 
 
-        return self.pitchquestion_set.all()
+        return self.judgingcriteria_set.all()
     
 
     def all_pitches(self):

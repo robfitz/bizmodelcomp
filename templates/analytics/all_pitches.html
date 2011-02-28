@@ -109,13 +109,13 @@ All pitches
                             {% if pitch %}
                                 <div class="result_controls" id="{{pitch.id}}">
                                     <a href="javascript:void(0);" class="eliminate {% if pitch.is_eliminated %}hidden{% endif %}">
-                                        <img src='/media/icons/no_cross.gif'/>
+                                        <img class="row_icon" src='/media/icons/no_cross.gif'/>
                                     </a>
-                                    <img class="eliminated {% if pitch.is_eliminated %}{% else %}hidden{% endif %}" src='/media/icons/cross.gif' />
+                                    <img class="row_icon eliminated {% if pitch.is_eliminated %}{% else %}hidden{% endif %}" src='/media/icons/cross.gif' />
                                     <a href="javascript:void(0);" class="advance {% if pitch.is_eliminated %}{% else %}hidden{% endif %}">
-                                        <img src='/media/icons/no_tick.gif'/>
+                                        <img class="row_icon" src='/media/icons/no_tick.gif'/>
                                     </a>
-                                    <img class="advancing {% if pitch.is_eliminated %}hidden{% endif %}" src='/media/icons/tick.gif' />
+                                    <img class="row_icon advancing {% if pitch.is_eliminated %}hidden{% endif %}" src='/media/icons/tick.gif' />
                                 </div>
                                 <img class="waiting hidden" src="/media/icons/ajax-loader.gif" />
                             {% else %}
@@ -139,6 +139,13 @@ All pitches
 
     <script language="javascript" type="text/javascript">
         $( function () {
+        
+            $(".odd .row_icon").each( function() {
+                var toks = $(this).attr("src").split('/');
+                var file = toks[toks.length-1];
+                var new_path = "/media/icons/blue_" + file;
+                $(this).attr("src", new_path);
+            });
             setTimeout("window_resize(dialog)", 1000);
 
             $(document).click( function() {

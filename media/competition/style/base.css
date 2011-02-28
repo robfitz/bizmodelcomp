@@ -2,6 +2,23 @@
     background-color:#FAF8CC;
 }
 
+/**** newsletter and blog stuff ***/
+
+#newsletter {
+
+    float: left;
+    width: 86%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #3062C4;
+    padding: 2%;
+	clear: both;
+}
+
 /**** analytics stuff ***/
 
 .spreadsheet {
