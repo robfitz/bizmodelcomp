@@ -54,7 +54,6 @@ def get_permissions_redirect(request, competition):
     
     #not logged it
     if not request.user.is_authenticated():
-        print 'not logged in'
 
         e = request.GET.get("ev", "")
 
@@ -71,19 +70,15 @@ def get_permissions_redirect(request, competition):
 
     #logged in, not organizer
     else:
-        print 'logged in'
         
         #judgeinvites for this user?
         judge_invites = JudgeInvitation.objects.filter(user=request.user)
-        print 'invites %s' % judge_invites
 
         #no? redirect to no_permissions
         if len(judge_invites) == 0:
-            print 'no judge invites for user'
 
             judge_invites = JudgeInvitation.objects.filter(email=request.user.email)
             if len(judge_invites) > 0:
-                print 'found judge invite for email'
 
                 #TODO: handle multiple competitions
                 invite = judge_invites[0]
@@ -91,7 +86,6 @@ def get_permissions_redirect(request, competition):
                 invite.save()
 
             elif request.user == competition.owner:
-                print 'creating judge invite for owner'
                 
                 #if it's an organizer trying to judge, we'll make
                 #a judge entry for them, since they should always
@@ -145,7 +139,6 @@ def dashboard(request, comp_url=None):
     num_judged = len(judged_pitches)
     num_to_judge = len(competition.current_phase.pitches_to_judge(judge, -1))
 
-    print 'dashboard, judged=%s, to judge=%s' % (num_judged, num_to_judge)
     judge_rank = competition.current_phase.judge_rank(judge)
 
     max_score = competition.current_phase.max_score()
@@ -238,18 +231,14 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
             try:
                 #look for existing judgement
                 judgement = JudgedPitch.objects.filter(pitch=pitch, judge=judge)[0]
-                print 'saving score, found judgement: %s' % judgement
             
             except:
                 #create new judgement
                 judgement = JudgedPitch(judge=judge,
                                         pitch=pitch)
                 judgement.save()
-                print 'saving score, created new judgement: %s' % judgement
             
             for key in request.POST:
-
-                print 'saving score: key=%s, val=%s' % (key, request.POST.get(key))
 
                 if key.startswith("score_") or key.startswith("feedback_"):
 
@@ -258,24 +247,18 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
                     try:
                         toks = key.split('_')
                         criteria_id = int(toks[len(toks) - 1]) #last token is ID
-                        print '  criteria id: %s' % criteria_id
                         criteria = JudgingCriteria.objects.get(id=criteria_id)
-                        print '  criteria: %s' % criteria
                     except:
-                        print '  except: %s' % sys.exc_info()[0]
                         #can't save the score if we don't find a valid criteria id
                         continue
 
                     try:
                         #judged_answer = JudgedAnswer.objects.filter(judged_pitch=judgement).get(answer=answer)
                         judged_answer = JudgedAnswer.objects.filter(judged_pitch=judgement).get(criteria=criteria)
-                        print '  found judged answer: %s' % judged_answer
                     except:
                         judged_answer = JudgedAnswer(judged_pitch=judgement,
                                                      criteria=criteria)
                         judged_answer.save()
-
-                        print '  created new judged answer: %s' % judged_answer
 
                     if key.startswith("score_"):
 
@@ -327,14 +310,10 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
 
             for criteria in judging_criteria:
                 try:
-                    print 'trying to get judged_answer for criteria: %s' % criteria
                     judged_answer = JudgedAnswer.objects.get(criteria=criteria,
                             judged_pitch=judged_pitch)
-                    print '  got answer: %s' % judged_answer
                     criteria.answer = judged_answer
-                    print '  set as criteria.answer'
                 except:
-                    print '  exception: %s' % sys.exc_info()[0]
                     criteria.answer = None
 
             for upload in uploads:
@@ -344,7 +323,6 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
             scores = range(1,100)
 
             max_score = competition.current_phase.max_score()
-            print 'maxscore: %s' % max_score
     
             num_judged = len(competition.current_phase.judgements(judge, -1))
             num_to_judge = len(competition.current_phase.pitches_to_judge(judge, -1))
