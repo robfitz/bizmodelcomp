@@ -57,10 +57,6 @@ class NewsletterUnsubscription(models.Model):
 
 
 
-
-
-
-
 class Bulk_email(models.Model):
 
     #which competition this email was sent with regards to
@@ -107,12 +103,10 @@ class Bulk_email(models.Model):
                 subs[sub_val.key].append(val)
 
                 message["body"] = string.replace(message["body"], sub_val.key, val)
-        
 
             messages.append(message) 
 
         return messages
-
 
 
     def recipients(self):
