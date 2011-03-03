@@ -33,11 +33,11 @@ Phase {{forloop.counter}}  {{phase.name}}
            <div class="hr">&nbsp;</div>
 
            <div class="stat_number" style="textalign:left;">
-               Pitch type (online or live)
+               Pitch type (Online or live)
                {% ifequal phase.pitch_type "online" %}
                    <h1>Online</h1>
                {% else %}
-               <h1>Live</h1>
+                   <h1>Live</h1>
                {% endifequal %}
            </div>
 
@@ -48,14 +48,19 @@ Phase {{forloop.counter}}  {{phase.name}}
        </div>
        <div style="float:left;width:48%">
                 <div class="stat_number">
-                    Num questions
+                    Questions
                     <h1>{{ phase.questions.count }}</h1>
                 </div>
 
                 <div class="stat_number">
-                    Num uploads
+                    Uploads
                     <h1>{{ phase.uploads.count }}</h1>
                     <a href="/a/{{competition.hosted_url}}/?ignorejudging=true">View application</a>
+                </div>
+                
+                <div class="stat_number">
+                    Judging criteria
+                    <h1>{{ phase.judging_criteria.count }}</h1>
                 </div>
 
            <a class="button" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{phase.id}}/application/');">Edit application questions</a>

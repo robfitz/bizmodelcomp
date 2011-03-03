@@ -2,10 +2,10 @@
 import socket
 import os
 
-is_local = False
+is_local = True
 
 local_windows = ['robfitz-PC', 'tugboat']
-local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local', 'rob-fitzpatricks-macbook-air.local']
+local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local', 'rob-fitzpatricks-macbook-air.local', 'dhcp-81-198.eduroam.ucl.ac.uk']
 test_server_hostnames = ['ip-10-122-193-156', 'ip-10-245-129-64']
 
 filesystem = "UNIX"
