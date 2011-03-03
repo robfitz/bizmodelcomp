@@ -2,7 +2,7 @@
 import socket
 import os
 
-is_local = True
+is_local = False 
 
 local_windows = ['robfitz-PC', 'tugboat']
 local_mac = ['mango', 'papaya', 'mango.local', 'Rob-Fitzpatricks-MacBook-Air.local', 'rob-fitzpatricks-macbook-air.local', 'dhcp-81-198.eduroam.ucl.ac.uk']
