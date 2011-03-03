@@ -68,6 +68,7 @@ class Founder(models.Model):
 
         if self.name and self.name != "":
             return u"%s" % self.name
+
         else:
             return u"%s" % self.email
 
