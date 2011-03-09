@@ -165,17 +165,28 @@ def save_pitch_answers_uploads(request, pitch):
                 question = PitchQuestion.objects.get(pk=question_pk)
 
                 answer = None
+                answer_text = unicode(request.POST.get(key, "").encode('unicode_escape'))
+                print 'raw post: %s' % request.POST.get(key, "")
+                print 'answer text: %s' % answer_text
+
                 try:
                     #existing answer?
-                    answer = PitchAnswer.objects.get(pitch=pitch, question=question)
-                    answer.answer = unicode(request.POST.get(key, "").encode('unicode_escape'))
+                    possible_answers = PitchAnswer.objects.filter(pitch=pitch).filter(question=question)
+
+                    print 'possible answers: %s' % possible_answers
+                    answer = possible_answers[0]
+                    answer.answer = answer_text
+                    #answer.answer = unicode(request.POST.get(key, "").encode('unicode_escape'))
                 except:                    
+                    print "@#$ %s" % sys.exc_info()[0]
                     #new answer
                     answer = PitchAnswer(question=question,
                                          pitch=pitch,
-                                         answer=unicode(request.POST.get(key, "")).encode('unicode_escape'))
+                                         answer=answer_text)
                 #save changes
                 answer.save()
+
+                print 'answer id: %s' % answer.id
 
         #deal w/uploads
         for file in request.FILES:
@@ -481,10 +492,23 @@ def submit_business(request, comp_url):
     for question in questions:
         #render existing answers
         try:
-            question.answer = unicode(PitchAnswer.objects.filter(pitch=pitch).get(question=question)).decode('unicode-escape')
+            print 'try getting answer for pitch %s' % pitch.id
+            answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+            print 'got answer %s' % answer.id
+            question.answer = unicode(answer)
+            print 'set answer unicode'
+
+            print 'set question (%s) answer: %s' %  (question.id, question.answer)
+
+            #unicode(PitchAnswer.objects.filter(pitch=pitch).get(question=question)).decode('unicode-escape')
             
         except:
-            question.answer = ""
+            possible_answers = PitchAnswer.objects.filter(pitch=pitch).filter(question=question)
+            if len(possible_answers) > 0:
+                answer = possible_answers[0]
+                question.answer = unicode(answer) 
+            else:
+                question.answer = ""
             
     for upload in uploads:
         #render existing uploads

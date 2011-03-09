@@ -15,6 +15,17 @@
         {% include 'dashboard/alerts/alert.html' %}
     {% endif %}
 
+    <script language="javascript" type="text/javascript">
+
+        $(function() {
+            $("form").submit(function() {
+                $("input, textarea").each(function() {
+                    //$(this).val(escape($(this).val()));
+                });
+            });
+        });
+    </script>
+
 	<form action="." method="POST" enctype="multipart/form-data" class="focus">
 
         <div style="width:600px;float:left;">
