@@ -1,5 +1,21 @@
 {% extends competition.template_base %}
 
+{% block style %}
+
+    {{block.super}}
+
+    .current_words {
+        font-weight:bold;
+    }
+
+    .red {
+        color:#dd0000;
+        background-color:#ffdddd;
+        border-color:#ff0000;
+    }
+
+{% endblock %}
+
 {% block content %}
 
 	{{ block.super }}
@@ -17,12 +33,41 @@
 
     <script language="javascript" type="text/javascript">
 
+        var is_over_word_limit = false;
+
         $(function() {
             $("form").submit(function() {
-                $("input, textarea").each(function() {
-                    //$(this).val(escape($(this).val()));
-                });
+
+                if (is_over_word_limit) {
+                    alert("Your submission has __NOT__ been saved because one or more of your answers is over the word limit. Please fix the fields highlighted in red and then try saving again. Thanks.");
+                    return false;
+                }
             });
+
+            {% for question in questions %}
+                {% if question.max_answer_words %}
+                    $("#question_{{question.id}}").keyup(function() {
+                        var id_toks = $(this).attr("name").split("_");
+                        var id = id_toks[id_toks.length-1];
+                        var current_count = $(this).val().trim().replace(/ {2,}/g, " ").split(" ").length;
+
+                        $("#currentwords_" + id).text("" + current_count);
+
+                        if (current_count > {{question.max_answer_words}}) {
+                            $(this).addClass("red");
+                            $("#currentwords_" + id).addClass("red");
+                            is_over_word_limit = true;
+                        }
+                        else {
+                            $(this).removeClass("red");
+                            $("#currentwords_" + id).removeClass("red");
+                            is_over_word_limit = false;
+                            $(".red").each(function() { is_over_word_limit = true; });
+                        }
+                    });
+                    $("#question_{{question.id}}").keyup();
+                {% endif %}
+            {% endfor %}
         });
     </script>
 
@@ -117,7 +162,12 @@
                                         </div>
 
                                         <div class="hr">&nbsp;</div>
-                                        <input class="question" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
+                                        {% if question.max_answer_words %}
+                                        <div class="medium" style="float:right;">
+                                            {{question.max_answer_words}} words max. Currently <span id="currentwords_{{question.id}}" class="current_words">X</span> / {{question.max_answer_words}}
+                                        </div>
+                                        {% endif %}
+                                        <input id="question_{{question.pk}}" class="question {% if question.max_answer_words %}max_words{% endif %}" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
 
                                     {% else %}
                                         <div style="float:left;clear:both;width:100%;">
@@ -132,7 +182,12 @@
                                         </div>
 
                                         <div class="hr">&nbsp;</div>
-                                        <textarea class="question" name="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
+                                        {% if question.max_answer_words %}
+                                        <div class="medium"style="float:right;">
+                                            {{question.max_answer_words}} words max. Currently <span id="currentwords_{{question.id}}" class="current_words">X</span> / {{question.max_answer_words}}
+                                        </div>
+                                        {% endif %}
+                                        <textarea class="question {% if question.max_answer_words %}max_words{% endif %}" name="question_{{question.pk}}" id="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
 
                                     {% endifequal %}
 
