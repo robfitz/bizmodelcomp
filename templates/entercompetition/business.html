@@ -10,7 +10,7 @@
 
     .red {
         color:#dd0000;
-        background-color:#ffdddd;
+        background-color:#fff6f6;
         border-color:#ff0000;
     }
 
@@ -50,6 +50,9 @@
                         var id_toks = $(this).attr("name").split("_");
                         var id = id_toks[id_toks.length-1];
                         var current_count = $(this).val().trim().replace(/ {2,}/g, " ").split(" ").length;
+                        if ($(this).val().trim().length == 0) {
+                            current_count = 0;
+                        }
 
                         $("#currentwords_" + id).text("" + current_count);
 
@@ -164,7 +167,7 @@
                                         <div class="hr">&nbsp;</div>
                                         {% if question.max_answer_words %}
                                         <div class="medium" style="float:right;">
-                                            {{question.max_answer_words}} words max. Currently <span id="currentwords_{{question.id}}" class="current_words">X</span> / {{question.max_answer_words}}
+                                            {{question.max_answer_words}} words max. Currently using <span id="currentwords_{{question.id}}" class="current_words">X</span> / {{question.max_answer_words}}
                                         </div>
                                         {% endif %}
                                         <input id="question_{{question.pk}}" class="question {% if question.max_answer_words %}max_words{% endif %}" type="text" name="question_{{question.pk}}" value="{{question.answer}}" />
@@ -184,7 +187,7 @@
                                         <div class="hr">&nbsp;</div>
                                         {% if question.max_answer_words %}
                                         <div class="medium"style="float:right;">
-                                            {{question.max_answer_words}} words max. Currently <span id="currentwords_{{question.id}}" class="current_words">X</span> / {{question.max_answer_words}}
+                                            {{question.max_answer_words}} words max. Currently using <span id="currentwords_{{question.id}}" class="current_words">X</span> / {{question.max_answer_words}}
                                         </div>
                                         {% endif %}
                                         <textarea class="question {% if question.max_answer_words %}max_words{% endif %}" name="question_{{question.pk}}" id="question_{{question.pk}}" rows="{{question.field_rows}}">{{question.answer}}</textarea>
