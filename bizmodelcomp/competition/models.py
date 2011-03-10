@@ -798,13 +798,16 @@ class PitchQuestion(models.Model):
     max_points = models.IntegerField(default=10)
 
     #if set to a non-blank string, informs judge what the points represent (ie 0 is bad, 5 is great!)
-    judge_points_prompt = models.CharField(default="Low scores are bad, high scores are great", max_length=140)
+    judge_points_prompt = models.CharField(default="Low scores are bad, high scores are great", max_length=140, blank=True)
 
     #if set to a non-blank string, judge is asked to write freeform text as feedback
-    judge_feedback_prompt = models.CharField(default="", max_length=140)
+    judge_feedback_prompt = models.CharField(default="", max_length=140, blank=True)
 
     #if set to true, ignores everything except the prompt and uses it as a visual divider
     is_divider = models.BooleanField(default=False)
+
+    #if non-zero, Javascript restricts number of words per question for pitch entry
+    max_answer_words = models.IntegerField(default=0)
 
 
     class Meta:
@@ -838,7 +841,7 @@ class PitchAnswer(models.Model):
     question = models.ForeignKey(PitchQuestion)
     pitch = models.ForeignKey(Pitch, related_name="answers")
 
-    answer = models.CharField(max_length=2000)
+    answer = models.CharField(max_length=4000)
     
     
     def __unicode__(self):

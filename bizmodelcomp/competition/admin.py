@@ -81,8 +81,8 @@ class PitchQuestionForm(forms.ModelForm):
     raw_choices = forms.CharField(widget=forms.Textarea, required=False)
 
 class PitchQuestionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'order', 'prompt', 'field_rows', 'max_points', 'is_hidden_from_applicants', 'phase')
-    list_editable = ('order', 'prompt', 'field_rows', 'max_points', 'is_hidden_from_applicants',)
+    list_display = ('id', 'order', 'prompt', 'field_rows', 'max_points', 'is_hidden_from_applicants', 'phase', 'max_answer_words')
+    list_editable = ('order', 'prompt', 'field_rows', 'max_points', 'is_hidden_from_applicants', 'max_answer_words')
     list_filter = ('phase',)
     form = PitchQuestionForm
 
