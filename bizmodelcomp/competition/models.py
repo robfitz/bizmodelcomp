@@ -739,6 +739,8 @@ class Pitch(models.Model):
 
     def percent_complete(self):
 
+        #return '-'
+
         num_questions = len(self.phase.questions().filter(is_divider=False))
         num_answers = len(PitchAnswer.objects.filter(pitch=self).exclude(answer="").exclude(answer="<< select one >>"))
 

@@ -93,20 +93,24 @@ class JudgeInvitation(models.Model):
             subject = "Judging the %s" % self.competition.name
             message_markdown = """Hello,
 
-You've been invited to help judge the %s. Judging will run from shortly after the application deadline at %s until as soon as all the applications have been assessed.
+You've been invited to help judge the %s.
 
-You can start judging at:
+You may start judging at:
 
 %s?ev=%s
+
+We will use these scores as a guide. The nature of the the competition means that we need to trade ideas off against each other depending on the value of the loan requested so two good scoring teams might beat out the single top one if the judges believe we can get better results in backing them.
+
+Judging continues until each application has been judged at least twice. If you'd like to continue judging beyond this point, you may go to your main judging dashboard, choose to 'View all applications & scores' and then untick the checkbox on the top-right which hides adequately judged pitches.
 
 Thanks very much for the help!
 
 Sincerely,
-%s team""" % (self.competition.name,
-              self.competition.current_phase.deadline,
+%s""" % (self.competition.name,
               judging_link,
               verification_key.key,
-              self.competition.name)
+              "UCL Advances")
+              #self.competition.name)
 
             print 'composed message'
         
@@ -263,7 +267,10 @@ class JudgedAnswer(models.Model):
     def __unicode__(self):
 
         if self.feedback:
-            return unicode(self.feedback).decode('unicode-escape')
+            try:
+		return unicode(unicode(self.feedback).decode('unicode-escape'))
+            except:
+                return self.feedback
 
         else:
             return unicode(self.score)

@@ -26,6 +26,7 @@ TEMPLATE_DEBUG = DEBUG
 
 #kill switch for emailhelper
 DISABLE_ALL_EMAIL = DEBUG
+#DISABLE_ALL_EMAIL = True
 
 #whether new accounts are required to confirm
 #their email before gaining their permissions.

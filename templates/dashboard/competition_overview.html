@@ -74,7 +74,9 @@
             <div class="stat_number">
                 Num applications
                 <h1>{{competition.current_phase.all_pitches.count}}</h1>
+		<!--
                 <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a>
+		-->
             </div>
 
             <div class="stat_number">
@@ -96,7 +98,12 @@
             <div class="hr">&nbsp;</div>
             <div style="float:left;">
 
-                <h3 >Last 5 applications <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span></h3>
+                <h3 >Last 5 applications 
+<!--
+<span class="medium">
+<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span>
+-->
+</h3>
 
                 <table class="medium">
                     <tr>
@@ -150,7 +157,9 @@
             <div class="stat_number">
                         Pitches judged
                         <h1>{{ competition.current_phase.all_judgements|length }}</h1>
-                        <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span></h3>
+			<!--
+                        <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a>
+			-->
 
             </div>
 
@@ -163,7 +172,11 @@
 
         <div class="half_width">
 
-            <h3>Last 5 scores <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span></h3>
+            <h3>Last 5 scores 
+<!--
+<span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span>
+-->
+</h3>
 
             <table class="medium">
                 <tr>
@@ -188,7 +201,9 @@
 
             </table>
 
+<!--
             <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');" class="button">Announce winners</a>
+-->
 
         </div>
 

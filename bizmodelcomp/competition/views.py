@@ -7,6 +7,15 @@ from bizmodelcomp.competition.models import *
 from sitecopy.models import *
 
 
+def brb(request):
+
+    return render_to_response("competition/brb.html")
+
+def brb_org(request):
+
+    return render_to_response("competition/brb_org.html")
+
+
 
 #main landing page. sell that service!
 def index(request):

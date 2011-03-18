@@ -3,6 +3,9 @@
 <br/>
 
 {% if upload.file.url %}
+    
+    <span class="medium">Problems viewing? Download original file:</span> <a href="{{upload.file.url}}">{{ upload.file }}</a>
+
     {% if upload.file.scribd %}
 
         <div id="scribd_{{upload.id}}"></div>
@@ -19,9 +22,6 @@
 
         <img src="{{upload.file.url}}" />
 
-    {% else %}
-
-        <a href="{{upload.file.url}}">{{ upload.file }}</a>
 
     {% endif %}{% endif %}
 

@@ -166,19 +166,15 @@ def save_pitch_answers_uploads(request, pitch):
 
                 answer = None
                 answer_text = unicode(request.POST.get(key, "").encode('unicode_escape'))
-                print 'raw post: %s' % request.POST.get(key, "")
-                print 'answer text: %s' % answer_text
 
                 try:
                     #existing answer?
                     possible_answers = PitchAnswer.objects.filter(pitch=pitch).filter(question=question)
 
-                    print 'possible answers: %s' % possible_answers
                     answer = possible_answers[0]
                     answer.answer = answer_text
                     #answer.answer = unicode(request.POST.get(key, "").encode('unicode_escape'))
                 except:                    
-                    print "@#$ %s" % sys.exc_info()[0]
                     #new answer
                     answer = PitchAnswer(question=question,
                                          pitch=pitch,
@@ -186,7 +182,6 @@ def save_pitch_answers_uploads(request, pitch):
                 #save changes
                 answer.save()
 
-                print 'answer id: %s' % answer.id
 
         #deal w/uploads
         for file in request.FILES:

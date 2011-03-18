@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     #(r'^$',
     #    'entercompetition.views.edit_pitch',
     #    {'competition_url': 'echallenge'}), 
-
+    
     #local assets                  
     (r'^media/(?P<path>.*)$',
          'django.views.static.serve',
@@ -23,6 +23,11 @@ urlpatterns = patterns('',
     #admin
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
     (r'^admin/', include(admin.site.urls)),
+
+    #(r'dashboard', 'competition.views.brb_org'),
+    #(r'judge', 'competition.views.brb_org'),
+    #(r'email', 'competition.views.brb_org'),
+    #(r'data', 'competition.views.brb_org'),
 
     #biz model competition
     (r'^', include('bizmodelcomp.competition.urls')),

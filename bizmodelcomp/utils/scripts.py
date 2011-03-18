@@ -6,6 +6,63 @@ from judge.models import *
 
 
 
+def pitch_csv(hosted_url, question_ids):
+
+  comp = Competition.objects.get(hosted_url=hosted_url)
+  criteria = JudgingCriteria.objects.filter(phase=comp.current_phase).all()
+
+  pitches = Pitch.objects.filter(phase=comp.current_phase).all()
+
+  for pitch in pitches:
+    toks = [ unicode(pitch.team) ]
+    toks.append(pitch.team.owner.email)
+    toks.append(pitch.percent_complete())
+
+    for question_id in question_ids:
+      try:
+        answer = PitchAnswer.objects.get(question__id=question_id, pitch=pitch)
+        toks.append(unicode(answer))
+      except: toks.append("")
+
+    line = ""
+    for token in toks:
+      line += token.replace("^","") + "^"
+    print line
+
+
+
+
+def judging_csv(hosted_url):
+
+  comp = Competition.objects.get(hosted_url=hosted_url)
+  criteria = JudgingCriteria.objects.filter(phase=comp.current_phase).all()
+
+  judgements = JudgedPitch.objects.filter(pitch__phase__competition=comp)
+
+  csv = ""
+  for judgement in judgements:
+    
+    toks = []
+    toks.append(unicode(judgement.pitch.team))
+    toks.append(unicode(judgement.judge))
+    toks.append(unicode(judgement.score()))
+    
+    for c in criteria:
+      score = JudgedAnswer.objects.get(judged_pitch=judgement, criteria=c)
+      if not c.is_text_feedback:
+        toks.append(unicode(score.score))
+      else: toks.append(unicode(score.feedback))
+
+    line = ""
+    for token in toks:
+      line += token.replace("^","") + "^"
+    print line
+    #csv += line
+
+  #return csv
+
+
+
 LOREM = """Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."""
 
 

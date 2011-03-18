@@ -1,3 +1,5 @@
+import markdown
+
 from django.db import models
 from competition.models import *
 import string
@@ -162,7 +164,7 @@ class Sub_val(models.Model):
 
         for val in self.val_set.all():
 
-            values.append(val.val);
+            values.append((val.val));
 
         return values
 
