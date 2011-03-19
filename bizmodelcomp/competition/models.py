@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models import Count
+
 from django.contrib.auth.models import User
 from datetime import datetime
 from itertools import chain
@@ -124,10 +126,11 @@ class Team(models.Model):
         if self.name:
             return self.name
         else:
-            try:
-                return self.owner.email.split('@')[0]
-            except:
-                return "Unnamed team"
+            return "Unnamed team"
+            #try:
+                #return self.owner.email.split('@')[0]
+            #except:
+                #return "Unnamed team"
 
 
 
@@ -424,63 +427,40 @@ class Phase(models.Model):
                     self.competition.save()
                     
         self.save()
-            
 
-    #returns a list of the most active judges for this competition phase,
-    #along with how many items they've judged and the average score given
-    def judge_leaderboard(self, num_leaders=5):
+
+    def judgements(self, for_judge=None):
         
-        leaderboard = []
-        
-        for judge in self.judges():
-            judgements = JudgedPitch.objects.filter(judge=judge).filter(pitch__phase=self)
-            total_score = 0
-            for j in judgements:
-                total_score = total_score + j.score()
-
-            if judge and judgements and len(judgements) > 0:
-                leaderboard.append({'judge': judge, 'num_judged': len(judgements), 'average_score': float(total_score) / len(judgements) })
-
-        if num_leaders == -1:
-            return leaderboard
-        else:
-            return leaderboard[:num_leaders]
-
-
-    def judge_rank(self, judge):
-
-        rank = 0
-        
-        for leader in self.judge_leaderboard(-1):
-            if leader['judge'] == judge:
-                return '%s<sup>%s</sup>' % (rank, ordinal(rank)[1:])
-            rank += 1
-
-        return "N/A"
-    
-    def all_judgements(self):
-
-        return self.judgements(num=-1)
-
-    
-    def judgements(self, for_judge=None, num=10):
-        
-        if for_judge and num <= 0:
+        if for_judge:
             return JudgedPitch.objects.filter(pitch__phase=self).filter(judge=for_judge)
 
-        elif for_judge and num > 0:
-            return JudgedPitch.objects.filter(pitch__phase=self).filter(judge=for_judge)[:num]
-
-        else: return JudgedPitch.objects.filter(pitch__phase=self)
-
-
-    def all_pitches_to_judge(self):
-
-        return self.pitches_to_judge(num=-1)
+        else: 
+            return JudgedPitch.objects.filter(pitch__phase=self)
 
 
     #get list of all applications yet to be judged enough times
-    def pitches_to_judge(self, for_judge=None, num=10):
+    def pitches_to_judge(self, for_judge=None):
+
+
+        if for_judge is not None:
+
+            my_judged_pitches = []
+            my_judgements = JudgedPitch.objects.filter(judge=for_judge).select_related("pitch").values("pitch__id")
+
+            print "__my judgements__"
+            print my_judgements
+
+            for j in my_judgements:
+                print j
+                my_judged_pitches.append(j["pitch__id"])
+
+            return self.pitches_to_judge().exclude(id__in=my_judged_pitches)
+
+        else:
+
+            insufficiently_judged = self.pitch_set.annotate(num_judgements=Count("judgements")).filter(num_judgements__lt=self.min_judgements_per_pitch)
+
+            return insufficiently_judged
         
         pitches = Pitch.objects.filter(phase=self)
         to_judge = []
@@ -505,10 +485,7 @@ class Phase(models.Model):
                     #enough votes counts
                     to_judge.append(pitch)
                 
-        if num > 0:
-            return to_judge[:num]
-        else:
-            return to_judge
+        return to_judge
 
 
     def judges(self):
@@ -701,10 +678,6 @@ class Pitch(models.Model):
         return int(time.mktime(self.created.timetuple())*1000)
 
 
-    def num_times_judged(self):
-        return len(self.judgements.all())
-
-
     def average_score(self):
 
         total_score = 0
@@ -721,8 +694,8 @@ class Pitch(models.Model):
 
         #return '-'
 
-        num_questions = len(self.phase.questions().filter(is_divider=False))
-        num_answers = len(PitchAnswer.objects.filter(pitch=self).exclude(answer="").exclude(answer="<< select one >>"))
+        num_questions = self.phase.questions().filter(is_divider=False).count()
+        num_answers = PitchAnswer.objects.filter(pitch=self).exclude(answer="").exclude(answer="<< select one >>").count()
 
         if num_questions <= 0:
             return 0

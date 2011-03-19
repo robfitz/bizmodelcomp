@@ -5,6 +5,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.db.models import Count
+from django.db import connection
 
 from userhelper.util import got_ev_key
 from userhelper.models import UserProfile
@@ -21,7 +22,7 @@ from sitecopy.models import SiteCopy
 @login_required
 def list(request, comp_url):
     
-    competition = get_object_or_404(Competition, hosted_url=comp_url)
+    competition = Competition.objects.get(hosted_url=comp_url)
 
     redirect = get_permissions_redirect(request, competition)
     if redirect:
@@ -29,16 +30,21 @@ def list(request, comp_url):
 
     pitches = Pitch.objects.filter(phase=competition.current_phase).annotate(times_judged=Count("judgements")).annotate(num_answers=Count("answers"))
 
-    unjudged = (pitches.filter(times_judged=0).order_by('-num_answers')).all()
-    judged = (pitches.filter(times_judged__gt=0).order_by('-num_answers')).all()
+    unjudged = pitches.filter(times_judged=0).order_by('-num_answers').select_related("phase", "team")
+    #judged = (pitches.filter(times_judged__gt=0).order_by('-num_answers')).all()
+    
+    judgements = JudgedPitch.objects.filter(judge__user=request.user).select_related("pitch", "pitch__team", "pitch__phase")
+    judged = []
+    for judgement in judgements:
+        judged.append(judgement.pitch)
+        judgement.pitch.judgement = judgement
 
-    for p in judged:
-      try:
-        p.judgement = JudgedPitch.objects.filter(pitch=pitch).filter(judge__user=request.user)[0]
-      except: p.judgement = None
+    print "judge.list() *** __%s__ *** query count" % len(connection.queries)
+    response = render_to_response('judge/list.html', locals())
+    print "judge.list() *** __%s__ *** query count" % len(connection.queries)
 
-    return render_to_response('judge/list.html', locals())
-
+    return response
+    
 
 
 def get_permissions_redirect(request, competition):
@@ -113,6 +119,8 @@ def dashboard(request, comp_url=None):
         return HttpResponseRedirect("/dashboard/")
         #competition = get_competition_for_user(request.user)
 
+    current_phase = competition.current_phase
+
     is_organizer = competition is not None and competition.owner == request.user
     
     redirect = get_permissions_redirect(request, competition)
@@ -126,19 +134,20 @@ def dashboard(request, comp_url=None):
         fail = None
         fail.no_judge_invite()
 
-    judged_pitches = competition.current_phase.judgements(judge, -1)
-    num_judged = len(judged_pitches)
-    num_to_judge = len(competition.current_phase.pitches_to_judge(judge, -1))
+    judged_pitches = current_phase.judgements(judge)
+    num_judged = judged_pitches.count()
+    num_to_judge = current_phase.pitches_to_judge(judge).count()
 
-    judge_rank = competition.current_phase.judge_rank(judge)
-
-    max_score = competition.current_phase.max_score()
-    score_groups = chart_util.score_distribution(competition.current_phase.judgements(), max(max_score / 20, 1))
+    max_score = current_phase.max_score()
+    score_groups = chart_util.score_distribution(current_phase.judgements(), max(max_score / 20, 1))
     my_score_groups = chart_util.score_distribution(judged_pitches, max(max_score / 20, 1))
 
-    phase = competition.current_phase
+    phase = current_phase
 
-    return render_to_response('judge/dashboard.html', locals())
+    print "judge.dashboard() *** __%s__ *** query count" % len(connection.queries)
+    response = render_to_response('judge/dashboard.html', locals())
+    print "judge.dashboard() *** __%s__ *** query count" % len(connection.queries)
+    return response
 
 
 
@@ -295,7 +304,7 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
 
             for question in questions:
                 try:
-                    question.answer = PitchAnswer.objects.filter(pitch=pitch).get(question=question)
+                    question.answer = PitchAnswer.objects.filter(pitch=pitch).filter(question=question)[0]
                 except:
                     question.answer = None
 
@@ -315,12 +324,15 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
 
             max_score = competition.current_phase.max_score()
     
-            num_judged = len(competition.current_phase.judgements(judge, -1))
-            num_to_judge = len(competition.current_phase.pitches_to_judge(judge, -1))
-            judge_rank = competition.current_phase.judge_rank(judge)
+            num_judged = competition.current_phase.judgements(judge).count()
+            num_to_judge = competition.current_phase.pitches_to_judge(judge).count()
             
+            print "judge.judging() *** __%s__ *** query count" % len(connection.queries)
+            response = render_to_response('judge/judging.html', locals())
+            print "judge.judging() *** __%s__ *** query count" % len(connection.queries)
+
             #yeah! start showing shit!
-            return render_to_response('judge/judging.html', locals())
+            return response
 
         else:
             message = """Judging is complete and all applications have already been assessed.

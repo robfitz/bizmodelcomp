@@ -15,6 +15,8 @@ from emailhelper.models import *
 from emailhelper.util import send_bulk_email
 from sitecopy.models import SiteCopy
 
+from django.db import connection
+
 import charts.util as chart_util
 from datetime import datetime
 import time
@@ -65,9 +67,15 @@ def next_phase(request, comp_url):
 @login_required
 def overall_dashboard(request):
 
+    time_start = datetime.now()
+
     #grab all the competitions they own
-    competitions = list(Competition.objects.filter(owner=request.user))
+    competitions = Competition.objects.filter(owner=request.user).select_related('owner', 'current_phase', 'current_phase__pitches')
+    competitions = list(competitions)
     inactive_competition = []
+
+    for c in competitions:
+        print c.current_phase
 
     intro = ""
     try:
@@ -78,14 +86,14 @@ def overall_dashboard(request):
     #activate any pending judge invitations for this user
     try:
         #is new acct meant to be a judgeman?
-        invites = JudgeInvitation.objects.filter(email=request.user.email)
+        invites = JudgeInvitation.objects.filter(email=request.user.email).filter(user=None)
         for judge in invites:
             judge.user = request.user
             judge.save()
     except:
         pass
 
-    for invite in JudgeInvitation.objects.filter(user=request.user):
+    for invite in JudgeInvitation.objects.filter(user=request.user).select_related('competition', 'this_phase_only'):
 
         #grab any additional competitions they're a judge for, but don't own
         if not invite.competition in competitions:
@@ -93,18 +101,32 @@ def overall_dashboard(request):
             if not invite.this_phase_only:
                 #invite is for whole competition
                 competitions.append(invite.competition)
+                #TODO
                 invite.competition.my_num_judged = ""
 
             elif invite.this_phase_only == invite.competition.current_phase:
                 #invite is for a particular phase, and that phase is active
                 competitions.append(invite.competition)
+                #TODO
                 invite.competition.my_num_judged = ""
 
             else:
                 #we are judging a non-active part of the competition
                 inactive_competitions.append(invite.competition)
 
-    return render_to_response("dashboard/overall_dashboard.html", locals())
+    response = render_to_response("dashboard/overall_dashboard.html", locals())
+
+    print "overall dashboard time: %s" % (datetime.now() - time_start)
+
+    print "*#*#*#*#*#*#*#*#*#"
+    print "dashboard.overall_dashboard() *** __%s__ *** query count" % len(connection.queries)
+#    for q in connection.queries:
+#        print q
+#        print ''
+    print '--=-=-=-=-=-=-=-=-'
+
+
+    return response
 
 
 def get_feedback_for_pitch(pitch):

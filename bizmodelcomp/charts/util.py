@@ -1,3 +1,4 @@
+
 def score_distribution(judged_pitches, step_size=1):
 
     score_groups = []

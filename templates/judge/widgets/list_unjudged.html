@@ -29,14 +29,14 @@ Un-judged pitches
             {% if pitch.phase.pitch_type == 'live pitch' %}
             <tr>
             {% else %}
-                {% if pitch.num_times_judged >= pitch.phase.min_judgements_per_pitch %}
+                {% if pitch.times_judged >= pitch.phase.min_judgements_per_pitch %}
                 <tr class="judged_enough hidden">
                 {% else %}
                 <tr>
                 {% endif %}
             {% endif %}
                 <td>{{ pitch.team }}</td>
-                <td style="text-align:center;">{{ pitch.num_times_judged }}</td>
+                <td style="text-align:center;">{{ pitch.times_judged }}</td>
                 <td style="text-align:center;">{{ pitch.percent_complete }}%</td>
                 <td><a href="/judge/go/{{pitch.id}}">View & judge it</a></td>
             </tr>

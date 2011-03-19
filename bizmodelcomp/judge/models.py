@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.contrib.auth.models import User
 
 from emailhelper.util import send_email
@@ -233,16 +234,7 @@ class JudgedPitch(models.Model):
 
 
     def score(self):
-
-        points = 0
-        judged_answers = JudgedAnswer.objects.filter(judged_pitch=self)
-
-        for ja in judged_answers:
-            if ja.score:
-                points += ja.score
-
-        points += self.overall_score
-        return points
+        return self.judgedanswer_set.aggregate(Sum("score"))["score__sum"]
 
 
 #a judge's reaction to a single submitted answer

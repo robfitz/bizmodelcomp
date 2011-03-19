@@ -8,8 +8,7 @@
 {% endblock %}
 
 {% block tab_list %}
-                <li id="tab_judging"><a href="#judging">Judging</a></li>
-                <li id="tab_applications"><a href="#applications">Applications</a></li>
+<li id="tab_applications"><a href="#applications">Progress</a></li>
                 <li id="tab_setup"><a href="#setup">Setup</a></li>
 {% endblock %}
 
@@ -96,55 +95,6 @@
         <div class="half_width">
 
             <div class="hr">&nbsp;</div>
-            <div style="float:left;">
-
-                <h3 >Last 5 applications 
-<!--
-<span class="medium">
-<a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span>
--->
-</h3>
-
-                <table class="medium">
-                    <tr>
-                        <th>Team</th>
-                        <th>Pitch</th>
-                        <th>Completion</th>
-                        <th>Time</th>
-                    </tr>
-
-                    {% for pitch in competition.current_phase.pitches.all %}
-
-                        {% if forloop.counter < 5 %}
-
-                            <tr>
-                                <td>{{pitch.team}}</td>
-                                <td><a href="javascript:void(0);" onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a></td>
-                                <td>{{pitch.percent_complete}}%</td>
-                                <td>{{pitch.created|date}}</td>
-                            </tr>
-
-                        {% endif %}
-
-                    {% endfor %}
-
-                </table>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <div id="judging">
-        
-        <div class="half_width">
-
-            <div style="float:left;width:100%;">
-                {% if competition.logo %}
-                    <img style="max-width:200px;" src="{{ competition.logo_url }}" /> 
-                {% endif %}
-            </div>
 
             <div class="stat_number">
                 Num Judges
@@ -152,58 +102,15 @@
                 <a style="float:left;" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{competition.current_phase.id}}/judges/');">Edit judges</a>
             </div>
 
-            <div class="hr">&nbsp;</div>
-
             <div class="stat_number">
-                        Pitches judged
-                        <h1>{{ competition.current_phase.all_judgements|length }}</h1>
-			<!--
-                        <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a>
-			-->
-
+                Pitches judged
+                <h1>{{competition.judgements.count}}</h1>
             </div>
 
             <div class="stat_number">
                 Pitches remain
                 <h1>{{ competition.current_phase.all_pitches_to_judge|length}}</h1>
             </div>
-
-        </div>
-
-        <div class="half_width">
-
-            <h3>Last 5 scores 
-<!--
-<span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span>
--->
-</h3>
-
-            <table class="medium">
-                <tr>
-                    <th>Team</th>
-                    <th>Judge</th>
-                    <th>Score</th>
-                    <th>Time</th>
-                </tr>
-
-                {% for judgement in competition.current_phase.judgements %}
-
-                    {% if forloop.counter <= 5 %}
-                        <tr>
-                            <td>{{judgement.pitch.team}}</td>
-                            <td><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{ competition.hosted_url }}/?view=for_judge&judge={{judgement.judge.id}}');">{{judgement.judge}}</a></td>
-                            <td style="text-align:right;padding-right:18px;"><a href="javascript:void(0);" onclick="popup('/dashboard/judgement/{{judgement.id}}/');">{{judgement.score}}</a></td>
-                            <td> {{judgement.timestamp|date }}</td>
-                        </tr>
-                    {% endif %}
-
-                {% endfor %}
-
-            </table>
-
-<!--
-            <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');" class="button">Announce winners</a>
--->
 
         </div>
 
@@ -216,7 +123,7 @@
 
         {% if competition.current_phase.setup_steps.details_confirmed  %}
             {% if competition.current_phase.is_judging_enabled %}
-                var tab = "#judging";
+                var tab = "#applications";
             {% else %}
                 var tab = "#applications";
             {% endif %}
