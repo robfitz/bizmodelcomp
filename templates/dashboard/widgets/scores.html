@@ -14,7 +14,6 @@ Scores
             <div class="stat_number">
                 Num Judges
                 <h1>{{competition.judge_invitations.count}}</h1>
-                <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_judges&phase_{{competition.current_phase.phase_num}}=on');">View all</a>
             </div>
 
             <a style="float:left;" class="button" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{phase.id}}/judges/');">View & invite more judges</a>
@@ -23,12 +22,12 @@ Scores
 
             <div class="stat_number">
                 Pitches judged
-                <h1>{{ phase.all_judgements|length }}</h1>
+                <h1>{{ phase.judgements.count }}</h1>
             </div>
 
             <div class="stat_number">
                 Pitches remain
-                <h1>{{phase.pitches_to_judge|length}}</h1>
+                <h1>{{ phase.pitches_to_judge.count }}</h1>
                 <a href="/judge/{{competition.hosted_url}}/">Judge now</a>
             </div>
 
@@ -42,8 +41,8 @@ Scores
 
         <div style="half">
 
-            <h3>Last 10 scores
-                <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a></span>
+            <h3>Recent scores
+                <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{phase.phase_num}}=on');">View all</a></span>
             </h3>
 
             <table>
@@ -54,7 +53,7 @@ Scores
                     <th>Time</th>
                 </tr>
 
-                {% for judgement in competition.current_phase.judgements %}
+                {% for judgement in recent_judgements %}
 
                     <tr>
                         <td>{{judgement.pitch.team}}</td>

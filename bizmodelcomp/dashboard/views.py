@@ -114,19 +114,11 @@ def overall_dashboard(request):
                 #we are judging a non-active part of the competition
                 inactive_competitions.append(invite.competition)
 
-    response = render_to_response("dashboard/overall_dashboard.html", locals())
-
-    print "overall dashboard time: %s" % (datetime.now() - time_start)
-
-    print "*#*#*#*#*#*#*#*#*#"
     print "dashboard.overall_dashboard() *** __%s__ *** query count" % len(connection.queries)
-#    for q in connection.queries:
-#        print q
-#        print ''
-    print '--=-=-=-=-=-=-=-=-'
-
-
+    response = render_to_response("dashboard/overall_dashboard.html", locals())
+    print "dashboard.overall_dashboard() *** __%s__ *** query count" % len(connection.queries)
     return response
+
 
 
 def get_feedback_for_pitch(pitch):
@@ -903,7 +895,10 @@ def edit_comp(request, comp_url):
 
         edit_comp_form = CompetitionInfoForm(instance=competition)
 
-        return render_to_response('dashboard/edit_comp.html', locals())
+        print "dashboard.edit_comp() *** __%s__ *** query count" % len(connection.queries)
+        response = render_to_response('dashboard/edit_comp.html', locals())
+        print "dashboard.edit_comp() *** __%s__ *** query count" % len(connection.queries)
+        return response
 
 
 
@@ -1137,15 +1132,27 @@ def dashboard(request, comp_url=None):
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
     phase = competition.current_phase
+    setup_steps = phase.setup_steps
     max_score = phase.max_score()
-    score_groups = chart_util.score_distribution(phase.all_judgements(), max(phase.max_score() / 20, 1))
+    score_groups = chart_util.score_distribution(phase.judgements(), max(phase.max_score() / 20, 1))
+
+    recent_pitches = Pitch.objects.filter(phase=phase).select_related("team")[:5]
+    recent_judgements = phase.judgements().select_related("pitch__team", "judge", "judge__user")[:5]
+
+    num_questions = phase.pitchquestion_set.filter(is_divider=False).count()
+
+    for pitch in recent_pitches:
+        pitch.percent = pitch.percent_complete(num_questions)
 
     intro = SiteCopy.objects.get(id="intro_dashboard_manage")
 
     if competition.owner != request.user:
         return HttpResponseRedirect('/no_permissions/')
 
-    return render_to_response("dashboard/dashboard.html", locals())
+    print "dashboard.dashboard() *** __%s__ *** query count" % len(connection.queries)
+    response = render_to_response("dashboard/dashboard.html", locals())
+    print "dashboard.dashboard() *** __%s__ *** query count" % len(connection.queries)
+    return response
 
 
 

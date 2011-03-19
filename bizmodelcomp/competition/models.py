@@ -690,12 +690,13 @@ class Pitch(models.Model):
         except: return 0
 
 
-    def percent_complete(self):
+    def percent_complete(self, num_questions=None, num_answers=None):
 
-        #return '-'
+        if num_questions is None:
+            num_questions = self.phase.questions().filter(is_divider=False).count()
 
-        num_questions = self.phase.questions().filter(is_divider=False).count()
-        num_answers = PitchAnswer.objects.filter(pitch=self).exclude(answer="").exclude(answer="<< select one >>").count()
+        if num_answers is None:
+            num_answers = PitchAnswer.objects.filter(pitch=self).exclude(answer="").exclude(answer="<< select one >>").count()
 
         if num_questions <= 0:
             return 0
