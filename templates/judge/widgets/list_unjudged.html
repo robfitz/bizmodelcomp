@@ -21,6 +21,7 @@ Un-judged pitches
         <tr>
             <th>Company</th>
             <th>Num times<br/>judged</th>
+            <th># questions<br/>completed</th>
             <th>Options</th>
         </tr>
 
@@ -36,6 +37,7 @@ Un-judged pitches
             {% endif %}
                 <td>{{ pitch.team }}</td>
                 <td style="text-align:center;">{{ pitch.num_times_judged }}</td>
+                <td style="text-align:center;">{{ pitch.percent_complete }}%</td>
                 <td><a href="/judge/go/{{pitch.id}}">View & judge it</a></td>
             </tr>
 

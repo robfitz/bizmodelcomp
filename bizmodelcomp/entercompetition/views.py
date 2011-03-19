@@ -461,7 +461,6 @@ def submit_business(request, comp_url):
     if request.method == "POST":
         #creates or modifies answers and uploads for the pitch
         save_pitch_answers_uploads(request, pitch)
-        print 'saved answers and uploads'
 
         if competition.application_requirements().applicant_types.count() > 0:
             business_type = request.POST.get("business_types")
@@ -477,8 +476,7 @@ def submit_business(request, comp_url):
                 team.business_types.add(tag)
 
         if not alert:
-            alert = "Your application has been saved. You may continue to edit it until the deadline. If you switch computers, you'll need to re-verify your identity by clicking on the link we've emailed to you."
-            print 'application saved successfully'
+            alert = "Congratulations! Your application has been saved and submitted. You may continue to edit your application until the deadline. If you have finished editing your application you need take no further action."
             
     phase = competition.current_phase
     questions = phase.questions()

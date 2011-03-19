@@ -465,20 +465,13 @@ class Phase(models.Model):
     
     def judgements(self, for_judge=None, num=10):
         
-        pitches = Pitch.objects.filter(phase=self)
-        judgements = []
-        
-        for pitch in pitches:
-            
-            if for_judge:
-                judgements.extend(pitch.judgements.filter(judge=for_judge))
-            else:
-                judgements.extend(pitch.judgements.all())
+        if for_judge and num <= 0:
+            return JudgedPitch.objects.filter(pitch__phase=self).filter(judge=for_judge)
 
-        if num > 0:
-            return judgements[:num]
-        else:
-            return judgements
+        elif for_judge and num > 0:
+            return JudgedPitch.objects.filter(pitch__phase=self).filter(judge=for_judge)[:num]
+
+        else: return JudgedPitch.objects.filter(pitch__phase=self)
 
 
     def all_pitches_to_judge(self):
@@ -520,20 +513,7 @@ class Phase(models.Model):
 
     def judges(self):
 
-        comp_judges = JudgeInvitation.objects.filter(competition=self.competition)
-        my_judges = []
-        
-        for comp_judge in comp_judges:
-
-            if comp_judge.this_phase_only == self:
-
-                    my_judges.append(comp_judge)
-
-            elif not comp_judge.this_phase_only:
-
-                my_judges.append(comp_judge)
-
-        return my_judges
+        return JudgeInvitation.objects.filter(competition=self.competition).all()
 
                 
     #tell any judges for this phase who haven't been alerted yet that
@@ -730,7 +710,7 @@ class Pitch(models.Model):
         total_score = 0
         num_pitches = self.judgements.count()
 
-        for judged_pitch in self.judgements.all():
+        for judged_pitch in self.judgements.values('score'):
             total_score = total_score + judged_pitch.score()
 
         try: return float(total_score) / num_pitches

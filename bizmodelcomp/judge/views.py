@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Count
 
 from userhelper.util import got_ev_key
 from userhelper.models import UserProfile
@@ -26,25 +27,15 @@ def list(request, comp_url):
     if redirect:
         return HttpResponseRedirect(redirect)
 
-    judged = []
-    unjudged = []
-    
-    for pitch in competition.current_phase.pitches(-1):
+    pitches = Pitch.objects.filter(phase=competition.current_phase).annotate(times_judged=Count("judgements")).annotate(num_answers=Count("answers"))
 
-        #figure if i've judged this one yet or not
-        judgements = JudgedPitch.objects.filter(pitch=pitch).filter(judge__user=request.user)
-        
-        if judgements.count() == 0:
-            unjudged.append(pitch)
-        else:
-            pitch.judgement = judgements[0]
-            judged.append(pitch)
+    unjudged = (pitches.filter(times_judged=0).order_by('-num_answers')).all()
+    judged = (pitches.filter(times_judged__gt=0).order_by('-num_answers')).all()
 
-    num_judged = len(judged)
-    num_to_judge = len(unjudged)
-
-    #cleanup of local vars so header displays properly
-    pitch = None
+    for p in judged:
+      try:
+        p.judgement = JudgedPitch.objects.filter(pitch=pitch).filter(judge__user=request.user)[0]
+      except: p.judgement = None
 
     return render_to_response('judge/list.html', locals())
 
