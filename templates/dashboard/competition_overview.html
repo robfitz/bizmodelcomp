@@ -62,21 +62,15 @@
 
     <div id="applications">
 
-        <div class="half_width">
+        <div class="">
 
+            <!--
             <div style="float:left;width:100%;">
                 {% if competition.logo %}
                     <img style="max-width:200px;" src="{{ competition.logo_url }}" /> 
                 {% endif %}
             </div>
-            
-            <div class="stat_number">
-                Num applications
-                <h1>{{competition.current_phase.all_pitches.count}}</h1>
-		<!--
-                <a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&phase_{{competition.current_phase.phase_num}}=on');">View all</a>
-		-->
-            </div>
+            -->
 
             <div class="stat_number">
                 Application status
@@ -90,26 +84,28 @@
                 <a href="/a/{{competition.hosted_url}}/?ignorejudging=true">View application</a>
             </div>
 
-        </div>
+            
+            <div class="stat_number">
+                Num applications
+                <h1>{{competition.current_phase.all_pitches.count}}</h1>
+            </div>
 
-        <div class="half_width">
+            <div class="stat_number">
+                Pitches judged
+                <h1>{{ competition.current_phase.judgements.count}}</h1>
+            </div>
+
+            <div class="stat_number">
+                Pitches remain
+                <h1>{{ competition.current_phase.pitches_to_judge.count }}</h1>
+            </div>
 
             <div class="hr">&nbsp;</div>
 
             <div class="stat_number">
                 Num Judges
-                <h1>{{competition.judge_invitations.count}}</h1>
+                <h1>{{ competition.judge_invitations.count }}</h1>
                 <a style="float:left;" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{competition.current_phase.id}}/judges/');">Edit judges</a>
-            </div>
-
-            <div class="stat_number">
-                Pitches judged
-                <h1>{{competition.judgements.count}}</h1>
-            </div>
-
-            <div class="stat_number">
-                Pitches remain
-                <h1>{{ competition.current_phase.all_pitches_to_judge|length}}</h1>
             </div>
 
         </div>
