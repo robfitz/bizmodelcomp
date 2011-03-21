@@ -23,12 +23,12 @@
 
     <div class="stat_number">
         Everyone's judged
-        <h1>{{ competition.current_phase.all_judgements|length }}</h1>
+        <h1>{{ competition.current_phase.judgements.count }}</h1>
     </div>
 
     <div class="stat_number">
         Pitches remaining
-        <h1>{{ competition.current_phase.all_pitches_to_judge|length}}</h1>
+        <h1>{{ competition.current_phase.pitches_to_judge.count }}</h1>
     </div>
 
 </div>

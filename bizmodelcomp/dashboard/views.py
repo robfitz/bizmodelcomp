@@ -102,13 +102,13 @@ def overall_dashboard(request):
                 #invite is for whole competition
                 competitions.append(invite.competition)
                 #TODO
-                invite.competition.my_num_judged = ""
+                invite.competition.my_num_judged = invite.competition.current_phase.judgements(invite).count()
 
             elif invite.this_phase_only == invite.competition.current_phase:
                 #invite is for a particular phase, and that phase is active
                 competitions.append(invite.competition)
                 #TODO
-                invite.competition.my_num_judged = ""
+                invite.competition.my_num_judged = invite.competition.current_phase.judgements(invite).count()
 
             else:
                 #we are judging a non-active part of the competition

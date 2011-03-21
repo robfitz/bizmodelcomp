@@ -88,11 +88,13 @@
             <div class="stat_number">
                 Num applications
                 <h1>{{competition.current_phase.all_pitches.count}}</h1>
+                <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/deets/?view=all_pitches&amp;phase_1=on');">View all</a></span>
             </div>
 
             <div class="stat_number">
                 Pitches judged
                 <h1>{{ competition.current_phase.judgements.count}}</h1>
+                <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/deets/?view=all_pitches&amp;phase_1=on');">View all</a></span>
             </div>
 
             <div class="stat_number">
@@ -105,7 +107,7 @@
             <div class="stat_number">
                 Num Judges
                 <h1>{{ competition.judge_invitations.count }}</h1>
-                <a style="float:left;" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{competition.current_phase.id}}/judges/');">Edit judges</a>
+                <a style="float:left;" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{competition.current_phase.id}}/judges/');">Invite judges</a>
             </div>
 
         </div>

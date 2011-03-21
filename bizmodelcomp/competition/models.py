@@ -374,7 +374,12 @@ class Phase(models.Model):
 
     def max_score(self):
         
-            return self.judgingcriteria_set.all().aggregate(Sum("max_points"))["max_points__sum"]
+        try:
+            max = self.judgingcriteria_set.exclude(is_text_feedback=True).aggregate(Sum("max_points"))["max_points__sum"]
+            if not max:
+                max = 0
+            return max
+        except:
             print sys.exc_info()[0]
             return 0
 
@@ -438,7 +443,6 @@ class Phase(models.Model):
 
     #get list of all applications yet to be judged enough times
     def pitches_to_judge(self, for_judge=None):
-
 
         if for_judge is not None:
 

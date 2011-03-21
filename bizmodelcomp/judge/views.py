@@ -33,7 +33,8 @@ def list(request, comp_url):
     unjudged = pitches.filter(times_judged=0).order_by('-num_answers').select_related("phase", "team")
     #judged = (pitches.filter(times_judged__gt=0).order_by('-num_answers')).all()
     
-    judgements = JudgedPitch.objects.filter(judge__user=request.user).select_related("pitch", "pitch__team", "pitch__phase")
+    judgements = JudgedPitch.objects.filter(pitch__phase=competition.current_phase).filter(judge__user=request.user).select_related("pitch", "pitch__team", "pitch__phase")
+
     judged = []
     for judgement in judgements:
         judged.append(judgement.pitch)
@@ -129,17 +130,20 @@ def dashboard(request, comp_url=None):
     
     try:
         #if a judge thing exists for this user, grab it
-        judge = JudgeInvitation.objects.filter(user=request.user)[0]
+        judge = JudgeInvitation.objects.filter(user=request.user).filter(competition=competition)[0]
     except:
         fail = None
         fail.no_judge_invite()
 
     judged_pitches = current_phase.judgements(judge)
+    print 'judged pitches: %s' % judged_pitches
     num_judged = judged_pitches.count()
     num_to_judge = current_phase.pitches_to_judge(judge).count()
 
     max_score = current_phase.max_score()
+
     score_groups = chart_util.score_distribution(current_phase.judgements(), max(max_score / 20, 1))
+
     my_score_groups = chart_util.score_distribution(judged_pitches, max(max_score / 20, 1))
 
     phase = current_phase
