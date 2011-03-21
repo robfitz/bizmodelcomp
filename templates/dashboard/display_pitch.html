@@ -58,14 +58,14 @@
                     
                     </div> <!-- end previous question_section -->
                     <div style="width:96%;float:left;padding:0px 8px;margin:0px 0px 8px 0px;background-color:#ccc;border-top:1px solid gray;">
-                        <h3 style="float:left;clear:both;padding:4px 0px;margin:0px;">{{question.prompt}}</h3>
+                        <h3 style="float:left;clear:both;padding:4px 0px;margin:0px;">{{question}}</h3>
                     </div>
 
                     <div style="padding:0px 8px 20px 8px;float:left;clear:both;width:96%;"> <!-- begin next question_section -->
 
                 {% else %}
 
-                    <strong class="prompt">{{ question.prompt }}</strong>
+                    <strong class="prompt">{{ question }}</strong>
                     <br/>
                     <div style="">
                         {% if question.answer %}
