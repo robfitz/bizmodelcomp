@@ -12,8 +12,12 @@ Un-judged pitches
     {% if pitch.phase.pitch_type == 'live pitch' %}
     {% else %}
         <p>
+            <input type="checkbox" id="percent_filter" checked="on" />
+            <label for="percent_filter">Hide applications which are mostly incomplete</label>
+        </p>
+        <p>
             <input type="checkbox" id="filter" checked="on" />
-            <label for="filter">Hide pitches which have already been evaluated by at least {{ competition.current_phase.min_judgements_per_pitch }} other judges</label>
+            <label for="filter">Hide applications which have already been evaluated by at least {{ competition.current_phase.min_judgements_per_pitch }} other judges</label>
         </p>
     {% endif %}
 
@@ -29,15 +33,11 @@ Un-judged pitches
             {% if pitch.phase.pitch_type == 'live pitch' %}
             <tr>
             {% else %}
-                {% if pitch.times_judged >= pitch.phase.min_judgements_per_pitch %}
-                <tr class="judged_enough hidden">
-                {% else %}
-                <tr>
-                {% endif %}
+            <tr class="{% if pitch.times_judged >= pitch.phase.min_judgements_per_pitch %}judged_enough{% endif%} {% if pitch.percent < 20 %}incomplete{% endif %}">
             {% endif %}
                 <td>{{ pitch.team }}</td>
                 <td style="text-align:center;">{{ pitch.times_judged }}</td>
-                <td style="text-align:center;">{{ pitch.percent_complete }}%</td>
+                <td style="text-align:center;">{{ pitch.percent }}%</td>
                 <td><a href="/judge/go/{{pitch.id}}">View & judge it</a></td>
             </tr>
 
@@ -48,14 +48,29 @@ Un-judged pitches
 
         $(function () {
             $('#filter').click( function() {
-                if ($(this).attr("checked")) {
-                    $(".judged_enough").hide();
-                }
-                else {
-                    $(".judged_enough").show();
-                }
+                toggle_filters();
             });
+            $('#percent_filter').click( function() {
+                toggle_filters();
+            });
+            toggle_filters();
         });
+
+        function toggle_filters() {
+            if (! $("#filter").attr("checked")) {
+                $(".judged_enough").show();
+            }
+            if (! $("#percent_filter").attr("checked")) {
+                $(".incomplete").show();
+            }
+
+            if ($("#filter").attr("checked")) {
+                $(".judged_enough").hide();
+            }
+            if ($("#percent_filter").attr("checked")) {
+                $(".incomplete").hide();
+            }
+        }
 
     </script>
 {% endblock %}
