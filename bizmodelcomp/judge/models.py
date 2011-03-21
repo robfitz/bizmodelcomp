@@ -234,7 +234,9 @@ class JudgedPitch(models.Model):
 
 
     def score(self):
-        return self.judgedanswer_set.aggregate(Sum("score"))["score__sum"]
+        sc = self.judgedanswer_set.aggregate(Sum("score"))["score__sum"]
+        if not sc: return 0
+        else: return sc
 
 
 #a judge's reaction to a single submitted answer
