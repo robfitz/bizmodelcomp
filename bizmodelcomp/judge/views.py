@@ -30,10 +30,17 @@ def list(request, comp_url):
 
     pitches = Pitch.objects.filter(phase=competition.current_phase).annotate(times_judged=Count("judgements")).annotate(num_answers=Count("answers"))
 
-    unjudged = pitches.filter(times_judged=0).order_by('-num_answers').select_related("phase", "team")
-    #judged = (pitches.filter(times_judged__gt=0).order_by('-num_answers')).all()
-    
     judgements = JudgedPitch.objects.filter(pitch__phase=competition.current_phase).filter(judge__user=request.user).select_related("pitch", "pitch__team", "pitch__phase")
+    #unjudged = pitches.filter(times_judged=0).order_by('-num_answers').select_related("phase", "team")
+
+    my_judged_pitches = judgements.values("pitch__id")
+    my_judged_pitch_ids = []
+    for jp in my_judged_pitches:
+        my_judged_pitch_ids.append(jp["pitch__id"])
+    
+    unjudged = pitches.exclude(id__in=my_judged_pitch_ids)
+    for p in unjudged:
+        p.percent = int(p.percent_complete()) 
 
     judged = []
     for judgement in judgements:
