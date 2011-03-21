@@ -227,16 +227,23 @@ class JudgedPitch(models.Model):
     max_overall_score = models.IntegerField(default=5)
 
     timestamp = models.DateTimeField(auto_now_add=True)
+
+    score = models.IntegerField(blank=True, default=0)
     
 
     class Meta:
         ordering = ['-timestamp']
 
 
-    def score(self):
+    def calculate_cached_score(self, also_update_pitch_average_score=True):
         sc = self.judgedanswer_set.aggregate(Sum("score"))["score__sum"]
-        if not sc: return 0
-        else: return sc
+        if not sc: sc = 0
+
+        self.score = sc
+        self.save()
+
+        if also_update_pitch_average_score and self.pitch:
+            self.pitch.calculate_cached_average_score()
 
 
 #a judge's reaction to a single submitted answer

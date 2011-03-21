@@ -1104,11 +1104,11 @@ def list_pitches(request, phase_id, judge_id=None):
             if not pitch.team in teams:
                 teams.append(pitch.team)
                 pitch.team.pitch_1 = Pitch.objects.get(phase=phase_1, team=pitch.team)
-                pitch.team.total_avg = pitch.team.pitch_1.average_score()
+                pitch.team.total_avg = pitch.team.pitch_1.average_score
                 if phase_2_id:
                     try:
                         pitch.team.pitch_2 = Pitch.objects.get(phase=phase_2, team=pitch.team)
-                        pitch.team.total_avg += pitch.team.pitch_2.average_score()
+                        pitch.team.total_avg += pitch.team.pitch_2.average_score
                     except:
                         pass
 
@@ -1134,7 +1134,7 @@ def dashboard(request, comp_url=None):
     phase = competition.current_phase
     setup_steps = phase.setup_steps
     max_score = phase.max_score()
-    score_groups = chart_util.score_distribution(phase.judgements(), max(phase.max_score() / 20, 1))
+    score_groups = chart_util.score_distribution(phase.judgements(), max(max_score / 20, 1))
 
     recent_pitches = Pitch.objects.filter(phase=phase).select_related("team")[:5]
     recent_judgements = phase.judgements().select_related("pitch__team", "judge", "judge__user")[:5]

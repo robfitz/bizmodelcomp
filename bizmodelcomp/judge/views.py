@@ -276,6 +276,8 @@ def judging(request, comp_url=None, judgedpitch_id=None, unjudged_pitch_id=None)
 
                     judged_answer.save()
 
+            judgement.calculate_cached_score()
+
             if pitch.phase.pitch_type == "live pitch":
                 #judging live we always go back to the list so they can be sure
                 #to pick the correct next pitch

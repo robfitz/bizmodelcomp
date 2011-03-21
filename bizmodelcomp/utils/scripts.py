@@ -45,7 +45,7 @@ def judging_csv(hosted_url):
     toks = []
     toks.append(unicode(judgement.pitch.team))
     toks.append(unicode(judgement.judge))
-    toks.append(unicode(judgement.score()))
+    toks.append(unicode(judgement.score))
     
     for c in criteria:
       score = JudgedAnswer.objects.get(judged_pitch=judgement, criteria=c)

@@ -1,3 +1,4 @@
+from django.db.models import Sum
 from django.db import models
 from django.db.models import Count
 
@@ -373,12 +374,9 @@ class Phase(models.Model):
 
     def max_score(self):
         
-        max_score = 0
-        for criteria in JudgingCriteria.objects.filter(phase=self):    
-            if not criteria.is_text_feedback:
-                max_score += criteria.max_points
-
-        return max_score
+            return self.judgingcriteria_set.all().aggregate(Sum("max_points"))["max_points__sum"]
+            print sys.exc_info()[0]
+            return 0
 
 
     #returns a string button/link label that hints at what the organizer should do
@@ -656,6 +654,8 @@ class Pitch(models.Model):
 
     #tags = models.ManyToManyField(PitchTag, related_name="pitches")
 
+    average_score = models.DecimalField(default=0, max_digits=6, decimal_places=2)
+
     result = models.CharField(default="Default", choices=[("Default", "Default"), ("Advancing", "Advancing"), ("Eliminated", "Eliminated")], max_length=50)
 
 
@@ -678,16 +678,25 @@ class Pitch(models.Model):
         return int(time.mktime(self.created.timetuple())*1000)
 
 
-    def average_score(self):
+    def calculate_cached_average_score(self):
 
         total_score = 0
         num_pitches = self.judgements.count()
 
-        for judged_pitch in self.judgements.values('score'):
-            total_score = total_score + judged_pitch.score()
+        if num_pitches == 0:
+            self.average_score = 0
 
-        try: return float(total_score) / num_pitches
-        except: return 0
+        else:
+            for judged_pitch in self.judgements.all():
+                total_score = total_score + judged_pitch.score
+
+            try: 
+                self.average_score = "%.6g" % (total_score / num_pitches)
+            except: 
+                print sys.exc_info()[0]
+                self.average_score = 0
+
+        self.save()
 
 
     def percent_complete(self, num_questions=None, num_answers=None):

@@ -10,11 +10,11 @@ All pitches
         <input type="hidden" name="view" value="all_pitches" />
 
         <h3>Filter phases</h3>
-        {% for phase in competition.phases %}
+        {% for phase in phases %}
 
             <span style="padding-right:16px;">
 
-                <input {% if phase in selected_phases %}checked="checked"{% endif %} type="checkbox" name="phase_{{phase.phase_num}}" id="phase_{{phase.id}}" {% if phase.pitches.all_pitches.count == 0 %}disabled{% endif %} />
+                <input {% if phase in selected_phases %}checked="checked"{% endif %} type="checkbox" name="phase_{{phase.phase_num}}" id="phase_{{phase.id}}" {% if phase.pitch_set.count == 0 %}disabled{% endif %} />
                 <label for="phase_{{phase.id}}">{{phase.name}}</label>
 
             </span>
@@ -81,7 +81,7 @@ All pitches
 
                         <td>
                             {% if pitch %}
-                                <a href='javascript:void(0);' onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a> ({{pitch.percent_complete}}%) 
+                                <a href='javascript:void(0);' onclick="popup('/dashboard/pitch/{{pitch.id}}/');">View</a>
                             {% else %}
                                 -
                             {% endif %}
