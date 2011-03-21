@@ -157,7 +157,8 @@ def all_pitches_table(phases):
         if pitch.team and pitch.team not in teams:
             teams.append(pitch.team)
             dict[pitch.team.id] = {}
-        dict[pitch.team.id][pitch.phase.id] = pitch
+        if pitch and pitch.team and pitch.phase:
+            dict[pitch.team.id][pitch.phase.id] = pitch
 
     for i, team in enumerate(teams):
 

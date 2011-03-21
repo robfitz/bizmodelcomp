@@ -239,23 +239,25 @@ COMPC018
 
         for i, pitch in enumerate(pitches):
 
-            #who we're shipping it to
-            recipient = Email_address(order=i,
-                    bulk_email=bulk_email,
-                    address=pitch.team.owner.email)
-            recipient.save()
+            if pitch and pitch.team and pitch.team.owner:
 
-            #team name
-            val = Val(order = i,
-                    val=unicode(pitch.team),
-                    sub_val=team_name)
-            val.save() 
+                #who we're shipping it to
+                recipient = Email_address(order=i,
+                        bulk_email=bulk_email,
+                        address=pitch.team.owner.email)
+                recipient.save()
 
-            feedback = get_feedback_for_pitch(pitch)
-            val = Val(order = i,
-                    val=markdown.markdown(feedback),
-                    sub_val=judge_feedback)
-            val.save() 
+                #team name
+                val = Val(order = i,
+                        val=unicode(pitch.team),
+                        sub_val=team_name)
+                val.save() 
+
+                feedback = get_feedback_for_pitch(pitch)
+                val = Val(order = i,
+                        val=markdown.markdown(feedback),
+                        sub_val=judge_feedback)
+                val.save() 
         
     return render_to_response('emailhelper/review_email.html', locals())
     
