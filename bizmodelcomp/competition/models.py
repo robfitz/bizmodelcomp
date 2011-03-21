@@ -307,6 +307,8 @@ class Phase(models.Model):
     #and judging_close.
     is_judging_enabled = models.BooleanField(default=False)
 
+    is_applications_closed = models.BooleanField(default=False)
+
     #when an organizer deletes a phase, we just set this flag so we can recover
     #their data if needed
     is_deleted = models.BooleanField(default=False)

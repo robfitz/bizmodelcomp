@@ -189,6 +189,16 @@ def save_pitch_answers_uploads(request, pitch):
             upload = PitchUpload.objects.get(pk=upload_pk)
             handle_uploaded_file(request, request.FILES[file], upload, pitch)
 
+
+
+def applications_closed(request, comp_url):
+
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+
+    return render_to_response("entercompetition/applications_closed.html", locals())
+
+
+
 def submit_team(request, comp_url):
     
     alert = None
@@ -196,6 +206,9 @@ def submit_team(request, comp_url):
     founder = get_founder(request)
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
+
+    if competition.current_phase.is_applications_closed:
+        return HttpResponseRedirect("/a/%s/closed/" % competition.hosted_url)
 
     if 'f' in request.GET:
 
@@ -400,6 +413,10 @@ def submit_business(request, comp_url):
     log = ""
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
+
+    if competition.current_phase.is_applications_closed:
+        return HttpResponseRedirect("/a/%s/closed/" % competition.hosted_url)
+
     alert = None
     pitch = None
     team = None
