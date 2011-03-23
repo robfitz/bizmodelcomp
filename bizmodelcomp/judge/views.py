@@ -28,7 +28,7 @@ def list(request, comp_url):
     if redirect:
         return HttpResponseRedirect(redirect)
 
-    pitches = Pitch.objects.filter(phase=competition.current_phase).annotate(times_judged=Count("judgements")).annotate(num_answers=Count("answers"))
+    pitches = Pitch.objects.filter(phase=competition.current_phase).select_related("judgements").annotate(num_answers=Count("answers"))
 
     judgements = JudgedPitch.objects.filter(pitch__phase=competition.current_phase).filter(judge__user=request.user).select_related("pitch", "pitch__team", "pitch__phase")
     #unjudged = pitches.filter(times_judged=0).order_by('-num_answers').select_related("phase", "team")
