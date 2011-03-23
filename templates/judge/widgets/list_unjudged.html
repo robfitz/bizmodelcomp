@@ -9,6 +9,8 @@ Un-judged pitches
 
 {% block section_content %}
 
+    {% load max_chars %}
+
     {% if pitch.phase.pitch_type == 'live pitch' %}
     {% else %}
         <p>
@@ -35,7 +37,7 @@ Un-judged pitches
             {% else %}
             <tr class="{% if pitch.times_judged >= pitch.phase.min_judgements_per_pitch %}judged_enough{% endif%} {% if pitch.percent < 20 %}incomplete{% endif %}">
             {% endif %}
-                <td>{{ pitch.team }}</td>
+                <td style="max-width:150px">{{ pitch.team }}</td>
                 <td style="text-align:center;">{{ pitch.times_judged }}</td>
                 <td style="text-align:center;">{{ pitch.percent }}%</td>
                 <td><a href="/judge/go/{{pitch.id}}">View & judge it</a></td>
