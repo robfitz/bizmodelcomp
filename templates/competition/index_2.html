@@ -1,0 +1,495 @@
+<html>
+<head>
+
+<script type="text/javascript" src="/media/jquery.min.js"></script>
+
+<style>
+
+.c2a {
+    position:absolute;
+    line-height:50px;
+    height:50px;
+    font-size:21px;
+    background-color:#0f0;
+    text-decoration:none;
+    border:1px solid gray;
+    color:#fff;
+    font-weight:bold;
+    padding:10px 32px;
+}
+.c2a:hover {
+    background-color:#090;
+}
+body { 
+    min-width: 1000px;
+    margin:0px;
+    padding:0px;
+    text-align:center;
+}
+p, ul, ol {
+    font-size:16px;
+}
+h2 {
+}
+h3 {
+    margin:0px;
+    font-size:16px;
+}
+.medium, .medium p {
+    font-size:14px;
+}
+.bg_dark, .bg_medium, .bg_light, .bg_lightest, .bg_nav_bar {
+    width:100%;
+    float:left;
+    position:relative;
+}
+.bg_nav_bar {
+    background-image: url(/media/admin/img/admin/default-bg.gif);
+    border-bottom:1px solid #333;
+    width:100%;
+}
+.bg_dark {
+    background-color:#333;
+}
+.bg_medium {
+    background-color:#999;
+}
+.bg_light {
+    background-color:#ccc;
+}
+.bg_lightest {
+    background-color:#fff;
+}
+div.title_bar {
+    width:1000px;
+    height:200px;
+    color:#fff;
+}
+div.title_bar .c2a {
+    position:absolute;
+    top:50px;
+    left:800px;
+}
+#nav_bar, div.wide, div.title_bar, div.philosophy, div.team, div.software {
+    text-align:left;
+    margin:0 auto;
+}
+div.wide {
+    width:1000px;
+}
+div.how {
+    float:left;
+    width:700px;
+    position:relative;
+    height:500px;
+}
+div.how .bg_img {
+    width:100%;
+}
+div.why {
+    float:left;
+    width:300px;
+}
+
+div.extra_info {
+    float:left;
+    width:700px;
+}
+div.pc2a {
+    float:left;
+    width:300px;
+}
+div.pc2a .c2a {
+}
+div.philosophy {
+    width:1000px;
+}
+div.philosophy .philosophy_point {
+    float:left;
+    width:740px;
+    padding:5px 10px 5px 0px;
+}
+div.philosophy .philosophy_point p {
+    margin-top:6px;
+    text-align:justify;
+}
+div.philosophy .philosophy_point img {
+    width:80px;
+    height:80px;
+    float:left;
+    margin-right:10px;
+}
+div.case_study {
+    border:1px solid #333;
+    background-color:#ccc;
+    float:right;
+    width:200px;
+    margin:10px;
+    padding:10px;
+    text-align:justify;
+}
+div.team {
+    width:1000px;
+}
+div.team .team_member {
+    float:left;
+    width:293px;
+    border:1px solid #333;
+    margin:10px 5px;
+    padding:10px;
+}
+div.team .team_member img {
+    width:80px;
+    height:80px;
+    float:left;
+    margin-right:10px;
+}
+div.footer {
+    width:1000px;
+}
+div.software {
+    width:1000px;
+    float:left;
+}
+div.software .screencast {
+    width:490px;
+    padding:0px 5px;
+    float:left;
+    margin-top:10px;
+}
+div.software .software_features {
+    width:500px;
+    float:left;
+}
+div.software .software_feature {
+    float:left;
+    margin-top:10px;
+    text-align:justify;
+    width:220px;
+    padding:0px 5px;
+}
+div.software .software_feature img {
+    width:100%;
+    min-height:120px;
+}
+
+.img_header {
+    font-size:16px;
+    font-weight:bold;
+}
+.img_p {
+    text-align:left;
+    font-size:12px;
+}
+
+#nav_bar {
+    width:1000px;
+}
+#nav_bar ul {
+    margin:0px;
+    padding:0px;
+    list-style-type:none;
+    height:31px;
+    margin:auto;
+}
+#nav_bar li {
+    float:left;
+}
+#nav_bar li a {
+    color:#333;
+    padding:0px 20px;
+    display:block;
+    line-height:31px;
+    text-decoration:none;
+    font-size:21px;
+    background-image: url(/media/admin/img/admin/default-bg.gif);
+    border-left:1px solid #333;
+}
+#nav_bar li a.last {
+    border-right:1px solid #333;
+    font-weight:bold;
+}
+#nav_bar li a:hover {
+    background-image: url(/media/admin/img/admin/default-bg-reverse.gif);
+}
+
+.back_link {
+    position:relative;
+    left:-65px;
+    width:0px;
+    float:left;
+    margin-top:9px;
+    font-size:12px;
+    font-weight:normal;
+}
+
+</style>
+
+<script>
+    function goToByScroll(id){
+        $('html,body').animate({scrollTop: $("#"+id).offset().top},'slow');
+    }
+</script>
+</head>
+
+<body id="header">
+
+    <div class="bg_dark">
+
+        <div class="title_bar">
+
+            <h1>Nvana</h1>
+            <h2>Entrepreneurial education, powered by techology and focused on learning</h2>
+
+            <a href="" class="c2a">Contact us</a>
+
+        </div>
+    </div>
+
+    <div class="bg_nav_bar">
+        <div id="nav_bar">
+            <ul>
+                <li><a href="javascript:void(0);" onclick="goToByScroll('how');">Programs & events</a></li>
+                <li><a href="javascript:void(0);" onclick="goToByScroll('extra_info');">Working together</a></li>
+                <li><a href="javascript:void(0);" onclick="goToByScroll('philosophy');">Philosophy</a></li>
+                <li><a href="javascript:void(0);" onclick="goToByScroll('software');">Software</a></li>
+                <li><a href="javascript:void(0);" onclick="goToByScroll('team');">Team</a></li>
+                <li><a class="last" href="">Contact us</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="bg_lightest">
+        <div class="wide">
+            <div id="how" class="how">
+
+                <h2><a href="javascript:void(0);" onclick="goToByScroll('header');" class="back_link">Back&nbsp;to&nbsp;top</a>Programs & events</h2>
+                <p>
+                It's an instant entrepreneurship program. We bring the latest learning from the ever-changing startup world into your university and facilitate workshops based on the principles of Lean Startup™ and Business Model Innovation.
+                </p>
+                <p>
+                Live events are followed by a multi-institution online competition, after which your students won't have only a plan--they'll have made real progress with a product website, elevator pitch, and customer feedback.     
+                </p>
+
+                <div style="position:relative;">
+                    <img class="bg_img" src="media/site/how_it_works.png" />
+
+                    <span class="img_header" style="position:absolute;top:10px;left:100px;">
+                        1) Live workshops and mentoring
+                    </span>
+
+                    <span class="img_header" style="position:absolute;top:10px;left:500px;">
+                        2) Online competition
+                    </span>
+
+                    <span style="position:absolute;top:170px;left:50px;width:130px;">
+                        Startup literacy & idea brainstorming
+                    </span>
+
+                    <span style="position:absolute;top:170px;left:240px;width:130px;">
+                        Improving your idea with mentors
+                    </span>
+
+                    <span class="img_p" style="position:absolute;top:270px;left:300px;width:170px;">
+                        Your students are joined online by other institutions'
+                    </span>
+
+                    <span class="img_p" style="position:absolute;top:270px;left:500px;width:170px;">
+                        Expert judges offer feedback and evaluation
+                    </span>
+                </div>
+            </div>
+
+            <div class="why">
+                <h2>Sustainable value</h2>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="bg_light">
+        <div class="wide">
+            <div id="extra_info" class="extra_info">
+
+                
+                <h2><a href="javascript:void(0);" onclick="goToByScroll('header');" class="back_link">Back&nbsp;to&nbsp;top</a>Working together</h2>
+
+                <p>
+                We (Nvana) will bring the latest learning from Lean Startup™ and business model innovation, plus the tools and mentors needed to deliver it to your students. We'll run both the workshops and online competition and provide the tools and information needed for you to run a similar program yourselves next year.
+                </p>
+                <p>
+                You (the institution) provide a workshop space for the events and help promote the events and encourage students to participate.
+                </p>
+                <p>
+                We'll all work together to find the most appropriate source of funding, whether it is innovation grants like HEIF, corporate sponsors, or the startup and investor eco-system. We'll also collaborate on customising the workshops to your students' needs & interests.
+                </p>
+                <p>
+                Some example programs include:
+                </p>
+
+                <ol>
+                    <li>Commercialising post-graduate research
+                    <li>Starting a creative enterprise or small business
+                    <li>Developing sustainable social enterprises
+                    <li>Bootstrapping scalable technology startups
+                    <li>How to think about startups and business ideas
+                </ol>
+                    
+            </div>
+
+            <div class="pc2a">
+
+                <a class="c2a">Contact us</a>
+
+                <ul class="testimonials">
+                    <li>One
+                    <li>One
+                    <li>One
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg_medium">
+
+
+        <div id="philosophy" class="philosophy">
+        
+            <div id="case_study" class="case_study medium">
+                <h3>Case study</h3>
+
+                <p>
+                UCL's EChallenge had 650 applicants to their 4-phase competition, supplemented by weekly workshop events. Ultimately, 30 finalists gave live presentations, which were evaluated in combination with their online submissions to select winners across 4 categories for prizes totaling €20,000.
+                </p>
+                <p>
+                Nvana was used throughout the event for application management and judging. Its use saved significant amounts of organizer time related to judging and allowed teams to receive their judge feedback immediately.
+                </p>
+                <p>
+                Since then, UCL has run two additional events using Nvana, giving out nearly €100,000 to student entrepreneurs through the platform.
+                </p>
+
+            </div>
+
+            <h2><a href="javascript:void(0);" onclick="goToByScroll('header');" class="back_link">Back&nbsp;to&nbsp;top</a>Philosophy</h2>
+
+            <div class="philosophy_point">
+                <img src="/media/site/dollhouse.png" />
+                <h3>Avoid the dollhouse fallacy</h3>
+                <p>
+                Startups are <i>not</i> miniature versions of big companies. As such, the business advice and strategic tools developed in a corporate context are frequently irrelevant and can even be damaging to young startups. The most important activities for a founder are learning and iteration, not planning and execution.
+                </p>
+            </div>
+            <div class="philosophy_point">
+                <img src="/media/site/dollhouse.png" />
+                <h3>Embrace extreme uncertainty</h3>
+                <p>
+                Startups are solving <i>unknown</i> problems for <i>unknown</i> customers by building an <i>unknown</i> solution. Under such conditions, asking founders to plan years ahead is an exercise in futility. Instead of disguising guesses as budgets and roadmaps, founders should be taught to reduce their business risks through an iterative, experimental approach.
+                </p>
+            </div>
+            <div class="philosophy_point">
+                <img src="/media/site/dollhouse.png" />
+                <h3>Prioritise deep customer understanding</h3>
+                <p>
+                The fastest, cheapest, and most effective way to improve a startup's odds of success is for its founders to constantly be talking to potential customers. Instead of treating is as a sidenote, gathering customer feedback is considered a crucial deliverable and disproving your core beliefs is celebrated as progress.
+                </p>
+            </div>
+            <div class="philosophy_point">
+                <img src="/media/site/dollhouse.png" />
+                <h3>Stop wasting student time</h3>
+                <p>
+                The four most difficult parts of creating a startup are 1) forming a team, 2) discovering a worthwhile problem to solve, 3) articulating a value proposition, and 4) finding your first customer. Roughly 3½ of those can (and should!) be tackled by students. Instead of teaching them to polish an imperfect plan, let's see them start their business.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="bg_medium">
+        <div id="software" class="wide">
+
+            <h2><a href="javascript:void(0);" onclick="goToByScroll('header');" class="back_link">Back&nbsp;to&nbsp;top</a>Software & tools</h2>
+
+            <div class="software">
+
+                <div class="screencast">
+                    <p style="text-align:justify;margin-top:0px;float:left;">
+                    Our competition software is built to complement our entrepreneurship philosophy, but can also be used to significantly reduce the administrative and judging overhead of traditional business plan competitions and is available either as part of our program packages of for a standalone yearly license.
+                    </p>
+                    <p>
+                    Watch the screencast below for a 5m overview of how it all works.
+                    </p>
+
+                </div>
+                <div class="software_features">
+                    <div class="software_feature">
+                        <img src="/media/site/.png" />
+                        <h3>Submissions, simplified</h3>
+                        <p>
+                        Accept ideas as any combination of text, uploads, and video on a customisable pitch page.
+                        </p>
+                    </div>
+                    <div class="software_feature">
+                        <img src="/media/site/.png" />
+                        <h3>Never fall behind</h3>
+                        <p>
+                        Keep an eye on progress with quick stats plus full details of applications.
+                        </p>
+                    </div>
+                    <div class="software_feature">
+                        <img src="/media/site/.png" />
+                        <h3>Pain-free judging</h3>
+                        <p>
+                        Eliminate the biggest time-sink of competitions with judge management, scoring, and feedback.
+                        </p>
+                    </div>
+                    <div class="software_feature">
+                        <img src="/media/site/.png" />
+                        <h3>Seriously flexible</h3>
+                        <p>
+                        Manage competitions with any number of phases, multiple sets of judges, and both live and online pitches.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg_medium">
+        <div class="wide">
+            <div id="team" class="team">
+                
+                <h2><a href="javascript:void(0);" onclick="goToByScroll('header');" class="back_link">Back&nbsp;to&nbsp;top</a>Team</h2>
+
+                <div class="team_member">
+                    <img src=""/>
+                    <h3>Rob Fitzpatrick</h3>
+                    <p>
+                    Rob's previous startup Habit Industries was backed by Y Combinator, he mentors at Seedcamp, built The Startup Toolkit and studied CS at Georgia Tech. He also organises Startup Poker.
+                    </p>
+                </div>
+
+                <div class="team_member">
+                    <img src=""/>
+                    <h3>Thomas Stone</h3>
+                    <p>
+                    Tom is studying for his PhD at UCL. He's had a couple of prior startups, is an advisor at NACUE, Chairman of UCL Enterprise Society, previously helped out at Seedcamp, studied at Cornell University, London Business School, London School of Economics and University of Birmingham. He is also a Fellow of the RSA.
+                    </p>
+                </div>
+
+                <div class="team_member">
+                    Mentors
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="bg_dark">
+        <div class="footer">
+
+            blah blah | blah blah blah blah | BLEGH!  </div> 
+        </div>
+    </div>
+
+</body>
+</html>
