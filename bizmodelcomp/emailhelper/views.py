@@ -116,12 +116,15 @@ def manage_email(request, comp_url):
     if request.method == "POST":
         
         if request.POST.get("form_name") == "new_draft":
-            #saving new email draft
-            saved_form = BulkEmailForm(request.POST)              
-            new_email=saved_form.save(commit=False)
-            new_email.competition = competition
-            new_email.phase = competition.current_phase #seems like a safe default
-            new_email.save()
+            try:
+                #saving new email draft
+                saved_form = BulkEmailForm(request.POST)              
+                new_email=saved_form.save(commit=False)
+                new_email.competition = competition
+                new_email.phase = competition.current_phase #seems like a safe default
+                new_email.save()
+            except:
+                return HttpResponseRedirect("/dashboard/email/%s/" % comp_url)
 
             #recipients
             if request.POST.get("recipient_type") == "applicants":

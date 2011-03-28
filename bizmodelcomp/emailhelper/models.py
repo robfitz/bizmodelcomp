@@ -73,9 +73,9 @@ class Bulk_email(models.Model):
     #pair, we can set a tag and reject identically tagged future mail
     tag = models.CharField(max_length=140, blank=True, null=True)
 
-    subject = models.CharField(max_length=200, blank=True)
+    subject = models.CharField(max_length=200, blank=True, default="")
 
-    message_markdown = models.CharField(max_length=5000, blank=True)
+    message_markdown = models.CharField(max_length=5000, blank=True, default="")
 
     #if None, then this message hasn't been sent yet
     sent_on_date = models.DateTimeField(default=None, blank=True, null=True)
