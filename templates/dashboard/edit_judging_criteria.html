@@ -6,13 +6,6 @@
 
         $( function() {
 
-            $("#judging_criteria_form").submit( function () {
-                $.post($("#judging_criteria_form").attr("action"),
-                    $("#judging_criteria_form").serialize(),
-                    function(data) {
-                        $("#dialog").jqmHide();
-                    });
-            });
         });
     </script>
 
