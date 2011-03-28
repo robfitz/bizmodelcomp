@@ -603,15 +603,16 @@ class PhaseSetupSteps(models.Model):
     selected_winners = models.BooleanField(default=False)
     sent_feedback = models.BooleanField(default=False)
 
-    def steps(self):
 
+    def steps(self):
         return [self.details_confirmed,
                 self.application_setup,
                 self.announced_applications,
-                self.invited_judged,
+                self.invited_judges,
                 self.announced_judging_open,
                 self.selected_winners,
                 self.sent_feedback]
+
 
     def next_step_num(self):
         i = 0
@@ -621,6 +622,17 @@ class PhaseSetupSteps(models.Model):
             i += 1
 
         return i
+
+
+    def __unicode__(self):
+
+        str = "Setup steps ["
+        for step in self.steps():
+            str = "%s %s," % (str, step)
+        str = "%s]" % str
+
+        return str
+         
         
 
 class PhaseSetupStepsForm(ModelForm):

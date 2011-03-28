@@ -21,7 +21,7 @@
         <label for="id_announced_applications" {% if setup_steps.announced_applications %}class="strikethrough"{% endif %}>
             Announce applications are open
         </label>
-        <!--<span class="do_now">(<a href="/dashboard/{{competition.hosted_url}}/announce_applications_open/">Do this now</a>)</span>-->
+        <span class="do_now">(<a href="/dashboard/{{competition.hosted_url}}/announce_applications_open/">Do this now</a>)</span>
 
         <br/>
 
@@ -48,9 +48,7 @@
         <label for="id_announced_judging_open" {% if setup_steps.announced_judging_open %}class="strikethrough"{% endif %}>
             Announce that judging is now open
         </label>
-        <!--
         <span class="do_now">(<a href="/dashboard/{{competition.hosted_url}}/announce_judging_open/">Do this now</a>)</span>
-        -->
 
         <br/>
 
@@ -76,9 +74,7 @@
     <label for="id_sent_feedback" {% if setup_steps.sent_feedback %}class="strikethrough"{% endif %}>
         Send feedback
     </label>
-    <!--
     <span class="do_now">(<a href="/dashboard/{{competition.hosted_url}}/send_competition_feedback/">Do this now</a>)</span>
-    -->
 
     <br/>
 

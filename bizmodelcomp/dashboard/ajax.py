@@ -84,6 +84,8 @@ def set_phase_step(request, phase_id, comp_url=None,):
             
         'print created form'
         form.save()
+
+        print setup_steps
         print 'saved form'
 
         print '###########'

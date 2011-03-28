@@ -1134,7 +1134,7 @@ def dashboard(request, comp_url=None):
 
     competition = get_object_or_404(Competition, hosted_url=comp_url)
     phase = competition.current_phase
-    setup_steps = phase.setup_steps
+    setup_steps = phase.setup_steps()
     max_score = phase.max_score()
     score_groups = chart_util.score_distribution(phase.judgements(), max(max_score / 20, 1))
 
