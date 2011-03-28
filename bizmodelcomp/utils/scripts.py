@@ -6,29 +6,58 @@ from judge.models import *
 
 
 
-def pitch_csv(hosted_url, question_ids):
+def pitch_csv(hosted_url, question_ids, show_phone=False, show_uni=False, show_timestamp=False, show_scores=False, show_feedback=False):
 
   comp = Competition.objects.get(hosted_url=hosted_url)
   criteria = JudgingCriteria.objects.filter(phase=comp.current_phase).all()
 
-  pitches = Pitch.objects.filter(phase=comp.current_phase).all()
+  pitches = Pitch.objects.filter(phase=comp.current_phase).select_related("judgements")
+
+  if question_ids == "all":
+    questions = PitchQuestion.objects.filter(phase=comp.current_phase)
 
   for pitch in pitches:
-    toks = [ unicode(pitch.team) ]
-    toks.append(pitch.team.owner.email)
+    toks = [ unicode(pitch.team).decode('unicode-escape') ]
     toks.append(pitch.percent_complete())
+    toks.append(pitch.team.owner.email)
 
-    for question_id in question_ids:
-      try:
-        answer = PitchAnswer.objects.get(question__id=question_id, pitch=pitch)
-        toks.append(unicode(answer))
-      except: toks.append("")
+    if show_phone: toks.append(pitch.team.owner.phone)
+    if show_uni: toks.append(pitch.team.owner.institution)
+    if show_timestamp: toks.append(pitch.created.isoformat())
+
+    if question_ids == "all":
+      for q in questions:
+        try:
+          answer = PitchAnswer.objects.get(question__id=q.id, pitch=pitch)
+          toks.append(unicode(answer))
+        except: toks.append("")
+            
+    else:
+      for question_id in question_ids:
+        try:
+          answer = PitchAnswer.objects.get(question__id=question_id, pitch=pitch)
+          toks.append(unicode(answer))
+        except: toks.append("")
+
+    if show_scores:
+      tok = ""
+      for judgement in pitch.judgements.all():
+        if tok == "": tok = "%s" % judgement.score
+        else: tok = "%s, %s" % (tok, judgement.score)
+      toks.append(tok)
+      toks.append("%s" % pitch.average_score)
+
+    if show_feedback:
+      for judgement in pitch.judgements.all():
+        for feedback in judgement.judgedanswer_set.filter(criteria__is_text_feedback=True):
+          toks.append(feedback.feedback)
 
     line = ""
     for token in toks:
-      line += token.replace("^","") + "^"
+      clean_tok = unicode(token).replace("^","").replace("\"", "'")
+      clean_tok = '"%s"' % clean_tok
+      line += unicode(clean_tok) + "^"
     print line
-
 
 
 

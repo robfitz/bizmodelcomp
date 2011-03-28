@@ -13,8 +13,8 @@ class Migration(SchemaMigration):
         # Adding field 'Pitch.average_score'
         db.add_column('competition_pitch', 'average_score', self.gf('django.db.models.fields.DecimalField')(default=0, max_digits=6, decimal_places=2), keep_default=False)
 
-        for pitch in Pitch.objects.all():
-            pitch.calculate_cached_average_score()
+        #for pitch in Pitch.objects.all():
+        #    pitch.calculate_cached_average_score()
 
     def backwards(self, orm):
         

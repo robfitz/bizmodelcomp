@@ -57,8 +57,8 @@ Scores
 
                     <tr>
                         <td>{{judgement.pitch.team}}</td>
-                        <td class="number"><a href='javascript:void(0);' onclick="popup('/dashboard/judgement/{{judgement.id}}/');">{{judgement.score}}</a></td>
-                        <td><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=for_judge&judge={{judgement.judge.id}}');">{{judgement.judge}}</a></td>
+                        <td class="number"><a href='/judge/review/{{judgement.id}}/'>{{judgement.score}}</a></td>
+                        <td>{{judgement.judge}}</td>
                         <td>{{judgement.timestamp|date}}</td>
                     </tr>
 

@@ -146,6 +146,15 @@
             popup(last_popup_url);
         }
 
+        function close_popup() {
+            if ($("#dialog_2").is(":visible")) {
+                $("#dialog_2").jqmHide();
+            }
+            else {
+                $("#dialog").jqmHide();
+            }
+        }
+
     </script>
     
     <script type="text/javascript">

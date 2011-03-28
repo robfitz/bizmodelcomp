@@ -13,8 +13,8 @@ class Migration(SchemaMigration):
         # Adding field 'JudgedPitch.score'
         db.add_column('judge_judgedpitch', 'score', self.gf('django.db.models.fields.IntegerField')(default=0, blank=True), keep_default=False)
 
-        for judgement in JudgedPitch.objects.all():
-            judgement.calculate_cached_score(False)
+        #for judgement in JudgedPitch.objects.all():
+        #    judgement.calculate_cached_score(False)
 
 
     def backwards(self, orm):

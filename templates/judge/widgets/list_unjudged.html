@@ -35,7 +35,7 @@ Un-judged pitches
             {% else %}
             <tr class="{% if pitch.judgements.count >= pitch.phase.min_judgements_per_pitch %}judged_enough{% endif%} {% if pitch.percent < 20 %}incomplete{% endif %}">
             {% endif %}
-                <td style="max-width:150px">{{ pitch.team }}</td>
+                <td style="max-width:120px">{{ pitch.team }}</td>
                 <td style="text-align:center;">{{ pitch.judgements.count }}</td>
                 <td style="text-align:center;">{{ pitch.percent }}%</td>
                 <td><a href="/judge/go/{{pitch.id}}">View & judge it</a></td>

@@ -90,7 +90,7 @@ All pitches
                         <td>
                             {% if pitch %}
                                 {% for judgement in pitch.judgements.all %}
-                                    <a href='javascript:void(0);' onclick="popup('/dashboard/judgement/{{judgement.id}}/');">{{judgement.score}}</a> 
+                                    <a href='/judge/review/{{judgement.id}}/'>{{judgement.score}}</a> 
                                 {% endfor %}
                             {% else %}
                                 -

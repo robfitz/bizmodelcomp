@@ -72,43 +72,27 @@
             </div>
             -->
 
-            <div class="stat_number">
-                Application status
-                <h1>
-                {% if competition.current_phase.is_applications_open %}
-                OPEN
-                {% else %}
-                CLOSED
-                {% endif %}
-                </h1>
-                <a href="/a/{{competition.hosted_url}}/?ignorejudging=true">View application</a>
-            </div>
-
             
             <div class="stat_number">
                 Num applications
                 <h1>{{competition.current_phase.all_pitches.count}}</h1>
-                <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/deets/?view=all_pitches&amp;phase_1=on');">View all</a></span>
+                <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&amp;phase_{{competition.current_phase.phase_num}}=on');">View all</a></span>
             </div>
-
-            <div class="stat_number">
-                Pitches judged
-                <h1>{{ competition.current_phase.judgements.count}}</h1>
-                <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/deets/?view=all_pitches&amp;phase_1=on');">View all</a></span>
-            </div>
-
-            <div class="stat_number">
-                Pitches remain
-                <h1>{{ competition.current_phase.pitches_to_judge.count }}</h1>
-            </div>
-
-            <div class="hr">&nbsp;</div>
 
             <div class="stat_number">
                 Num Judges
                 <h1>{{ competition.judge_invitations.count }}</h1>
                 <a style="float:left;" href="javascript:void(0);" onclick="popup('/dashboard/phase/{{competition.current_phase.id}}/judges/');">Invite judges</a>
             </div>
+
+            <div class="stat_number">
+                Pitches judged
+                <h1>{{ competition.current_phase.judgements.count}}</h1>
+                <span class="medium"><a href="javascript:void(0);" onclick="popup('/dashboard/data/table/{{competition.hosted_url}}/?view=all_pitches&amp;phase_{{competition.current_phase.phase_num}}=on');">View all</a></span>
+            </div>
+
+            <div class="hr">&nbsp;</div>
+            <p style="float:left;" class="medium">Please note that viewing all scores or applications can take up to 15 seconds to load fully. The screen will be darkened during this time. You may click near the left or right edge of the screen to cancel the load.</p>
 
         </div>
 
