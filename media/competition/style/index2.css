@@ -78,7 +78,7 @@ body {
     text-align:center;
 }
 p {
-    margin-top:2px;
+    margin-top:0px;
 }
 p, ul, ol {
     font-size:16px;
@@ -98,7 +98,9 @@ h3 {
 }
 h1, h2, h3, h4 {
     font-family: 'Cabin Sketch', arial, serif;
+    color: #333353;
 }
+
 .medium, .medium p {
     font-size:14px;
 }
@@ -113,7 +115,7 @@ h1, h2, h3, h4 {
     width:100%;
 }
 .bg_dark {
-    background-color:#333;
+    background-color:#33333a;
 }
 .bg_medium {
     background-color:#fff;
@@ -127,6 +129,8 @@ h1, h2, h3, h4 {
 div.title_bar {
     width:1000px;
     position:relative;
+}
+.title_bar h1, .title_bar h2 {
     color:#fff;
 }
 div.title_bar .c2a {
