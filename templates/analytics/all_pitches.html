@@ -27,6 +27,11 @@ All pitches
 
     <h3>All pitches</h3>
 
+        <p>
+            <input type="checkbox" id="percent_filter" checked="on" />
+            <label for="percent_filter">Hide applications which are mostly incomplete</label>
+        </p>
+
     <!--<a href="/dashboard/{{competition.hosted_url}}/next_phase/" class="button">Advance checked pitches to next phase</a>-->
 
     <!--
@@ -72,7 +77,7 @@ All pitches
 
             {% for team in teams %}
 
-                <tr class="{% cycle 'odd' 'even' %}">
+                <tr class="{% cycle 'odd' 'even' %} {% if team.percent < 20 %}incomplete{% endif %}">
 
                     <td><input type='checkbox' id='checkbox_{{forloop.counter}}' class='checkbox' /></td>
                     <td>{{team}}</td>
@@ -138,8 +143,23 @@ All pitches
     </table>
 
     <script language="javascript" type="text/javascript">
+
+        function toggle_filters() {
+            if (! $("#percent_filter").attr("checked")) {
+                $(".incomplete").show();
+            }
+            else {
+                $(".incomplete").hide();
+            }
+        }
+
         $( function () {
         
+            $('#percent_filter').click( function() {
+                toggle_filters();
+            });
+            toggle_filters();
+
             $(".odd .row_icon").each( function() {
                 var toks = $(this).attr("src").split('/');
                 var file = toks[toks.length-1];

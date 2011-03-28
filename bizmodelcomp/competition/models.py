@@ -334,7 +334,7 @@ class Phase(models.Model):
 
     def previous_phase(self):
 
-        phases = enumerate(self.competition.phases())
+        phases = list(self.competition.phases())
         i = self.phase_num() - 1
         if i-1 >= 0:
             return phases[i-1]
