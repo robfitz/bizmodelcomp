@@ -196,22 +196,6 @@ Sincerely,
 
 %s team
 """ % (competition.name, competition.name)
-        
-        message_template = """\
-++team name++,
-
-Thanks for submitting to Nvana.
-
-Below you'll find your team's the feedback -- it's only sent to one person per team, so please share it with your other teammates. It's not edited and completely uncensored but remember that you are more than welcome to follow up with the judges if you'd like additional explanation.
-
-__Feedback on your position statement, and general comments__
-
-++judge feedback++
-
-Best of luck!
-
-COMPC018
-"""
 
         #make the email
         if not bulk_email:
@@ -285,7 +269,8 @@ def announce_judging_open(request, comp_url):
 
     except:
         subject = "Judging is open - %s" % competition.name
-        from_email = "london.e.challenge@gmail.com"
+
+        from_email = "competitions@nvana.com"
 
         message_template = """\
 Hello,
