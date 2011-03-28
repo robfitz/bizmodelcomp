@@ -165,6 +165,7 @@ def all_pitches_table(phases):
         #to display in template
         team.pitches = []
         total_score = 0
+        max_percent = 0
 
         #then add the phases as columns
         for phase in phases:
@@ -176,6 +177,10 @@ def all_pitches_table(phases):
                 #team has participated in this phase, so show pitch info in template
                 team.pitches.append(pitch)
 
+                p = pitch.percent_complete() 
+                if p > max_percent:
+                    max_percent = p
+
                 total_score += pitch.average_score
 
             except:
@@ -183,6 +188,7 @@ def all_pitches_table(phases):
                 team.pitches.append(None)
 
         team.total_score = total_score
+        team.percent = int(max_percent)
 
     #return header, rows
     return teams

@@ -679,6 +679,8 @@ def edit_judging_criteria(request, phase_id):
                     print 'exception looking for criteria for prompt: %s' % key
                     pass
 
+        return HttpResponseRedirect("/dashboard/%s/setup/" % competition.hosted_url)
+
     return render_to_response('dashboard/edit_judging_criteria.html', locals())
 
 
@@ -762,7 +764,7 @@ def edit_application(request, phase_id):
         setup.application_setup = True
         setup.save()
 
-        return HttpResponseRedirect("/dashboard/%s/" % competition.hosted_url)
+        return HttpResponseRedirect("/dashboard/%s/setup/" % competition.hosted_url)
 
     
     #this is pretty hacky, but it lets us include the standard
