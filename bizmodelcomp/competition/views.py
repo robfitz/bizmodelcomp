@@ -11,9 +11,19 @@ def brb(request):
 
     return render_to_response("competition/brb.html")
 
+
+
 def brb_org(request):
 
     return render_to_response("competition/brb_org.html")
+
+
+
+def index_2(request):
+
+    print 'index 2'
+
+    return render_to_response("competition/index_2.html", locals())
 
 
 

@@ -1,3 +1,25 @@
+@font-face {
+    font-family: 'Josefin Sans Std Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Josefin Sans Std Light'), local('JosefinSansStd-Light'), url('http://themes.googleusercontent.com/font?kit=doRWK9Qks0OQGenH-kW8nh9XlKRhh604dnNYUPyQQcrr7w4p9aSvGirXi6XmeXNA') format('woff');
+}
+
+@font-face {
+    font-family: 'Droid Serif';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Droid Serif'), local('DroidSerif'), url('http://themes.googleusercontent.com/font?kit=0AKsP294HTD-nvJgucYTaLrIa-7acMAeDBVuclsi6Gc') format('woff');
+}
+
+@font-face {
+    font-family: 'Droid Sans';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Droid Sans'), local('DroidSans'), url('http://themes.googleusercontent.com/font?kit=s-BiyweUPV0v-yRb-cjciL3hpw3pgy2gAi-Ip7WPMi0') format('woff');
+}
+
+
 .highlighted {
     background-color:#FAF8CC;
 }
