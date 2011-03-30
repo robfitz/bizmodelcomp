@@ -1,9 +1,9 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('',
-    (r'^$', 'competition.views.index'),
+    (r'^$', 'competition.views.index_2'),
 
-    (r'^2$', 'competition.views.index_2'),
+    (r'^1$', 'competition.views.index'),
 
     #setup a contest
     (r'^new_competition/$', 'competition.views.edit_competition'),

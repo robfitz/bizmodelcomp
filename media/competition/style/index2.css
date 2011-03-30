@@ -22,6 +22,8 @@
 
 .c2a {
     display: inline;
+    display: none;
+
     float: left;
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
@@ -118,7 +120,7 @@ h1, h2, h3, h4 {
     background-color:#33333a;
 }
 .bg_medium {
-    background-color:#fff;
+    background-color:#ccc;
 }
 .bg_light {
     background-color:#fff;
@@ -150,12 +152,15 @@ div.wide {
 }
 div.how {
     float:left;
-    width:690px;
-    margin-right:10px;
+    width:680px;
+    margin-right:20px;
 }
 div.why {
     float:left;
     width:300px;
+}
+.how p, .why p {
+    text-align: justify;
 }
 
 div.extra_info {
@@ -200,7 +205,7 @@ div.case_study, .testimonials {
     background-color:#fff;
     float:right;
     width:200px;
-    margin:120px 0px 10px 10px;
+    margin:20px 0px 10px 10px;
     padding:10px;
     text-align:justify;
 }
@@ -208,8 +213,15 @@ div.philosophy .c2a {
     top:40px;
 }
 div.team {
+    display:none;
+
     width:1000px;
+    float:left;
     position:relative;
+    padding-bottom:20px;
+}
+div.team h2 {
+    margin-top:20px;
 }
 div.team .team_member {
     float:left;
@@ -226,17 +238,22 @@ div.team .team_member img {
 }
 div.footer {
     width:1000px;
+    padding:10px 0;
 }
 div.software {
     width:1000px;
     position:relative;
     float:left;
+    padding-bottom:20px;
 }
 div.software .screencast {
-    width:490px;
-    padding:0px 5px;
+    width:500px;
+    padding:0px;
     float:left;
     margin-top:10px;
+}
+div.software .screencast iframe {
+    border:1px solid gray;
 }
 div.software .software_features {
     width:500px;
@@ -245,9 +262,9 @@ div.software .software_features {
 div.software .software_feature {
     float:left;
     margin-top:10px;
+    margin-left:10px;
     text-align:justify;
-    width:220px;
-    padding:0px 5px;
+    width:235px;
 }
 div.software .software_feature img {
     width:100%;
