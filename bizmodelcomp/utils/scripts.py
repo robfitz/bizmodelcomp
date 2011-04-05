@@ -102,11 +102,11 @@ def get_random_judge(phase):
 
 
 
-def get_random_score(question):
+def get_random_score(criteria):
     
-    score = random.normalvariate((question.max_points + 1) / 2, question.max_points / 4)
+    score = random.normalvariate((criteria.max_points + 1) / 2, criteria.max_points / 4)
     if score < 1: return 1
-    elif score > question.max_points: return question.max_points
+    elif score > criteria.max_points: return criteria.max_points
     else: return int(score)
     
     
@@ -128,25 +128,25 @@ def create_dummy_competition(user):
     #create competition
     competition = Competition(owner=user,
             hosted_url=url,
-            name="Lorem Ipsum",
-            website="http://loremipsum.com")
+            name="My fourth competition",
+            website="http://myfirstcompetition.com")
     competition.save()
 
     #create default phase
     phase_1 = Phase(competition=competition,
-            name="first online phase",
+            name="Phase 1",
             is_judging_enabled=False)
     phase_1.save()
 
     #a second, emptier phase
     phase_2 = Phase(competition=competition,
-            name="second online phase",
+            name="Phase 2",
             is_judging_enabled=True)
     phase_2.save() 
 
     #a third, live and incomplete phase
     phase_3 = Phase(competition=competition,
-            name="third live phase")
+            name="Phase 3")
     phase_3.save() 
 
     competition.current_phase = phase_2
@@ -160,29 +160,67 @@ def create_dummy_competition(user):
                 phase=phase_1,
                 prompt=LOREM[:50],
                 max_points=10)
-        if i == 4:
-            question.judge_feedback_prompt = "Overall thoughts?"
-            question.is_hidden_from_applicants = True
+        
+        ## REMOVE - Questions no longer feedback prompts
+        #if i == 4:
+        #    question.judge_feedback_prompt = "Overall thoughts?"
+        #    question.is_hidden_from_applicants = True
+        #
         question.save()
 
         question = PitchQuestion(order=i,
                 phase=phase_2,
                 prompt=LOREM[:50],
                 max_points=10)
-        if i == 4:
-            question.judge_feedback_prompt = "Overall thoughts?"
-            question.is_hidden_from_applicants = True
+       ## REMOVE - Questions no longer feedback prompts
+       # if i == 4:
+       #     question.judge_feedback_prompt = "Overall thoughts?"
+       #     question.is_hidden_from_applicants = True
         question.save()
 
-    #three open feedback questions for the live pitch
+    #add judging criteria for first phase
+    
+    for i in range(1, 5):
+        criteria = JudgingCriteria(phase=phase_1,
+                order=i,
+                prompt=LOREM[:11],
+                max_points=10, is_text_feedback=False)
+        criteria.save()
+    
     for i in range(1, 3):
-        question = PitchQuestion(order=i,
-                phase=phase_3,
-                prompt=LOREM[:50],
-                max_points=10,
-                judge_feedback_prompt = LOREM[:20],
-                is_hidden_from_applicants = True)
-        question.save()
+        criteria = JudgingCriteria(phase=phase_1,
+                order=i,
+                prompt=LOREM[:11],
+                is_text_feedback=True)
+        criteria.save()
+        
+    #add judging criteria for second phase
+    
+    for i in range(1, 5):
+        criteria = JudgingCriteria(phase=phase_2,
+                order=i,
+                prompt=LOREM[:11],
+                max_points=10, is_text_feedback=False)
+        criteria.save()
+    
+    for i in range(1, 3):
+        criteria = JudgingCriteria(phase=phase_2,
+                order=i,
+                prompt=LOREM[:11],
+                is_text_feedback=True)
+        criteria.save()
+
+    ## REMOVE - Questions no longer feedback prompts
+    #
+    #three open feedback questions for the live pitch
+    #for i in range(1, 3):
+    #    question = PitchQuestion(order=i,
+    #            phase=phase_3,
+    #            prompt=LOREM[:50],
+    #            max_points=10,
+    #            judge_feedback_prompt = LOREM[:20],
+    #            is_hidden_from_applicants = True)
+    #   question.save()
 
     #some judges
     for i in range(1, 5):
@@ -228,6 +266,7 @@ def create_dummy_competition(user):
 
             judged = JudgedPitch(pitch=pitch,
                     judge=judge_1)
+            
             judged.save()
 
             #don't allow the same judge to rate the same app multiple times
@@ -236,7 +275,8 @@ def create_dummy_competition(user):
                 judged_2 = JudgedPitch(pitch=pitch,
                         judge=judge_2)
                 judged_2.save()
-             
+            
+            
             #loop through all questions to answer and judge them
             for question in phase.questions():
 
@@ -248,23 +288,40 @@ def create_dummy_competition(user):
                             pitch=pitch,
                             answer=LOREM)
                     answer.save()
-
+            
+            ##print 'Begin'
+            ## TODO - Below sort out judging with JudgePitch and JudgeAnswer
+            for criteria in phase.judging_criteria():
+            
+                ## Not sure why a bunch of the scores created are zero, tried checking if it was scoring the text feedback but didn't work
+                ##if criteria.is_text_feedback==False:
+                
+                    j_answer = JudgedAnswer(judged_pitch=judged,
+                            score=get_random_score(criteria),
+                            answer=answer, criteria=criteria)
+                    j_answer.save()
+                    ##print j_answer
+            
+                    judged.calculate_cached_score()
+                    ##print 'success'
+            
+                
                 #judges always answer, one way or another. answer=Null mean
                 #that the question was hidden from applicant and judges need leave feedback
-                j_answer = JudgedAnswer(judged_pitch=judged,
-                        score=get_random_score(question),
-                        answer=answer)
-                if question.judge_feedback_prompt:
-                    j_answer.feedback = LOREM
-                j_answer.save()
+                #j_answer = JudgedAnswer(judged_pitch=judged,
+                #        score=get_random_score(question),
+                #        answer=answer)
+                #if question.judge_feedback_prompt:
+                #    j_answer.feedback = LOREM
+                #j_answer.save()
 
-                if judged_2:
-                    j_answer = JudgedAnswer(judged_pitch=judged_2,
-                        score=get_random_score(question),
-                        answer=answer)
-                    if question.judge_feedback_prompt:
-                        j_answer.feedback = LOREM
-                    j_answer.save()
+                #if judged_2:
+                #    j_answer = JudgedAnswer(judged_pitch=judged_2,
+                #        score=get_random_score(question),
+                #        answer=answer)
+                #    if question.judge_feedback_prompt:
+                #        j_answer.feedback = LOREM
+                #    j_answer.save()
 
     #setup steps - phase 1 done
     steps = phase_1.setup_steps()

@@ -91,20 +91,38 @@ class PitchAdmin(admin.ModelAdmin):
     list_editable = ('order',)
     list_filter = ('phase',)
     search_fields = ['team__name',]
+    
+class PitchUploadAdmin(admin.ModelAdmin):
+    list_display = ('id', 'phase', 'prompt')
+    list_filter = ('phase',)
 
 class FounderAdmin (admin.ModelAdmin):
     list_display = ('id', 'user', 'name', 'email', 'applicant_type', 'location', 'institution',)
     list_display_links = ('name',)
     list_filter = ('institution',)
+    
+class ExtraFounderInfoAdmin (admin.ModelAdmin):
+    list_display = ('id', 'question', 'founder', 'answer')
 
 class PitchAnswerAdmin (admin.ModelAdmin):
     list_display = ('id', 'question', 'pitch', 'answer',)
+    list_filter = ('pitch',)
+    
+class PitchFileAdmin (admin.ModelAdmin):
+    list_display = ('id', 'upload', 'pitch', 'filename', 'file_location',)
     list_filter = ('pitch',)
 
 class PhaseAdmin (admin.ModelAdmin):
     list_display = ('id', 'name', 'competition', 'pitch_type', 'deadline', 'is_judging_enabled',)
     list_display_links = ('name',)
     list_filter = ('competition',)
+    
+class TeamAdmin (admin.ModelAdmin):
+    list_display = ('id', 'owner', 'name')
+    
+class Bulk_emailAdmin (admin.ModelAdmin):
+    list_display = ('id', 'competition', 'phase', 'subject', 'tag', 'message_markdown', 'sent_on_date')
+    list_filter = ('competition', 'phase',)
 
 
 admin.site.register(Competition, CompetitionAdmin)
@@ -112,16 +130,16 @@ admin.site.register(Phase, PhaseAdmin)
 admin.site.register(ApplicationRequirements)
 
 admin.site.register(Founder, FounderAdmin)
-admin.site.register(Team)
-admin.site.register(ExtraFounderInfo)
+admin.site.register(Team, TeamAdmin)
+admin.site.register(ExtraFounderInfo, ExtraFounderInfoAdmin)
 
 admin.site.register(Pitch, PitchAdmin)
 admin.site.register(PitchQuestion, PitchQuestionAdmin)
-admin.site.register(PitchUpload)
+admin.site.register(PitchUpload, PitchUploadAdmin)
 admin.site.register(PitchAnswer, PitchAnswerAdmin)
-admin.site.register(PitchFile)
+admin.site.register(PitchFile, PitchFileAdmin)
 
-admin.site.register(Bulk_email)
+admin.site.register(Bulk_email, Bulk_emailAdmin)
 admin.site.register(Sub_val)
 admin.site.register(Val)
 admin.site.register(FailedNewsletterSubscription)
