@@ -46,6 +46,18 @@ class JudgeInvitation(models.Model):
     user = models.ForeignKey(User, null=True, blank=True)
 
 
+    def clone(self, competition):
+
+        new_judge = JudgeInvitation(this_phase_only=self.this_phase_only,
+                competition=competition,
+                email=self.email,
+                has_received_invite_email=self.has_received_invite_email,
+                user=self.user)
+        new_judge.save()
+
+        return new_judge
+
+
     #sort out an appropriate way to identify this judge to other judges
     def display_name(self):
         if self.user:
@@ -208,10 +220,32 @@ class JudgingCriteria(models.Model):
         ordering = ['order']
 
 
+    def clone(self, phase):
+
+        new_criteria = JudgingCriteria(phase=phase,
+                order=self.order,
+                prompt=self.prompt,
+                max_points=self.max_points,
+                is_text_feedback=self.is_text_feedback,
+                is_feedback_sent_to_applicants=self.is_feedback_sent_to_applicants,
+                scoring_tooltip=self.scoring_tooltip)
+        new_criteria.save()
+
+        for judgement in JudgedPitch.objects.filter(pitch__phase=phase):
+
+            try:
+                old_judgement = JudgedAnswer.objects.get(criteria=self,
+                        judge__user=judgement.judge.user)
+                old_judgement.clone(judgement, new_criteria)
+            except:
+                pass
+
+        return new_criteria
+
+
     def __unicode__(self):
 
         return self.prompt
-
 
 
 #a set of JudgedAnswers related to a submitted pitch
@@ -234,6 +268,29 @@ class JudgedPitch(models.Model):
     class Meta:
         ordering = ['-timestamp']
 
+
+    def clone(self, phase):
+
+        #pitch submitter user is the same
+        try:
+            new_pitch = phase.pitch_set.get(phase=phase, team__owner=self.pitch.owner)
+        except:
+            new_pitch = phase.pitch_set.filter(phase=phase, team__owner=self.pitch.owner)[0]
+
+        #judge user is the same
+        new_judge = JudgeInvitation.objects.get(competition=phase.competition, user=self.judge.user)
+
+        new_judgement = JudgedPitch(pitch=new_pitch,
+                judge=new_judge,
+                feedback=self.feedback,
+                overall_score=self.overall_score,
+                max_overall_score=self.max_overall_score,
+                timestamp=self.timestamp,
+                score=self.score)
+        new_judgement.save()
+
+        return new_judgement
+            
 
     def calculate_cached_score(self, also_update_pitch_average_score=True):
         sc = self.judgedanswer_set.aggregate(Sum("score"))["score__sum"]
@@ -263,6 +320,18 @@ class JudgedAnswer(models.Model):
     score = models.IntegerField(blank=True, null=True)
 
     feedback = models.CharField(max_length=1000, blank=True, null=True)
+
+
+    def clone(self, judged_pitch, criteria):
+
+        new_judged_answer = JudgedAnswer(judged_pitch=judged_pitch,
+                answer=self.answer,
+                criteria=criteria,
+                score=self.score,
+                feedback=self.feedback)
+        new_judged_answer.save()
+
+        return new_judged_answer
 
 
     def __unicode__(self):

@@ -81,6 +81,19 @@ class Bulk_email(models.Model):
     sent_on_date = models.DateTimeField(default=None, blank=True, null=True)
 
 
+    def clone(self, competition, phase=None):
+
+        new_email = Bulk_email(competition=competition,
+                phase=phase,
+                tag=self.tag,
+                subject=self.subject,
+                message_markdown=self.message_markdown,
+                sent_on_date=self.sent_on_date)
+        new_email.save()
+
+        return new_email
+
+
     def preview_messages(self):
 
         subs = {}

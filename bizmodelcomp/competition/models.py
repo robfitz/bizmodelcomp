@@ -197,6 +197,48 @@ class Competition(models.Model):
     #if false, they choose who to kick out.
     elimate_applicants_by_default = models.BooleanField(default=True)
 
+
+    def clone(self, owner, hosted_url=None):
+
+        if not hosted_url:
+            hosted_url = rand_key()
+
+        new_comp = Competition(name=self.name,
+                website=self.website,
+
+                hosted_url=hosted_url,
+                owner=owner,
+                
+                logo=self.logo,
+                template_base=self.template_base,
+                template_pitch=self.template_pitch,
+                template_stylesheet=self.template_stylesheet,
+
+                hex_color=self.hex_color,
+                hex_header_color=self.hex_header_color,
+                terms_of_service=self.terms_of_service,
+                elimate_applicants_by_default=self.elimate_applicants_by_default)
+        new_comp.save()
+
+        for applicant in self.applicants.all():
+            new_comp.applicants.add(applicant)
+
+        for judge in self.judge_invitations.all():
+            judge.clone(new_comp)
+
+        for phase in self.all_phases.all():
+            new_phase = phase.clone(new_comp)
+            if self.current_phase == phase:
+                new_comp.current_phase = new_phase
+                new_comp.save()
+
+        for email in self.bulk_email_set.filter(phase=None):
+            email.clone(self, None)
+
+        return new_comp
+
+
+
     def application_requirements(self):
         try:
             return ApplicationRequirements.objects.get(competition=self)
@@ -324,6 +366,39 @@ class Phase(models.Model):
 
 
     #note: related_name for M2M relation w/ alerted judges is: sent_judging_open_emails_to
+
+    def clone(self, competition):
+
+        new_phase = Phase(competition=competition,
+                name=self.name,
+                deadline=self.deadline,
+                pitch_type=self.pitch_type,
+                is_judging_enabled=self.is_judging_enabled,
+                is_applications_closed=self.is_applications_closed,
+                is_deleted=self.is_deleted,
+                min_judgements_per_pitch=self.min_judgements_per_pitch,
+                scoring_tooltip=self.scoring_tooltip)
+
+        new_phase.save()
+
+        self.setup_steps().clone(new_phase)
+
+        for pitch in self.all_pitches():
+            pitch.clone(new_phase)
+
+        for question in self.pitchquestion_set.all():
+            new_question = question.clone(new_phase)
+
+        for criteria in self.judgingcriteria_set.all():
+            new_criteria = criteria.clone(new_phase)
+
+        for email in self.bulk_email_set.all():
+            email.clone(new_phase.competition, new_phase)
+
+        for judgement in JudgedPitch.objects.filter(pitch__phase=self):
+            judgement.clone(new_phase)
+
+        return new_phase
 
 
     def phase_num(self):
@@ -604,6 +679,22 @@ class PhaseSetupSteps(models.Model):
     sent_feedback = models.BooleanField(default=False)
 
 
+    def clone(self, phase):
+
+        new_steps = PhaseSetupSteps(phase=phase,
+                details_confirmed=self.details_confirmed,
+                application_setup=self.application_setup,
+                announced_applications=self.announced_applications,
+                invited_judges = self.invited_judges,
+                announced_judging_open = self.announced_judging_open,
+                selected_winners = self.selected_winners,
+                sent_feedback = self.sent_feedback)
+
+        new_steps.save()
+
+        return new_steps
+
+
     def steps(self):
         return [self.details_confirmed,
                 self.application_setup,
@@ -681,6 +772,20 @@ class Pitch(models.Model):
         #if organizer has specified an order, that takes precedence,
         #and otherwise we go in reverse order created
         ordering = ['order', '-created']
+
+    def clone(self, phase):
+        new_pitch = Pitch(owner=self.owner,
+                team=self.team,
+                phase=phase,
+                is_draft=self.is_draft,
+                created=self.created,
+                last_modified=self.last_modified,
+                order=self.order,
+                average_score=self.average_score,
+                result=self.result)
+        new_pitch.save()
+
+        return new_pitch
 
 
     def is_eliminated(self):
@@ -797,6 +902,37 @@ class PitchQuestion(models.Model):
         ordering = ['order']
 
 
+    def clone(self, phase):
+
+        new_question = PitchQuestion(order=self.order,
+                phase=phase,
+                prompt=self.prompt,
+                extra_info=self.extra_info,
+                raw_choices=self.raw_choices,
+                field_rows=self.field_rows,
+                is_required=self.is_required,
+                is_hidden_from_applicants=self.is_hidden_from_applicants,
+                max_points=self.max_points,
+                judge_points_prompt=self.judge_points_prompt,
+                judge_feedback_prompt=self.judge_feedback_prompt,
+                is_divider=self.is_divider,
+                max_answer_words=self.max_answer_words)
+        new_question.save()
+
+        #clone answers to this question
+        for pitch in phase.pitch_set.all():
+
+            try:
+                #the old pitch and new pitch have identical owners
+                old_answer = PitchAnswer.objects.get(question=self,
+                        pitch__owner=pitch.owner)
+                old_answer.clone(pitch, new_question)
+            except:
+                pass
+
+        return new_question
+
+
     #return raw_choices as a split and stripped array of choices
     def choices(self):
 
@@ -827,6 +963,16 @@ class PitchAnswer(models.Model):
     answer = models.CharField(max_length=4000)
     
     
+    def clone(self, pitch, question):
+
+        new_answer = PitchAnswer(question=question,
+                pitch=pitch,
+                answer=self.answer)
+        new_answer.save()
+
+        return new_answer
+
+
     def __unicode__(self):
 
         return unicode(self.answer).decode('unicode-escape')
