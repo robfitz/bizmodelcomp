@@ -278,7 +278,7 @@ class JudgedPitch(models.Model):
             new_pitch = phase.pitch_set.filter(phase=phase, team__owner=self.pitch.owner)[0]
 
         #judge user is the same
-        new_judge = JudgeInvitation.objects.get(competition=phase.competition, user=self.judge.user)
+        new_judge = JudgeInvitation.objects.get(competition=phase.competition, email=self.judge.email)
 
         new_judgement = JudgedPitch(pitch=new_pitch,
                 judge=new_judge,
