@@ -389,6 +389,9 @@ class Phase(models.Model):
         for question in self.pitchquestion_set.all():
             new_question = question.clone(new_phase)
 
+        for upload in self.pitchupload_set.all():
+            new_upload = upload.clone(new_phase)
+
         for criteria in self.judgingcriteria_set.all():
             new_criteria = criteria.clone(new_phase)
 
@@ -989,6 +992,23 @@ class PitchUpload(models.Model):
     class Meta:
         ordering = ['id']
 
+
+    def clone(self, phase):
+
+        new_upload = PitchUpload(phase=phase, prompt=self.prompt)
+        new_upload.save()
+
+        for pitch in phase.pitch_set.all():
+
+            try:
+                old_file = PitchFile.objects.get(upload=self,
+                        pitch__owner=pitch.owner)
+                old_file.clone(pitch, new_upload)
+            except:
+                pass
+
+        return new_upload
+
     def __unicode__(self):
 
         return self.prompt
@@ -1003,6 +1023,17 @@ class PitchFile(models.Model):
     
     filename = models.CharField(max_length=200) #/random_string/uploaded_file_name.ext
     file_location = models.CharField(max_length=500) #absolute path of location on server file was uploaded to
+
+
+    def clone(self, pitch, upload):
+
+        new_file = PitchFile(upload=upload,
+                pitch=pitch,
+                filename=self.filename,
+                file_location=self.file_location)
+        new_file.save()
+
+        return new_file
 
 
     def is_image(self):
