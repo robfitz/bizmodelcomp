@@ -1,0 +1,17 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+
+    <p>
+    Cloned competition. New competition belongs to: {{ owner.username }} with id={{owner.id}}.
+    </p>
+
+    <p>
+    <a href="/a/{{new_competition.hosted_url}}">Application</a>
+    </p>
+
+    <p>
+    <a href="/dashboard/{{new_competition.hosted_url}}">Dashboard</a> (Need to be logged in as owner)
+    </p>
+
+{% endblock %}

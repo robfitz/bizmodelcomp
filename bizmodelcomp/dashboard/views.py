@@ -24,6 +24,19 @@ import smtplib
 
 
 @login_required
+def clone_it(request, comp_url):
+
+    competition = get_object_or_404(Competition, hosted_url=comp_url)
+
+    owner = User.objects.get(username=request.GET.get('user'))
+
+    new_competition = competition.clone(owner, request.GET.get('url', None))
+
+    return render_to_response('dashboard/clone_it.html', locals())
+
+
+
+@login_required
 def begin_judging(request, comp_url):
 
     try:

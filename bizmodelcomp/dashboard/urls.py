@@ -24,6 +24,8 @@ urlpatterns = patterns('',
     #advance to next phase
     (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/next_phase/$', 'dashboard.views.next_phase'),
 
+    (r'^(?P<comp_url>[-_:!()@#$%* a-zA-z0-9]{1,100})/clone_it/$', 'dashboard.views.clone_it'),
+
     #organizer dashboard - overview
     (r'^$', 'dashboard.views.overall_dashboard'),
 
