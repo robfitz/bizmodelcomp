@@ -226,6 +226,15 @@ class Competition(models.Model):
         for judge in self.judge_invitations.all():
             judge.clone(new_comp)
 
+        #tweak the special judge which is the competition organizer to point at the new owner
+        try:
+            old_organizer_judge = new_comp.judge_invitations.get(user=self.owner)
+            old_organizer_judge.user = new_comp.owner
+            old_organizer_judge.email = new_comp.owner.email
+            old_organizer_judge.save()
+        except:
+            pass
+
         for phase in self.all_phases.all():
             new_phase = phase.clone(new_comp)
             if self.current_phase == phase:
@@ -1033,6 +1042,9 @@ class PitchFile(models.Model):
                 file_location=self.file_location)
         new_file.save()
 
+        if self.scribd() is not None:
+            self.scribd().clone(new_file)
+
         return new_file
 
 
@@ -1073,6 +1085,18 @@ class ScribdFileData(models.Model):
     doc_id = models.CharField(max_length=100)
     access_key = models.CharField(max_length=100)
     secret_password = models.CharField(max_length=100)
+
+
+    def clone(self, pitch_file):
+
+        new_scribd = ScribdFileData(pitch_file=pitch_file,
+                doc_id=self.doc_id,
+                access_key=self.access_key,
+                secret_password=self.secret_password)
+
+        new_scribd.save()
+
+        return new_scribd
     
 
 
