@@ -71,7 +71,7 @@ class Bulk_email(models.Model):
 
     #if this is the sort of email we only want to send once per comp/phase
     #pair, we can set a tag and reject identically tagged future mail
-    tag = models.CharField(max_length=140, blank=True, null=True)
+    tag = models.CharField(max_length=140, blank=True, null=True, default="")
 
     subject = models.CharField(max_length=200, blank=True, default="")
 
