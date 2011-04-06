@@ -54,9 +54,9 @@ def pitch_csv(hosted_url, question_ids, show_phone=False, show_uni=False, show_t
 
     line = ""
     for token in toks:
-      clean_tok = unicode(token).replace("^","").replace("\"", "'")
+      #clean_tok = unicode(token).replace("^","").replace("\"", "'")
       clean_tok = '"%s"' % clean_tok
-      line += unicode(clean_tok) + "^"
+      line += unicode(clean_tok) + ","
     print line
 
 
